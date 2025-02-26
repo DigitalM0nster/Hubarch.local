@@ -1,0 +1,9 @@
+body {
+	margin: 0;
+	/* background-color: red; */
+	color: #101118;
+}
+
+div {
+	display: flex;
+}
