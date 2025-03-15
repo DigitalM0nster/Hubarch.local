@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /page.tsx
+Allow: /
+
+Sitemap: https://hubarch.ru/sitemap.xml
