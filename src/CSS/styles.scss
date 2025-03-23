@@ -1,7 +1,23 @@
+:root {
+	--mainTextColor: #101118;
+	--additionalColor: #fbf9f4;
+	--contentWidth: 70vw;
+	--screenPadding: 25px;
+	--logoMaxHeight: 22px;
+	--menuFontSize: 21px;
+	--mainTextSize: 27px;
+	--titleBackgroundSize: 162px;
+	--letterSpacing: calc(var(--mainTextSize) * 0);
+	--letterSpacingHover: calc(var(--mainTextSize) * 0.035);
+}
+
 body {
-	background-color: #fbf9f4;
+	background-color: var(--additionalColor);
 	margin: 0;
 	font-family: "Panama_Demo_Regular";
+	color: var(--mainTextColor);
+	min-height: 100vh;
+	// overflow: hidden;
 }
 div {
 	display: flex;
@@ -13,5 +29,151 @@ div {
 		height: 100%;
 		object-fit: cover;
 		object-position: center;
+	}
+}
+
+p {
+	img {
+		position: relative;
+		width: auto;
+		height: auto;
+		// transform: translate(0px, 25%);
+	}
+}
+
+.screenScroll {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: block;
+	overflow: hidden;
+}
+
+.screen {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	justify-content: center;
+	min-height: 100vh;
+	// transform: translate(0, calc(55% + 0px));
+	top: 55vh;
+	opacity: 0;
+	transition: 1s;
+	pointer-events: none;
+
+	&.prev {
+		// transform: translate(0, calc(-100% - 10px));
+		top: -101vh;
+		pointer-events: none;
+	}
+
+	&.active {
+		// transform: translate(0, calc(0% + 0px));
+		top: 0vh;
+		opacity: 1;
+		pointer-events: auto;
+	}
+}
+
+.screenContent {
+	align-self: center;
+	width: 100%;
+	max-width: var(--contentWidth);
+	height: calc(100% - ((var(--screenPadding) * 4) * 2));
+	margin: calc(var(--screenPadding) * 4) auto;
+}
+
+.titleBackground {
+	text-transform: uppercase;
+	font-size: var(--titleBackgroundSize);
+	opacity: 0.15;
+}
+
+@media (max-width: 1750px) {
+	:root {
+		--contentWidth: 1120px;
+		--mainTextSize: 2vw;
+	}
+}
+
+@media (max-width: 1680px) {
+	:root {
+		--contentWidth: calc(100vw - 480px);
+		--titleBackgroundSize: 8.5vw;
+	}
+	.screenContent {
+		height: calc(100% - ((var(--screenPadding) * 3) * 2));
+		margin: calc(var(--screenPadding) * 3) auto;
+	}
+}
+
+@media (max-width: 1440px) {
+	:root {
+		--contentWidth: calc(100vw - 420px);
+	}
+}
+
+@media (max-width: 1280px) {
+	:root {
+		--screenContentWidth: calc(100vw - (var(--screenPadding) * 2) - 200px);
+		--menuFontSize: 16px;
+	}
+	.screenContent {
+		max-width: var(--screenContentWidth);
+	}
+}
+
+@media (max-width: 980px) {
+	:root {
+		--screenPadding: 15px;
+		--contentWidth: calc(100vw - (var(--screenPadding) * 2));
+		--logoMaxHeight: 40px;
+		--mainTextSize: 24px;
+	}
+
+	.screenScroll {
+		position: relative;
+		height: fit-content;
+		overflow-y: auto;
+	}
+
+	.screen {
+		position: relative;
+		top: auto;
+		// min-height: unset;
+		pointer-events: all;
+		opacity: 1;
+
+		&.active {
+			opacity: 1;
+			top: auto;
+			pointer-events: all;
+		}
+
+		&.prev {
+			opacity: 1;
+			top: auto;
+			pointer-events: all;
+		}
+	}
+
+	.screenContent {
+		max-width: var(--contentWidth);
+		height: calc(100vh - (var(--screenPadding) * 2) - (var(--logoMaxHeight) * 2));
+		margin: calc(var(--screenPadding) + var(--logoMaxHeight)) auto;
+	}
+}
+
+@media (max-width: 768px) {
+	:root {
+		--mainTextSize: 20px;
+		--titleBackgroundSize: 15vw;
+	}
+}
+
+@media (max-width: 640px) {
+	:root {
+		--mainTextSize: 18px;
+		--titleBackgroundSize: 70px;
 	}
 }

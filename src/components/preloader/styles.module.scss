@@ -1,0 +1,418 @@
+.preloader {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: var(--additionalColor);
+	color: white;
+	justify-content: center;
+	align-items: center;
+	pointer-events: auto;
+	z-index: 10;
+	transition: 2s;
+	--preloaderLineWidth: 32px;
+	--preloaderLineHeight: 230px;
+
+	* {
+		transition: 1.5s ease-in-out;
+	}
+
+	&.hidden {
+		pointer-events: none;
+		background-color: transparent;
+		.number {
+			transform: scale(0);
+			opacity: 0;
+		}
+
+		.linesBlock {
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+		}
+	}
+
+	&.active {
+		transition: 0.5s;
+		* {
+			transition: 0.5s;
+		}
+	}
+
+	.imagesBlock {
+		position: absolute;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: fit-content;
+
+		.image {
+			position: absolute;
+			width: calc(100% - var(--preloaderLineWidth));
+			height: 100%;
+			opacity: 0;
+
+			&:nth-child(1) {
+				right: calc(50% - var(--preloaderLineWidth) * 0);
+				top: calc(50% - var(--preloaderLineWidth) * 0);
+				transform: translate(50%, -50%);
+				width: calc(170px - var(--preloaderLineWidth));
+				height: calc(315px * 1.5);
+			}
+
+			&:nth-child(2) {
+				left: calc(50% - var(--preloaderLineWidth) * 0);
+				top: calc(50% - var(--preloaderLineWidth) * 0);
+				transform: translate(-50%, -50%);
+				width: calc(170px - var(--preloaderLineWidth));
+				height: calc(315px * 1.5);
+			}
+
+			&:nth-child(3) {
+				left: calc(50% - var(--preloaderLineWidth) * 0);
+				top: calc(50% - var(--preloaderLineWidth) * 0);
+				transform: translate(-50%, -50%);
+				width: calc(170px - var(--preloaderLineWidth));
+				height: calc(315px * 1.5);
+			}
+
+			&:nth-child(4) {
+				right: calc(50% - var(--preloaderLineWidth) * 0);
+				top: calc(50% - var(--preloaderLineWidth) * 0);
+				transform: translate(50%, -50%);
+				width: calc(170px - var(--preloaderLineWidth));
+				height: calc(315px * 1.5);
+			}
+			&:nth-child(5) {
+				left: calc(50% - var(--preloaderLineWidth) * 0);
+				top: calc(50% - var(--preloaderLineWidth) * 0);
+				transform: translate(-50%, -50%);
+				width: calc(170px - var(--preloaderLineWidth));
+				height: calc(315px * 1.5);
+			}
+		}
+	}
+
+	.linesBlock {
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: 170px;
+		height: 230px;
+
+		&.step1 {
+			width: 830px;
+
+			.imagesBlock {
+				.image {
+					width: calc(830px - var(--preloaderLineWidth));
+					height: calc(315px * 1);
+					&:nth-child(1) {
+						right: calc(50% - var(--preloaderLineWidth) * 0);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(50%, -50%);
+						width: calc(830px - var(--preloaderLineWidth));
+						height: calc(315px * 1);
+						opacity: 1;
+					}
+					&:nth-child(2) {
+						left: calc(var(--preloaderLineWidth) / 2);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(0px, -50%);
+						width: calc(830px - var(--preloaderLineWidth));
+						height: calc(315px * 1);
+					}
+					&:nth-child(3) {
+						left: calc(var(--preloaderLineWidth) / 2);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(0px, -50%);
+						width: calc((830px - var(--preloaderLineWidth)) * 0);
+						height: calc(315px * 0);
+					}
+					&:nth-child(4) {
+						right: calc(50% - var(--preloaderLineWidth) * 0);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(50%, -50%);
+						width: calc(830px - var(--preloaderLineWidth));
+						height: calc(315px * 1);
+					}
+					&:nth-child(5) {
+						left: calc(var(--preloaderLineWidth) / 2);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(0px, -50%);
+						width: calc(830px - var(--preloaderLineWidth));
+						height: calc(315px * 1);
+					}
+				}
+			}
+		}
+
+		&.step2 {
+			width: 340px;
+
+			.imagesBlock {
+				.image {
+					&:nth-child(1) {
+						width: calc(340px - var(--preloaderLineWidth));
+						height: calc(480px * 1);
+					}
+					&:nth-child(2) {
+						left: calc(var(--preloaderLineWidth) / 2);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(0px, -50%);
+						width: calc(340px - var(--preloaderLineWidth));
+						height: calc(480px * 1);
+						opacity: 1;
+					}
+					&:nth-child(3) {
+						left: calc(var(--preloaderLineWidth) / 2);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(0px, -50%);
+						width: calc(340px - var(--preloaderLineWidth));
+						height: calc(480px * 1);
+					}
+					&:nth-child(4) {
+						right: calc(var(--preloaderLineWidth) / 2);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(0px, -50%);
+						width: calc(340px - var(--preloaderLineWidth));
+						height: calc(480px * 1);
+					}
+					&:nth-child(5) {
+						left: calc(var(--preloaderLineWidth) / 2);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(0px, -50%);
+						width: calc(340px - var(--preloaderLineWidth));
+						height: calc(480px * 1);
+					}
+				}
+			}
+		}
+
+		&.step3 {
+			width: calc(290px + 420px + 100px);
+			.imagesBlock {
+				.image {
+					&:nth-child(1) {
+						right: calc(var(--preloaderLineWidth) / 2);
+						top: calc(50% + var(--preloaderLineWidth) / 2);
+						transform: translate(0px, -50%);
+						width: calc(420px * 1);
+						height: calc(670px * 1);
+					}
+					&:nth-child(2) {
+						left: calc(var(--preloaderLineWidth) / 2);
+						top: calc(0% + var(--preloaderLineWidth) / 2);
+						transform: translate(0, 0);
+						width: calc(290px * 1);
+						height: calc(240px * 1);
+					}
+					&:nth-child(3) {
+						left: calc(var(--preloaderLineWidth) / 2);
+						top: calc(50% + var(--preloaderLineWidth) / 2);
+						transform: translate(0px, 0%);
+						width: calc(290px * 1);
+						height: calc(240px * 1);
+						opacity: 1;
+					}
+					&:nth-child(4) {
+						right: calc(var(--preloaderLineWidth) / 2);
+						top: calc(50% + var(--preloaderLineWidth) / 2);
+						transform: translate(0px, -50%);
+						width: calc(420px * 1);
+						height: calc(670px * 1);
+						opacity: 1;
+					}
+					&:nth-child(5) {
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(0px, 0%);
+						left: calc(var(--preloaderLineWidth) / 2);
+						width: calc(290px * 1);
+						height: calc(240px * 1);
+					}
+				}
+			}
+		}
+
+		&.step4 {
+			width: 550px;
+
+			.imagesBlock {
+				.image {
+					&:nth-child(1) {
+						right: calc(50% - var(--preloaderLineWidth) * 0);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(50%, -50%);
+						width: calc(550px - var(--preloaderLineWidth));
+						height: calc(590px * 1);
+					}
+					&:nth-child(2) {
+						left: calc(50% - var(--preloaderLineWidth) * 0);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(-50%, -50%);
+						width: calc(550px - var(--preloaderLineWidth));
+						height: calc(590px * 1);
+					}
+					&:nth-child(3) {
+						left: calc(50% - var(--preloaderLineWidth) * 0);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(-50%, -50%);
+						width: calc(550px - var(--preloaderLineWidth));
+						height: calc(590px * 1);
+					}
+					&:nth-child(4) {
+						right: calc(var(--preloaderLineWidth) / 2);
+						top: calc(50% + var(--preloaderLineWidth) / 2);
+						transform: translate(0px, -50%);
+						width: calc(420px * 0);
+						height: calc(670px * 1);
+					}
+					&:nth-child(5) {
+						left: calc(50% - var(--preloaderLineWidth) * 0);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(-50%, -50%);
+						width: calc(550px - var(--preloaderLineWidth));
+						height: calc(590px * 1);
+						opacity: 1;
+					}
+				}
+			}
+		}
+
+		&.navCursor {
+			width: 24px;
+			height: 24px;
+			--preloaderLineWidth: 3px;
+			--preloaderLineHeight: 24px;
+
+			.leftLines {
+				left: 50%;
+				transform: translate(-50%, 0%);
+				transition: 0.75s 0.75s;
+				.line {
+					&:nth-child(2) {
+						height: calc(var(--preloaderLineHeight) * 0.9);
+					}
+				}
+			}
+			.centerLines {
+				.line {
+					width: calc(100% + 0px);
+				}
+			}
+			.rightLines {
+				height: 0%;
+				opacity: 0;
+			}
+
+			.line {
+				background-color: #e0dedc;
+			}
+
+			.imagesBlock {
+				.image {
+					&:nth-child(1) {
+						width: 24px;
+						height: 24px;
+						opacity: 0;
+						pointer-events: none;
+						right: calc(50% - var(--preloaderLineWidth) * 0);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(50%, -50%);
+					}
+					&:nth-child(2) {
+						width: 24px;
+						height: 24px;
+						opacity: 0;
+						pointer-events: none;
+						left: calc(50% - var(--preloaderLineWidth) * 0);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(-50%, -50%);
+					}
+					&:nth-child(3) {
+						width: 24px;
+						height: 24px;
+						opacity: 0;
+						pointer-events: none;
+						left: calc(50% - var(--preloaderLineWidth) * 0);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(-50%, -50%);
+					}
+					&:nth-child(4) {
+						width: 24px;
+						height: 24px;
+						opacity: 0;
+						pointer-events: none;
+						right: calc(50% - var(--preloaderLineWidth) * 0);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(50%, -50%);
+					}
+					&:nth-child(5) {
+						width: 24px;
+						height: 24px;
+						opacity: 0;
+						pointer-events: none;
+						left: calc(50% - var(--preloaderLineWidth) * 0);
+						top: calc(50% - var(--preloaderLineWidth) * 0);
+						transform: translate(-50%, -50%);
+					}
+				}
+			}
+		}
+
+		.leftLines {
+			justify-content: center;
+			align-items: center;
+			position: absolute;
+			left: 0%;
+			transform: translate(0%, 0%);
+			height: 100%;
+
+			.line {
+				&:nth-child(2) {
+					transform: rotate(45deg);
+					height: calc(var(--preloaderLineHeight) * 0.75);
+				}
+			}
+		}
+
+		.centerLines {
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			.line {
+				right: 0;
+				width: calc(100% + 120px);
+				height: var(--preloaderLineWidth);
+			}
+		}
+
+		.rightLines {
+			justify-content: center;
+			align-items: center;
+			position: absolute;
+			height: 100%;
+			right: 0;
+		}
+
+		.line {
+			position: absolute;
+			width: var(--preloaderLineWidth);
+			height: var(--preloaderLineHeight);
+			background-color: black;
+		}
+	}
+
+	.number {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		transform: translate(100%, 100%);
+		font-size: 24px;
+		color: black;
+	}
+}

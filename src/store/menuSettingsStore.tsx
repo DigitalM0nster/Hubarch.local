@@ -3,33 +3,70 @@ import axios from "axios";
 
 const API_URL = typeof window !== "undefined" && window.location.protocol === "https:" ? "https://admin.hubarch.local/wp-json" : "http://admin.hubarch.local/wp-json";
 
-interface TopMenuItem {
-	title: string;
-	url: string;
+interface MenuLink {
+	link: {
+		ru: {
+			title: string;
+			url: string;
+		};
+
+		en: {
+			title: string;
+			url: string;
+		};
+	};
+}
+
+interface TopMenuConnectText {
+	text_ru: string;
+	text_en: string;
+}
+
+interface TopMenuPhone {
+	phone_en: string;
+	phone_ru: string;
 }
 
 interface MenuSettingsState {
+	isLoading: boolean;
 	menuSettingsData: {
-		top_menu_phone: string;
-		top_menu_links: TopMenuItem[];
+		top_menu_logo: {
+			desktop_logo: {
+				logo_light: string;
+				logo_dark: string;
+			};
+			mobile_logo: {
+				logo_light: string;
+				logo_dark: string;
+			};
+		};
+		top_menu_phone: TopMenuPhone;
+		top_menu_links: MenuLink[];
+		top_menu_connect_text: TopMenuConnectText;
+		right_menu_links: MenuLink[];
+		left_menu_links: MenuLink[];
+		bottom_menu_links: MenuLink[];
+		bottom_right_image: string;
 	} | null;
 	fetchMenuSettings: () => Promise<void>;
 }
 
-const useMenuSettingsStore = create<MenuSettingsState>((set, get) => ({
+export const useMenuSettingsStore = create<MenuSettingsState>((set, get) => ({
 	menuSettingsData: null,
+	isLoading: true,
+
 	fetchMenuSettings: async () => {
 		if (get().menuSettingsData) return; // Если данные уже есть, не запрашиваем заново
 
+		set({ isLoading: true });
 		try {
-			const response = await axios.get(`${API_URL}/acf/v3/options/menu_settings?lang=ru`);
-			console.log(response);
+			const response = await axios.get(`${API_URL}/acf/v3/options/menu_settings`);
 			set({ menuSettingsData: response.data });
 		} catch (error) {
 			console.error("Ошибка загрузки меню", error);
+		} finally {
+			set({ isLoading: false });
 		}
 	},
 }));
-
-export default useMenuSettingsStore;
 export { API_URL };

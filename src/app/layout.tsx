@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "@/CSS/fonts.css";
 import "@/CSS/styles.scss";
 import HudMenu from "@/components/hudMenu/HudMenu";
+import InteractiveLines from "@/components/interactiveLines/InteractiveLines";
+import Preloader from "@/components/preloader/Preloader";
 
 export const generateMetadata = async ({ params }: { params: { lang: string } }): Promise<Metadata> => {
 	const lang = params.lang === "en" ? "en" : "ru"; // Определяем язык из URL
@@ -16,7 +18,7 @@ export const generateMetadata = async ({ params }: { params: { lang: string } })
 			siteName: "Hubarch",
 			images: [
 				{
-					url: "/images/logo.svg",
+					url: "/images/hubarch_logo.svg",
 					width: 1200,
 					height: 630,
 				},
@@ -33,7 +35,9 @@ export default function RootLayout({ children, params }: { children: React.React
 		<html lang={lang}>
 			<body>
 				<HudMenu />
-				<div className="screen">{children}</div>
+				<InteractiveLines />
+				<Preloader />
+				{children}
 			</body>
 		</html>
 	);

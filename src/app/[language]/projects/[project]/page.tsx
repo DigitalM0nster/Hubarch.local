@@ -7,7 +7,7 @@ export async function generateStaticParams() {
 		const projects = await res.json();
 
 		return projects.map((project: any) => ({
-			slug: project.slug,
+			project: project.project,
 		}));
 	} catch (error) {
 		console.error("Ошибка загрузки проектов:", error);
@@ -15,9 +15,9 @@ export async function generateStaticParams() {
 	}
 }
 
-export default async function ProjectPage({ params }: { params: { slug: string } }) {
+export default async function ProjectPage({ params }: { params: { project: string } }) {
 	try {
-		const res = await fetch(`${process.env.NEXT_PUBLIC_WP_API}/projects?slug=${params.slug}`, {
+		const res = await fetch(`${process.env.NEXT_PUBLIC_WP_API}/projects?project=${params.project}`, {
 			next: { revalidate: 3600 }, // ISR: обновление кэша каждые 3600 секунд
 		});
 		if (!res.ok) throw new Error("Ошибка при загрузке проекта");

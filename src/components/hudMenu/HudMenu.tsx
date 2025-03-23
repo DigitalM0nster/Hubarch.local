@@ -1,20 +1,21 @@
 "use client";
 
-import TopHud from "./TopHud";
-import RightHud from "./RightHud";
-import LeftHud from "./LeftHud";
-import BottomHud from "./BottomHud";
-import styles from "./styles.module.scss";
+import { useEffect, useState } from "react";
+import { useMenuSettingsStore } from "@/store/menuSettingsStore";
+import MobileHud from "./MobileHud";
+import DesktopHud from "./DesktopHud";
+import { useWindowStore } from "@/store/windowStore";
+import { useDetectMobile } from "@/hooks/useDetectMobile";
 
 export default function HudMenu() {
-	return (
-		<>
-			<div className={styles.hudMenu}>
-				<TopHud />
-				<RightHud />
-				<BottomHud />
-				<LeftHud />
-			</div>
-		</>
-	);
+	// Используем zustand store
+	const { fetchMenuSettings } = useMenuSettingsStore();
+	const { isMobile } = useWindowStore();
+	useDetectMobile();
+
+	useEffect(() => {
+		fetchMenuSettings();
+	}, []);
+
+	return <>{isMobile ? <MobileHud /> : <DesktopHud />}</>;
 }
