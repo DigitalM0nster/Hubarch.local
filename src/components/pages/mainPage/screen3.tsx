@@ -12,15 +12,26 @@ export default function Screen3({ language }: { language: string }) {
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	// ОТМЕЧАЕМСЯ ДЛЯ ПРЕЛОАДЕРА
+
+	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		markReady();
 	}, []);
+	/* eslint-enable react-hooks/exhaustive-deps */
 
-	useEffect(() => {
-		// console.log(data);
-	}, [data]);
-
-	type ProjectData = { project: any } | null;
+	type ProjectData = {
+		project?:
+			| {
+					id: number;
+					title: {
+						rendered: string;
+					};
+					acf: {
+						project_preview: string;
+					};
+			  }
+			| undefined;
+	} | null;
 
 	const projectBlocks = data?.projects || [];
 	const filledProjects: ProjectData[] = [...projectBlocks];
@@ -41,7 +52,7 @@ export default function Screen3({ language }: { language: string }) {
 					{data?.titleBackground && <div className={`titleBackground ${styles.titleBackground}`}>{data.titleBackground}</div>}
 					<div ref={containerRef} className={styles.projectsContainer}>
 						{filledProjects.map((item, index) => (
-							<ProjectItem key={index} project={item?.project || null} index={index} language={language} />
+							<ProjectItem key={index} project={item?.project || undefined} index={index} language={language} />
 						))}
 					</div>
 					<LinkWithPreloader href={`/${language}/projects`} className={styles.allProjectsButton}>

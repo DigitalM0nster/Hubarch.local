@@ -1,22 +1,27 @@
 import styles from "./styles.module.scss";
 import { useMainPageStore } from "@/store/mainPageStore";
 import { usePreloaderStore } from "@/store/preloaderStore";
-import { useEffect, useState, useRef } from "react";
+import Image from "next/image";
+import { useEffect, useState, useRef, useMemo } from "react";
 
 export default function Screen2() {
 	const { markReady } = usePreloaderStore();
 
 	const data = useMainPageStore((state) => state.data?.main_page_screen2);
 	const initialNumber = data?.number ? String(data.number) : "200256";
+	const initialLength = useMemo(() => initialNumber.length, [initialNumber]);
 
 	const [currentNumber, setCurrentNumber] = useState(parseInt(initialNumber));
 	const [digits, setDigits] = useState<string[]>(initialNumber.split(""));
 	const digitRefs = useRef<(HTMLDivElement | null)[][]>([]);
 
 	// ОТМЕЧАЕМСЯ ДЛЯ ПРЕЛОАДЕРА
+
+	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		markReady();
 	}, []);
+	/* eslint-enable react-hooks/exhaustive-deps */
 
 	// Определяем группы в зависимости от длины числа
 	const getGroupClasses = (length: number) => {
@@ -27,7 +32,7 @@ export default function Screen2() {
 
 	// Обновляем активные цифры
 	useEffect(() => {
-		const newDigits = currentNumber.toString().padStart(initialNumber.length, "0").split("");
+		const newDigits = currentNumber.toString().padStart(initialLength, "0").split("");
 
 		newDigits.forEach((digit, i) => {
 			const activeIndex = parseInt(digit);
@@ -46,7 +51,7 @@ export default function Screen2() {
 		});
 
 		setDigits(newDigits);
-	}, [currentNumber]);
+	}, [currentNumber, initialLength]);
 
 	// Увеличиваем число каждую секунду
 	useEffect(() => {
@@ -63,7 +68,7 @@ export default function Screen2() {
 		const groupClasses = getGroupClasses(length);
 		const groups = [];
 
-		let remainingDigits = [...digits]; // Копия массива цифр
+		const remainingDigits = [...digits]; // Копия массива цифр
 		for (let i = groupClasses.length - 1; i >= 0; i--) {
 			const groupSize = i === 0 ? remainingDigits.length : 3; // Последняя группа может быть меньше 3
 			const range = remainingDigits.splice(-groupSize, groupSize); // Берем цифры с конца, а не с начала
@@ -126,7 +131,8 @@ export default function Screen2() {
 									{data.text.text1 && data.text.text1}
 									{data.text.text2 && <br />}
 									{data.text.text2 && data.text.text2}
-									{data.text.text2 && <img src="/images/mainPage/screen2/planetIcon.svg" />}
+									{data.text.text2 && <Image src="/images/mainPage/screen2/planetIcon.svg" alt="" width={100} height={100} />}
+									{/* {data.text.text2 && <img src="/images/mainPage/screen2/planetIcon.svg" alt="" />} */}
 								</span>
 							)}
 						</div>

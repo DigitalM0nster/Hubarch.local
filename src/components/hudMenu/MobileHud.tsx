@@ -1,13 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import styles from "./styles.module.scss";
 import { usePathname } from "next/navigation";
 import { useMenuSettingsStore } from "@/store/menuSettingsStore";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
 import LinkWithPreloader from "../preloader/LinkWithPreloader";
+import Image from "next/image";
 
 export default function MobileHud() {
 	const pathname = usePathname(); // Получаем текущий путь
@@ -16,17 +16,18 @@ export default function MobileHud() {
 	const { zIndex, setNewIndex } = useInteractiveLinesStore();
 	const [lang, setLang] = useState(pathname.startsWith("/en") ? "en" : "ru"); // Определяем язык
 
-	const [savedZIndex, setSavedZIndex] = useState(zIndex);
+	const savedZIndex = useRef(zIndex);
 
+	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
-		// console.log(activeMenu);
 		if (activeMenu) {
-			setSavedZIndex(zIndex);
+			savedZIndex.current = zIndex;
 			setNewIndex(1);
 		} else {
-			setNewIndex(savedZIndex);
+			setNewIndex(savedZIndex.current);
 		}
 	}, [activeMenu]);
+	/* eslint-enable react-hooks/exhaustive-deps */
 
 	return (
 		<>
@@ -128,8 +129,8 @@ export default function MobileHud() {
 					{menuSettingsData?.top_menu_connect_text && (
 						<div className={styles.contactUsBlock}>
 							<div className={styles.icon}>
-								<img className={`${screenLightness === "light" ? styles.active : ""}`} src="/images/contactUsIcon.svg" />
-								<img className={`${screenLightness === "dark" ? styles.active : ""}`} src="/images/contactUsIcon_light.svg" />
+								<Image className={`${screenLightness === "light" ? styles.active : ""}`} src="/images/contactUsIcon.svg" alt="" width={22} height={22} />
+								<Image className={`${screenLightness === "dark" ? styles.active : ""}`} src="/images/contactUsIcon_light.svg" alt="" width={22} height={22} />
 							</div>
 							<div className={styles.text}>{lang === "ru" ? menuSettingsData?.top_menu_connect_text.text_ru : menuSettingsData?.top_menu_connect_text.text_en}</div>
 						</div>

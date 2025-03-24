@@ -18,6 +18,7 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 	const scrollAllowedRef = useRef(scrollAllowed);
 	const activeMenuRef = useRef(activeMenu);
 
+	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		scrollAllowedRef.current = scrollAllowed;
 	}, [scrollAllowed]);
@@ -31,7 +32,6 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 		const linesIndex = parseInt(screen.dataset.linesIndex || "0", 10);
 		const miniLineRotation = parseFloat(screen.dataset.miniLineRotation || "0");
 		const positionX = parseFloat(screen.dataset.positionX || "50");
-		const positionY = parseFloat(screen.dataset.positionY || "50");
 
 		setScreenLightness(screenLightness === "light" ? "light" : "dark");
 		setNewIndex(linesIndex);
@@ -175,5 +175,6 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 		updateActiveClasses();
 	}, [activeScreenIndex]);
 
+	/* eslint-enable react-hooks/exhaustive-deps */
 	return { activeScreenIndex };
 };

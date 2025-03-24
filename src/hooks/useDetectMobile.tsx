@@ -23,5 +23,5 @@ export function useDetectMobile() {
 			clearTimeout(resizeTimeout);
 			window.removeEventListener("resize", handleResize);
 		};
-	}, []);
+	}, [setIsMobile]);
 }

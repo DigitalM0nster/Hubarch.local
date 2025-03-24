@@ -1,5 +1,5 @@
 // src\components\pages\mainPage\screen1.tsx
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./styles.module.scss";
 import { useMainPageStore } from "@/store/mainPageStore";
 import parse from "html-react-parser";
@@ -7,15 +7,18 @@ import { usePreloaderStore } from "@/store/preloaderStore";
 
 export default function Screen1() {
 	const data = useMainPageStore((state) => state.data?.main_page_screen1);
-	const images = data?.images || [];
+	const images = useMemo(() => data?.images || [], [data?.images]);
 	const text = data?.text;
 
 	const { markReady } = usePreloaderStore();
 
 	// ОТМЕЧАЕМСЯ ДЛЯ ПРЕЛОАДЕРА
+
+	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		markReady();
 	}, []);
+	/* eslint-enable react-hooks/exhaustive-deps */
 
 	// Храним индекс активного изображения
 	const [activeIndex, setActiveIndex] = useState(0);

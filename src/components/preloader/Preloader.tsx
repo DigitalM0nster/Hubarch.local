@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { usePreloaderStore } from "@/store/preloaderStore";
 import styles from "./styles.module.scss";
 import { useScrollStore } from "@/store/scrollStore";
 import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
 import { useHudMenuStore } from "@/store/hudMenuStore";
+import Image from "next/image";
 
 export default function Preloader() {
 	const { zIndex, verticalLine } = useInteractiveLinesStore();
@@ -17,7 +18,6 @@ export default function Preloader() {
 	const [linesClass, setLinesClass] = useState(styles.undefined);
 	const [allowAnimation, setAllowAnimation] = useState(true);
 	const [preloaderClass, setPreloaderClass] = useState(styles.undefined);
-	const [loading, setLoading] = useState(true);
 	const { setScrollAllowed } = useScrollStore();
 	const pathname = usePathname();
 	const prevPath = useRef<string | null>(null);
@@ -30,9 +30,9 @@ export default function Preloader() {
 	const lastUpdateTime = useRef(performance.now());
 	const started = useRef(false);
 	const animationStarted = useRef(false);
-	const lastLinesUpdate = useRef(Date.now());
 
-	const animateProgress = () => {
+	/* eslint-disable react-hooks/exhaustive-deps */
+	const animateProgress = useCallback(() => {
 		if (animationStarted.current) return;
 		animationStarted.current = true;
 
@@ -55,7 +55,6 @@ export default function Preloader() {
 				currentProgress.current = 100;
 				setProgress(100);
 				setScrollAllowed(true);
-				setTimeout(() => setLoading(false), 500);
 				return;
 			}
 
@@ -64,12 +63,10 @@ export default function Preloader() {
 		};
 
 		requestAnimationFrame(loop);
-	};
-
+	}, []);
 	useLayoutEffect(() => {
 		animateProgress();
 	}, []);
-
 	useEffect(() => {
 		setTimeout(() => {
 			if (targetProgress.current === 0) {
@@ -117,7 +114,6 @@ export default function Preloader() {
 			currentProgress.current = 0;
 			lastUpdateTime.current = performance.now();
 
-			setLoading(true);
 			setLinesClass(styles.undefined);
 			setPreloaderClass(styles.active);
 			verticalLine.setNewX(50);
@@ -208,6 +204,7 @@ export default function Preloader() {
 			preloaderRef.current?.style.setProperty("transition", "all 1s 0s, z-index 0s 0.5s");
 		}
 	}, [activeMenu, preloaderClass]);
+	/* eslint-enable react-hooks/exhaustive-deps */
 
 	return (
 		<div ref={preloaderRef} className={`${styles.preloader} ${preloaderClass}`}>
@@ -225,19 +222,19 @@ export default function Preloader() {
 					</div>
 					<div className={`${styles.imagesBlock}`}>
 						<div className={styles.image}>
-							<img src="/images/preloader/1.png" />
+							<Image src="/images/preloader/1.png" alt="" width={1550} height={1100} />
 						</div>
 						<div className={styles.image}>
-							<img src="/images/preloader/2.png" />
+							<Image src="/images/preloader/2.png" alt="" width={1550} height={1100} />
 						</div>
 						<div className={styles.image}>
-							<img src="/images/preloader/3.png" />
+							<Image src="/images/preloader/3.png" alt="" width={1550} height={1100} />
 						</div>
 						<div className={styles.image}>
-							<img src="/images/preloader/4.png" />
+							<Image src="/images/preloader/4.png" alt="" width={1550} height={1100} />
 						</div>
 						<div className={styles.image}>
-							<img src="/images/preloader/5.png" />
+							<Image src="/images/preloader/5.png" alt="" width={1550} height={1100} />
 						</div>
 					</div>
 					<div className={styles.number}>{progress}%</div>

@@ -6,6 +6,7 @@ import { useMenuSettingsStore } from "@/store/menuSettingsStore";
 import { useEffect, useState } from "react";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 import LinkWithPreloader from "../preloader/LinkWithPreloader";
+import Image from "next/image";
 
 export default function DesktopHud() {
 	const pathname = usePathname(); // Получаем текущий путь
@@ -17,11 +18,10 @@ export default function DesktopHud() {
 
 	// для плавного появления
 	useEffect(() => {
-		console.log(menuSettingsData);
 		setTimeout(() => {
 			setLocalLoading(false);
 		}, 500);
-	}, [menuSettingsData]);
+	}, []);
 
 	return (
 		<div className={`${styles.desktopHud} ${isLoading || localLoading ? styles.inactive : ""} ${screenLightness === "light" ? styles.dark : styles.light}`}>
@@ -31,13 +31,17 @@ export default function DesktopHud() {
 					<LinkWithPreloader href={lang === "ru" ? "/ru" : "/en"} className={styles.logoBlock}>
 						<img
 							className={`${styles.imgLogo} ${screenLightness === "dark" ? styles.active : ""}`}
-							src={menuSettingsData?.top_menu_logo.desktop_logo.logo_light}
+							src={`${menuSettingsData?.top_menu_logo.desktop_logo.logo_light}`}
 							alt="Hubarch logo"
+							width={500}
+							height={500}
 						/>
 						<img
 							className={`${styles.imgLogo} ${screenLightness === "light" ? styles.active : ""}`}
-							src={menuSettingsData?.top_menu_logo.desktop_logo.logo_dark}
+							src={`${menuSettingsData?.top_menu_logo.desktop_logo.logo_dark}`}
 							alt="Hubarch logo"
+							width={500}
+							height={500}
 						/>
 					</LinkWithPreloader>
 				</div>
@@ -85,8 +89,8 @@ export default function DesktopHud() {
 					{menuSettingsData?.top_menu_connect_text && (
 						<div className={styles.contactUsBlock}>
 							<div className={styles.icon}>
-								<img className={`${screenLightness === "light" ? styles.active : ""}`} src="/images/contactUsIcon.svg" />
-								<img className={`${screenLightness === "dark" ? styles.active : ""}`} src="/images/contactUsIcon_light.svg" />
+								<Image className={`${screenLightness === "light" ? styles.active : ""}`} src="/images/contactUsIcon.svg" alt="" width={22} height={22} />
+								<Image className={`${screenLightness === "dark" ? styles.active : ""}`} src="/images/contactUsIcon_light.svg" alt="" width={22} height={22} />
 							</div>
 							<div className={styles.text}>{lang === "ru" ? menuSettingsData?.top_menu_connect_text.text_ru : menuSettingsData?.top_menu_connect_text.text_en}</div>
 						</div>
@@ -117,7 +121,7 @@ export default function DesktopHud() {
 				</div>
 				<div className={styles.rightPart}>
 					<div className={styles.stoneIcon}>
-						<img src={menuSettingsData?.bottom_right_image} />
+						<img src={menuSettingsData?.bottom_right_image} alt="" />
 					</div>
 				</div>
 			</div>

@@ -3,7 +3,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useMainPageStore, MainPageData } from "@/store/mainPageStore";
+import { useMainPageStore } from "@/store/mainPageStore";
 import { useScreenScroll } from "@/hooks/useScreenScroll";
 import Screen1 from "./screen1";
 import Screen2 from "./screen2";
@@ -19,9 +19,12 @@ export default function MainPageClient({ language }: { language: string }) {
 	const { setTotal } = usePreloaderStore();
 
 	// Вызываем фетч при смене языка
+
+	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		fetchData(language);
 	}, []);
+	/* eslint-enable react-hooks/exhaustive-deps */
 
 	// Указываем сколько компонентов должно отметиться
 	useEffect(() => {
@@ -30,7 +33,7 @@ export default function MainPageClient({ language }: { language: string }) {
 		}, 0);
 
 		return () => clearTimeout(timeout);
-	}, []);
+	}, [setTotal]);
 
 	if (!loadedData) return <div>Загрузка...</div>;
 	if (error) return <div>Ошибка: {error}</div>;

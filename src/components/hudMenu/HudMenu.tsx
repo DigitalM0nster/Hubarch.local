@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useMenuSettingsStore } from "@/store/menuSettingsStore";
 import MobileHud from "./MobileHud";
 import DesktopHud from "./DesktopHud";
@@ -13,9 +13,11 @@ export default function HudMenu() {
 	const { isMobile } = useWindowStore();
 	useDetectMobile();
 
+	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		fetchMenuSettings();
 	}, []);
+	/* eslint-enable react-hooks/exhaustive-deps */
 
 	return <>{isMobile ? <MobileHud /> : <DesktopHud />}</>;
 }

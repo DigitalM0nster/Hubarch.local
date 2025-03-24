@@ -6,6 +6,10 @@ export interface GalleryImage {
 	url: string;
 }
 
+export interface ProjectEntry {
+	project: number | { ID: number };
+}
+
 export interface MainPageData {
 	main_page_screen1: {
 		images?: GalleryImage[];
@@ -64,10 +68,10 @@ export const useMainPageStore = create<MainPageStore>((set) => ({
 			const projectEntries = acf?.main_page_screen3?.projects || [];
 
 			const projectsWithFields = await Promise.all(
-				projectEntries.map(async (entry: any) => {
+				projectEntries.map(async (entry: ProjectEntry) => {
 					const projectId = typeof entry.project === "object" ? entry.project.ID : entry.project;
 
-					if (!projectId) return null; // ← фильтруем
+					if (!projectId) return null;
 
 					const res = await fetch(`${API_URL}/wp/v2/projects/${projectId}?_fields=id,title,acf`, {
 						cache: "no-store",
@@ -87,9 +91,14 @@ export const useMainPageStore = create<MainPageStore>((set) => ({
 			acf.main_page_screen3.projects = projectsWithFields.filter(Boolean);
 
 			set({ data: acf, loadedData: true });
-		} catch (error: any) {
-			console.error("Ошибка при загрузке страницы:", error.message);
-			set({ error: error.message, loadedData: true });
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				console.error("Ошибка при загрузке страницы:", error.message);
+				set({ error: error.message, loadedData: true });
+			} else {
+				console.error("Неизвестная ошибка при загрузке страницы");
+				set({ error: "Unknown error", loadedData: true });
+			}
 		}
 	},
 	loadedPage: false,
