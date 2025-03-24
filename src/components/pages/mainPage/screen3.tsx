@@ -1,17 +1,19 @@
 import styles from "./styles.module.scss";
 import { useMainPageStore } from "@/store/mainPageStore";
-import { preloaderStore } from "@/store/preloaderStore";
+import { usePreloaderStore } from "@/store/preloaderStore";
 import { useEffect, useRef } from "react";
 import ProjectItem from "./projectItem";
-import LinkWithPreloader from "@/components/linkWithPreloader/LinkWithPreloader";
+import LinkWithPreloader from "@/components/preloader/LinkWithPreloader";
 
 export default function Screen3({ language }: { language: string }) {
+	const { markReady } = usePreloaderStore();
+
 	const data = useMainPageStore((state) => state.data?.main_page_screen3);
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	// ОТМЕЧАЕМСЯ ДЛЯ ПРЕЛОАДЕРА
 	useEffect(() => {
-		preloaderStore.markReady();
+		markReady();
 	}, []);
 
 	useEffect(() => {

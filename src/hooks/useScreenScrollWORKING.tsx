@@ -9,23 +9,13 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 	const { miniLine, verticalLine, setNewIndex, setActiveLinesHud } = useInteractiveLinesStore();
 	const { activeMenu, setScreenLightness } = useHudMenuStore();
 	const { scrollAllowed, setScrollAllowed } = useScrollStore();
+	const pathname = usePathname(); // Получаем текущий путь
 	const { isMobile } = useWindowStore();
-	const pathname = usePathname();
 
 	const [activeScreenIndex, setActiveScreenIndex] = useState(0);
 	const screensRef = useRef<NodeListOf<Element> | null>(null);
 
-	const scrollAllowedRef = useRef(scrollAllowed);
-	const activeMenuRef = useRef(activeMenu);
-
-	useEffect(() => {
-		scrollAllowedRef.current = scrollAllowed;
-	}, [scrollAllowed]);
-
-	useEffect(() => {
-		activeMenuRef.current = activeMenu;
-	}, [activeMenu]);
-
+	// 🟡 Установка параметров экрана
 	const changeScreenOptions = (screen: HTMLElement) => {
 		const screenLightness = screen.dataset.screenLightness || "light";
 		const linesIndex = parseInt(screen.dataset.linesIndex || "0", 10);
@@ -33,14 +23,24 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 		const positionX = parseFloat(screen.dataset.positionX || "50");
 		const positionY = parseFloat(screen.dataset.positionY || "50");
 
-		setScreenLightness(screenLightness === "light" ? "light" : "dark");
+		screenLightness === "light" ? setScreenLightness("light") : setScreenLightness("dark");
 		setNewIndex(linesIndex);
 		miniLine.setNewRotation(miniLineRotation);
 		verticalLine.setNewX(positionX);
 	};
 
+	// 📦 Собираем список экранов
+	const updateScreensList = () => {
+		const screens = document.querySelectorAll(".screen");
+		screensRef.current = screens;
+		console.log(screens);
+	};
+
+	// 🎯 Применение классов активности к экранам
 	const updateActiveClasses = () => {
-		if (!screensRef.current) return;
+		if (!screensRef.current) {
+			return;
+		}
 
 		screensRef.current.forEach((screen, index) => {
 			const isPrev = index < activeScreenIndex;
@@ -60,60 +60,74 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 		});
 	};
 
-	const waitForScreensReady = (): Promise<NodeListOf<Element>> => {
+	function waitForScreensReady(): Promise<HTMLElement[]> {
 		return new Promise((resolve) => {
 			const tryFind = () => {
-				const screens = document.querySelectorAll(".screen");
+				const screens = document.querySelectorAll<HTMLElement>(".screen");
+
 				if (screens.length > 0) {
-					requestAnimationFrame(() => resolve(screens));
+					// ждём ещё один кадр, чтобы DOM точно был готов
+					console.log("gg1");
+					requestAnimationFrame(() => {
+						resolve(Array.from(screens));
+					});
 				} else {
+					// пробуем снова на следующем кадре
+					console.log("gg2");
 					requestAnimationFrame(tryFind);
 				}
 			};
+
+			// начнем цикл
+			console.log("gg3");
 			requestAnimationFrame(tryFind);
 		});
-	};
+	}
 
+	// 📡 Наблюдаем за DOM — если появляются .screen, обновляем
 	useLayoutEffect(() => {
 		let mObserver: MutationObserver | null = null;
-		let destroyed = false;
 
+		// сбрасываем старые элементы
 		screensRef.current = null;
+		updateScreensList();
 
 		waitForScreensReady().then((screens) => {
-			if (destroyed) return;
-			screensRef.current = screens;
+			// обновляем ссылки
+			screensRef.current = screens as unknown as NodeListOf<Element>;
 
-			const firstScreen = screens[0] as HTMLElement;
+			const firstScreen = screens[0];
 			if (firstScreen) {
 				setActiveLinesHud(true);
 				changeScreenOptions(firstScreen);
 			}
-			updateActiveClasses();
 
+			updateActiveClasses(); // заново применить классы
+
+			// следим за появлением новых .screen
 			mObserver = new MutationObserver(() => {
-				const updated = document.querySelectorAll(".screen");
-				screensRef.current = updated;
+				updateScreensList();
 			});
 			mObserver.observe(document.body, { childList: true, subtree: true });
 		});
 
 		return () => {
-			destroyed = true;
-			mObserver?.disconnect();
+			if (mObserver) mObserver.disconnect();
 		};
 	}, [pathname]);
 
+	// 🖱 Скролл навигация
 	useLayoutEffect(() => {
 		const handleScroll = (event: WheelEvent | KeyboardEvent) => {
-			if (isMobile || !screensRef.current?.length) return;
-			if (!scrollAllowedRef.current || activeMenuRef.current) return;
+			if (isMobile || !scrollAllowed || activeMenu || !screensRef.current?.length) return;
 
 			let newIndex = activeScreenIndex;
 
 			if (event instanceof WheelEvent) {
 				newIndex += event.deltaY > 0 ? 1 : -1;
-			} else if (event instanceof KeyboardEvent) {
+			}
+
+			if (event instanceof KeyboardEvent) {
 				if (["ArrowDown", "PageDown"].includes(event.key)) newIndex++;
 				if (["ArrowUp", "PageUp"].includes(event.key)) newIndex--;
 			}
@@ -125,34 +139,35 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 				setActiveScreenIndex(newIndex);
 
 				const screen = screensRef.current[newIndex] as HTMLElement;
+				console.log(screensRef.current);
 				changeScreenOptions(screen);
 
-				setTimeout(() => {
-					setScrollAllowed(true);
-				}, 800);
+				setTimeout(() => setScrollAllowed(true), 800);
 			}
 		};
-
 		window.addEventListener("wheel", handleScroll);
 		window.addEventListener("keydown", handleScroll);
+
 		return () => {
 			window.removeEventListener("wheel", handleScroll);
 			window.removeEventListener("keydown", handleScroll);
 		};
-	}, [activeScreenIndex, isMobile]);
+	}, [activeMenu, scrollAllowed, isMobile]);
 
+	// 📱 Мобильная логика: наблюдение за видимостью экранов
 	useLayoutEffect(() => {
 		if (!isMobile) return;
+
 		let observer: IntersectionObserver;
 
 		waitForScreensReady().then((screens) => {
-			screensRef.current = screens;
+			screensRef.current = screens as unknown as NodeListOf<Element>;
 
 			observer = new IntersectionObserver(
 				(entries) => {
 					for (const entry of entries) {
 						if (entry.isIntersecting) {
-							const index = Array.from(screens).findIndex((el) => el === entry.target);
+							const index = screens.findIndex((el) => el === entry.target);
 							if (index !== -1) {
 								setActiveScreenIndex(index);
 								changeScreenOptions(entry.target as HTMLElement);
@@ -162,8 +177,10 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 				},
 				{ threshold: 0.5 }
 			);
-
-			screens.forEach((screen) => observer.observe(screen));
+			screens.forEach((screen) => {
+				// console.log(screen);
+				observer.observe(screen);
+			});
 		});
 
 		return () => {

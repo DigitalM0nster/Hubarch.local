@@ -2,7 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { preloaderStore } from "@/store/preloaderStore";
+import { usePreloaderStore } from "@/store/preloaderStore";
 import styles from "./styles.module.scss";
 import { useScrollStore } from "@/store/scrollStore";
 import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
@@ -11,9 +11,11 @@ import { useHudMenuStore } from "@/store/hudMenuStore";
 export default function Preloader() {
 	const { zIndex, verticalLine } = useInteractiveLinesStore();
 	const { activeMenu } = useHudMenuStore();
+	const { setOnAllScreensReady, setResetPreloaderCallback, triggerResetPreloader } = usePreloaderStore();
 
 	const [progress, setProgress] = useState(0);
 	const [linesClass, setLinesClass] = useState(styles.undefined);
+	const [allowAnimation, setAllowAnimation] = useState(true);
 	const [preloaderClass, setPreloaderClass] = useState(styles.undefined);
 	const [loading, setLoading] = useState(true);
 	const { setScrollAllowed } = useScrollStore();
@@ -23,7 +25,7 @@ export default function Preloader() {
 	const preloaderRef = useRef<HTMLDivElement | null>(null);
 	const linesBlockRef = useRef<HTMLDivElement | null>(null);
 
-	const targetProgress = useRef(20);
+	const targetProgress = useRef(0);
 	const currentProgress = useRef(0);
 	const lastUpdateTime = useRef(performance.now());
 	const started = useRef(false);
@@ -69,12 +71,11 @@ export default function Preloader() {
 	}, []);
 
 	useEffect(() => {
-		// const fakeProgressInterval = setInterval(() => {
-		// 	if (started.current) return;
-		// 	if (targetProgress.current < 50) {
-		// 		targetProgress.current += 1;
-		// 	}
-		// }, 300);
+		setTimeout(() => {
+			if (targetProgress.current === 0) {
+				targetProgress.current = 100;
+			}
+		}, 3000); // если через 4 сек что-то не догрузилось — форсим 100%
 
 		const startLoader = () => {
 			started.current = true;
@@ -105,30 +106,39 @@ export default function Preloader() {
 			});
 		};
 
-		preloaderStore.setCallback(() => {
-			// clearInterval(fakeProgressInterval);
+		setOnAllScreensReady(() => {
 			startLoader();
 		});
 
-		preloaderStore.setResetCallback(async () => {
+		setResetPreloaderCallback(async () => {
 			started.current = false;
 			animationStarted.current = false;
-			targetProgress.current = 20;
+			targetProgress.current = 0;
 			currentProgress.current = 0;
 			lastUpdateTime.current = performance.now();
-			setProgress(0);
+
 			setLoading(true);
 			setLinesClass(styles.undefined);
 			setPreloaderClass(styles.active);
-			animateProgress();
+			verticalLine.setNewX(50);
 
 			return new Promise((resolve) => {
 				requestAnimationFrame(() => {
 					requestAnimationFrame(() => {
+						setProgress(0);
+
+						// получаем скорость анимации у прелоадера!
+						const styles = window.getComputedStyle(preloaderRef.current!);
+						const durationStr = styles.getPropertyValue("transition-duration"); // например, "0.75s"
+						const delayStr = styles.getPropertyValue("transition-delay"); // если нужно
+						const duration = parseFloat(durationStr) * 1000;
+						const delay = parseFloat(delayStr) * 1000 || 0;
+						const totalDelay = duration + delay;
+
 						setTimeout(() => {
-							startLoader();
+							animateProgress();
 							resolve();
-						}, 500);
+						}, totalDelay);
 					});
 				});
 			});
@@ -137,37 +147,44 @@ export default function Preloader() {
 
 	useEffect(() => {
 		if (prevPath.current !== null && prevPath.current !== pathname) {
-			preloaderStore.triggerReset?.();
+			triggerResetPreloader?.();
 		}
 		prevPath.current = pathname;
 	}, [pathname]);
 
 	useEffect(() => {
-		if (progress >= 100) {
-			setLinesClass(styles.navCursor);
-			setPreloaderClass(styles.hidden);
+		if (allowAnimation) {
+			if (progress >= 100) {
+				setLinesClass(styles.navCursor);
+				setPreloaderClass(styles.hidden);
+				setAllowAnimation(false);
+			} else if (progress >= 80) {
+				setLinesClass(styles.step4);
+				setPreloaderClass(styles.undefined);
+				setAllowAnimation(false);
+			} else if (progress >= 60) {
+				setLinesClass(styles.step3);
+				setPreloaderClass(styles.undefined);
+				setAllowAnimation(false);
+			} else if (progress >= 40) {
+				setLinesClass(styles.step2);
+				setPreloaderClass(styles.undefined);
+				setAllowAnimation(false);
+			} else if (progress >= 20) {
+				setLinesClass(styles.step1);
+				setPreloaderClass(styles.undefined);
+				setAllowAnimation(false);
+			}
 		}
-		const now = Date.now();
-		if (now - lastLinesUpdate.current < 1500) return;
-		lastLinesUpdate.current = now;
+	}, [progress, allowAnimation]);
 
-		if (progress >= 100) {
-			setLinesClass(styles.navCursor);
-			setPreloaderClass(styles.hidden);
-		} else if (progress >= 80) {
-			setLinesClass(styles.step4);
-			setPreloaderClass(styles.undefined);
-		} else if (progress >= 60) {
-			setLinesClass(styles.step3);
-			setPreloaderClass(styles.undefined);
-		} else if (progress >= 40) {
-			setLinesClass(styles.step2);
-			setPreloaderClass(styles.undefined);
-		} else if (progress >= 20) {
-			setLinesClass(styles.step1);
-			setPreloaderClass(styles.undefined);
+	useEffect(() => {
+		if (allowAnimation === false) {
+			setTimeout(() => {
+				setAllowAnimation(true);
+			}, 1500);
 		}
-	}, [progress]);
+	}, [allowAnimation]);
 
 	useEffect(() => {
 		if (progress >= 100) {

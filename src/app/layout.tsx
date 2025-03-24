@@ -1,3 +1,5 @@
+// src\app\layout.tsx
+
 import type { Metadata } from "next";
 import "@/CSS/fonts.css";
 import "@/CSS/styles.scss";

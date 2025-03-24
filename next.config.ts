@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-	output: "export",
+	// output: "export",
 	env: {
 		SITE_URL: process.env.SITE_URL,
 	},

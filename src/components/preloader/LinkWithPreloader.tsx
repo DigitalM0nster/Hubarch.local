@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { preloaderStore } from "@/store/preloaderStore";
+import { usePathname, useRouter } from "next/navigation";
+import { usePreloaderStore } from "@/store/preloaderStore";
 import { MouseEvent } from "react";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 
@@ -16,10 +16,19 @@ type Props = {
 export default function LinkWithPreloader({ href, children, className, customClick, customMouseEnter }: Props) {
 	const router = useRouter();
 	const { setActiveMenu } = useHudMenuStore();
+	const { triggerResetPreloader } = usePreloaderStore();
+	const pathname = usePathname();
 
 	const handleClick = async (e: MouseEvent<HTMLAnchorElement>) => {
 		e.preventDefault();
-		await preloaderStore.triggerReset();
+
+		if (pathname === href) {
+			if (customClick) customClick();
+			setActiveMenu(false);
+			return;
+		}
+
+		await triggerResetPreloader();
 		if (customClick) {
 			await Promise.resolve(customClick());
 		}

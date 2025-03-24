@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import LinkWithPreloader from "@/components/linkWithPreloader/LinkWithPreloader";
+import LinkWithPreloader from "@/components/preloader/LinkWithPreloader";
 import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
 import { useWindowStore } from "@/store/windowStore";
 

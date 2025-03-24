@@ -46,12 +46,14 @@
 		align-items: center;
 		width: 100%;
 		height: fit-content;
+		z-index: -1;
 
 		.image {
 			position: absolute;
 			width: calc(100% - var(--preloaderLineWidth));
 			height: 100%;
 			opacity: 0;
+			max-width: var(--screenContentWidth);
 
 			&:nth-child(1) {
 				right: calc(50% - var(--preloaderLineWidth) * 0);
@@ -103,6 +105,7 @@
 		transform: translate(-50%, -50%);
 		width: 170px;
 		height: 230px;
+		max-width: var(--screenContentWidth);
 
 		&.step1 {
 			width: 830px;

@@ -1,9 +1,11 @@
 import styles from "./styles.module.scss";
 import { useMainPageStore } from "@/store/mainPageStore";
-import { preloaderStore } from "@/store/preloaderStore";
+import { usePreloaderStore } from "@/store/preloaderStore";
 import { useEffect, useState, useRef } from "react";
 
 export default function Screen2() {
+	const { markReady } = usePreloaderStore();
+
 	const data = useMainPageStore((state) => state.data?.main_page_screen2);
 	const initialNumber = data?.number ? String(data.number) : "200256";
 
@@ -13,7 +15,7 @@ export default function Screen2() {
 
 	// ОТМЕЧАЕМСЯ ДЛЯ ПРЕЛОАДЕРА
 	useEffect(() => {
-		preloaderStore.markReady();
+		markReady();
 	}, []);
 
 	// Определяем группы в зависимости от длины числа

@@ -7,7 +7,7 @@ import { useMenuSettingsStore } from "@/store/menuSettingsStore";
 import { useEffect, useState } from "react";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
-import LinkWithPreloader from "../linkWithPreloader/LinkWithPreloader";
+import LinkWithPreloader from "../preloader/LinkWithPreloader";
 
 export default function MobileHud() {
 	const pathname = usePathname(); // Получаем текущий путь

@@ -1,40 +1,57 @@
 // src/store/preloaderStore.ts
+import { create } from "zustand";
 
-type PreloaderStore = {
+interface PreloaderStore {
 	componentsToWait: number;
 	markedReady: number;
+
+	// логика
 	setTotal: (n: number) => void;
 	markReady: () => void;
-	onAllReady: (() => void) | null;
-	setCallback: (cb: () => void) => void;
-	setResetCallback: (cb: () => Promise<void>) => void;
-	triggerReset: () => Promise<void>;
-};
 
-let resetCallback: (() => Promise<void>) | null = null;
+	// колбэки
+	onAllScreensReady: (() => void) | null;
+	setOnAllScreensReady: (cb: () => void) => void;
 
-export const preloaderStore: PreloaderStore = {
+	resetPreloaderCallback: (() => Promise<void>) | null;
+	setResetPreloaderCallback: (cb: () => Promise<void>) => void;
+	triggerResetPreloader: () => Promise<void>;
+}
+
+export const usePreloaderStore = create<PreloaderStore>((set, get) => ({
 	componentsToWait: 0,
 	markedReady: 0,
-	onAllReady: null,
-	setTotal(n) {
-		this.componentsToWait = n;
-	},
-	markReady() {
-		this.markedReady++;
-		if (this.markedReady === this.componentsToWait && this.onAllReady) {
-			this.onAllReady();
+
+	onAllScreensReady: null,
+	resetPreloaderCallback: null,
+
+	setTotal: (n) => {
+		set({ componentsToWait: n, markedReady: 0 });
+
+		const { onAllScreensReady } = get();
+		if (n === 0 && onAllScreensReady) {
+			onAllScreensReady();
 		}
 	},
-	setCallback(cb) {
-		this.onAllReady = cb;
-	},
-	setResetCallback(cb: () => Promise<void>) {
-		resetCallback = cb;
-	},
-	async triggerReset() {
-		if (resetCallback) {
-			await resetCallback();
+
+	markReady: () => {
+		const { markedReady, componentsToWait, onAllScreensReady } = get();
+		const newCount = markedReady + 1;
+		set({ markedReady: newCount });
+
+		if (newCount === componentsToWait && onAllScreensReady) {
+			onAllScreensReady();
 		}
 	},
-};
+
+	setOnAllScreensReady: (cb) => set({ onAllScreensReady: cb }),
+
+	setResetPreloaderCallback: (cb) => set({ resetPreloaderCallback: cb }),
+
+	triggerResetPreloader: async () => {
+		const { resetPreloaderCallback } = get();
+		if (resetPreloaderCallback) {
+			await resetPreloaderCallback();
+		}
+	},
+}));
