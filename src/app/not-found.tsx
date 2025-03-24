@@ -1,3 +1,5 @@
+// src\app\not-found.tsx
+
 import Preloader404 from "@/components/pages/404page/Preloader404";
 
 export default function NotFound() {

@@ -1,3 +1,4 @@
+// src\components\preloader\LinkWithPreloader.tsx
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";

@@ -40,6 +40,7 @@ export default function RootLayout({ children, params }: { children: React.React
 				<InteractiveLines />
 				<Preloader />
 				{children}
+				<script src="/customJs/initial-preloader.js" />
 			</body>
 		</html>
 	);

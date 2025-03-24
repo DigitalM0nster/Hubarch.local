@@ -1,3 +1,4 @@
+// src\components\preloader\Preloader.tsx
 "use client";
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -9,12 +10,17 @@ import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 import Image from "next/image";
 
+declare global {
+	interface Window {
+		__initialProgress?: number;
+	}
+}
+
 export default function Preloader() {
 	const { zIndex, verticalLine } = useInteractiveLinesStore();
 	const { activeMenu } = useHudMenuStore();
 	const { setOnAllScreensReady, setResetPreloaderCallback, triggerResetPreloader } = usePreloaderStore();
 
-	const [progress, setProgress] = useState(0);
 	const [linesClass, setLinesClass] = useState(styles.undefined);
 	const [allowAnimation, setAllowAnimation] = useState(true);
 	const [preloaderClass, setPreloaderClass] = useState(styles.undefined);
@@ -25,8 +31,10 @@ export default function Preloader() {
 	const preloaderRef = useRef<HTMLDivElement | null>(null);
 	const linesBlockRef = useRef<HTMLDivElement | null>(null);
 
-	const targetProgress = useRef(0);
-	const currentProgress = useRef(0);
+	const initialValue = typeof window !== "undefined" ? window.__initialProgress ?? 0 : 0;
+	const [progress, setProgress] = useState(initialValue);
+	const currentProgress = useRef(initialValue);
+	const targetProgress = useRef(20);
 	const lastUpdateTime = useRef(performance.now());
 	const started = useRef(false);
 	const animationStarted = useRef(false);
@@ -35,6 +43,9 @@ export default function Preloader() {
 	const animateProgress = useCallback(() => {
 		if (animationStarted.current) return;
 		animationStarted.current = true;
+		if (preloaderRef.current) {
+			preloaderRef.current.dataset.status = "activated";
+		}
 
 		const loop = () => {
 			const now = performance.now();
@@ -69,10 +80,10 @@ export default function Preloader() {
 	}, []);
 	useEffect(() => {
 		setTimeout(() => {
-			if (targetProgress.current === 0) {
+			if (targetProgress.current === 20 || targetProgress.current === 0) {
 				targetProgress.current = 100;
 			}
-		}, 3000); // если через 4 сек что-то не догрузилось — форсим 100%
+		}, 3000); // если через 3 сек что-то не догрузилось — форсим 100%
 
 		const startLoader = () => {
 			started.current = true;
@@ -139,7 +150,7 @@ export default function Preloader() {
 				});
 			});
 		});
-	}, []);
+	}, [pathname]);
 
 	useEffect(() => {
 		if (prevPath.current !== null && prevPath.current !== pathname) {
@@ -207,7 +218,7 @@ export default function Preloader() {
 	/* eslint-enable react-hooks/exhaustive-deps */
 
 	return (
-		<div ref={preloaderRef} className={`${styles.preloader} ${preloaderClass}`}>
+		<div ref={preloaderRef} className={`preloader ${styles.preloader} ${preloaderClass}`}>
 			<div className="screenContent">
 				<div ref={linesBlockRef} className={`${styles.linesBlock} ${linesClass}`}>
 					<div className={styles.leftLines}>
@@ -222,7 +233,7 @@ export default function Preloader() {
 					</div>
 					<div className={`${styles.imagesBlock}`}>
 						<div className={styles.image}>
-							<Image src="/images/preloader/1.png" alt="" width={1550} height={1100} />
+							<Image src="/images/preloader/1.png" alt="" width={1550} height={1100} priority />
 						</div>
 						<div className={styles.image}>
 							<Image src="/images/preloader/2.png" alt="" width={1550} height={1100} />
@@ -237,7 +248,7 @@ export default function Preloader() {
 							<Image src="/images/preloader/5.png" alt="" width={1550} height={1100} />
 						</div>
 					</div>
-					<div className={styles.number}>{progress}%</div>
+					<div className={`number ${styles.number}`}>{typeof window === "undefined" ? `${progress}%` : progress + "%"}</div>
 				</div>
 			</div>
 		</div>
