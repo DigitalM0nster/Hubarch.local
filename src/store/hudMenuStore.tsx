@@ -6,6 +6,9 @@ export interface HudMenuStore {
 
 	activeMenu: boolean;
 	setActiveMenu: (state: boolean) => void;
+
+	activePage: string;
+	setActivePage: (page: string) => void;
 }
 
 export const useHudMenuStore = create<HudMenuStore>((set) => ({
@@ -14,4 +17,7 @@ export const useHudMenuStore = create<HudMenuStore>((set) => ({
 
 	activeMenu: false,
 	setActiveMenu: (state) => set({ activeMenu: state }),
+
+	activePage: "/",
+	setActivePage: (page) => set({ activePage: page }),
 }));

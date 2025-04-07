@@ -14,6 +14,7 @@ interface ProjectItemProps {
 		acf: {
 			project_preview: string;
 		};
+		slug: string;
 	};
 	index: number;
 }
@@ -68,7 +69,7 @@ export default function ProjectItem({ language, project, index }: ProjectItemPro
 	return (
 		<LinkWithPreloader
 			key={id}
-			href={`/${language}/projects/${id}`}
+			href={`/${language}/projects/${project.slug}`}
 			className={styles.projectItem}
 			customMouseEnter={() => {
 				if (!isMobile) {

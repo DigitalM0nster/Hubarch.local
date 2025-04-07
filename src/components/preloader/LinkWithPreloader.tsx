@@ -12,9 +12,10 @@ type Props = {
 	className?: string;
 	customClick?: () => void;
 	customMouseEnter?: () => void;
+	customMouseLeave?: () => void;
 };
 
-export default function LinkWithPreloader({ href, children, className, customClick, customMouseEnter }: Props) {
+export default function LinkWithPreloader({ href, children, className, customClick, customMouseEnter, customMouseLeave }: Props) {
 	const router = useRouter();
 	const { setActiveMenu } = useHudMenuStore();
 	const { triggerResetPreloader } = usePreloaderStore();
@@ -38,7 +39,7 @@ export default function LinkWithPreloader({ href, children, className, customCli
 	};
 
 	return (
-		<a href={href} onClick={handleClick} className={className} onMouseEnter={customMouseEnter!}>
+		<a href={href} onClick={handleClick} className={className} onMouseEnter={customMouseEnter!} onMouseLeave={customMouseLeave!}>
 			{children}
 		</a>
 	);

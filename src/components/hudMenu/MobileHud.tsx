@@ -8,12 +8,16 @@ import { useHudMenuStore } from "@/store/hudMenuStore";
 import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
 import LinkWithPreloader from "../preloader/LinkWithPreloader";
 import Image from "next/image";
+import { useScrollStore } from "@/store/scrollStore";
+import { usePreloaderStore } from "@/store/preloaderStore";
 
 export default function MobileHud() {
 	const pathname = usePathname(); // Получаем текущий путь
 	const { menuSettingsData } = useMenuSettingsStore();
 	const { activeMenu, setActiveMenu, screenLightness } = useHudMenuStore();
 	const { zIndex, setNewIndex } = useInteractiveLinesStore();
+	const { setScrollAllowed } = useScrollStore();
+	const { progress } = usePreloaderStore();
 	const [lang, setLang] = useState(pathname.startsWith("/en") ? "en" : "ru"); // Определяем язык
 
 	const savedZIndex = useRef(zIndex);
@@ -22,9 +26,13 @@ export default function MobileHud() {
 	useEffect(() => {
 		if (activeMenu) {
 			savedZIndex.current = zIndex;
-			setNewIndex(1);
+			console.log("gg1");
+			setScrollAllowed(false);
 		} else {
 			setNewIndex(savedZIndex.current);
+			if (progress >= 100) {
+				setScrollAllowed(true);
+			}
 		}
 	}, [activeMenu]);
 	/* eslint-enable react-hooks/exhaustive-deps */

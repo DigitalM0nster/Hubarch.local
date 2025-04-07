@@ -9,6 +9,7 @@ import { useScrollStore } from "@/store/scrollStore";
 import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 import Image from "next/image";
+import LinkWithPreloader from "./LinkWithPreloader";
 
 declare global {
 	interface Window {
@@ -17,13 +18,16 @@ declare global {
 }
 
 export default function Preloader() {
-	const { zIndex, verticalLine } = useInteractiveLinesStore();
+	const { zIndex, verticalLine, horizontalLine } = useInteractiveLinesStore();
 	const { activeMenu } = useHudMenuStore();
-	const { setOnAllScreensReady, setResetPreloaderCallback, triggerResetPreloader } = usePreloaderStore();
+	const { setOnAllScreensReady, setResetPreloaderCallback, triggerResetPreloader, progress, setProgress } = usePreloaderStore();
 
 	const [linesClass, setLinesClass] = useState(styles.undefined);
 	const [allowAnimation, setAllowAnimation] = useState(true);
 	const [preloaderClass, setPreloaderClass] = useState(styles.undefined);
+
+	const [hasTimedOut, setHasTimedOut] = useState(false);
+
 	const { setScrollAllowed } = useScrollStore();
 	const pathname = usePathname();
 	const prevPath = useRef<string | null>(null);
@@ -32,7 +36,7 @@ export default function Preloader() {
 	const linesBlockRef = useRef<HTMLDivElement | null>(null);
 
 	const initialValue = typeof window !== "undefined" ? window.__initialProgress ?? 0 : 0;
-	const [progress, setProgress] = useState(initialValue);
+	// setProgress(initialValue);
 	const currentProgress = useRef(initialValue);
 	const targetProgress = useRef(20);
 	const lastUpdateTime = useRef(performance.now());
@@ -65,7 +69,6 @@ export default function Preloader() {
 			if (floored >= 99 && targetProgress.current === 100) {
 				currentProgress.current = 100;
 				setProgress(100);
-				setScrollAllowed(true);
 				return;
 			}
 
@@ -75,15 +78,20 @@ export default function Preloader() {
 
 		requestAnimationFrame(loop);
 	}, []);
+
 	useLayoutEffect(() => {
 		animateProgress();
 	}, []);
+
 	useEffect(() => {
-		setTimeout(() => {
-			if (targetProgress.current === 20 || targetProgress.current === 0) {
+		setHasTimedOut(false);
+		const timeout = setTimeout(() => {
+			if (!started.current) {
+				setHasTimedOut(true);
 				targetProgress.current = 100;
+				animateProgress();
 			}
-		}, 3000); // если через 3 сек что-то не догрузилось — форсим 100%
+		}, 5000); // 5 секунд
 
 		const startLoader = () => {
 			started.current = true;
@@ -115,6 +123,7 @@ export default function Preloader() {
 		};
 
 		setOnAllScreensReady(() => {
+			clearTimeout(timeout); // если данные успели прийти — отменяем ошибку
 			startLoader();
 		});
 
@@ -191,7 +200,12 @@ export default function Preloader() {
 				setAllowAnimation(true);
 			}, 1500);
 		}
-	}, [allowAnimation]);
+		if (progress >= 100) {
+			setTimeout(() => {
+				setScrollAllowed(true);
+			}, 750);
+		}
+	}, [allowAnimation, progress]);
 
 	useEffect(() => {
 		if (progress >= 100) {
@@ -208,6 +222,11 @@ export default function Preloader() {
 	}, [verticalLine.x]);
 
 	useEffect(() => {
+		linesBlockRef.current?.style.setProperty("top", `${horizontalLine.y}%`);
+		linesBlockRef.current?.style.setProperty("transition", "all 1s");
+	}, [horizontalLine.y]);
+
+	useEffect(() => {
 		if (activeMenu || preloaderClass != styles.hidden) {
 			preloaderRef.current?.style.removeProperty("transition");
 			linesBlockRef.current?.style.removeProperty("transition");
@@ -218,8 +237,21 @@ export default function Preloader() {
 	/* eslint-enable react-hooks/exhaustive-deps */
 
 	return (
-		<div ref={preloaderRef} className={`preloader ${styles.preloader} ${preloaderClass}`}>
+		<div ref={preloaderRef} className={`preloader ${styles.preloader} ${preloaderClass} ${hasTimedOut ? styles.timeout : ""}`}>
 			<div className="screenContent">
+				<div className={styles.errorBlock}>
+					<h2>Не удалось загрузить данные на сайт</h2>
+					<p>Что-то пошло не так. Попробуйте вернуться на главную или перезагрузить страницу.</p>
+					<div className={styles.buttonsBlock}>
+						<LinkWithPreloader href="/" className={styles.mainButtton}>
+							Вернуться на главную
+						</LinkWithPreloader>
+						{/* <p>или</p> */}
+						<button className={styles.button} onClick={() => location.reload()}>
+							Перезагрузить
+						</button>
+					</div>
+				</div>
 				<div ref={linesBlockRef} className={`${styles.linesBlock} ${linesClass}`}>
 					<div className={styles.leftLines}>
 						<div className={styles.line} />

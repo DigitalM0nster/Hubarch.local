@@ -1,11 +1,13 @@
 import styles from "./styles.module.scss";
 import { useMainPageStore } from "@/store/mainPageStore";
 import { usePreloaderStore } from "@/store/preloaderStore";
+import { useWindowStore } from "@/store/windowStore";
 import Image from "next/image";
 import { useEffect, useState, useRef, useMemo } from "react";
 
 export default function Screen2() {
 	const { markReady } = usePreloaderStore();
+	const { isMobile } = useWindowStore();
 
 	const data = useMainPageStore((state) => state.data?.main_page_screen2);
 	const initialNumber = data?.number ? String(data.number) : "200256";
@@ -19,8 +21,10 @@ export default function Screen2() {
 
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
-		markReady();
-	}, []);
+		if (data) {
+			markReady();
+		}
+	}, [data]);
 	/* eslint-enable react-hooks/exhaustive-deps */
 
 	// Определяем группы в зависимости от длины числа
@@ -113,11 +117,18 @@ export default function Screen2() {
 			<div
 				className={`screen ${styles.screen2}`}
 				data-screen-lightness="light"
-				data-lines-index={0}
+				data-lines-index={isMobile ? 1 : 1}
 				data-mini-line-rotation={45}
 				data-position-x={50}
 				data-position-y={50}
-				data-position-z={50}
+				data-horizontal-x={50}
+				data-horizontal-width={100}
+				data-vertical-height={100}
+				data-lines-color={"dark"}
+				data-left-line-x={0}
+				data-left-line-height={0}
+				data-right-line-x={100}
+				data-right-line-height={0}
 			>
 				<div className={`screenContent ${styles.screenContent}`}>
 					<div className={styles.numbersBlock}>
@@ -130,7 +141,7 @@ export default function Screen2() {
 								<span className={styles.text}>
 									{data.text.text1 && data.text.text1}
 									{data.text.text2 && <br />}
-									{data.text.text2 && data.text.text2}
+									{data.text.text2 && <span className={`${styles.specialText}`}>{data.text.text2}</span>}
 									{data.text.text2 && <Image src="/images/mainPage/screen2/planetIcon.svg" alt="" width={100} height={100} />}
 									{/* {data.text.text2 && <img src="/images/mainPage/screen2/planetIcon.svg" alt="" />} */}
 								</span>

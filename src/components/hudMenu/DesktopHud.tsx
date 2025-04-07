@@ -11,7 +11,7 @@ import Image from "next/image";
 export default function DesktopHud() {
 	const pathname = usePathname(); // Получаем текущий путь
 	const { isLoading, menuSettingsData } = useMenuSettingsStore();
-	const { screenLightness } = useHudMenuStore();
+	const { screenLightness, activePage, setActivePage } = useHudMenuStore();
 
 	const [lang, setLang] = useState(pathname.startsWith("/en") ? "en" : "ru"); // Определяем язык
 	const [localLoading, setLocalLoading] = useState(true);
@@ -22,6 +22,10 @@ export default function DesktopHud() {
 			setLocalLoading(false);
 		}, 500);
 	}, []);
+
+	useEffect(() => {
+		setActivePage(pathname);
+	}, [pathname]);
 
 	return (
 		<div className={`${styles.desktopHud} ${isLoading || localLoading ? styles.inactive : ""} ${screenLightness === "light" ? styles.dark : styles.light}`}>
@@ -97,7 +101,7 @@ export default function DesktopHud() {
 					)}
 				</div>
 			</div>
-			<div className={styles.rightHud}>
+			<div className={`${styles.rightHud} ${activePage === "/en/projects" || activePage === "/ru/projects" ? styles.hidden : ""}`}>
 				{menuSettingsData?.right_menu_links.map((linkItem, index) => {
 					const link = linkItem.link;
 

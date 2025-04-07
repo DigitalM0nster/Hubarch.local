@@ -1,22 +1,26 @@
 :root {
 	--mainTextColor: #101118;
-	--additionalColor: #fbf9f4;
+	--backgroundColor: #fbf9f4;
+	--additionalColor: #c74535;
 	--contentWidth: 70vw;
 	--screenPadding: 25px;
 	--logoMaxHeight: 22px;
 	--menuFontSize: 21px;
 	--mainTextSize: 27px;
+	--miniTextSize: 15px;
+	--additionalTextSize: 17px;
 	--titleBackgroundSize: 162px;
 	--letterSpacing: calc(var(--mainTextSize) * 0);
 	--letterSpacingHover: calc(var(--mainTextSize) * 0.035);
 }
 
 body {
-	background-color: var(--additionalColor);
+	background-color: var(--backgroundColor);
 	margin: 0;
 	font-family: "Panama_Demo_Regular";
 	color: var(--mainTextColor);
 	min-height: 100vh;
+	height: 100vh;
 	// overflow: hidden;
 }
 div {
@@ -47,6 +51,11 @@ p {
 	height: 100%;
 	display: block;
 	overflow: hidden;
+	z-index: 0;
+
+	&.noScroll {
+		overflow: hidden;
+	}
 }
 
 .screen {
@@ -115,26 +124,30 @@ p {
 
 @media (max-width: 1280px) {
 	:root {
-		--screenContentWidth: calc(100vw - (var(--screenPadding) * 2) - 200px);
+		--contentWidth: calc(100vw - (var(--screenPadding) * 2) - 200px);
 		--menuFontSize: 16px;
 	}
 	.screenContent {
-		max-width: var(--screenContentWidth);
+		max-width: var(--contentWidth);
 	}
 }
 
 @media (max-width: 980px) {
 	:root {
 		--screenPadding: 15px;
-		--contentWidth: calc(100vw - (var(--screenPadding) * 2));
+		--contentWidth: calc(100% - (var(--screenPadding) * 2));
 		--logoMaxHeight: 40px;
 		--mainTextSize: 24px;
+		--miniTextSize: 12px;
 	}
 
 	.screenScroll {
 		position: relative;
-		height: fit-content;
 		overflow-y: auto;
+
+		&.noScroll {
+			overflow-y: hidden;
+		}
 	}
 
 	.screen {

@@ -24,29 +24,32 @@
 	height: 100%;
 	background-color: transparent;
 
+	&.light {
+		.line {
+			background-color: var(--backgroundColor);
+		}
+	}
+
 	.line {
 		position: absolute;
 		background-color: #4f505f;
 		opacity: 0.16;
 		transition: 1s 0s;
 
-		&.dark {
-			// background-color: #4f505f;
-			// opacity: 0.16;
-		}
-
 		&.verticalLine {
 			width: 1px;
 			height: 100%;
 			left: 50%;
-			transform: translate(-50%, 0);
+			top: 50%;
+			transform: translate(-50%, -50%);
 		}
 
 		&.horizontalLine {
 			height: 1px;
 			width: 100%;
 			top: 50%;
-			transform: translate(0, -50%);
+			left: 50%;
+			transform: translate(-50%, -50%);
 		}
 
 		&.miniLine {
@@ -55,6 +58,22 @@
 			left: 50%;
 			top: 50%;
 			transform: translate(-50%, -50%) rotate(45deg);
+		}
+
+		&.leftLine {
+			width: 1px;
+			height: 100%;
+			top: 50%;
+			left: 0;
+			transform: translate(0, -50%);
+		}
+
+		&.rightLine {
+			width: 1px;
+			height: 100%;
+			top: 50%;
+			left: calc(100% - 1px);
+			transform: translate(0, -50%);
 		}
 	}
 

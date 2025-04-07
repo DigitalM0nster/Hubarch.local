@@ -1,72 +1,32 @@
 // src/app/[language]/projects/[projectId]/page.tsx
+
 import { notFound } from "next/navigation";
 
-export async function generateStaticParams() {
-	try {
-		const res = await fetch(`${process.env.NEXT_PUBLIC_WP_API}/projects`);
-		const projects = await res.json();
+type Props = {
+	params: {
+		language: string;
+		projectId: string;
+	};
+};
 
-		type Project = {
-			slug: string;
-		};
+export default async function ProjectPage({ params }: Props) {
+	const { language, projectId } = params;
 
-		console.log(
-			"Загруженные проекты:",
-			(projects as Project[]).map((p) => p.slug)
-		);
+	// 🔥 Fetch по slug проекта, с языком
+	const res = await fetch(`http://admin.hubarch.local/wp-json/wp/v2/projects?slug=${projectId}&lang=${language}`, {
+		next: { revalidate: 60 }, // или { cache: 'no-store' }
+	});
 
-		const languages = ["ru", "en"];
-		const staticParams = [];
+	const data = await res.json();
 
-		for (const lang of languages) {
-			for (const project of projects) {
-				const slug = typeof project?.slug === "string" ? project.slug.trim() : "";
+	if (!data || !data.length) return notFound();
 
-				if (!slug || slug === "projects") {
-					console.warn(`⚠️ Пропущен project со slug: "${project.slug}"`);
-					continue;
-				}
+	const projectData = data[0]; // т.к. slug уникальный, всегда 1
 
-				console.log(`✅ Добавляем: ${lang}/${slug}`);
-
-				staticParams.push({
-					language: lang,
-					projectId: slug,
-				});
-			}
-		}
-
-		console.log("Финальные параметры:", staticParams);
-
-		return staticParams;
-	} catch (e) {
-		console.error("Ошибка загрузки проектов:", e);
-		return [];
-	}
-}
-
-export default async function ProjectPage(props: unknown) {
-	const { language, projectId } = (props as { params: { language: string; projectId: string } }).params;
-
-	try {
-		const res = await fetch(`${process.env.NEXT_PUBLIC_WP_API}/media?slug=${projectId}`, {
-			next: { revalidate: 3600 },
-		});
-		if (!res.ok) throw new Error("Ошибка при загрузке проекта");
-
-		const projects = await res.json();
-		if (!projects.length) notFound();
-
-		const projectItem = projects[0];
-
-		return (
-			<div>
-				<h1>{projectItem.title.rendered}</h1>
-				<p>{projectItem.acf?.description ?? (language === "ru" ? "Описание отсутствует" : "No description")}</p>
-			</div>
-		);
-	} catch (error) {
-		console.error("Ошибка загрузки проекта:", error);
-		notFound();
-	}
+	return (
+		<main>
+			<h1>{projectData.title.rendered}</h1>
+			<div dangerouslySetInnerHTML={{ __html: projectData.content.rendered }} />
+		</main>
+	);
 }

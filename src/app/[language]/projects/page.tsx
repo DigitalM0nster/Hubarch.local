@@ -1,5 +1,6 @@
 // src\app\[language]\projects\page.tsx
 
+import ProjectsPageClient from "@/components/pages/projects/ProjectsPageClient";
 import styles from "./styles.module.scss";
 
 export function generateStaticParams() {
@@ -9,9 +10,5 @@ export function generateStaticParams() {
 export default async function Projects(props: unknown) {
 	const { language } = (props as { params: { language: string } }).params;
 
-	return (
-		<div className={`${styles.screenContent} screenContent`}>
-			<h1>{language === "ru" ? "Проекты" : "Projects"}</h1>
-		</div>
-	);
+	return <ProjectsPageClient language={language} />;
 }

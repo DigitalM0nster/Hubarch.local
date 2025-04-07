@@ -2,6 +2,9 @@
 import { create } from "zustand";
 
 interface PreloaderStore {
+	progress: number;
+	setProgress: (newProgress: number) => void;
+
 	componentsToWait: number;
 	markedReady: number;
 
@@ -19,6 +22,9 @@ interface PreloaderStore {
 }
 
 export const usePreloaderStore = create<PreloaderStore>((set, get) => ({
+	progress: typeof window !== "undefined" ? window.__initialProgress ?? 1 : 1,
+	setProgress: (newProgress) => set({ progress: newProgress }),
+
 	componentsToWait: 0,
 	markedReady: 0,
 

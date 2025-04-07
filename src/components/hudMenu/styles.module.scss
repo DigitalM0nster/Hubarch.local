@@ -32,11 +32,11 @@
 	}
 
 	&.light {
-		color: var(--additionalColor);
+		color: var(--backgroundColor);
 
 		a.li,
 		.li {
-			color: var(--additionalColor);
+			color: var(--backgroundColor);
 		}
 	}
 
@@ -206,10 +206,20 @@
 		gap: 33px;
 		position: fixed;
 		top: 50%;
-		right: var(--screenPadding);
+		right: calc(var(--screenPadding) * 2);
 		transform: translate(0px, -50%);
 		max-width: calc(((100% - var(--contentWidth)) / 2) - 15px);
 		pointer-events: all;
+		opacity: 1;
+
+		&.hidden {
+			opacity: 0;
+			pointer-events: none;
+
+			a {
+				pointer-events: none;
+			}
+		}
 	}
 
 	.bottomHud {
@@ -274,10 +284,10 @@
 	}
 
 	&.light {
-		color: var(--additionalColor);
+		color: var(--backgroundColor);
 
 		.burger {
-			background-color: var(--additionalColor);
+			background-color: var(--backgroundColor);
 
 			.line {
 				color: var(--mainTextColor);
@@ -291,7 +301,7 @@
 			background-color: var(--mainTextColor);
 
 			.line {
-				color: var(--additionalColor);
+				color: var(--backgroundColor);
 			}
 		}
 	}
@@ -386,7 +396,7 @@
 
 			.line {
 				position: absolute;
-				background-color: var(--additionalColor);
+				background-color: var(--backgroundColor);
 				width: 2px;
 				height: 16px;
 
@@ -412,7 +422,7 @@
 	width: 100%;
 	height: 100%;
 	z-index: 1;
-	background-color: var(--additionalColor);
+	background-color: var(--backgroundColor);
 	// transform: translateY(-100%);
 	opacity: 0;
 	pointer-events: none;
@@ -510,7 +520,7 @@
 
 @media (max-width: 1680px) {
 	.desktopHud {
-		font-size: 18px;
+		// font-size: 18px;
 
 		.topHud {
 			top: var(--screenPadding);
@@ -534,10 +544,15 @@
 }
 
 @media (max-width: 1440px) {
+	.desktopHud {
+		font-size: calc(var(--menuFontSize) * 0.85);
+	}
 }
 
 @media (max-width: 1280px) {
 	.desktopHud {
+		--centerPartWidth: calc(var(--contentWidth) * 0.775);
+		font-size: calc(var(--menuFontSize) * 1);
 		.topHud {
 			.logoBlock {
 				max-width: 120px;
@@ -545,17 +560,24 @@
 			.navigation {
 				gap: var(--screenPadding);
 			}
+			.rightPart,
+			.leftPart {
+				width: calc((100% - var(--centerPartWidth)) * 0.5);
+			}
+			.centerPart {
+				max-width: var(--centerPartWidth);
+			}
 		}
 
 		.bottomHud {
 			.leftPart {
-				max-width: calc((100% - var(--screenContentWidth)) / 2 - 15px);
+				max-width: calc((100% - var(--contentWidth)) / 2 - 15px);
 			}
 		}
 
 		.leftHud,
 		.rightHud {
-			max-width: calc((100% - var(--screenContentWidth)) / 2 - 15px);
+			max-width: calc((100% - var(--contentWidth)) / 2 - 15px);
 		}
 	}
 }

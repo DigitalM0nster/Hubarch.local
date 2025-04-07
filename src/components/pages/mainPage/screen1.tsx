@@ -16,8 +16,10 @@ export default function Screen1() {
 
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
-		markReady();
-	}, []);
+		if (data) {
+			markReady();
+		}
+	}, [data]);
 	/* eslint-enable react-hooks/exhaustive-deps */
 
 	// Храним индекс активного изображения
@@ -44,7 +46,14 @@ export default function Screen1() {
 			data-mini-line-rotation={-45}
 			data-position-x={50}
 			data-position-y={50}
-			data-position-z={50}
+			data-horizontal-x={50}
+			data-horizontal-width={100}
+			data-vertical-height={100}
+			data-lines-color={"dark"}
+			data-left-line-x={0}
+			data-left-line-height={0}
+			data-right-line-x={100}
+			data-right-line-height={0}
 		>
 			<div className={`screenContent ${styles.screenContent}`}>
 				<div className={styles.imageBlock}>

@@ -1,8 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
 
-const API_URL = typeof window !== "undefined" && window.location.protocol === "https:" ? "https://admin.hubarch.local/wp-json" : "http://admin.hubarch.local/wp-json";
-
 interface MenuLink {
 	link: {
 		ru: {
@@ -56,17 +54,18 @@ export const useMenuSettingsStore = create<MenuSettingsState>((set, get) => ({
 	isLoading: true,
 
 	fetchMenuSettings: async () => {
+		const API_URL = process.env.NEXT_PUBLIC_WP_API?.replace("/wp/v2", "") ?? "";
+		if (!API_URL) {
+			throw new Error("NEXT_PUBLIC_WP_API не задан или некорректен");
+		}
 		if (get().menuSettingsData) return; // Если данные уже есть, не запрашиваем заново
 
 		set({ isLoading: true });
 		try {
 			const response = await axios.get(`${API_URL}/acf/v3/options/menu_settings`);
-			set({ menuSettingsData: response.data });
+			set({ menuSettingsData: response.data, isLoading: false });
 		} catch (error) {
 			console.error("Ошибка загрузки меню", error);
-		} finally {
-			set({ isLoading: false });
 		}
 	},
 }));
-export { API_URL };
