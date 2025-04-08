@@ -30,7 +30,7 @@ export const generateMetadata = async ({ params }: { params: { lang: string } })
 	};
 };
 
-export default function RootLayout({ children, params }: { children: React.ReactNode; params: { lang: string } }) {
+export default async function RootLayout({ children, params }: { children: React.ReactNode; params: { lang: string } }) {
 	const lang = params.lang === "en" ? "en" : "ru"; // Берём язык из URL
 
 	return (
