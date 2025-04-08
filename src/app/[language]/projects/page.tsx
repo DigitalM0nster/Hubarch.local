@@ -1,7 +1,6 @@
 // src\app\[language]\projects\page.tsx
 
 import ProjectsPageClient from "@/components/pages/projects/ProjectsPageClient";
-import styles from "./styles.module.scss";
 
 export function generateStaticParams() {
 	return [{ language: "ru" }, { language: "en" }]; // Доступные языки

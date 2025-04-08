@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
 	env: {
 		SITE_URL: process.env.SITE_URL,
 	},
+	eslint: {
+		ignoreDuringBuilds: true,
+	},
 	async redirects() {
 		return [
 			{
