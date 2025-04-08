@@ -115,7 +115,7 @@ export const useMainPageStore = create<MainPageStore>((set) => ({
 
 					if (!projectId) return null;
 
-					const res = await fetch(`${API_URL}/wp/v2/projects/${projectId}?_fields=id,title,acf,slug`, {
+					const res = await fetch(`${API_URL}/projects/${projectId}?_fields=id,title,acf,slug`, {
 						cache: "no-store",
 					});
 					if (!res.ok) return null;
