@@ -88,11 +88,11 @@ export const useMainPageStore = create<MainPageStore>((set) => ({
 	fetchData: async (language) => {
 		set({ loadedData: false, error: null });
 
-		const API_URL = "http://admin.hubarch.local/wp-json";
+		const API_URL = process.env.NEXT_PUBLIC_WP_API;
 		const slug = "home";
 
 		try {
-			const res = await fetch(`${API_URL}/wp/v2/pages?slug=${slug}&lang=${language}&_fields=acf`, {
+			const res = await fetch(`${API_URL}/pages?slug=${slug}&lang=${language}&_fields=acf`, {
 				cache: "no-store",
 			});
 

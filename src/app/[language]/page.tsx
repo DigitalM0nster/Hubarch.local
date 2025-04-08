@@ -1,7 +1,7 @@
 import MainPageClient from "@/components/pages/mainPage/mainPageClient";
 import type { Metadata } from "next";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://hubarch.local";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 type Props = {
 	params: Promise<{

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic"; // 🚨 запретить пререндер на этапе build
 
-const siteUrl = process.env.SITE_URL || "https://hubarch.local";
+const siteUrl = process.env.SITE_URL;
 
 export async function GET() {
 	const staticPages = ["", "about", "projects", "services", "contacts"];

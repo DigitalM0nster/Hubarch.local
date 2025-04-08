@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://hubarch.local";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export function generateStaticParams() {
 	return [{ language: "ru" }, { language: "en" }]; // Доступные языки

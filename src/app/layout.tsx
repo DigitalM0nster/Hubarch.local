@@ -18,7 +18,7 @@ export const generateMetadata = async (props: { params: Promise<{ lang: string }
 		openGraph: {
 			title: lang === "ru" ? "Hubarch – Инновационные проекты" : "Hubarch – Innovative Projects",
 			description: lang === "ru" ? "Создаём лучшие цифровые решения для бизнеса." : "We create the best digital solutions for business.",
-			url: "https://hubarch.local",
+			url: "https://hubarch.ru",
 			siteName: "Hubarch",
 			images: [
 				{

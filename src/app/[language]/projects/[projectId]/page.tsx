@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://hubarch.local";
-const wpApi = process.env.NEXT_PUBLIC_WP_API || "http://admin.hubarch.local/wp-json/wp/v2";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+const wpApi = process.env.NEXT_PUBLIC_WP_API;
 
 type Props = {
 	params: Promise<{
