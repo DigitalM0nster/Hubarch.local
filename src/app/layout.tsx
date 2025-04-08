@@ -7,10 +7,11 @@ import HudMenu from "@/components/hudMenu/HudMenu";
 import InteractiveLines from "@/components/interactiveLines/InteractiveLines";
 import Preloader from "@/components/preloader/Preloader";
 
-export const generateMetadata = async ({ params }: { params: { lang: string } }): Promise<Metadata> => {
-	const lang = params.lang === "en" ? "en" : "ru"; // Определяем язык из URL
+export const generateMetadata = async (props: { params: Promise<{ lang: string }> }): Promise<Metadata> => {
+    const params = await props.params;
+    const lang = params.lang === "en" ? "en" : "ru"; // Определяем язык из URL
 
-	return {
+    return {
 		title: lang === "ru" ? "Hubarch – Инновационные проекты" : "Hubarch – Innovative Projects",
 		description: lang === "ru" ? "Создаём лучшие цифровые решения для бизнеса." : "We create the best digital solutions for business.",
 		openGraph: {
@@ -30,10 +31,16 @@ export const generateMetadata = async ({ params }: { params: { lang: string } })
 	};
 };
 
-export default async function RootLayout({ children, params }: { children: React.ReactNode; params: { lang: string } }) {
-	const lang = params.lang === "en" ? "en" : "ru"; // Берём язык из URL
+export default async function RootLayout(props: { children: React.ReactNode; params: Promise<{ lang: string }> }) {
+    const params = await props.params;
 
-	return (
+    const {
+        children
+    } = props;
+
+    const lang = params.lang === "en" ? "en" : "ru"; // Берём язык из URL
+
+    return (
 		<html lang={lang}>
 			<body>
 				<HudMenu />

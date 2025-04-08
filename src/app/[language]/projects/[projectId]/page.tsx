@@ -5,28 +5,29 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://hubarch.local";
 const wpApi = process.env.NEXT_PUBLIC_WP_API || "http://admin.hubarch.local/wp-json/wp/v2";
 
 type Props = {
-	params: {
+	params: Promise<{
 		language: string;
 		projectId: string;
-	};
+	}>;
 };
 
 // Генерация мета-данных для SEO
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-	const { language, projectId } = params;
+export async function generateMetadata(props: Props): Promise<Metadata> {
+    const params = await props.params;
+    const { language, projectId } = params;
 
-	const res = await fetch(`${wpApi}/projects?slug=${projectId}&lang=${language}`, { cache: "no-store" });
-	const data = await res.json();
+    const res = await fetch(`${wpApi}/projects?slug=${projectId}&lang=${language}`, { cache: "no-store" });
+    const data = await res.json();
 
-	if (!data || !data.length) return {};
+    if (!data || !data.length) return {};
 
-	const project = data[0];
+    const project = data[0];
 
-	const title = project.yoast_head_json?.title || project.title.rendered;
-	const description = project.yoast_head_json?.description || "";
-	const ogImage = project.yoast_head_json?.og_image?.[0]?.url || `${siteUrl}/images/og-default.jpg`;
+    const title = project.yoast_head_json?.title || project.title.rendered;
+    const description = project.yoast_head_json?.description || "";
+    const ogImage = project.yoast_head_json?.og_image?.[0]?.url || `${siteUrl}/images/og-default.jpg`;
 
-	return {
+    return {
 		title,
 		description,
 		openGraph: {
@@ -46,19 +47,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 // Страница конкретного проекта
-export default async function ProjectPage({ params }: Props) {
-	const { language, projectId } = params;
+export default async function ProjectPage(props: Props) {
+    const params = await props.params;
+    const { language, projectId } = params;
 
-	const res = await fetch(`${wpApi}/projects?slug=${projectId}&lang=${language}`, {
+    const res = await fetch(`${wpApi}/projects?slug=${projectId}&lang=${language}`, {
 		next: { revalidate: 60 }, // ISR
 	});
-	const data = await res.json();
+    const data = await res.json();
 
-	if (!data || !data.length) return notFound();
+    if (!data || !data.length) return notFound();
 
-	const project = data[0];
+    const project = data[0];
 
-	return (
+    return (
 		<main className="p-4">
 			<h1 className="text-2xl font-bold mb-4">{project.title.rendered}</h1>
 
