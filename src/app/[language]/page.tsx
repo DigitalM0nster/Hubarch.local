@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 		title: "Hubarch — Главная",
 		description: "Описание главной страницы",
 		openGraph: {
-			title: "Hubarch — Главная",
+			title: "Hubarch — Главная страница",
 			description: "Описание главной страницы",
 			url: `${siteUrl}/${language}`,
 			images: [
