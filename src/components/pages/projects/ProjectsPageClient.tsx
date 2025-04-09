@@ -65,7 +65,7 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 		if (projectsList.length > 0 && ranges.length > 0 && projectTypes.length > 0 && data) {
 			markReady();
 		}
-	}, [projectsList, ranges, language, projectTypes]);
+	}, [projectsList, ranges, language, projectTypes, data]);
 
 	// Включаем тот проект, который имеется
 	useEffect(() => {
@@ -78,7 +78,7 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 	// Указываем сколько компонентов должно отметиться
 	useEffect(() => {
 		const timeout = setTimeout(() => {
-			setTotal(0);
+			setTotal(1);
 		}, 0);
 
 		return () => clearTimeout(timeout);
