@@ -32,16 +32,20 @@ export const usePreloaderStore = create<PreloaderStore>((set, get) => ({
 	resetPreloaderCallback: null,
 
 	setTotal: (n) => {
-		set({ componentsToWait: n, markedReady: 0 });
+		const { markedReady, onAllScreensReady } = get();
+		const newMarkedReady = Math.min(markedReady, n); // на всякий случай
 
-		const { onAllScreensReady } = get();
-		if (n === 0 && onAllScreensReady) {
-			onAllScreensReady();
+		set({ componentsToWait: n, markedReady: newMarkedReady });
+
+		if (n === 0 || newMarkedReady === n) {
+			onAllScreensReady?.();
 		}
 	},
 
 	markReady: () => {
 		const { markedReady, componentsToWait, onAllScreensReady } = get();
+		if (markedReady >= componentsToWait) return;
+
 		const newCount = markedReady + 1;
 		set({ markedReady: newCount });
 

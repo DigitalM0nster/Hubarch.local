@@ -32,21 +32,18 @@ export default function Preloader() {
 	const pathname = usePathname();
 	const prevPath = useRef<string | null>(null);
 
+	const animationFrameRef = useRef<number | null>(null);
+
 	const preloaderRef = useRef<HTMLDivElement | null>(null);
 	const linesBlockRef = useRef<HTMLDivElement | null>(null);
 
 	const initialValue = typeof window !== "undefined" ? window.__initialProgress ?? 0 : 0;
-	// setProgress(initialValue);
 	const currentProgress = useRef(initialValue);
 	const targetProgress = useRef(20);
 	const lastUpdateTime = useRef(performance.now());
-	// const started = useRef(false);
-	// const animationStarted = useRef(false);
 
 	/* eslint-disable react-hooks/exhaustive-deps */
 	const animateProgress = useCallback(() => {
-		// if (animationStarted.current) return;
-		// animationStarted.current = true;
 		if (preloaderRef.current) {
 			preloaderRef.current.dataset.status = "activated";
 		}
@@ -73,10 +70,10 @@ export default function Preloader() {
 			}
 
 			setProgress(floored);
-			requestAnimationFrame(loop);
+			animationFrameRef.current = requestAnimationFrame(loop);
 		};
 
-		requestAnimationFrame(loop);
+		animationFrameRef.current = requestAnimationFrame(loop);
 	}, []);
 
 	useLayoutEffect(() => {
@@ -84,17 +81,14 @@ export default function Preloader() {
 	}, []);
 
 	useEffect(() => {
-		// setHasTimedOut(false);
 		// const timeout = setTimeout(() => {
 		// 	if (!started.current) {
-		// 		setHasTimedOut(true);
 		// 		targetProgress.current = 100;
 		// 		animateProgress();
 		// 	}
 		// }, 5000); // 5 секунд
 
 		const startLoader = () => {
-			// started.current = true;
 			const images = Array.from(document.images);
 			const total = images.length;
 
@@ -123,13 +117,16 @@ export default function Preloader() {
 		};
 
 		setOnAllScreensReady(() => {
-			// clearTimeout(timeout); // если данные успели прийти — отменяем ошибку
+			alert("все экраны готовы"); // 👈 здесь появится алерт
 			startLoader();
 		});
 
 		setResetPreloaderCallback(async () => {
-			// started.current = false;
-			// animationStarted.current = false;
+			if (animationFrameRef.current !== null) {
+				cancelAnimationFrame(animationFrameRef.current);
+				animationFrameRef.current = null;
+			}
+
 			targetProgress.current = 0;
 			currentProgress.current = 0;
 			lastUpdateTime.current = performance.now();
@@ -280,7 +277,7 @@ export default function Preloader() {
 							<img src="/images/preloader/5.png" alt="" width={1550} height={1100} />
 						</div>
 					</div>
-					<div className={`number ${styles.number}`}>{typeof window === "undefined" ? `${progress}%` : progress + "%"}</div>
+					<div className={`number ${styles.number}`}>{`${progress}%`}</div>
 				</div>
 			</div>
 		</div>
