@@ -297,6 +297,7 @@
 	transform: translate(calc(var(--leftBlockWidth) * -1 + (var(--leftBlockWidth) - var(--projectCardWidth))), 0);
 	width: var(--projectsRightBlockWidth);
 	overflow-y: auto;
+	transition: 0.25s;
 
 	.mobileFilter {
 		display: none;

@@ -34,12 +34,6 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 	const startX = useRef(0);
 	const isDragging = useRef(false);
 	const [dragOffset, setDragOffset] = useState(0);
-
-	const centerRef = useRef<HTMLDivElement>(null);
-	const startY = useRef(0);
-	const isVerticalDragging = useRef(false);
-	const [dragOffsetY, setDragOffsetY] = useState(0);
-
 	//
 
 	// Состояния фильтров
@@ -132,7 +126,6 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 	}, [filteredProjects.length, windowWidth]);
 
 	//
-	// ГОРИЗОНАТЛЬНЫЙ СКРОЛЛ ВНИЗУ
 	useEffect(() => {
 		if (!isMobile || !listRef.current) return;
 
@@ -186,62 +179,6 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 			container.removeEventListener("touchend", handleTouchEnd);
 		};
 	}, [isMobile, filteredProjects.length]);
-
-	// ВЕРТИКАЛЬНЫЙ СКРОЛЛ В ЦЕНТРЕ
-	useEffect(() => {
-		if (!isMobile || !centerRef.current) return;
-
-		const container = centerRef.current;
-
-		const handleTouchStart = (e: TouchEvent) => {
-			isVerticalDragging.current = true;
-			startY.current = e.touches[0].clientY;
-		};
-
-		const handleTouchMove = (e: TouchEvent) => {
-			if (!isVerticalDragging.current) return;
-			const delta = e.touches[0].clientY - startY.current;
-			setDragOffsetY(delta);
-		};
-
-		const handleTouchEnd = () => {
-			isVerticalDragging.current = false;
-
-			if (!container) return;
-
-			const cards = container.querySelectorAll(`.${styles.projectItem}`);
-			const containerRect = container.getBoundingClientRect();
-			const centerY = containerRect.top + containerRect.height / 2;
-
-			let closestIndex = 0;
-			let closestDistance = Infinity;
-
-			cards.forEach((card, index) => {
-				const rect = card.getBoundingClientRect();
-				const cardCenter = rect.top + rect.height / 2;
-				const distance = Math.abs(centerY - cardCenter);
-
-				if (distance < closestDistance) {
-					closestDistance = distance;
-					closestIndex = index;
-				}
-			});
-
-			setActiveProjectIndex(closestIndex);
-			setDragOffsetY(0);
-		};
-
-		container.addEventListener("touchstart", handleTouchStart);
-		container.addEventListener("touchmove", handleTouchMove);
-		container.addEventListener("touchend", handleTouchEnd);
-
-		return () => {
-			container.removeEventListener("touchstart", handleTouchStart);
-			container.removeEventListener("touchmove", handleTouchMove);
-			container.removeEventListener("touchend", handleTouchEnd);
-		};
-	}, [isMobile, filteredProjects.length]);
-
 	//
 
 	return (
@@ -304,15 +241,11 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 								)}
 							</div>
 						</div>
-						<div ref={centerRef} className={`${styles.centerBlock}  ${filteredProjects.length < 1 ? styles.noProjects : ""}`}>
+						<div className={`${styles.centerBlock} ${filteredProjects.length < 1 ? styles.noProjects : ""}`}>
 							<div
 								className={styles.projectsItems}
 								style={{
-									transform: isMobile
-										? `translateY(calc(${dragOffsetY}px + (var(--projectItemHeight) + var(--projectItemsGap)) * -${activeProjectIndex}))`
-										: `translateY(calc((var(--projectItemHeight) + var(--projectItemsGap)) * -${activeProjectIndex}))`,
-									transition: isVerticalDragging.current ? "none" : "transform 0.3s ease",
-									touchAction: "pan-x", // чтобы вертикальный свайп не мешался с горизонтальным
+									transform: `translateY(calc((var(--projectItemHeight) + var(--projectItemsGap)) * -${activeProjectIndex})`,
 								}}
 							>
 								{projectsList.length > 0 ? (
