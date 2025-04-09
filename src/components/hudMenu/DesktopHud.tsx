@@ -6,7 +6,6 @@ import { useMenuSettingsStore } from "@/store/menuSettingsStore";
 import { useEffect, useState } from "react";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 import LinkWithPreloader from "../preloader/LinkWithPreloader";
-import Image from "next/image";
 
 export default function DesktopHud() {
 	const pathname = usePathname(); // Получаем текущий путь
