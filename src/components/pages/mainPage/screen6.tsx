@@ -13,6 +13,8 @@ export default function Screen6({ language }: { language: string }) {
 	const { ranges } = useAreaRangeStore();
 
 	const data = useMainPageStore((state) => state.data?.main_page_screen6);
+	const { mainPageFetchingFinished } = useMainPageStore();
+
 	const formRef = useRef<HTMLDivElement>(null);
 	const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -77,10 +79,10 @@ export default function Screen6({ language }: { language: string }) {
 
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
-		if (data) {
+		if (mainPageFetchingFinished) {
 			markReady();
 		}
-	}, [data]);
+	}, [mainPageFetchingFinished]);
 
 	// КЛИК ЧТОБЫ УБИРАТЬ ДРОПДАУН
 	useEffect(() => {

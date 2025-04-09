@@ -78,7 +78,7 @@
 		.numbers {
 			display: flex;
 			width: fit-content;
-			height: fit-content;
+			height: var(--titleBackgroundSize);
 
 			&.hundred {
 				.number {
@@ -90,15 +90,14 @@
 
 			.number {
 				width: fit-content;
-				height: fit-content;
+				height: var(--titleBackgroundSize);
 				position: relative;
-				font-size: 40px;
 				text-align: center;
 
 				.digit {
 					position: absolute;
 					width: fit-content;
-					height: fit-content;
+					height: var(--titleBackgroundSize);
 					opacity: 0;
 					transition: 0.2s 0s linear;
 					font-size: var(--titleBackgroundSize);
@@ -114,6 +113,7 @@
 
 		.meter {
 			font-size: var(--titleBackgroundSize);
+			height: var(--titleBackgroundSize);
 		}
 	}
 

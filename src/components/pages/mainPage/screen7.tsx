@@ -8,13 +8,14 @@ export default function Screen7({ language }: { language: string }) {
 	const { markReady } = usePreloaderStore();
 	const { isMobile } = useWindowStore();
 	const data = useMainPageStore((state) => state.data?.main_page_screen7);
+	const { mainPageFetchingFinished } = useMainPageStore();
 
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
-		if (data) {
+		if (mainPageFetchingFinished) {
 			markReady();
 		}
-	}, [data]);
+	}, [mainPageFetchingFinished]);
 	/* eslint-enable react-hooks/exhaustive-deps */
 
 	return (

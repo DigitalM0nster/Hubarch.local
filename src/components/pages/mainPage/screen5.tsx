@@ -10,6 +10,8 @@ export default function Screen5({ language }: { language: string }) {
 	const { windowWidth, windowHeight } = useWindowStore();
 
 	const data = useMainPageStore((state) => state.data?.main_page_screen5);
+	const { mainPageFetchingFinished } = useMainPageStore();
+
 	const screenContentRef = useRef<HTMLDivElement>(null);
 	const aboutPersonRefs = useRef<(HTMLDivElement | null)[]>([]);
 	const phrasesRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -30,10 +32,10 @@ export default function Screen5({ language }: { language: string }) {
 
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
-		if (data) {
+		if (mainPageFetchingFinished) {
 			markReady();
 		}
-	}, [data]);
+	}, [mainPageFetchingFinished]);
 
 	// Движение рамки по фотографиям
 	useEffect(() => {

@@ -11,16 +11,17 @@ export default function Screen3({ language }: { language: string }) {
 	const { isMobile } = useWindowStore();
 
 	const data = useMainPageStore((state) => state.data?.main_page_screen3);
+	const { mainPageFetchingFinished } = useMainPageStore();
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	// ОТМЕЧАЕМСЯ ДЛЯ ПРЕЛОАДЕРА
 
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
-		if (data) {
+		if (mainPageFetchingFinished) {
 			markReady();
 		}
-	}, [data]);
+	}, [mainPageFetchingFinished]);
 	/* eslint-enable react-hooks/exhaustive-deps */
 
 	type ProjectData = {

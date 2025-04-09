@@ -11,15 +11,16 @@ export default function Screen4({ language }: { language: string }) {
 	const { isMobile } = useWindowStore();
 
 	const data = useMainPageStore((state) => state.data?.main_page_screen4);
-	const { awardsByCategory, projectsList } = useAwardsAndProjectsStore();
+	const { mainPageFetchingFinished } = useMainPageStore();
+	const { awardsByCategory, projectsList, awardsAndProjectsFetchingFinished } = useAwardsAndProjectsStore();
 	const [hoveredAwardId, setHoveredAwardId] = useState<number | null>(null);
 
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
-		if (data) {
+		if (mainPageFetchingFinished && awardsAndProjectsFetchingFinished) {
 			markReady();
 		}
-	}, [data]);
+	}, [mainPageFetchingFinished, awardsAndProjectsFetchingFinished]);
 
 	const totalAwardsCount = awardsByCategory.reduce((sum, { awardsByYear }) => {
 		return sum + Object.values(awardsByYear).reduce((acc, awards) => (acc as number) + awards.length, 0);
