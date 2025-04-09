@@ -42,7 +42,7 @@ export default function MainPageClient({ language }: { language: string }) {
 	// Указываем сколько компонентов должно отметиться
 	useEffect(() => {
 		const timeout = setTimeout(() => {
-			setTotal(0);
+			setTotal(7);
 		}, 0);
 
 		return () => clearTimeout(timeout);
