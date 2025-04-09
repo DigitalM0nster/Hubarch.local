@@ -7,6 +7,7 @@ import { usePreloaderStore } from "@/store/preloaderStore";
 
 export default function Screen1() {
 	const data = useMainPageStore((state) => state.data?.main_page_screen1);
+	const { mainPageFetchingFinished } = useMainPageStore();
 	const images = useMemo(() => data?.images || [], [data?.images]);
 	const text = data?.text;
 
@@ -16,10 +17,11 @@ export default function Screen1() {
 
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
-		if (data) {
+		if (mainPageFetchingFinished) {
+			alert("nice1");
 			markReady();
 		}
-	}, [data]);
+	}, [mainPageFetchingFinished]);
 
 	/* eslint-enable react-hooks/exhaustive-deps */
 

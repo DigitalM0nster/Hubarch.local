@@ -8,18 +8,18 @@ export interface AreaRange {
 
 interface AreaRangeStore {
 	ranges: AreaRange[];
-	loading: boolean;
 	error: string | null;
 	fetchRanges: () => Promise<void>;
+	areaRangesFetchFinished: boolean;
 }
 
 export const useAreaRangeStore = create<AreaRangeStore>((set) => ({
 	ranges: [],
-	loading: false,
+	areaRangesFetchFinished: false,
 	error: null,
 
 	fetchRanges: async () => {
-		set({ loading: true, error: null });
+		set({ areaRangesFetchFinished: false, error: null });
 
 		try {
 			const API_URL = process.env.NEXT_PUBLIC_WP_API?.replace("/wp/v2", "") ?? "";
@@ -45,9 +45,11 @@ export const useAreaRangeStore = create<AreaRangeStore>((set) => ({
 				};
 			});
 
-			set({ ranges, loading: false });
+			set({ ranges });
 		} catch (error: any) {
-			set({ error: error.message || "Unknown error", loading: false });
+			set({ error: error.message || "Unknown error" });
+		} finally {
+			set({ areaRangesFetchFinished: true });
 		}
 	},
 }));

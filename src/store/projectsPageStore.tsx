@@ -17,19 +17,17 @@ export interface PageData {
 
 export interface ProjectsPageStore {
 	data: PageData | null;
-	loadedData: boolean;
+	projectsPageFetchFinished: boolean;
 	error: string | null;
 	fetchData: (language: string) => Promise<void>;
-	loadedPage: boolean;
-	setLoadedPage: (state: boolean) => void;
 }
 
 export const useProjectsPageStore = create<ProjectsPageStore>((set) => ({
 	data: null,
-	loadedData: false,
+	projectsPageFetchFinished: false,
 	error: null,
 	fetchData: async (language) => {
-		set({ loadedData: false, error: null });
+		set({ projectsPageFetchFinished: false, error: null });
 
 		const API_URL = process.env.NEXT_PUBLIC_WP_API;
 		if (!API_URL) {
@@ -49,18 +47,17 @@ export const useProjectsPageStore = create<ProjectsPageStore>((set) => ({
 
 			const pageData = await res.json();
 
-			set({ data: pageData[0].acf, loadedData: true });
+			set({ data: pageData[0].acf });
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				console.error("Ошибка при загрузке страницы:", error.message);
-				set({ error: error.message, loadedData: true });
+				set({ error: error.message });
 			} else {
 				console.error("Неизвестная ошибка при загрузке страницы");
-				set({ error: "Unknown error", loadedData: true });
+				set({ error: "Unknown error" });
 			}
+		} finally {
+			set({ projectsPageFetchFinished: true });
 		}
 	},
-
-	loadedPage: false,
-	setLoadedPage: (state) => set({ loadedPage: state }),
 }));

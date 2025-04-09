@@ -19,10 +19,10 @@ import { useWindowStore } from "@/store/windowStore";
 export default function ProjectsPageClient({ language }: { language: string }) {
 	useScreenInit();
 	useDetectMobile();
-	const { fetchAllProjects, projectsList } = useAllProjectsStore();
-	const { fetchProjectTypes, projectTypes } = useProjectTypesStore();
-	const { data, fetchData } = useProjectsPageStore();
-	const { fetchRanges, ranges } = useAreaRangeStore();
+	const { fetchAllProjects, projectsList, allProjectsFetchFinished } = useAllProjectsStore();
+	const { fetchProjectTypes, projectTypes, projectTypesFetchFinished } = useProjectTypesStore();
+	const { fetchData, projectsPageFetchFinished } = useProjectsPageStore();
+	const { fetchRanges, ranges, areaRangesFetchFinished } = useAreaRangeStore();
 	const { setTotal, markReady } = usePreloaderStore();
 	const { scrollAllowed } = useScrollStore();
 	const { isMobile, windowWidth } = useWindowStore();
@@ -62,11 +62,10 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 	}, []);
 
 	useEffect(() => {
-		if (projectsList.length > 0 && ranges.length > 0 && projectTypes.length > 0 && data) {
-			alert("gg_Projects");
+		if (allProjectsFetchFinished && areaRangesFetchFinished && projectTypesFetchFinished && projectsPageFetchFinished) {
 			markReady();
 		}
-	}, [projectsList, ranges, language, projectTypes, data]);
+	}, [allProjectsFetchFinished, areaRangesFetchFinished, projectTypesFetchFinished, projectsPageFetchFinished]);
 
 	// Включаем тот проект, который имеется
 	useEffect(() => {

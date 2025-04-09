@@ -19,18 +19,27 @@ export interface Project {
 
 interface AllProjectsStore {
 	projectsList: Project[];
+	allProjectsFetchFinished: boolean;
 	fetchAllProjects: (language: string) => Promise<void>;
 }
 
 export const useAllProjectsStore = create<AllProjectsStore>((set) => ({
 	projectsList: [],
+	allProjectsFetchFinished: false,
 	fetchAllProjects: async (language) => {
+		set({ allProjectsFetchFinished: false });
 		const API_URL = process.env.NEXT_PUBLIC_WP_API;
 		if (!API_URL) {
 			throw new Error("API_URL не задан в .env файле");
 		}
-		const response = await fetch(`${API_URL}/projects?per_page=100&_embed&lang=${language}`);
-		const data = await response.json();
-		set({ projectsList: data });
+		try {
+			const response = await fetch(`${API_URL}/projects?per_page=100&_embed&lang=${language}`);
+			const data = await response.json();
+			set({ projectsList: data });
+		} catch {
+			// Тут вывести ошибку
+		} finally {
+			set({ allProjectsFetchFinished: true });
+		}
 	},
 }));

@@ -64,11 +64,9 @@ export interface MainPageData {
 
 export interface MainPageStore {
 	data: MainPageData | null;
-	loadedData: boolean;
+	mainPageFetchingFinished: boolean;
 	error: string | null;
 	fetchData: (language: string) => Promise<void>;
-	loadedPage: boolean;
-	setLoadedPage: (state: boolean) => void;
 	awardsByCategory: AwardCategoryGroup[];
 	projectsList: any[];
 	fetchAwardsAndProjects: (language: string) => Promise<void>;
@@ -83,10 +81,10 @@ type AwardCategoryGroup = {
 
 export const useMainPageStore = create<MainPageStore>((set) => ({
 	data: null,
-	loadedData: false,
+	mainPageFetchingFinished: false,
 	error: null,
 	fetchData: async (language) => {
-		set({ loadedData: false, error: null });
+		set({ mainPageFetchingFinished: false, error: null });
 
 		const API_URL = process.env.NEXT_PUBLIC_WP_API;
 		const slug = "home";
@@ -132,14 +130,14 @@ export const useMainPageStore = create<MainPageStore>((set) => ({
 			// Убираем null'ы из списка
 			acf.main_page_screen3.projects = projectsWithFields.filter(Boolean);
 
-			set({ data: acf, loadedData: true });
+			set({ data: acf, mainPageFetchingFinished: true });
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				console.error("Ошибка при загрузке страницы:", error.message);
-				set({ error: error.message, loadedData: true });
+				set({ error: error.message, mainPageFetchingFinished: true });
 			} else {
 				console.error("Неизвестная ошибка при загрузке страницы");
-				set({ error: "Unknown error", loadedData: true });
+				set({ error: "Unknown error", mainPageFetchingFinished: true });
 			}
 		}
 	},
@@ -197,7 +195,4 @@ export const useMainPageStore = create<MainPageStore>((set) => ({
 			projectsList: projects,
 		});
 	},
-
-	loadedPage: false,
-	setLoadedPage: (state) => set({ loadedPage: state }),
 }));

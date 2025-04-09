@@ -10,6 +10,7 @@ export default function Screen2() {
 	const { isMobile } = useWindowStore();
 
 	const data = useMainPageStore((state) => state.data?.main_page_screen2);
+	const { mainPageFetchingFinished } = useMainPageStore();
 	const initialNumber = data?.number ? String(data.number) : "200256";
 	const initialLength = useMemo(() => initialNumber.length, [initialNumber]);
 
@@ -21,10 +22,11 @@ export default function Screen2() {
 
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
-		if (data) {
+		if (mainPageFetchingFinished) {
+			alert("nice2");
 			markReady();
 		}
-	}, [data]);
+	}, [mainPageFetchingFinished]);
 	/* eslint-enable react-hooks/exhaustive-deps */
 
 	// Определяем группы в зависимости от длины числа
