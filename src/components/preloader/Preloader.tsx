@@ -8,7 +8,6 @@ import styles from "./styles.module.scss";
 import { useScrollStore } from "@/store/scrollStore";
 import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
 import { useHudMenuStore } from "@/store/hudMenuStore";
-import Image from "next/image";
 import LinkWithPreloader from "./LinkWithPreloader";
 
 declare global {

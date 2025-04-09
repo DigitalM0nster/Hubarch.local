@@ -466,6 +466,7 @@
 	}
 
 	.centerBlock {
+		position: fixed;
 		width: 100%;
 		height: var(--centerBlockHeight);
 		overflow: hidden;
