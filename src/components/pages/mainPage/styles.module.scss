@@ -114,6 +114,19 @@
 		.meter {
 			font-size: var(--titleBackgroundSize);
 			height: var(--titleBackgroundSize);
+
+			.letter {
+				font-size: var(--titleBackgroundSize);
+				height: var(--titleBackgroundSize);
+			}
+
+			.squareNumber {
+				font-size: calc(var(--titleBackgroundSize) * 0.5);
+				position: absolute;
+				top: 0;
+				right: 0;
+				transform: translate(120%, 20%);
+			}
 		}
 	}
 

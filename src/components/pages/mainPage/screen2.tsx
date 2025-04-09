@@ -134,7 +134,10 @@ export default function Screen2() {
 				<div className={`screenContent ${styles.screenContent}`}>
 					<div className={styles.numbersBlock}>
 						{formatBlocks(digits)}
-						<div className={styles.meter}>M²</div>
+						<div className={styles.meter}>
+							<div className={styles.letter}>M</div>
+							<div className={styles.squareNumber}>2</div>
+						</div>
 					</div>
 					{data?.text && (
 						<div className={styles.textBlock}>
