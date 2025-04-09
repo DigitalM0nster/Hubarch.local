@@ -104,7 +104,7 @@ export default function DesktopHud() {
 			<div className={`${styles.rightHud} ${activePage === "/en/projects" || activePage === "/ru/projects" ? styles.hidden : ""}`}>
 				{menuSettingsData?.right_menu_links.map((linkItem, index) => {
 					const link = linkItem.link;
-
+					alert(link.ru.url);
 					return (
 						<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
 							{lang === "ru" ? link?.ru?.title : link?.en?.title}
