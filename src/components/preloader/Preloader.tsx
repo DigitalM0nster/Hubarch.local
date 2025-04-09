@@ -40,13 +40,13 @@ export default function Preloader() {
 	const currentProgress = useRef(initialValue);
 	const targetProgress = useRef(20);
 	const lastUpdateTime = useRef(performance.now());
-	const started = useRef(false);
-	const animationStarted = useRef(false);
+	// const started = useRef(false);
+	// const animationStarted = useRef(false);
 
 	/* eslint-disable react-hooks/exhaustive-deps */
 	const animateProgress = useCallback(() => {
-		if (animationStarted.current) return;
-		animationStarted.current = true;
+		// if (animationStarted.current) return;
+		// animationStarted.current = true;
 		if (preloaderRef.current) {
 			preloaderRef.current.dataset.status = "activated";
 		}
@@ -84,17 +84,17 @@ export default function Preloader() {
 	}, []);
 
 	useEffect(() => {
-		setHasTimedOut(false);
-		const timeout = setTimeout(() => {
-			if (!started.current) {
-				setHasTimedOut(true);
-				targetProgress.current = 100;
-				animateProgress();
-			}
-		}, 5000); // 5 секунд
+		// setHasTimedOut(false);
+		// const timeout = setTimeout(() => {
+		// 	if (!started.current) {
+		// 		setHasTimedOut(true);
+		// 		targetProgress.current = 100;
+		// 		animateProgress();
+		// 	}
+		// }, 5000); // 5 секунд
 
 		const startLoader = () => {
-			started.current = true;
+			// started.current = true;
 			const images = Array.from(document.images);
 			const total = images.length;
 
@@ -123,13 +123,13 @@ export default function Preloader() {
 		};
 
 		setOnAllScreensReady(() => {
-			clearTimeout(timeout); // если данные успели прийти — отменяем ошибку
+			// clearTimeout(timeout); // если данные успели прийти — отменяем ошибку
 			startLoader();
 		});
 
 		setResetPreloaderCallback(async () => {
-			started.current = false;
-			animationStarted.current = false;
+			// started.current = false;
+			// animationStarted.current = false;
 			targetProgress.current = 0;
 			currentProgress.current = 0;
 			lastUpdateTime.current = performance.now();
