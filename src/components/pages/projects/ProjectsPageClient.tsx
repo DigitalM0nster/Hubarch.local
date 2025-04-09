@@ -183,7 +183,7 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 
 	return (
 		<>
-			<div className={`screenScroll ${scrollAllowed === true ? "" : "noScroll"}`}>
+			<div className={`screenScroll ${styles.screenScroll} ${scrollAllowed === true ? "" : "noScroll"}`}>
 				<div
 					className={`screen active ${styles.screen}`}
 					data-screen-lightness="dark"
@@ -193,7 +193,7 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 					data-position-y={50}
 					data-horizontal-x={50}
 					data-horizontal-width={100}
-					data-vertical-height={isMobile ? 80 : 100}
+					data-vertical-height={isMobile ? 50 : 100}
 					data-lines-color={"light"}
 					data-left-line-x={10}
 					data-left-line-height={isMobile ? 0 : 80}
