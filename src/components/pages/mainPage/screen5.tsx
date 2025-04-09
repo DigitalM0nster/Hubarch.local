@@ -34,6 +34,7 @@ export default function Screen5({ language }: { language: string }) {
 			alert("gg5");
 			markReady();
 		}
+		alert("gg5_1");
 	}, [data]);
 
 	// Движение рамки по фотографиям

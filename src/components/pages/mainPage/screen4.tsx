@@ -20,6 +20,7 @@ export default function Screen4({ language }: { language: string }) {
 			alert("gg4");
 			markReady();
 		}
+		alert("gg4_1");
 	}, [data]);
 
 	const totalAwardsCount = awardsByCategory.reduce((sum, { awardsByYear }) => {

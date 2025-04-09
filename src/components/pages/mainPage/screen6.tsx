@@ -81,6 +81,7 @@ export default function Screen6({ language }: { language: string }) {
 			alert("gg6");
 			markReady();
 		}
+		alert("gg6_1");
 	}, [data]);
 
 	// КЛИК ЧТОБЫ УБИРАТЬ ДРОПДАУН

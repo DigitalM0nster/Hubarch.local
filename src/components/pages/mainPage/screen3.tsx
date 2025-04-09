@@ -21,6 +21,7 @@ export default function Screen3({ language }: { language: string }) {
 			alert("gg3");
 			markReady();
 		}
+		alert("gg3_1");
 	}, [data]);
 	/* eslint-enable react-hooks/exhaustive-deps */
 

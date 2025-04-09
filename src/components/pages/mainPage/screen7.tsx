@@ -15,6 +15,7 @@ export default function Screen7({ language }: { language: string }) {
 			alert("gg7");
 			markReady();
 		}
+		alert("gg7_1");
 	}, [data]);
 	/* eslint-enable react-hooks/exhaustive-deps */
 

@@ -20,6 +20,7 @@ export default function Screen1() {
 			alert("gg1");
 			markReady();
 		}
+		alert("gg1_1");
 	}, [data]);
 
 	/* eslint-enable react-hooks/exhaustive-deps */
