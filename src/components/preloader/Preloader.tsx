@@ -89,31 +89,67 @@ export default function Preloader() {
 		// }, 5000); // 5 секунд
 
 		const startLoader = () => {
-			const images = Array.from(document.images);
-			const total = images.length;
-
-			if (total === 0) {
+			const screenContainer = document.querySelector(".screenScroll");
+			if (!screenContainer) {
 				targetProgress.current = 100;
 				return;
 			}
 
-			let loaded = 0;
-			const loadImage = (img: HTMLImageElement) =>
-				new Promise<void>((resolve) => {
-					if (img.complete) {
-						resolve();
-					} else {
-						img.addEventListener("load", () => resolve());
-						img.addEventListener("error", () => resolve());
-					}
-				}).then(() => {
-					loaded++;
-					targetProgress.current = Math.floor((loaded / total) * 100);
-				});
+			let observer: MutationObserver | null = null;
+			let timeoutId: NodeJS.Timeout;
 
-			Promise.all(images.map(loadImage)).then(() => {
-				targetProgress.current = 100;
+			const waitForImages = () => {
+				const images = Array.from(screenContainer.querySelectorAll("img"));
+				if (images.length === 0) {
+					targetProgress.current = 100;
+					return;
+				}
+
+				let loaded = 0;
+
+				const checkAllLoaded = () => {
+					loaded++;
+					targetProgress.current = Math.floor((loaded / images.length) * 100);
+
+					if (loaded === images.length) {
+						targetProgress.current = 100;
+						if (observer) observer.disconnect();
+						clearTimeout(timeoutId);
+					}
+				};
+
+				for (const img of images) {
+					if (img.complete) {
+						checkAllLoaded();
+					} else {
+						img.addEventListener("load", checkAllLoaded, { once: true });
+						img.addEventListener("error", checkAllLoaded, { once: true });
+					}
+				}
+
+				// Перестраховка — если какие-то картинки не загружаются вообще
+				timeoutId = setTimeout(() => {
+					targetProgress.current = 100;
+					observer?.disconnect();
+				}, 8000); // 8 секунд максимум
+			};
+
+			// Следим за DOM, ждём появления <img>
+			observer = new MutationObserver(() => {
+				const hasImages = screenContainer.querySelectorAll("img").length > 0;
+				if (hasImages) {
+					observer?.disconnect();
+					waitForImages();
+				}
 			});
+
+			observer.observe(screenContainer, {
+				childList: true,
+				subtree: true,
+			});
+
+			// На случай, если всё уже отрендерилось
+			waitForImages();
 		};
 
 		setOnAllScreensReady(() => {
