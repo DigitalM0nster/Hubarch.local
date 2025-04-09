@@ -131,14 +131,14 @@
 
 			.squareNumber {
 				font-size: calc(var(--titleBackgroundSize) * 0.5);
-				height: calc(var(--titleBackgroundSize) * 0.5);
+				height: calc(var(--titleBackgroundSize) * 1);
 				line-height: 100%;
 				vertical-align: bottom;
-				align-items: flex-end;
+				align-items: flex-start;
 				position: absolute;
 				top: 0;
 				right: 0;
-				transform: translate(120%, 20%);
+				transform: translate(120%, 0%);
 			}
 		}
 	}
