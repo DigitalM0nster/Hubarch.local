@@ -22,7 +22,7 @@ import { useAwardsAndProjectsStore } from "@/store/awardsAndProjectsStore";
 export default function MainPageClient({ language }: { language: string }) {
 	useScreenScroll(styles); // Хук для прокрутки экрана
 	useDetectMobile();
-	const { data, loadedData, error, fetchData } = useMainPageStore();
+	const { data, error, fetchData } = useMainPageStore();
 	const { fetchAwardsAndProjects } = useAwardsAndProjectsStore();
 	const { fetchRanges } = useAreaRangeStore();
 	const { setTotal } = usePreloaderStore();
@@ -48,7 +48,6 @@ export default function MainPageClient({ language }: { language: string }) {
 		return () => clearTimeout(timeout);
 	}, [setTotal]);
 
-	if (!loadedData) return <div>Загрузка...</div>;
 	if (error) return <div>Ошибка: {error}</div>;
 	if (!data) return <div>Нет данных</div>;
 
