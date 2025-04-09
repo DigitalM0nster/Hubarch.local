@@ -1,5 +1,5 @@
 // src\components\pages\mainPage\screen1.tsx
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import { useMainPageStore } from "@/store/mainPageStore";
 import parse from "html-react-parser";
@@ -15,11 +15,22 @@ export default function Screen1() {
 	// ОТМЕЧАЕМСЯ ДЛЯ ПРЕЛОАДЕРА
 
 	/* eslint-disable react-hooks/exhaustive-deps */
+	const alreadyMarked = useRef(false);
+
 	useEffect(() => {
-		if (data) {
+		if (data && !alreadyMarked.current) {
+			alreadyMarked.current = true;
 			markReady();
 		}
 	}, [data]);
+
+	useEffect(() => {
+		if (!alreadyMarked.current && data) {
+			alreadyMarked.current = true;
+			markReady();
+		}
+	}, []);
+
 	/* eslint-enable react-hooks/exhaustive-deps */
 
 	// Храним индекс активного изображения
