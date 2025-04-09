@@ -154,6 +154,7 @@
 				width: fit-content;
 				height: fit-content;
 				max-height: var(--mainTextSize);
+				object-fit: contain;
 				animation: rotating 2s infinite linear;
 				transition: linear;
 			}
@@ -1597,6 +1598,7 @@
 				height: fit-content;
 				gap: 25px;
 				left: 0;
+				top: 0;
 				transform: translate(0, 0);
 
 				.text {
@@ -1940,6 +1942,7 @@
 				.adressItem {
 					padding: var(--screenPadding);
 					width: calc(50% - 30px - var(--screenPadding) * 2);
+					height: fit-content;
 				}
 			}
 		}

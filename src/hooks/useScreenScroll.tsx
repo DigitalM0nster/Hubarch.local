@@ -151,7 +151,6 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 						if (entry.isIntersecting) {
 							const index = Array.from(screensRef.current!).findIndex((el) => el === entry.target);
 							if (index !== -1) {
-								alert(`✅ Активен экран ${index + 1}`);
 								setActiveScreenIndex(index);
 								changeScreenOptions(entry.target as HTMLElement);
 							}
