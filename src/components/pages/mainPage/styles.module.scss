@@ -6,8 +6,8 @@
 	.imageBlock {
 		justify-content: center;
 		align-items: center;
-		width: 54vh;
-		height: 54vh;
+		width: 54dvh;
+		height: 54dvh;
 		max-width: 490px;
 		max-height: 490px;
 		// background-color: white;
@@ -892,16 +892,16 @@
 
 	&.active {
 		opacity: 1;
-		top: 0vh;
+		top: 0dvh;
 		transition: 1s 0.5s;
 
 		.titleBackgroundBlock {
 			opacity: 1;
-			transform: translate(-0, -75vh);
+			transform: translate(-0, -75dvh);
 			transition: 1s 0s;
 
 			.titleBackground {
-				transform: translate(0, calc(75vh - 40%));
+				transform: translate(0, calc(75dvh - 40%));
 				transition: 1s 0.5s;
 				opacity: 0.15;
 			}
@@ -918,7 +918,7 @@
 		justify-content: center;
 		width: 100%;
 		pointer-events: none;
-		transform: translate(0, 0vh);
+		transform: translate(0, 0dvh);
 		opacity: 1;
 		z-index: -1;
 
@@ -1358,7 +1358,7 @@
 	.screen5 {
 		--personItemHeight: 90px;
 		--personItemWidth: 50px;
-		--screenContentHeight: calc(100vh - var(--screenPadding) * 3 * 2);
+		--screenContentHeight: calc(100dvh - var(--screenPadding) * 3 * 2);
 		--leftBlockHeight: calc(var(--screenContentHeight) - var(--personItemHeight) - var(--personsListGap) * 2 - var(--mainTextSize) - var(--screenPadding));
 
 		.screenContent {
@@ -1367,7 +1367,7 @@
 		}
 		.leftBlock {
 			justify-content: flex-end;
-			gap: 10vh;
+			gap: 10dvh;
 			width: calc(50% - var(--screenPadding));
 			height: calc(100% - var(--personItemHeight) - var(--personsListGap) * 2 - var(--mainTextSize) - var(--screenPadding));
 			padding: 0px var(--screenPadding) 0px 0px;
@@ -1466,7 +1466,7 @@
 	}
 
 	.screen2 {
-		min-height: 70vh;
+		min-height: 70dvh;
 		.screenContent {
 			flex-direction: column;
 		}
@@ -1563,7 +1563,7 @@
 	}
 
 	.screen4 {
-		margin: 30vh 0px 0px 0px;
+		margin: 30dvh 0px 0px 0px;
 		&.active {
 			.screenContent {
 				.topBlock {
@@ -1598,7 +1598,7 @@
 			justify-content: center;
 			gap: 25px;
 			height: fit-content;
-			min-height: calc(100vh - var(--screenPadding) * 2 - var(--logoMaxHeight) * 2);
+			min-height: calc(100dvh - var(--screenPadding) * 2 - var(--logoMaxHeight) * 2);
 			overflow: hidden;
 
 			.topBlock {
@@ -1664,7 +1664,7 @@
 	}
 
 	.screen5 {
-		margin: 30vh 0px 0px 0px;
+		margin: 30dvh 0px 0px 0px;
 
 		--photoWidth: 200px;
 		--photoHeight: 300px;
@@ -1825,7 +1825,7 @@
 		opacity: 1;
 		transition: 1s;
 		height: fit-content;
-		margin: 30vh 0px 0px 0px;
+		margin: 30dvh 0px 0px 0px;
 
 		.screenContent {
 			flex-direction: column;
@@ -1969,8 +1969,8 @@
 @media (max-width: 768px) {
 	.screen1 {
 		.imageBlock {
-			width: calc(20vw + 20vh);
-			height: calc(20vw + 20vh);
+			width: calc(20vw + 20dvh);
+			height: calc(20vw + 20dvh);
 		}
 	}
 
@@ -2244,11 +2244,11 @@
 	.screen2 {
 		&.active {
 			.textBlock {
-				transform: translate(calc(0% + 20vh), 20vh);
+				transform: translate(calc(0% + 20dvh), 20dvh);
 			}
 		}
 		.textBlock {
-			transform: translate(calc(25% + 20vh), 20vh);
+			transform: translate(calc(25% + 20dvh), 20dvh);
 		}
 	}
 
@@ -2286,14 +2286,14 @@
 	.screen5 {
 		.leftBlock {
 			height: calc(100% + var(--screenPadding) * 2);
-			gap: 10vh;
+			gap: 10dvh;
 			.topPart {
 				.phrasesList {
-					font-size: 6.5vh;
+					font-size: 6.5dvh;
 				}
 			}
 			.bottomPart {
-				gap: 10vh;
+				gap: 10dvh;
 
 				.aboutUsButton,
 				a.aboutUsButton {
@@ -2308,11 +2308,11 @@
 
 	@media (max-width: 1280px) {
 		.screen5 {
-			--personItemHeight: 20vh;
+			--personItemHeight: 20dvh;
 			.leftBlock {
 				justify-content: space-between;
 				height: calc(100% - (var(--personItemHeight) - var(--screenPadding) * 2) - var(--personsListGap) * 1.5);
-				gap: 2vh;
+				gap: 2dvh;
 			}
 			.rightBlock {
 				position: absolute;

@@ -19,8 +19,8 @@ body {
 	margin: 0;
 	font-family: "Panama_Demo_Regular";
 	color: var(--mainTextColor);
-	min-height: 100vh;
-	height: 100vh;
+	min-height: 100dvh;
+	height: 100dvh;
 	// overflow: hidden;
 }
 div {
@@ -63,22 +63,22 @@ p {
 	width: 100%;
 	position: absolute;
 	justify-content: center;
-	min-height: 100vh;
+	min-height: 100dvh;
 	// transform: translate(0, calc(55% + 0px));
-	top: 55vh;
+	top: 55dvh;
 	opacity: 0;
 	transition: 1s;
 	pointer-events: none;
 
 	&.prev {
 		// transform: translate(0, calc(-100% - 10px));
-		top: -101vh;
+		top: -101dvh;
 		pointer-events: none;
 	}
 
 	&.active {
 		// transform: translate(0, calc(0% + 0px));
-		top: 0vh;
+		top: 0dvh;
 		opacity: 1;
 		pointer-events: auto;
 	}
@@ -172,7 +172,7 @@ p {
 
 	.screenContent {
 		max-width: var(--contentWidth);
-		height: calc(100vh - (var(--screenPadding) * 2) - (var(--logoMaxHeight) * 2));
+		height: calc(100dvh - (var(--screenPadding) * 2) - (var(--logoMaxHeight) * 2));
 		margin: calc(var(--screenPadding) + var(--logoMaxHeight)) auto;
 	}
 }

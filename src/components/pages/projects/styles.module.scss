@@ -4,7 +4,7 @@
 	--projectCardHeight: 50px;
 	--projectsGap: 15px;
 	--projectItemWidth: 780px;
-	--centerBlockHeight: calc(100vh - var(--screenPadding) * 4 * 2);
+	--centerBlockHeight: calc(100dvh - var(--screenPadding) * 4 * 2);
 	--projectItemHeight: calc(var(--centerBlockHeight) * 0.7);
 	--projectItemsGap: calc((var(--centerBlockHeight) - var(--projectItemHeight)) * 0.5);
 	--frameCardDiffer: 10px;
@@ -417,7 +417,7 @@
 
 @media (max-width: 1680px) {
 	.screen {
-		--centerBlockHeight: calc(100vh - var(--screenPadding) * 3 * 2);
+		--centerBlockHeight: calc(100dvh - var(--screenPadding) * 3 * 2);
 		--projectsRightBlockWidth: calc(((100vw - var(--contentWidth)) * 0.5) + var(--leftBlockWidth) - var(--screenPadding) * 1 - var(--leftBlockGapWidth));
 	}
 }
@@ -431,7 +431,7 @@
 
 @media (max-width: 980px) {
 	.screen {
-		--centerBlockHeight: calc(100vh - var(--leftBlockHeight) * 2);
+		--centerBlockHeight: calc(100dvh - var(--leftBlockHeight) * 2);
 
 		--projectCardWidth: 11vw;
 		--projectCardHeight: 7vw;
@@ -490,7 +490,7 @@
 		left: 0;
 		top: var(--leftBlockHeight);
 		width: 100%;
-		height: calc(0vh - var(--leftBlockHeight) * 0 + var(--mainTextSize) + var(--screenPadding) * 2);
+		height: calc(0dvh - var(--leftBlockHeight) * 0 + var(--mainTextSize) + var(--screenPadding) * 2);
 		transform: translate(0, 0);
 		border-top: 1px solid rgba(255, 255, 255, 0.15);
 		background-color: var(--additionalColor);
@@ -498,7 +498,7 @@
 		overflow: hidden;
 
 		&.active {
-			height: calc(100vh - var(--leftBlockHeight) * 1 + var(--mainTextSize) * 0 + var(--screenPadding) * 0);
+			height: calc(100dvh - var(--leftBlockHeight) * 1 + var(--mainTextSize) * 0 + var(--screenPadding) * 0);
 		}
 
 		.mobileFilter {
@@ -506,9 +506,9 @@
 		}
 
 		.projectsFilters {
-			height: calc(100vh - var(--leftBlockHeight) - var(--screenPadding) * 2 - var(--mainTextSize) - 90px - 40px);
+			height: calc(100dvh - var(--leftBlockHeight) - var(--screenPadding) * 2 - var(--mainTextSize) - 90px - 40px);
 			margin: 40px 0px 0px 0px;
-			// max-height: 0vh;
+			// max-height: 0dvh;
 			padding: 0 var(--screenPadding);
 
 			.resetFilterButton {
