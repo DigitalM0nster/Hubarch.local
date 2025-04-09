@@ -136,7 +136,8 @@ export default function Preloader() {
 				}
 
 				timeoutId = setTimeout(() => {
-					alert("⏱️ Время ожидания загрузки изображений истекло");
+					const notLoaded = images.filter((img) => !img.complete);
+					alert("⏱️ Время ожидания загрузки изображений истекло.\nНе загружены:\n" + notLoaded.map((img) => img.src).join("\n"));
 					targetProgress.current = 100;
 					observer?.disconnect();
 				}, 8000);
@@ -160,7 +161,6 @@ export default function Preloader() {
 		};
 
 		setOnAllScreensReady(() => {
-			alert("все экраны готовы"); // 👈 здесь появится алерт
 			startLoader();
 		});
 

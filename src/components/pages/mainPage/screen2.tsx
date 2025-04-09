@@ -23,7 +23,6 @@ export default function Screen2() {
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		if (mainPageFetchingFinished) {
-			alert("nice2");
 			markReady();
 		}
 	}, [mainPageFetchingFinished]);
