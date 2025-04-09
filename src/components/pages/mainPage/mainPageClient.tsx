@@ -42,7 +42,7 @@ export default function MainPageClient({ language }: { language: string }) {
 	// Указываем сколько компонентов должно отметиться
 	useEffect(() => {
 		const timeout = setTimeout(() => {
-			setTotal(7);
+			setTotal(1);
 		}, 0);
 
 		return () => clearTimeout(timeout);
@@ -56,12 +56,12 @@ export default function MainPageClient({ language }: { language: string }) {
 		<>
 			<div className={`screenScroll ${scrollAllowed === true ? "" : "noScroll"}`}>
 				<Screen1 />
-				<Screen2 />
+				{/* <Screen2 />
 				<Screen3 language={language} />
 				<Screen4 language={language} />
 				<Screen5 language={language} />
 				<Screen6 language={language} />
-				{/* <Screen7 language={language} /> */}
+				<Screen7 language={language} /> */}
 			</div>
 		</>
 	);
