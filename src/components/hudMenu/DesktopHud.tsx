@@ -26,6 +26,10 @@ export default function DesktopHud() {
 		setActivePage(pathname);
 	}, [pathname]);
 
+	useEffect(() => {
+		console.log(menuSettingsData);
+	}, [isLoading, menuSettingsData]);
+
 	return (
 		<div className={`${styles.desktopHud} ${isLoading || localLoading ? styles.inactive : ""} ${screenLightness === "light" ? styles.dark : styles.light}`}>
 			<div className={styles.topHud}>

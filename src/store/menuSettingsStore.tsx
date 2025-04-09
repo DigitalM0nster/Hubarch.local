@@ -63,9 +63,11 @@ export const useMenuSettingsStore = create<MenuSettingsState>((set, get) => ({
 		set({ isLoading: true });
 		try {
 			const response = await axios.get(`${API_URL}/acf/v3/options/menu_settings`);
-			set({ menuSettingsData: response.data, isLoading: false });
+			set({ menuSettingsData: response.data });
 		} catch (error) {
 			console.error("Ошибка загрузки меню", error);
+		} finally {
+			set({ isLoading: false });
 		}
 	},
 }));
