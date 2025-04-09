@@ -19,16 +19,20 @@ export default function Screen1() {
 
 	useEffect(() => {
 		if (data && !alreadyMarked.current) {
+			alert("gg1");
 			alreadyMarked.current = true;
 			markReady();
 		}
+		alert("gg2");
 	}, [data]);
 
 	useEffect(() => {
 		if (!alreadyMarked.current && data) {
+			alert("gg3");
 			alreadyMarked.current = true;
 			markReady();
 		}
+		alert("gg4");
 	}, []);
 
 	/* eslint-enable react-hooks/exhaustive-deps */
