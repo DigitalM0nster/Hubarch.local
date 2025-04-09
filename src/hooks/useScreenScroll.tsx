@@ -28,9 +28,7 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 	}, [activeMenu]);
 
 	const updateActiveClasses = () => {
-		console.log("gg");
 		if (!screensRef.current) return;
-		console.log("gg1");
 
 		screensRef.current.forEach((screen, index) => {
 			const isPrev = index < activeScreenIndex;
@@ -56,7 +54,6 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 
 	useLayoutEffect(() => {
 		const handleScroll = (event: WheelEvent | KeyboardEvent) => {
-			console.log(!scrollAllowedLocalRef.current, isMobile, !screensRef.current?.length, !scrollAllowedRef.current, activeMenuRef.current);
 			if (!scrollAllowedLocalRef.current) return;
 			if (isMobile || !screensRef.current?.length) return;
 			if (!scrollAllowedRef.current || activeMenuRef.current) return;
@@ -104,7 +101,6 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 			let newIndex = activeScreenIndex;
 
 			if (event instanceof WheelEvent) {
-				console.log("1");
 				newIndex += event.deltaY > 0 ? 1 : -1;
 			} else if (event instanceof KeyboardEvent) {
 				if (["ArrowDown", "PageDown"].includes(event.key)) newIndex++;
@@ -138,26 +134,38 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 
 	useLayoutEffect(() => {
 		if (!isMobile) return;
+
 		let observer: IntersectionObserver;
 
-		screensRef.current = document.querySelectorAll(".screen");
+		const tryObserve = () => {
+			const screens = document.querySelectorAll(".screen");
+			if (!screens.length) {
+				requestAnimationFrame(tryObserve); // пробуем снова через кадр
+				return;
+			}
+			screensRef.current = screens;
 
-		observer = new IntersectionObserver(
-			(entries) => {
-				for (const entry of entries) {
-					if (entry.isIntersecting) {
-						const index = Array.from(screensRef.current!).findIndex((el) => el === entry.target);
-						if (index !== -1) {
-							setActiveScreenIndex(index);
-							changeScreenOptions(entry.target as HTMLElement);
+			observer = new IntersectionObserver(
+				(entries) => {
+					for (const entry of entries) {
+						if (entry.isIntersecting) {
+							const index = Array.from(screensRef.current!).findIndex((el) => el === entry.target);
+							if (index !== -1) {
+								alert(`✅ Активен экран ${index + 1}`);
+								setActiveScreenIndex(index);
+								changeScreenOptions(entry.target as HTMLElement);
+							}
 						}
 					}
-				}
-			},
-			{ threshold: 0.5 }
-		);
+				},
+				{ threshold: 0.5 }
+			);
 
-		screensRef.current.forEach((screen) => observer.observe(screen));
+			screensRef.current.forEach((screen) => observer.observe(screen));
+		};
+
+		// Пробуем через несколько кадров, чтобы быть уверенным что все компоненты в DOM
+		requestAnimationFrame(tryObserve);
 
 		return () => {
 			observer?.disconnect();
