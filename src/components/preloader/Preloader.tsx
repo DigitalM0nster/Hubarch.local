@@ -99,7 +99,8 @@ export default function Preloader() {
 			let timeoutId: NodeJS.Timeout;
 
 			const waitForImages = () => {
-				const images = Array.from(screenContainer.querySelectorAll("img"));
+				const images = Array.from(screenContainer.querySelectorAll("img")).filter((img) => img.src && img.src.trim() !== "");
+
 				if (images.length === 0) {
 					targetProgress.current = 100;
 					return;
@@ -113,7 +114,7 @@ export default function Preloader() {
 
 					if (loaded === images.length) {
 						targetProgress.current = 100;
-						if (observer) observer.disconnect();
+						observer?.disconnect();
 						clearTimeout(timeoutId);
 					}
 				};
@@ -123,18 +124,24 @@ export default function Preloader() {
 						checkAllLoaded();
 					} else {
 						img.addEventListener("load", checkAllLoaded, { once: true });
-						img.addEventListener("error", checkAllLoaded, { once: true });
+						img.addEventListener(
+							"error",
+							() => {
+								alert(`❌ Ошибка загрузки изображения: ${img.src}`);
+								checkAllLoaded();
+							},
+							{ once: true }
+						);
 					}
 				}
 
-				// Перестраховка — если какие-то картинки не загружаются вообще
 				timeoutId = setTimeout(() => {
+					alert("⏱️ Время ожидания загрузки изображений истекло");
 					targetProgress.current = 100;
 					observer?.disconnect();
-				}, 8000); // 8 секунд максимум
+				}, 8000);
 			};
 
-			// Следим за DOM, ждём появления <img>
 			observer = new MutationObserver(() => {
 				const hasImages = screenContainer.querySelectorAll("img").length > 0;
 				if (hasImages) {
@@ -148,7 +155,7 @@ export default function Preloader() {
 				subtree: true,
 			});
 
-			// На случай, если всё уже отрендерилось
+			// На случай, если всё уже есть
 			waitForImages();
 		};
 
