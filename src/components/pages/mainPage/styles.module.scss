@@ -93,13 +93,12 @@
 				height: var(--titleBackgroundSize);
 				position: relative;
 				text-align: center;
-				border: 1px solid grey;
 
 				.digit {
 					position: absolute;
 					width: fit-content;
 					height: var(--titleBackgroundSize);
-					line-height: 125%;
+					line-height: 100%;
 					vertical-align: bottom;
 					align-items: flex-end;
 					opacity: 0;
@@ -118,31 +117,28 @@
 		.meter {
 			font-size: var(--titleBackgroundSize);
 			height: var(--titleBackgroundSize);
-			line-height: 125%;
+			line-height: 100%;
 			vertical-align: bottom;
 			align-items: flex-end;
-			border: 1px solid green;
 
 			.letter {
 				font-size: var(--titleBackgroundSize);
 				height: var(--titleBackgroundSize);
-				line-height: 125%;
+				line-height: 100%;
 				vertical-align: bottom;
 				align-items: flex-end;
-				border: 1px solid red;
 			}
 
 			.squareNumber {
 				font-size: calc(var(--titleBackgroundSize) * 0.5);
 				height: calc(var(--titleBackgroundSize) * 0.5);
-				line-height: 125%;
+				line-height: 100%;
 				vertical-align: bottom;
 				align-items: flex-end;
 				position: absolute;
 				top: 0;
 				right: 0;
 				transform: translate(120%, 20%);
-				border: 1px solid yellowgreen;
 			}
 		}
 	}
