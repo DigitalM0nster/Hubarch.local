@@ -437,7 +437,7 @@
 		--projectCardHeight: 7vw;
 		--projectItemHeight: calc(var(--centerBlockHeight) * 0.7);
 		--projectItemWidth: var(--projectItemHeight);
-		--leftBlockHeight: calc(var(--projectCardHeight) * 1.5);
+		--leftBlockHeight: calc((var(--screenPadding) + var(--logoMaxHeight)) * 1.5);
 
 		.screenContent {
 			align-items: center;

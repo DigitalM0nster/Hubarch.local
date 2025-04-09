@@ -158,7 +158,6 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 				const rect = card.getBoundingClientRect();
 				const cardCenter = rect.left + rect.width / 2;
 				const distance = Math.abs(centerX - cardCenter);
-				// console.log(cardCenter);
 
 				if (distance < closestDistance) {
 					closestDistance = distance;
