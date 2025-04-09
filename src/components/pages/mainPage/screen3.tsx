@@ -18,6 +18,7 @@ export default function Screen3({ language }: { language: string }) {
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		if (data) {
+			alert("gg3");
 			markReady();
 		}
 	}, [data]);

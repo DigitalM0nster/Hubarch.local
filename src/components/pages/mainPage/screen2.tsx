@@ -22,6 +22,7 @@ export default function Screen2() {
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		if (data) {
+			alert("gg2");
 			markReady();
 		}
 	}, [data]);

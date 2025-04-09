@@ -11,13 +11,13 @@ export default function Screen4({ language }: { language: string }) {
 	const { isMobile } = useWindowStore();
 
 	const data = useMainPageStore((state) => state.data?.main_page_screen4);
-	const containerRef = useRef<HTMLDivElement>(null);
 	const { awardsByCategory, projectsList } = useAwardsAndProjectsStore();
 	const [hoveredAwardId, setHoveredAwardId] = useState<number | null>(null);
 
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		if (data) {
+			alert("gg4");
 			markReady();
 		}
 	}, [data]);

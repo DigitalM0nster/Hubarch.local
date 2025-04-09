@@ -78,6 +78,7 @@ export default function Screen6({ language }: { language: string }) {
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		if (data) {
+			alert("gg6");
 			markReady();
 		}
 	}, [data]);

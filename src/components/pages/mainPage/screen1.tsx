@@ -15,25 +15,12 @@ export default function Screen1() {
 	// ОТМЕЧАЕМСЯ ДЛЯ ПРЕЛОАДЕРА
 
 	/* eslint-disable react-hooks/exhaustive-deps */
-	const alreadyMarked = useRef(false);
-
 	useEffect(() => {
-		if (data && !alreadyMarked.current) {
+		if (data) {
 			alert("gg1");
-			alreadyMarked.current = true;
 			markReady();
 		}
-		alert("gg2");
 	}, [data]);
-
-	useEffect(() => {
-		if (!alreadyMarked.current && data) {
-			alert("gg3");
-			alreadyMarked.current = true;
-			markReady();
-		}
-		alert("gg4");
-	}, []);
 
 	/* eslint-enable react-hooks/exhaustive-deps */
 
