@@ -61,7 +61,7 @@ export default function MainPageClient({ language }: { language: string }) {
 				<Screen4 language={language} />
 				<Screen5 language={language} />
 				<Screen6 language={language} />
-				<Screen7 language={language} />
+				{/* <Screen7 language={language} /> */}
 			</div>
 		</>
 	);
