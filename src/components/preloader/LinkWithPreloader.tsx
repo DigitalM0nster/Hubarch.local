@@ -16,6 +16,10 @@ type Props = {
 };
 
 export default function LinkWithPreloader({ href, children, className, customClick, customMouseEnter, customMouseLeave }: Props) {
+	if (!href || href === "undefined") {
+		console.error("🚨 [LinkWithPreloader] href is invalid:", href);
+	}
+
 	const router = useRouter();
 	const { setActiveMenu } = useHudMenuStore();
 	const { triggerResetPreloader } = usePreloaderStore();
