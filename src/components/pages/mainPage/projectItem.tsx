@@ -54,10 +54,10 @@ export default function ProjectItem({ language, project, index }: ProjectItemPro
 				}}
 			>
 				<div className={styles.image}>
-					{index === 0 && <Image src="/images/mainPage/screen3/project1.png" alt="" width={1550} height={1100} />}
-					{index === 1 && <Image src="/images/mainPage/screen3/project2.png" alt="" width={1550} height={1100} />}
-					{index === 2 && <Image src="/images/mainPage/screen3/project3.png" alt="" width={1550} height={1100} />}
-					{index === 3 && <Image src="/images/mainPage/screen3/project4.png" alt="" width={1550} height={1100} />}
+					{index === 0 && <img src="/images/mainPage/screen3/project1.png" alt="" width={1550} height={1100} />}
+					{index === 1 && <img src="/images/mainPage/screen3/project2.png" alt="" width={1550} height={1100} />}
+					{index === 2 && <img src="/images/mainPage/screen3/project3.png" alt="" width={1550} height={1100} />}
+					{index === 3 && <img src="/images/mainPage/screen3/project4.png" alt="" width={1550} height={1100} />}
 				</div>
 				<div className={styles.projectName}>{language === "ru" ? "Скоро появится.." : "Coming soon.."}</div>
 			</div>

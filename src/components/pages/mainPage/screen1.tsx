@@ -17,10 +17,8 @@ export default function Screen1() {
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		if (data) {
-			alert("gg1");
 			markReady();
 		}
-		alert("gg1_1");
 	}, [data]);
 
 	/* eslint-enable react-hooks/exhaustive-deps */

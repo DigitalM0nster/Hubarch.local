@@ -12,10 +12,8 @@ export default function Screen7({ language }: { language: string }) {
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		if (data) {
-			alert("gg7");
 			markReady();
 		}
-		alert("gg7_1");
 	}, [data]);
 	/* eslint-enable react-hooks/exhaustive-deps */
 

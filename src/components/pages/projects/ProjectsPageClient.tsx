@@ -63,6 +63,7 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 
 	useEffect(() => {
 		if (projectsList.length > 0 && ranges.length > 0 && projectTypes.length > 0 && data) {
+			alert("gg_Projects");
 			markReady();
 		}
 	}, [projectsList, ranges, language, projectTypes, data]);

@@ -265,19 +265,19 @@ export default function Preloader() {
 					</div>
 					<div className={`${styles.imagesBlock}`}>
 						<div className={styles.image}>
-							<Image src="/images/preloader/1.png" alt="" width={1550} height={1100} priority />
+							<img src="/images/preloader/1.png" alt="" width={1550} height={1100} />
 						</div>
 						<div className={styles.image}>
-							<Image src="/images/preloader/2.png" alt="" width={1550} height={1100} />
+							<img src="/images/preloader/2.png" alt="" width={1550} height={1100} />
 						</div>
 						<div className={styles.image}>
-							<Image src="/images/preloader/3.png" alt="" width={1550} height={1100} />
+							<img src="/images/preloader/3.png" alt="" width={1550} height={1100} />
 						</div>
 						<div className={styles.image}>
-							<Image src="/images/preloader/4.png" alt="" width={1550} height={1100} />
+							<img src="/images/preloader/4.png" alt="" width={1550} height={1100} />
 						</div>
 						<div className={styles.image}>
-							<Image src="/images/preloader/5.png" alt="" width={1550} height={1100} />
+							<img src="/images/preloader/5.png" alt="" width={1550} height={1100} />
 						</div>
 					</div>
 					<div className={`number ${styles.number}`}>{typeof window === "undefined" ? `${progress}%` : progress + "%"}</div>

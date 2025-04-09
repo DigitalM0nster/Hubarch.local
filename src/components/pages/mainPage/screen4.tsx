@@ -17,10 +17,8 @@ export default function Screen4({ language }: { language: string }) {
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		if (data) {
-			alert("gg4");
 			markReady();
 		}
-		alert("gg4_1");
 	}, [data]);
 
 	const totalAwardsCount = awardsByCategory.reduce((sum, { awardsByYear }) => {

@@ -22,10 +22,8 @@ export default function Screen2() {
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		if (data) {
-			alert("gg2");
 			markReady();
 		}
-		alert("gg2_1");
 	}, [data]);
 	/* eslint-enable react-hooks/exhaustive-deps */
 
@@ -144,8 +142,7 @@ export default function Screen2() {
 									{data.text.text1 && data.text.text1}
 									{data.text.text2 && <br />}
 									{data.text.text2 && <span className={`${styles.specialText}`}>{data.text.text2}</span>}
-									{data.text.text2 && <Image src="/images/mainPage/screen2/planetIcon.svg" alt="" width={100} height={100} />}
-									{/* {data.text.text2 && <img src="/images/mainPage/screen2/planetIcon.svg" alt="" />} */}
+									{data.text.text2 && <img src="/images/mainPage/screen2/planetIcon.svg" alt="" width={100} height={100} />}
 								</span>
 							)}
 						</div>

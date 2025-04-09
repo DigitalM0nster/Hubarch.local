@@ -78,10 +78,8 @@ export default function Screen6({ language }: { language: string }) {
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		if (data) {
-			alert("gg6");
 			markReady();
 		}
-		alert("gg6_1");
 	}, [data]);
 
 	// КЛИК ЧТОБЫ УБИРАТЬ ДРОПДАУН
