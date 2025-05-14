@@ -41,20 +41,24 @@ export default function MobileHud() {
 		<>
 			<div className={`${styles.mobileHud} ${screenLightness === "light" ? styles.dark : styles.light}`}>
 				<LinkWithPreloader href={lang === "ru" ? "/ru" : "/en"} className={styles.logo}>
-					{menuSettingsData?.top_menu_logo.mobile_logo.logo_light && (
+					{menuSettingsData?.top_menu_logo.mobile_logo.logo_light ? (
 						<img
 							className={`${styles.imgLogo} ${screenLightness === "dark" ? styles.active : ""}`}
 							src={menuSettingsData.top_menu_logo.mobile_logo.logo_light}
 							alt="Hubarch logo"
 						/>
+					) : (
+						<img className={`${styles.imgLogo} ${screenLightness === "dark" ? styles.active : ""}`} src="/images/hubarch_logo_mobilelight.svg" alt="Hubarch logo" />
 					)}
 
-					{menuSettingsData?.top_menu_logo.mobile_logo.logo_dark && (
+					{menuSettingsData?.top_menu_logo.mobile_logo.logo_dark ? (
 						<img
 							className={`${styles.imgLogo} ${screenLightness === "light" ? styles.active : ""}`}
 							src={menuSettingsData.top_menu_logo.mobile_logo.logo_dark}
 							alt="Hubarch logo"
 						/>
+					) : (
+						<img className={`${styles.imgLogo} ${screenLightness === "light" ? styles.active : ""}`} src="/images/hubarch_logo_mobile_dark.svg" alt="Hubarch logo" />
 					)}
 				</LinkWithPreloader>
 				<div

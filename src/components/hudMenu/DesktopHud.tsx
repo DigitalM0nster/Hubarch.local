@@ -36,20 +36,40 @@ export default function DesktopHud() {
 				<div className={styles.leftPart}>
 					{/* ЛОГОТИП */}
 					<LinkWithPreloader href={lang === "ru" ? "/ru" : "/en"} className={styles.logoBlock}>
-						<img
-							className={`${styles.imgLogo} ${screenLightness === "dark" ? styles.active : ""}`}
-							src={`${menuSettingsData?.top_menu_logo.desktop_logo.logo_light}`}
-							alt="Hubarch logo"
-							width={500}
-							height={500}
-						/>
-						<img
-							className={`${styles.imgLogo} ${screenLightness === "light" ? styles.active : ""}`}
-							src={`${menuSettingsData?.top_menu_logo.desktop_logo.logo_dark}`}
-							alt="Hubarch logo"
-							width={500}
-							height={500}
-						/>
+						{menuSettingsData?.top_menu_logo.desktop_logo.logo_light ? (
+							<img
+								className={`${styles.imgLogo} ${screenLightness === "dark" ? styles.active : ""}`}
+								src={`${menuSettingsData?.top_menu_logo.desktop_logo.logo_light}`}
+								alt="Hubarch logo"
+								width={500}
+								height={500}
+							/>
+						) : (
+							<img
+								className={`${styles.imgLogo} ${screenLightness === "dark" ? styles.active : ""}`}
+								src="/images/hubarch_logo_light.svg"
+								alt="Hubarch logo"
+								width={500}
+								height={500}
+							/>
+						)}
+						{menuSettingsData?.top_menu_logo.desktop_logo.logo_dark ? (
+							<img
+								className={`${styles.imgLogo} ${screenLightness === "light" ? styles.active : ""}`}
+								src={`${menuSettingsData?.top_menu_logo.desktop_logo.logo_dark}`}
+								alt="Hubarch logo"
+								width={500}
+								height={500}
+							/>
+						) : (
+							<img
+								className={`${styles.imgLogo} ${screenLightness === "light" ? styles.active : ""}`}
+								src="/images/hubarch_logo.svg"
+								alt="Hubarch logo"
+								width={500}
+								height={500}
+							/>
+						)}
 					</LinkWithPreloader>
 				</div>
 				<div className={styles.centerPart}>
