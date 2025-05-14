@@ -22,15 +22,17 @@ export interface ProjectEntry {
 export interface MainPageData {
 	main_page_screen1: {
 		images?: GalleryImage[];
+		imagesSpeed?: number;
 		text?: string;
+		titleTexts?: {
+			title1?: string;
+			title2?: string;
+		};
 	};
 
 	main_page_screen2: {
 		number?: string;
-		text?: {
-			text1: string;
-			text2: string;
-		};
+		text?: string;
 	};
 
 	main_page_screen3: {
@@ -46,6 +48,7 @@ export interface MainPageData {
 	main_page_screen5: {
 		team_list?: [];
 		title_background?: string;
+		team_more_number?: number;
 	};
 
 	main_page_screen6: {

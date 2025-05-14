@@ -17,7 +17,9 @@
 body {
 	background-color: var(--backgroundColor);
 	margin: 0;
-	font-family: "Panama_Demo_Regular";
+	// font-family: "Panama_Demo_Regular";
+	font-family: "Inter";
+	font-weight: 300;
 	color: var(--mainTextColor);
 	min-height: 100dvh;
 	height: 100dvh;
@@ -37,12 +39,27 @@ div {
 }
 
 p {
+	margin: 0;
 	img {
 		position: relative;
 		width: auto;
 		height: auto;
 		// transform: translate(0px, 25%);
 	}
+}
+
+::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+}
+
+::-webkit-scrollbar-track {
+	background: #e0dedc;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--mainTextColor);
+	// border: 3px solid #e0dedc;
 }
 
 .screenScroll {
@@ -94,6 +111,7 @@ p {
 
 .titleBackground {
 	text-transform: uppercase;
+	font-family: "Panama Regular";
 	font-size: var(--titleBackgroundSize);
 	opacity: 0.15;
 }
@@ -101,7 +119,7 @@ p {
 @media (max-width: 1750px) {
 	:root {
 		--contentWidth: 1120px;
-		--mainTextSize: 2vw;
+		--mainTextSize: 1.5vw;
 	}
 }
 

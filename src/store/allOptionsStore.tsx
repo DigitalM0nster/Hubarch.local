@@ -25,7 +25,7 @@ interface TopMenuPhone {
 	phone_ru: string;
 }
 
-interface MenuSettingsState {
+interface AllOptionsState {
 	isLoading: boolean;
 	menuSettingsData: {
 		top_menu_logo: {
@@ -46,24 +46,42 @@ interface MenuSettingsState {
 		bottom_menu_links: MenuLink[];
 		bottom_right_image: string;
 	} | null;
-	fetchMenuSettings: () => Promise<void>;
+	privacyPolicyData: {
+		privacy_policy: {
+			ru: string;
+			en: string;
+		};
+	} | null;
+	popupData: {
+		popup_open_image: {
+			image1: string;
+			image2: string;
+		};
+		popup_inside_image: string;
+	} | null;
+	fetchAllOptions: () => Promise<void>;
 }
 
-export const useMenuSettingsStore = create<MenuSettingsState>((set, get) => ({
-	menuSettingsData: null,
+export const useAllOptionsStore = create<AllOptionsState>((set, get) => ({
 	isLoading: true,
 
-	fetchMenuSettings: async () => {
+	menuSettingsData: null,
+	privacyPolicyData: null,
+	popupData: null,
+
+	fetchAllOptions: async () => {
 		const API_URL = process.env.NEXT_PUBLIC_WP_API?.replace("/wp/v2", "") ?? "";
 		if (!API_URL) {
 			throw new Error("NEXT_PUBLIC_WP_API не задан или некорректен");
 		}
-		if (get().menuSettingsData) return; // Если данные уже есть, не запрашиваем заново
+		if (get().menuSettingsData && get().privacyPolicyData && get().popupData) return; // Если данные уже есть, не запрашиваем заново
 
 		set({ isLoading: true });
 		try {
-			const response = await axios.get(`${API_URL}/acf/v3/options/menu_settings`);
-			set({ menuSettingsData: response.data });
+			const response = await axios.get(`${API_URL}/acf/v3/options/ANYTHING`);
+			set({ menuSettingsData: response.data.menu_settings });
+			set({ privacyPolicyData: response.data.privacy_policy });
+			set({ popupData: response.data.popup });
 		} catch (error) {
 			console.error("Ошибка загрузки меню", error);
 		} finally {

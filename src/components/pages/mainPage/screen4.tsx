@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import LinkWithPreloader from "@/components/preloader/LinkWithPreloader";
 import { useWindowStore } from "@/store/windowStore";
 import { useAwardsAndProjectsStore } from "@/store/awardsAndProjectsStore";
+import parse from "html-react-parser";
 
 export default function Screen4({ language }: { language: string }) {
 	const { markReady } = usePreloaderStore();
@@ -63,7 +64,7 @@ export default function Screen4({ language }: { language: string }) {
 					<div className={styles.leftBlock}>
 						<div className={`titleBackground ${styles.titleBackgroundColor}`}>{totalAwardsCount}</div>
 						{data?.title_background && <div className={`titleBackground ${styles.titleBackground}`}>{data.title_background}</div>}
-						{data?.text && <div className={`${styles.text}`}>{data.text}</div>}
+						{data?.text && <div className={styles.text}>{parse(data.text)}</div>}
 					</div>
 					<div className={`${styles.rightBlock} noScreenScrollZone`}>
 						<div className={`${styles.awardItemsList} scrollable`}>
@@ -129,7 +130,6 @@ export default function Screen4({ language }: { language: string }) {
 											<img src={project.acf?.project_preview || "/placeholder.jpg"} alt={project.title?.rendered || "Проект"} />
 										</div>
 										<div className={styles.name}>
-											<div className={styles.linkIcon} />
 											<div className={styles.text}>{project.title?.rendered}</div>
 										</div>
 									</div>

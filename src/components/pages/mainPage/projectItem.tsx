@@ -49,7 +49,7 @@ export default function ProjectItem({ language, project, index }: ProjectItemPro
 				onMouseEnter={() => {
 					if (!isMobile) {
 						updateVerticalLine(index);
-						miniLine.setNewRotation(45 + index * 90);
+						// miniLine.setNewRotation(45 + index * 90);
 					}
 				}}
 			>
@@ -74,7 +74,7 @@ export default function ProjectItem({ language, project, index }: ProjectItemPro
 			customMouseEnter={() => {
 				if (!isMobile) {
 					updateVerticalLine(index);
-					miniLine.setNewRotation(45 + index * 90);
+					// miniLine.setNewRotation(45 + index * 90);
 				}
 			}}
 		>

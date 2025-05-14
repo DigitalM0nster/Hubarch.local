@@ -2,15 +2,15 @@
 
 import styles from "./styles.module.scss";
 import { usePathname } from "next/navigation";
-import { useMenuSettingsStore } from "@/store/menuSettingsStore";
+import { useAllOptionsStore } from "@/store/allOptionsStore";
 import { useEffect, useState } from "react";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 import LinkWithPreloader from "../preloader/LinkWithPreloader";
 
 export default function DesktopHud() {
 	const pathname = usePathname(); // Получаем текущий путь
-	const { isLoading, menuSettingsData } = useMenuSettingsStore();
-	const { screenLightness, activePage, setActivePage } = useHudMenuStore();
+	const { isLoading, menuSettingsData, popupData } = useAllOptionsStore();
+	const { screenLightness, activePage, setActivePage, activePopup, setActivePopup } = useHudMenuStore();
 
 	const [lang, setLang] = useState(pathname.startsWith("/en") ? "en" : "ru"); // Определяем язык
 	const [localLoading, setLocalLoading] = useState(true);
@@ -77,14 +77,15 @@ export default function DesktopHud() {
 					</div>
 					<div className={styles.navigation}>
 						{/* ССЫЛКИ НАВИГАЦИИ В ВЕРХНЕМ МЕНЮ */}
-						{menuSettingsData?.top_menu_links.map((linkItem, index) => {
-							const link = linkItem.link;
-							return (
-								<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
-									{lang === "ru" ? link?.ru?.title : link?.en?.title}
-								</LinkWithPreloader>
-							);
-						})}
+						{menuSettingsData?.top_menu_links &&
+							menuSettingsData?.top_menu_links?.map((linkItem, index) => {
+								const link = linkItem.link;
+								return (
+									<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
+										{lang === "ru" ? link?.ru?.title : link?.en?.title}
+									</LinkWithPreloader>
+								);
+							})}
 					</div>
 					{/* ТЕЛЕФОН В ВЕРХНЕМ МЕНЮ */}
 					{(menuSettingsData?.top_menu_phone.phone_ru || menuSettingsData?.top_menu_phone.phone_en) && (
@@ -93,30 +94,32 @@ export default function DesktopHud() {
 				</div>
 				<div className={styles.rightPart}>
 					{/* ТЕКСТ СВЯЗАТЬСЯ С НАМИ */}
-					{menuSettingsData?.top_menu_connect_text && (
+					{lang === "ru" ? (
+						<div className={styles.contactUsBlock}>
+							<div className={styles.icon}>
+								<img className={`${screenLightness === "light" ? styles.active : ""}`} src="/images/contactUsIcon.svg" alt="" width={22} height={22} />
+								<img className={`${screenLightness === "dark" ? styles.active : ""}`} src="/images/contactUsIcon_light.svg" alt="" width={22} height={22} />
+								<img className={`${styles.door} ${screenLightness === "light" ? styles.active : ""}`} src="/images/door.svg" alt="" width={22} height={22} />
+								<img className={`${styles.door} ${screenLightness === "dark" ? styles.active : ""}`} src="/images/door_light.svg" alt="" width={22} height={22} />
+							</div>
+							<div className={styles.text}>
+								{menuSettingsData?.top_menu_connect_text.text_ru ? menuSettingsData?.top_menu_connect_text.text_ru : "Связаться с нами"}
+							</div>
+						</div>
+					) : (
 						<div className={styles.contactUsBlock}>
 							<div className={styles.icon}>
 								<img className={`${screenLightness === "light" ? styles.active : ""}`} src="/images/contactUsIcon.svg" alt="" width={22} height={22} />
 								<img className={`${screenLightness === "dark" ? styles.active : ""}`} src="/images/contactUsIcon_light.svg" alt="" width={22} height={22} />
 							</div>
-							<div className={styles.text}>{lang === "ru" ? menuSettingsData?.top_menu_connect_text.text_ru : menuSettingsData?.top_menu_connect_text.text_en}</div>
+							<div className={styles.text}>{menuSettingsData?.top_menu_connect_text.text_en ? menuSettingsData?.top_menu_connect_text.text_en : "Contact us"}</div>
 						</div>
 					)}
 				</div>
 			</div>
 			<div className={`${styles.rightHud} ${activePage === "/en/projects" || activePage === "/ru/projects" ? styles.hidden : ""}`}>
-				{menuSettingsData?.right_menu_links.map((linkItem, index) => {
-					const link = linkItem.link;
-					return (
-						<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
-							{lang === "ru" ? link?.ru?.title : link?.en?.title}
-						</LinkWithPreloader>
-					);
-				})}
-			</div>
-			<div className={styles.bottomHud}>
-				<div className={styles.leftPart}>
-					{menuSettingsData?.bottom_menu_links.map((linkItem, index) => {
+				{menuSettingsData?.right_menu_links &&
+					menuSettingsData?.right_menu_links?.map((linkItem, index) => {
 						const link = linkItem.link;
 						return (
 							<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
@@ -124,22 +127,41 @@ export default function DesktopHud() {
 							</LinkWithPreloader>
 						);
 					})}
+			</div>
+			<div className={styles.bottomHud}>
+				<div className={styles.leftPart}>
+					{menuSettingsData?.bottom_menu_links &&
+						menuSettingsData?.bottom_menu_links?.map((linkItem, index) => {
+							const link = linkItem.link;
+							return (
+								<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
+									{lang === "ru" ? link?.ru?.title : link?.en?.title}
+								</LinkWithPreloader>
+							);
+						})}
 				</div>
 				<div className={styles.rightPart}>
-					<div className={styles.stoneIcon}>
-						<img src={menuSettingsData?.bottom_right_image} alt="" />
+					<div className={`${styles.stoneIcon} ${activePopup ? styles.active : ""}`} onClick={() => setActivePopup(!activePopup)}>
+						<img src={popupData?.popup_open_image?.image1 ? popupData?.popup_open_image?.image1 : "/images/stone.svg"} alt="" />
+						<img src={popupData?.popup_open_image?.image2 ? popupData?.popup_open_image?.image2 : "/images/stone_red.svg"} alt="" />
+						<div className={styles.linesBlock}>
+							<div className={styles.line} />
+							<div className={styles.line} />
+							<div className={styles.line} />
+						</div>
 					</div>
 				</div>
 			</div>
 			<div className={styles.leftHud}>
-				{menuSettingsData?.left_menu_links.map((linkItem, index) => {
-					const link = linkItem.link;
-					return (
-						<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
-							{lang === "ru" ? link?.ru?.title : link?.en?.title}
-						</LinkWithPreloader>
-					);
-				})}
+				{menuSettingsData?.left_menu_links &&
+					menuSettingsData?.left_menu_links.map((linkItem, index) => {
+						const link = linkItem.link;
+						return (
+							<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
+								{lang === "ru" ? link?.ru?.title : link?.en?.title}
+							</LinkWithPreloader>
+						);
+					})}
 			</div>
 		</div>
 	);

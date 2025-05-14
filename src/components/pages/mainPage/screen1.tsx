@@ -20,6 +20,7 @@ export default function Screen1() {
 		if (mainPageFetchingFinished) {
 			markReady();
 		}
+		console.log(data);
 	}, [mainPageFetchingFinished]);
 
 	/* eslint-enable react-hooks/exhaustive-deps */
@@ -33,7 +34,7 @@ export default function Screen1() {
 
 		const interval = setInterval(() => {
 			setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
-		}, 300);
+		}, data?.imagesSpeed || 500);
 
 		return () => clearInterval(interval); // Очищаем интервал при размонтировании
 	}, [images]);
@@ -58,6 +59,10 @@ export default function Screen1() {
 			data-right-line-height={0}
 		>
 			<div className={`screenContent ${styles.screenContent}`}>
+				<div className={styles.titleTexts}>
+					{data.titleTexts?.title1 && <div className={`titleBackground ${styles.title}`}>{data.titleTexts?.title1}</div>}
+					{data.titleTexts?.title2 && <div className={`titleBackground ${styles.title}`}>{data.titleTexts?.title2}</div>}
+				</div>
 				<div className={styles.imageBlock}>
 					{images.length > 0 ? (
 						images.map((img, index) => (

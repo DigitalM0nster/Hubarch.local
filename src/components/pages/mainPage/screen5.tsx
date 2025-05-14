@@ -230,7 +230,11 @@ export default function Screen5({ language }: { language: string }) {
 									<div className={styles.icon} />
 									<div className={styles.text}>{language === "ru" ? "Больше о нас" : "More about us"}</div>
 								</LinkWithPreloader>
-								<div className={styles.moreText}>{language === "ru" ? `ЕЩЕ > 20` : `MORE > 20`}</div>
+								<div className={styles.moreText}>
+									{language === "ru"
+										? `ЕЩЕ > ${data?.team_more_number ? data?.team_more_number : 20}`
+										: `MORE > ${data?.team_more_number ? data?.team_more_number : 20}`}
+								</div>
 							</div>
 						</div>
 

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useWindowStore } from "@/store/windowStore";
 import { useAreaRangeStore } from "@/store/areaRangeStore";
 import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
+import { useAllOptionsStore } from "@/store/allOptionsStore";
 import parse from "html-react-parser";
 
 export default function Screen6({ language }: { language: string }) {
@@ -14,7 +15,7 @@ export default function Screen6({ language }: { language: string }) {
 
 	const data = useMainPageStore((state) => state.data?.main_page_screen6);
 	const { mainPageFetchingFinished } = useMainPageStore();
-
+	const { privacyPolicyData } = useAllOptionsStore();
 	const formRef = useRef<HTMLDivElement>(null);
 	const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -82,7 +83,7 @@ export default function Screen6({ language }: { language: string }) {
 		if (mainPageFetchingFinished) {
 			markReady();
 		}
-	}, [mainPageFetchingFinished]);
+	}, [mainPageFetchingFinished, language]);
 
 	// КЛИК ЧТОБЫ УБИРАТЬ ДРОПДАУН
 	useEffect(() => {
@@ -120,7 +121,7 @@ export default function Screen6({ language }: { language: string }) {
 				data-right-line-height={0}
 			>
 				<div className={`screenContent ${styles.screenContent}`}>
-					<div className={styles.titleBackgroundBlock}>
+					<div className={`${styles.titleBackgroundBlock} ${data?.image ? styles.transparent : ""}`}>
 						{data?.title_background && <div className={`titleBackground ${styles.titleBackground}`}>{data?.title_background}</div>}
 					</div>
 					<div ref={formRef} className={styles.form}>
@@ -230,11 +231,17 @@ export default function Screen6({ language }: { language: string }) {
 									<div className={styles.acceptText}>
 										{language === "ru" ? (
 											<span>
-												Нажимая на кнопку "Отправить" вы соглашаетесь c <span className={styles.privacyPolicy}>Политикой конфиденциальности</span>
+												Нажимая на кнопку "Отправить" вы соглашаетесь c{" "}
+												<a href={privacyPolicyData?.privacy_policy?.ru} className={styles.privacyPolicy}>
+													Политикой конфиденциальности
+												</a>
 											</span>
 										) : (
 											<span>
-												By clicking the "Submit" button, you agree to the <span className={styles.privacyPolicy}>Privacy Policy</span>
+												By clicking the "Submit" button, you agree to the{" "}
+												<a href={privacyPolicyData?.privacy_policy?.en} className={styles.privacyPolicy}>
+													Privacy Policy
+												</a>
 											</span>
 										)}
 									</div>

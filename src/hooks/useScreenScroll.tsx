@@ -124,7 +124,7 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 			}
 		};
 
-		window.addEventListener("wheel", handleScroll);
+		window.addEventListener("wheel", handleScroll, { passive: false });
 		window.addEventListener("keydown", handleScroll);
 		return () => {
 			window.removeEventListener("wheel", handleScroll);

@@ -3,6 +3,31 @@
 		justify-content: center;
 		align-items: center;
 	}
+
+	.titleTexts {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		z-index: 1;
+		font-family: "Panama Regular";
+		.title {
+			position: absolute;
+			width: fit-content;
+			height: fit-content;
+			bottom: calc(50% + 20px);
+			transform: translate(0px, 7%);
+			left: 0;
+			color: var(--mainTextColor);
+			opacity: 1;
+			line-height: 1;
+
+			&:nth-child(2) {
+				left: unset;
+				right: 0;
+				top: calc(50% + 20px);
+			}
+		}
+	}
 	.imageBlock {
 		justify-content: center;
 		align-items: center;
@@ -74,6 +99,8 @@
 		width: fit-content;
 		height: fit-content;
 		gap: 30px;
+		font-family: "Panama Regular";
+		transform: translate(0px, 7%);
 
 		.numbers {
 			display: flex;
@@ -169,38 +196,24 @@
 		transition: 1s 0s;
 		opacity: 0;
 
-		.text,
-		span.text {
-			font-family: Inter;
-			font-weight: 300;
-
-			img {
-				position: relative;
-				margin: 0px 0px 0px calc(var(--mainTextSize) / 6);
-				width: fit-content;
-				height: fit-content;
-				max-height: var(--mainTextSize);
-				object-fit: contain;
-				animation: rotating 2s infinite linear;
-				transition: linear;
-			}
-
-			br {
-				display: none;
-			}
-
-			.specialText {
-				font-family: Panama_Demo_Regular;
-			}
+		img {
+			position: relative;
+			margin: 0px 0px 0px calc(var(--mainTextSize) / 6);
+			width: fit-content;
+			height: fit-content;
+			max-height: var(--mainTextSize);
+			object-fit: contain;
+			animation: rotating 2s infinite linear;
+			transition: linear;
 		}
 
 		@keyframes rotating {
 			0% {
-				transform: rotate(0deg);
+				transform: translate(0px, 10%) rotate(0deg);
 			}
 
 			100% {
-				transform: rotate(360deg);
+				transform: translate(0px, 10%) rotate(360deg);
 			}
 		}
 	}
@@ -217,7 +230,7 @@
 		.titleBackground {
 			opacity: 0.15;
 			bottom: 50%;
-			transform: translate(0, calc(30% - 0px));
+			transform: translate(0, calc(57% - 0px));
 			transition: all 1s 0s, opacity 1.5s 0.25s;
 		}
 	}
@@ -299,6 +312,7 @@
 		transform: translate(0px, calc(100% + var(--screenPadding)));
 		align-items: center;
 		gap: 10px;
+		font-family: "Panama Regular";
 		text-decoration: none;
 		cursor: pointer;
 
@@ -314,7 +328,7 @@
 			background-position: center;
 			background-repeat: no-repeat;
 			background-size: contain;
-			transform: translate(0px, 10%);
+			// transform: translate(0px, 10%);
 		}
 
 		.text {
@@ -322,6 +336,7 @@
 			font-size: var(--mainTextSize);
 			text-transform: uppercase;
 			letter-spacing: var(--letterSpacing);
+			transform: translate(0px, 7%);
 		}
 	}
 }
@@ -342,13 +357,13 @@
 				opacity: 1;
 
 				.titleBackgroundColor {
-					transform: translate(0vw, -20%);
+					transform: translate(0vw, 4%);
 					opacity: 1;
 					transition: 1s 0.5s;
 				}
 
 				.titleBackground {
-					transform: translate(0vw, -20%);
+					transform: translate(0vw, 4%);
 					opacity: 0.15;
 				}
 
@@ -395,7 +410,7 @@
 
 			.titleBackground {
 				position: absolute;
-				transform: translate(-20vw, -20%);
+				transform: translate(-20vw, 4%);
 			}
 
 			.titleBackgroundColor {
@@ -539,7 +554,7 @@
 
 					.name {
 						width: 100%;
-						justify-content: space-between;
+						justify-content: center;
 						gap: 10px;
 						font-size: var(--additionalTextSize);
 						font-weight: 300;
@@ -547,16 +562,6 @@
 						left: 0;
 						bottom: 0;
 						transform: translate(0, calc(100% + 10px));
-
-						.linkIcon {
-							min-width: var(--additionalTextSize);
-							width: var(--additionalTextSize);
-							height: var(--additionalTextSize);
-							background-image: url("/images/mainPage/screen4/linkArrow_brown.svg");
-							background-position: center;
-							background-repeat: no-repeat;
-							background-size: contain;
-						}
 					}
 				}
 			}
@@ -670,9 +675,11 @@
 			.aboutUsButton,
 			a.aboutUsButton {
 				display: flex;
+				align-items: center;
 				gap: 10px;
 				cursor: pointer;
 				color: var(--mainTextColor);
+				font-family: "Panama Regular";
 				text-decoration: none;
 
 				&:hover {
@@ -684,7 +691,7 @@
 				.icon {
 					width: var(--menuFontSize);
 					height: var(--menuFontSize);
-					background-image: url("/images/mainPage/screen5/aboutUsIcon.svg");
+					background-image: url("/images/mainPage/screen3/fullIcon.svg");
 					background-repeat: no-repeat;
 					background-position: center;
 					background-size: contain;
@@ -694,6 +701,7 @@
 					text-transform: uppercase;
 					font-size: var(--menuFontSize);
 					letter-spacing: var(--letterSpacing);
+					transform: translate(0px, 7%);
 					transition: 0.3s;
 				}
 			}
@@ -724,7 +732,7 @@
 
 		.titleBackground {
 			position: absolute;
-			transform: translate(0px, -25%);
+			transform: translate(0px, 4%);
 			color: var(--backgroundColor);
 			z-index: 1;
 		}
@@ -761,6 +769,7 @@
 				width: calc(var(--personItemWidth) + var(--personsListGap));
 				height: calc(var(--personItemHeight) - 0%);
 				transform: translate(calc(var(--personsListGap) * -0.5), calc(var(--personsListGap) * -0.5));
+				transition: 0.35s;
 
 				.top {
 					position: absolute;
@@ -908,6 +917,11 @@
 			opacity: 1;
 			transform: translate(-0, -75dvh);
 			transition: 1s 0s;
+
+			&.transparent {
+				opacity: 0;
+				transition: all 1s 0s, opacity 1s 1s;
+			}
 
 			.titleBackground {
 				transform: translate(0, calc(75dvh - 40%));
@@ -1092,6 +1106,8 @@
 
 			.button {
 				align-items: center;
+				font-family: Panama Regular;
+				font-weight: 400;
 				font-size: var(--menuFontSize);
 				gap: 10px;
 				cursor: pointer;
@@ -1107,7 +1123,7 @@
 
 				.text {
 					text-transform: uppercase;
-					transform: translate(0px, -10%);
+					transform: translate(0px, 2%);
 				}
 			}
 
@@ -1197,7 +1213,7 @@
 					height: 100%;
 					object-fit: contain;
 					object-position: center;
-					transition: 0.75s cubic-bezier(0.89, -0.38, 0, 1.61);
+					transition: 0.35s cubic-bezier(0.72, -0.19, 0.4, 1.21);
 
 					&.animated {
 						transform: translate(0px, 0%);
@@ -1232,7 +1248,8 @@
 				font-size: var(--additionalTextSize);
 				font-weight: 300;
 				flex-direction: column;
-				width: calc(33% - 30px);
+				width: calc(33% - 30px - 20px);
+				padding: 0 20px 0 0;
 				height: 100%;
 				overflow-x: hidden;
 				overflow-y: auto;
@@ -2080,6 +2097,21 @@
 }
 
 @media (max-width: 480px) {
+	.screen1 {
+		.titleTexts {
+			justify-content: center;
+			align-items: center;
+			.title {
+				left: auto;
+				right: auto;
+				font-size: 15.5vw;
+				&:nth-child(2) {
+					left: auto;
+					right: auto;
+				}
+			}
+		}
+	}
 	.screen2 {
 		.textBlock {
 			span.text,

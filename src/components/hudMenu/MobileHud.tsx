@@ -2,7 +2,7 @@
 
 import styles from "./styles.module.scss";
 import { usePathname } from "next/navigation";
-import { useMenuSettingsStore } from "@/store/menuSettingsStore";
+import { useAllOptionsStore } from "@/store/allOptionsStore";
 import { useEffect, useRef, useState } from "react";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
@@ -13,7 +13,7 @@ import { usePreloaderStore } from "@/store/preloaderStore";
 
 export default function MobileHud() {
 	const pathname = usePathname(); // Получаем текущий путь
-	const { menuSettingsData } = useMenuSettingsStore();
+	const { menuSettingsData } = useAllOptionsStore();
 	const { activeMenu, setActiveMenu, screenLightness } = useHudMenuStore();
 	const { zIndex, setNewIndex } = useInteractiveLinesStore();
 	const { setScrollAllowed } = useScrollStore();
@@ -41,16 +41,21 @@ export default function MobileHud() {
 		<>
 			<div className={`${styles.mobileHud} ${screenLightness === "light" ? styles.dark : styles.light}`}>
 				<LinkWithPreloader href={lang === "ru" ? "/ru" : "/en"} className={styles.logo}>
-					<img
-						className={`${styles.imgLogo} ${screenLightness === "dark" ? styles.active : ""}`}
-						src={menuSettingsData?.top_menu_logo.mobile_logo.logo_light}
-						alt="Hubarch logo"
-					/>
-					<img
-						className={`${styles.imgLogo} ${screenLightness === "light" ? styles.active : ""}`}
-						src={menuSettingsData?.top_menu_logo.mobile_logo.logo_dark}
-						alt="Hubarch logo"
-					/>
+					{menuSettingsData?.top_menu_logo.mobile_logo.logo_light && (
+						<img
+							className={`${styles.imgLogo} ${screenLightness === "dark" ? styles.active : ""}`}
+							src={menuSettingsData.top_menu_logo.mobile_logo.logo_light}
+							alt="Hubarch logo"
+						/>
+					)}
+
+					{menuSettingsData?.top_menu_logo.mobile_logo.logo_dark && (
+						<img
+							className={`${styles.imgLogo} ${screenLightness === "light" ? styles.active : ""}`}
+							src={menuSettingsData.top_menu_logo.mobile_logo.logo_dark}
+							alt="Hubarch logo"
+						/>
+					)}
 				</LinkWithPreloader>
 				<div
 					className={`${styles.burgerButtonBlock} ${activeMenu ? styles.active : ""}`}
@@ -93,39 +98,43 @@ export default function MobileHud() {
 						</LinkWithPreloader>
 					</div>
 					<div className={styles.navigationBlock}>
-						{menuSettingsData?.top_menu_links.map((linkItem, index) => {
-							const link = linkItem.link;
-							return (
-								<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
-									{lang === "ru" ? link?.ru?.title : link?.en?.title}
-								</LinkWithPreloader>
-							);
-						})}
-						{menuSettingsData?.right_menu_links.map((linkItem, index) => {
-							const link = linkItem.link;
+						{menuSettingsData?.top_menu_links &&
+							menuSettingsData?.top_menu_links.map((linkItem, index) => {
+								const link = linkItem.link;
+								return (
+									<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
+										{lang === "ru" ? link?.ru?.title : link?.en?.title}
+									</LinkWithPreloader>
+								);
+							})}
+						{menuSettingsData?.right_menu_links &&
+							menuSettingsData?.right_menu_links.map((linkItem, index) => {
+								const link = linkItem.link;
 
-							return (
-								<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
-									{lang === "ru" ? link?.ru?.title : link?.en?.title}
-								</LinkWithPreloader>
-							);
-						})}
-						{menuSettingsData?.bottom_menu_links.map((linkItem, index) => {
-							const link = linkItem.link;
-							return (
-								<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
-									{lang === "ru" ? link?.ru?.title : link?.en?.title}
-								</LinkWithPreloader>
-							);
-						})}
-						{menuSettingsData?.left_menu_links.map((linkItem, index) => {
-							const link = linkItem.link;
-							return (
-								<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
-									{lang === "ru" ? link?.ru?.title : link?.en?.title}
-								</LinkWithPreloader>
-							);
-						})}
+								return (
+									<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
+										{lang === "ru" ? link?.ru?.title : link?.en?.title}
+									</LinkWithPreloader>
+								);
+							})}
+						{menuSettingsData?.bottom_menu_links &&
+							menuSettingsData?.bottom_menu_links.map((linkItem, index) => {
+								const link = linkItem.link;
+								return (
+									<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
+										{lang === "ru" ? link?.ru?.title : link?.en?.title}
+									</LinkWithPreloader>
+								);
+							})}
+						{menuSettingsData?.left_menu_links &&
+							menuSettingsData?.left_menu_links.map((linkItem, index) => {
+								const link = linkItem.link;
+								return (
+									<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
+										{lang === "ru" ? link?.ru?.title : link?.en?.title}
+									</LinkWithPreloader>
+								);
+							})}
 					</div>
 					<div className={styles.phoneBlock}>
 						{(menuSettingsData?.top_menu_phone.phone_ru || menuSettingsData?.top_menu_phone.phone_en) && (
