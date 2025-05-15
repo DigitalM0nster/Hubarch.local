@@ -452,7 +452,6 @@
 
 				.awardItem {
 					flex-direction: column;
-					gap: 15px;
 					font-size: var(--additionalTextSize);
 					color: var(--mainTextColor);
 					--imageWidth: 50px;
@@ -460,6 +459,7 @@
 					.awardCategoryBlock {
 						align-items: center;
 						gap: 15px;
+						margin: 0px 0px 15px 0px;
 						.image {
 							width: var(--imageWidth);
 							min-width: var(--imageWidth);
@@ -480,10 +480,10 @@
 						}
 						.awardsList {
 							flex-direction: column;
-							gap: 15px;
 						}
 						a.award,
 						.award {
+							padding: 0px 0px 15px 0px;
 							color: var(--mainTextColor);
 							text-decoration: none;
 							position: relative;

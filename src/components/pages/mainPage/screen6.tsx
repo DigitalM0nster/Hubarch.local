@@ -129,7 +129,7 @@ export default function Screen6({ language }: { language: string }) {
 							<input
 								type="text"
 								onMouseEnter={(e) => {
-									calculateInteractiveLines(e, -67.5);
+									calculateInteractiveLines(e, 45);
 								}}
 								placeholder={language === "ru" ? "Имя" : "Name"}
 								value={name}
@@ -139,7 +139,7 @@ export default function Screen6({ language }: { language: string }) {
 							<input
 								type="phone"
 								onMouseEnter={(e) => {
-									calculateInteractiveLines(e, -45);
+									calculateInteractiveLines(e, 45);
 								}}
 								placeholder={language === "ru" ? "Телефон" : "Phone"}
 								value={phone}
@@ -148,7 +148,7 @@ export default function Screen6({ language }: { language: string }) {
 							<input
 								type="email"
 								onMouseEnter={(e) => {
-									calculateInteractiveLines(e, -22.5);
+									calculateInteractiveLines(e, 45);
 								}}
 								placeholder={language === "ru" ? "Email" : "Email"}
 								value={email}
@@ -161,7 +161,7 @@ export default function Screen6({ language }: { language: string }) {
 									ref={dropdownRef}
 									className={`${styles.dropdown} ${dropdownOpen ? styles.active : ""}`}
 									onMouseEnter={(e) => {
-										calculateInteractiveLines(e, 22.5);
+										calculateInteractiveLines(e, 45);
 									}}
 								>
 									<div className={styles.dropdownSelected} onClick={() => setDropdownOpen((prev) => !prev)}>

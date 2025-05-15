@@ -7,6 +7,18 @@ import { useEffect, useState } from "react";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 import LinkWithPreloader from "../preloader/LinkWithPreloader";
 
+// Функция для форматирования телефонного номера
+function formatPhoneNumber(phoneNumber: string) {
+	// Удаляем все символы, кроме цифр
+	const cleaned = ("" + phoneNumber).replace(/\D/g, "");
+	// Форматируем номер в виде +7 (XXX) XXX-XX-XX
+	const match = cleaned.match(/^(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})$/);
+	if (match) {
+		return `+${match[1]} (${match[2]}) ${match[3]}-${match[4]}-${match[5]}`;
+	}
+	return phoneNumber; // Возвращаем оригинал, если форматирование не удалось
+}
+
 export default function DesktopHud() {
 	const pathname = usePathname(); // Получаем текущий путь
 	const { isLoading, menuSettingsData, popupData } = useAllOptionsStore();
@@ -109,7 +121,18 @@ export default function DesktopHud() {
 					</div>
 					{/* ТЕЛЕФОН В ВЕРХНЕМ МЕНЮ */}
 					{(menuSettingsData?.top_menu_phone.phone_ru || menuSettingsData?.top_menu_phone.phone_en) && (
-						<div className={styles.phone}>{lang === "ru" ? menuSettingsData?.top_menu_phone.phone_ru : menuSettingsData?.top_menu_phone.phone_en}</div>
+						<a
+							href={
+								lang === "ru"
+									? `tel:${formatPhoneNumber(menuSettingsData?.top_menu_phone.phone_ru)}`
+									: `tel:${formatPhoneNumber(menuSettingsData?.top_menu_phone.phone_en)}`
+							}
+							target="_blank"
+							rel="noopener noreferrer"
+							className={styles.phone}
+						>
+							{lang === "ru" ? formatPhoneNumber(menuSettingsData?.top_menu_phone.phone_ru) : formatPhoneNumber(menuSettingsData?.top_menu_phone.phone_en)}
+						</a>
 					)}
 				</div>
 				<div className={styles.rightPart}>
