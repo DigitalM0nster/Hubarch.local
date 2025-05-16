@@ -105,8 +105,10 @@ export default function MobileHud() {
 						{menuSettingsData?.top_menu_links &&
 							menuSettingsData?.top_menu_links.map((linkItem, index) => {
 								const link = linkItem.link;
+								const url = lang === "ru" ? link?.ru?.url : link?.en?.url;
+								const formattedUrl = url === "/ru/home" || url === "/en/home" ? url.slice(0, 3) : url; // Проверка на главную страницу
 								return (
-									<LinkWithPreloader href={lang === "ru" ? link?.ru?.url : link?.en?.url} key={`link${index}`} className={styles.li}>
+									<LinkWithPreloader href={formattedUrl} key={`link${index}`} className={styles.li}>
 										{lang === "ru" ? link?.ru?.title : link?.en?.title}
 									</LinkWithPreloader>
 								);
