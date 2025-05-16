@@ -267,7 +267,7 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 					data-position-x={50}
 					data-position-y={50}
 					data-horizontal-x={50}
-					data-horizontal-width={100}
+					data-horizontal-width={80}
 					data-vertical-height={isMobile ? 50 : 100}
 					data-lines-color={"light"}
 					data-left-line-x={10}

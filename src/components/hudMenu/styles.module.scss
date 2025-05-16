@@ -69,6 +69,7 @@
 
 		.leftPart {
 			gap: 55px;
+			transform: translate(0px, 7%);
 		}
 
 		.centerPart {
@@ -76,6 +77,7 @@
 			align-items: center;
 			width: 100%;
 			max-width: var(--contentWidth);
+			transform: translate(0px, 7%);
 		}
 
 		.rightPart {
