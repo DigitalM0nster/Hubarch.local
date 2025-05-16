@@ -13,7 +13,7 @@ import { useScreenInit } from "@/hooks/useScreenInit";
 import LinkWithPreloader from "@/components/preloader/LinkWithPreloader";
 import { useAllProjectsStore } from "@/store/allProjectsStore";
 import { useProjectTypesStore } from "@/store/projectTypesStore";
-import ProjectsFilters from "./projectFilters";
+import ProjectsFilters from "./ProjectsFilters";
 import { useWindowStore } from "@/store/windowStore";
 
 export default function ProjectsPageClient({ language }: { language: string }) {
@@ -45,18 +45,24 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 	// Состояния фильтров
 	const [selectedTypes, setSelectedTypes] = useState<number[]>([]);
 	const [selectedRanges, setSelectedRanges] = useState<{ min: number; max: number }[]>([]);
+	const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
 	// Активный проект
 	const [activeProjectIndex, setActiveProjectIndex] = useState(0);
 
+	// Добавляем состояние активности кнопки 'Сбросить'
+	const [isResetButtonActive, setIsResetButtonActive] = useState(false);
+
 	// Функция фильтрации
 	const filteredProjects = projectsList.filter((project) => {
-		const matchesType = selectedTypes.length === 0 || project.acf.project_type.some((type) => selectedTypes.includes(type.term_id));
+		const matchesType = selectedTypes.length === 0 || project.acf.project_type?.some((type: any) => selectedTypes.includes(type.term_id));
 
 		const footage = parseInt(project.acf.project_footage || "0", 10);
 		const matchesRange = selectedRanges.length === 0 || selectedRanges.some((range) => footage >= range.min && footage <= range.max);
 
-		return matchesType && matchesRange;
+		const matchesCategory = !selectedCategory || project.acf.project_category?.slug === selectedCategory;
+
+		return matchesType && matchesRange && matchesCategory;
 	});
 
 	/* eslint-disable react-hooks/exhaustive-deps */
@@ -244,6 +250,12 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 
 	//
 
+	// Обновляем состояние активности кнопки 'Сбросить' при изменении фильтров
+	useEffect(() => {
+		const hasActiveFilters = selectedTypes.length > 0 || selectedRanges.length > 0 || selectedCategory !== null;
+		setIsResetButtonActive(hasActiveFilters);
+	}, [selectedTypes, selectedRanges, selectedCategory]);
+
 	return (
 		<>
 			<div className={`screenScroll ${styles.screenScroll} ${scrollAllowed === true ? "" : "noScroll"}`}>
@@ -419,18 +431,25 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 								setSelectedTypes={setSelectedTypes}
 								selectedRanges={selectedRanges}
 								setSelectedRanges={setSelectedRanges}
+								selectedCategory={selectedCategory}
+								setSelectedCategory={setSelectedCategory}
 								resetFilters={() => {
 									setSelectedTypes([]);
 									setSelectedRanges([]);
+									setSelectedCategory(null);
 								}}
+								isResetButtonActive={isResetButtonActive}
 							/>
+
 							<div className={styles.mobileButtonsBlock}>
 								<div
-									className={`${styles.button} ${styles.resetButton}`}
+									className={`${styles.button} ${styles.resetButton} ${isResetButtonActive ? styles.active : styles.inactive}`}
 									onClick={() => {
-										setSelectedTypes([]);
-										setSelectedRanges([]);
-										// setVisibleMobileFilters(false);
+										if (isResetButtonActive) {
+											setSelectedTypes([]);
+											setSelectedRanges([]);
+											setSelectedCategory(null);
+										}
 									}}
 								>
 									<div className={styles.text}>Сбросить</div>

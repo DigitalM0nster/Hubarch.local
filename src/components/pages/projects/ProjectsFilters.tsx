@@ -11,13 +11,54 @@ interface Props {
 	selectedRanges: { min: number; max: number }[];
 	setSelectedRanges: (ranges: { min: number; max: number }[]) => void;
 	resetFilters: () => void;
+
+	selectedCategory: string | null;
+	setSelectedCategory: (category: string | null) => void;
+	isResetButtonActive: boolean;
 }
 
-export default function ProjectsFilters({ language, projectTypes, ranges, selectedTypes, setSelectedTypes, selectedRanges, setSelectedRanges, resetFilters }: Props) {
+export default function ProjectsFilters({
+	language,
+	projectTypes,
+	ranges,
+	selectedTypes,
+	setSelectedTypes,
+	selectedRanges,
+	setSelectedRanges,
+	resetFilters,
+	selectedCategory,
+	setSelectedCategory,
+	isResetButtonActive,
+}: Props) {
 	const { data } = useProjectsPageStore();
 
 	return (
 		<div className={styles.projectsFilters}>
+			{/* Категория проекта */}
+			<div className={`${styles.filter} ${styles.categoryFilter}`}>
+				<div className={styles.filterNameBlock}>
+					<div className={styles.icon}>
+						<img src="/images/projects/categoryFilterIcon.svg" alt="" />
+					</div>
+					<div className={styles.name}>{language === "ru" ? "Категория" : "Category"}</div>
+				</div>
+				<div className={styles.filterValues}>
+					{[
+						{ slug: "architecture", label: language === "ru" ? "Архитектура" : "Architecture" },
+						{ slug: "interior", label: language === "ru" ? "Интерьеры" : "Interior" },
+					].map((cat) => {
+						const isActive = selectedCategory === cat.slug;
+						const toggle = isActive ? null : cat.slug;
+
+						return (
+							<div key={cat.slug} className={`${styles.value} ${isActive ? styles.active : ""}`} onClick={() => setSelectedCategory(toggle)}>
+								{cat.label}
+							</div>
+						);
+					})}
+				</div>
+			</div>
+
 			{/* Тип помещения */}
 			<div className={`${styles.filter} ${styles.typeFilter}`}>
 				<div className={styles.filterNameBlock}>
@@ -85,7 +126,14 @@ export default function ProjectsFilters({ language, projectTypes, ranges, select
 			</div>
 
 			{/* Сброс */}
-			<div className={styles.resetFilterButton} onClick={resetFilters}>
+			<div
+				className={`${styles.resetFilterButton} ${isResetButtonActive ? "" : styles.disabled}`}
+				onClick={() => {
+					if (isResetButtonActive) {
+						resetFilters();
+					}
+				}}
+			>
 				{language === "ru" ? "Сбросить" : "Reset filters"}
 			</div>
 		</div>

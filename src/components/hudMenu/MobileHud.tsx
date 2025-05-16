@@ -48,7 +48,7 @@ export default function MobileHud() {
 							alt="Hubarch logo"
 						/>
 					) : (
-						<img className={`${styles.imgLogo} ${screenLightness === "dark" ? styles.active : ""}`} src="/images/hubarch_logo_mobilelight.svg" alt="Hubarch logo" />
+						<img className={`${styles.imgLogo} ${screenLightness === "dark" ? styles.active : ""}`} src="/images/hubarch_logo_mobile_light.svg" alt="Hubarch logo" />
 					)}
 
 					{menuSettingsData?.top_menu_logo.mobile_logo.logo_dark ? (

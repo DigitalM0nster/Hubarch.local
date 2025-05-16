@@ -8,10 +8,13 @@ export interface Project {
 	slug: string;
 	link: string;
 	acf: {
+		project_category: {
+			slug: string;
+		};
+		project_type: string[];
 		project_preview: string;
 		project_description: string;
-		project_type: any[];
-		project_awards: any[];
+		project_awards: string[];
 		project_footage: string;
 	};
 	lang: string;

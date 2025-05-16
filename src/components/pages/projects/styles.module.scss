@@ -308,9 +308,11 @@
 		.filterButton {
 			gap: 7px;
 			height: var(--mainTextSize);
+			font-family: Panama Regular;
 			font-size: var(--mainTextSize);
 			text-transform: uppercase;
 			color: white;
+			cursor: pointer;
 
 			.icon {
 				width: var(--mainTextSize);
@@ -373,9 +375,15 @@
 
 		.resetFilterButton {
 			cursor: pointer;
+			transition: 0s;
 
 			&:hover {
 				text-decoration: underline;
+			}
+
+			&.disabled {
+				opacity: 0.5;
+				pointer-events: none;
 			}
 		}
 	}
