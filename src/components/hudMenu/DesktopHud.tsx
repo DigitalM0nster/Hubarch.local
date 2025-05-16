@@ -154,6 +154,8 @@ export default function DesktopHud() {
 							<div className={styles.icon}>
 								<img className={`${screenLightness === "light" ? styles.active : ""}`} src="/images/contactUsIcon.svg" alt="" width={22} height={22} />
 								<img className={`${screenLightness === "dark" ? styles.active : ""}`} src="/images/contactUsIcon_light.svg" alt="" width={22} height={22} />
+								<img className={`${styles.door} ${screenLightness === "light" ? styles.active : ""}`} src="/images/door.svg" alt="" width={22} height={22} />
+								<img className={`${styles.door} ${screenLightness === "dark" ? styles.active : ""}`} src="/images/door_light.svg" alt="" width={22} height={22} />
 							</div>
 							<div className={styles.text}>{menuSettingsData?.top_menu_connect_text.text_en ? menuSettingsData?.top_menu_connect_text.text_en : "Contact us"}</div>
 						</div>
