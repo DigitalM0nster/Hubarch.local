@@ -2,7 +2,7 @@
 
 import { Metadata, ResolvingMetadata } from "next";
 import ProjectIdPage from "./ProjectIdPage";
-import { getProjectData } from "@/lib/getProjectData";
+import { getProjectData } from "./getProjectData";
 
 export async function generateMetadata({ params }: { params: Promise<{ language: string; projectId: string }> }, parent: ResolvingMetadata): Promise<Metadata> {
 	const { language, projectId } = await params;
