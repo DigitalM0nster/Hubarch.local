@@ -17,7 +17,7 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 	const scrollAllowedLocalRef = useRef(true);
 	const activeMenuRef = useRef(activeMenu);
 
-	const { changeScreenOptions, screensRef } = useScreenInit();
+	const { changeScreenOptions, screensRef, simpleScrollRef } = useScreenInit();
 
 	useEffect(() => {
 		scrollAllowedRef.current = scrollAllowed;
@@ -50,13 +50,18 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 
 	useLayoutEffect(() => {
 		screensRef.current = document.querySelectorAll(".screen");
+		if (screensRef.current[0]?.parentElement?.classList.contains("simpleScroll")) {
+			simpleScrollRef.current = true;
+		}
 	}, [pathname]);
 
+	// Полноэкранный скролл
 	useLayoutEffect(() => {
 		const handleScroll = (event: WheelEvent | KeyboardEvent) => {
 			if (!scrollAllowedLocalRef.current) return;
 			if (isMobile || !screensRef.current?.length) return;
 			if (!scrollAllowedRef.current || activeMenuRef.current) return;
+			if (simpleScrollRef.current) return;
 
 			if (event instanceof WheelEvent) {
 				const elUnderMouse = document.elementFromPoint(event.clientX, event.clientY);
@@ -132,8 +137,9 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 		};
 	}, [activeScreenIndex, isMobile]);
 
+	// Скролл обычный
 	useLayoutEffect(() => {
-		if (!isMobile) return;
+		if (!isMobile && !simpleScrollRef.current) return;
 
 		let observer: IntersectionObserver;
 
@@ -149,6 +155,7 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 				(entries) => {
 					for (const entry of entries) {
 						if (entry.isIntersecting) {
+							console.log(entry.target);
 							const index = Array.from(screensRef.current!).findIndex((el) => el === entry.target);
 							if (index !== -1) {
 								setActiveScreenIndex(index);

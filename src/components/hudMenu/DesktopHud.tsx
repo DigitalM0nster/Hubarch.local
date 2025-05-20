@@ -39,7 +39,7 @@ export default function DesktopHud() {
 	}, [pathname]);
 
 	useEffect(() => {
-		console.log(menuSettingsData);
+		// console.log(menuSettingsData);
 	}, [isLoading, menuSettingsData]);
 
 	return (

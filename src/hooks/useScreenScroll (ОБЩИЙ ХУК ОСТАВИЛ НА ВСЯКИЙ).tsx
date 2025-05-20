@@ -183,6 +183,7 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 				setTimeout(() => {
 					scrollAllowedLocalRef.current = true;
 					setScrollAllowed(true);
+					console.log("gg1");
 				}, 800);
 			}
 		};

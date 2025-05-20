@@ -1,93 +1,128 @@
-// src\store\mainPageStore.tsx
+// src/store/awardsAndProjectsStore.ts
 
 import { create } from "zustand";
 
-export interface Project {
+interface Nomination {
+	nomination: string;
+	project: Project;
+}
+
+interface AwardTerm {
+	id: number;
+	name: string;
+	slug: string;
+	acf?: {
+		category_award_image?: string;
+	};
+}
+
+interface Project {
 	id: number;
 	title: {
 		rendered: string;
 	};
+	slug: string;
 	link: string;
+	lang: string;
 	acf: {
 		project_preview: string;
-		project_footage: number;
+		project_awards: {
+			award: {
+				year: string;
+				title: {
+					term_id: number;
+					name: string;
+					slug: string;
+				};
+				nominations: {
+					nomination: string;
+				}[];
+			};
+		}[];
 	};
-	slug: string;
-	// acf: string;
 }
 
-export interface AwardsAndProjectsStore {
-	awardsByCategory: AwardCategoryGroup[];
+interface StructuredAward {
+	id: number;
+	name: string;
+	slug: string;
+	acf?: any;
+	years: Record<string, Nomination[]>;
+}
+
+interface AwardsAndProjectsStore {
 	projectsList: Project[];
+	structuredAwards: StructuredAward[];
 	fetchAwardsAndProjects: (language: string) => Promise<void>;
 	awardsAndProjectsFetchingFinished: boolean;
 }
 
-type Award = any;
-type AwardByYear = Record<string, Award[]>;
-type AwardCategoryGroup = {
-	category: any;
-	awardsByYear: AwardByYear;
-};
-
 export const useAwardsAndProjectsStore = create<AwardsAndProjectsStore>((set) => ({
-	awardsByCategory: [],
 	projectsList: [],
+	structuredAwards: [],
 	awardsAndProjectsFetchingFinished: false,
+
 	fetchAwardsAndProjects: async (language) => {
 		const API_URL = process.env.NEXT_PUBLIC_WP_API;
-		if (!API_URL) {
-			throw new Error("API_URL не задан в .env файле");
-		}
+		if (!API_URL) throw new Error("API URL not set");
 
 		try {
-			const [categories, awards] = await Promise.all([
-				fetch(`${API_URL}/award_category?per_page=100`).then((res) => res.json()),
-				fetch(`${API_URL}/awards?per_page=100&_embed`).then((res) => res.json()),
-			]);
+			const [projectsRes, awardsRes] = await Promise.all([fetch(`${API_URL}/projects?per_page=100&_embed`), fetch(`${API_URL}/awards?per_page=100`)]);
 
-			const grouped: AwardCategoryGroup[] = categories
-				.map((cat: any) => {
-					const catAwards = awards.filter((award: any) => award.award_category?.includes(cat.id) && award.lang === language);
+			const projects: Project[] = await projectsRes.json();
+			const awardTerms: AwardTerm[] = await awardsRes.json();
 
-					const awardsByYear: AwardByYear = {};
-					for (const award of catAwards) {
-						const year = award.acf?.award_date?.slice(0, 4) || "Год неизвестен";
-						if (!awardsByYear[year]) awardsByYear[year] = [];
-						awardsByYear[year].push(award);
+			const awardMap: Record<number, StructuredAward> = {};
+
+			for (const project of projects) {
+				if (project.lang !== language) continue; // 🔴 Фильтруем по языку
+
+				const awards = project.acf?.project_awards || [];
+
+				for (const entry of awards) {
+					const award = entry.award;
+					if (!award?.title || !award.year) continue;
+
+					const id = award.title.term_id;
+					const year = award.year;
+					const name = award.title.name;
+					const slug = award.title.slug;
+
+					// Найдём ACF поля из списка всех awards
+					const fullAwardData = awardTerms.find((a) => a.id === id);
+
+					if (!awardMap[id]) {
+						awardMap[id] = {
+							id,
+							name,
+							slug,
+							acf: fullAwardData?.acf || {},
+							years: {},
+						};
+					}
+					if (!awardMap[id].years[year]) {
+						awardMap[id].years[year] = [];
 					}
 
-					return {
-						category: cat,
-						awardsByYear,
-					};
-				})
-				// вот здесь фильтруем те, у которых вообще нет премий
-				.filter(({ awardsByYear }: { awardsByYear: AwardByYear }) => Object.values(awardsByYear).some((awards) => (awards as any[]).length > 0));
-
-			const seenProjectIds = new Set();
-			const projects: any[] = [];
-
-			grouped.forEach(({ awardsByYear }) => {
-				Object.entries(awardsByYear)
-					.sort((a, b) => Number(b[0]) - Number(a[0]))
-					.forEach(([_, awards]) => {
-						awards.forEach((award) => {
-							const project = award._embedded?.["acf:post"]?.[0];
-							if (project && !seenProjectIds.has(project.id)) {
-								seenProjectIds.add(project.id);
-								projects.push(project);
-							}
-						});
-					});
-			});
+					const nominations = award.nominations || [];
+					for (const nomination of nominations) {
+						const exists = awardMap[id].years[year].some((n) => n.nomination === nomination.nomination && n.project.id === project.id);
+						if (!exists) {
+							awardMap[id].years[year].push({
+								nomination: nomination.nomination,
+								project,
+							});
+						}
+					}
+				}
+			}
 
 			set({
-				awardsByCategory: grouped,
 				projectsList: projects,
+				structuredAwards: Object.values(awardMap),
 			});
-		} catch {
-			// ERROR MUST BE HERE
+		} catch (e) {
+			console.error("Ошибка при загрузке премий:", e);
 		} finally {
 			set({ awardsAndProjectsFetchingFinished: true });
 		}

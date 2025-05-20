@@ -234,7 +234,7 @@ export default function Preloader() {
 	}, [progress, allowAnimation]);
 
 	useEffect(() => {
-		if (allowAnimation === false && progress < 100) {
+		if (allowAnimation === false) {
 			setTimeout(() => {
 				setAllowAnimation(true);
 			}, 1500);

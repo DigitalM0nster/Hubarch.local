@@ -19,10 +19,14 @@ export default function InteractiveLines() {
 	// 	horizontalLineRef.current?.style.setProperty("left", `${verticalLine.x}%`);
 	// }, [horizontalLine.x]);
 
-	useEffect(() => {
-		miniLineRef.current?.style.setProperty("top", `${horizontalLine.y}%`);
-		horizontalLineRef.current?.style.setProperty("top", `${horizontalLine.y}%`);
-	}, [horizontalLine.y]);
+	// useEffect(() => {
+	// 	miniLineRef.current?.style.setProperty("top", `${horizontalLine.y}%`);
+	// 	horizontalLineRef.current?.style.setProperty("top", `${horizontalLine.y}%`);
+	// }, [horizontalLine.y]);
+
+	// useEffect(() => {
+	// 	verticalLineRef.current?.style.setProperty("top", `${verticalLine.y}%`);
+	// }, [verticalLine.y]);
 
 	// useEffect(() => {
 	// 	verticalLineRef.current?.style.setProperty("left", `${verticalLine.x}%`);
@@ -49,6 +53,7 @@ export default function InteractiveLines() {
 					className={`${styles.line} ${styles.verticalLine}`}
 					style={{
 						left: `${verticalLine.x}%`,
+						top: `${verticalLine.y}%`,
 						height: `${verticalLine.height}%`,
 					}}
 				/>
@@ -76,7 +81,7 @@ export default function InteractiveLines() {
 					style={{
 						height: `${leftLine.height}%`,
 						left: `calc(${leftLine.x}% - 0px)`,
-						transition: "transform 0.5s ease-in-out",
+						transition: "all 0.5s ease, transform 0.5s ease-in-out",
 					}}
 				/>
 				<div
@@ -85,7 +90,7 @@ export default function InteractiveLines() {
 					style={{
 						height: `${rightLine.height}%`,
 						left: `calc(${rightLine.x}% - 0px)`,
-						transition: "transform 0.5s ease-in-out",
+						transition: "all 0.5s ease, transform 0.5s ease-in-out",
 					}}
 				/>
 				{/* <div className={styles.icon}>

@@ -8,6 +8,7 @@ export const useScreenInit = () => {
 	const { setScreenLightness } = useHudMenuStore();
 	const pathname = usePathname();
 	const screensRef = useRef<NodeListOf<Element> | null>(null);
+	const simpleScrollRef = useRef<boolean>(false);
 
 	const changeScreenOptions = (screen: HTMLElement) => {
 		const screenLightness = screen.dataset.screenLightness || "light";
@@ -17,6 +18,7 @@ export const useScreenInit = () => {
 		const positionY = parseFloat(screen.dataset.positionY || "50");
 		const verticalLineHeight = parseFloat(screen.dataset.verticalHeight || "100");
 		const horizontalLineWidth = parseFloat(screen.dataset.horizontalWidth || "100");
+		const verticalLineY = parseFloat(screen.dataset.verticalY || "50");
 		const horizontalLineX = parseFloat(screen.dataset.horizontalX || "100");
 		const leftLineX = parseFloat(screen.dataset.leftLineX || "0");
 		const leftLineHeight = parseFloat(screen.dataset.leftLineHeight || "0");
@@ -25,12 +27,14 @@ export const useScreenInit = () => {
 		const linesColor = (screen.dataset.linesColor === "light" ? "light" : "dark") as "light" | "dark";
 
 		setScreenLightness(screenLightness === "light" ? "light" : "dark");
+
 		setNewIndex(linesIndex);
 
 		miniLine.setNewRotation(miniLineRotation);
 
 		verticalLine.setHeight(verticalLineHeight);
 		verticalLine.setNewX(positionX);
+		verticalLine.setNewY(verticalLineY);
 
 		horizontalLine.setNewY(positionY);
 		horizontalLine.setNewX(horizontalLineX);
@@ -63,6 +67,7 @@ export const useScreenInit = () => {
 		let destroyed = false;
 
 		screensRef.current = null;
+		simpleScrollRef.current = false;
 
 		waitForScreensReady().then((screens) => {
 			if (destroyed) return;
@@ -77,6 +82,11 @@ export const useScreenInit = () => {
 			mObserver = new MutationObserver(() => {
 				const updated = document.querySelectorAll(".screen");
 				screensRef.current = updated;
+
+				// Определяем тип скролла
+				if (updated[0].parentElement?.classList.contains("simpleScroll")) {
+					simpleScrollRef.current = true;
+				}
 			});
 			mObserver.observe(document.body, { childList: true, subtree: true });
 		});
@@ -87,5 +97,5 @@ export const useScreenInit = () => {
 		};
 	}, [pathname]);
 
-	return { changeScreenOptions, screensRef };
+	return { changeScreenOptions, screensRef, simpleScrollRef };
 };

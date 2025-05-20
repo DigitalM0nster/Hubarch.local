@@ -13,7 +13,7 @@ export default function Screen4({ language }: { language: string }) {
 
 	const data = useMainPageStore((state) => state.data?.main_page_screen4);
 	const { mainPageFetchingFinished } = useMainPageStore();
-	const { awardsByCategory, projectsList, awardsAndProjectsFetchingFinished } = useAwardsAndProjectsStore();
+	const { structuredAwards, projectsList, awardsAndProjectsFetchingFinished } = useAwardsAndProjectsStore();
 	const [hoveredAwardId, setHoveredAwardId] = useState<number | null>(null);
 
 	/* eslint-disable react-hooks/exhaustive-deps */
@@ -23,8 +23,8 @@ export default function Screen4({ language }: { language: string }) {
 		}
 	}, [mainPageFetchingFinished, awardsAndProjectsFetchingFinished]);
 
-	const totalAwardsCount = awardsByCategory.reduce((sum, { awardsByYear }) => {
-		return sum + Object.values(awardsByYear).reduce((acc, awards) => (acc as number) + awards.length, 0);
+	const totalNominationsCount = structuredAwards.reduce((sum, { years }) => {
+		return sum + Object.values(years).reduce((acc, nominations) => acc + nominations.length, 0);
 	}, 0);
 
 	function getPlural(count: number, one: string, few: string, many: string) {
@@ -58,72 +58,63 @@ export default function Screen4({ language }: { language: string }) {
 			>
 				<div className={`screenContent ${styles.screenContent}`}>
 					<div className={styles.topBlock}>
-						<div className={styles.number}>({totalAwardsCount})</div>
-						<div className={styles.text}>{getPlural(totalAwardsCount, "Премия", "Премии", "Премий")}</div>
+						<div className={styles.number}>({totalNominationsCount})</div>
+						<div className={styles.text}>{getPlural(totalNominationsCount, "Номинация", "Номинации", "Номинаций")}</div>
 					</div>
 					<div className={styles.leftBlock}>
-						<div className={`titleBackground ${styles.titleBackgroundColor}`}>{totalAwardsCount}</div>
+						<div className={`titleBackground ${styles.titleBackgroundColor}`}>{totalNominationsCount}</div>
 						{data?.title_background && <div className={`titleBackground ${styles.titleBackground}`}>{data.title_background}</div>}
 						{data?.text && <div className={styles.text}>{parse(data.text)}</div>}
 					</div>
 					<div className={`${styles.rightBlock} noScreenScrollZone`}>
 						<div className={`${styles.awardItemsList} scrollable`}>
-							{awardsByCategory.map(({ category, awardsByYear }) => {
+							{structuredAwards.map((awardEntry) => {
 								return (
-									<div key={category.id} className={styles.awardItem}>
+									<div key={awardEntry.id} className={styles.awardItem}>
 										<div className={styles.awardCategoryBlock}>
-											<div className={styles.image}>
-												<img src={category.acf.category_award_image} alt={category.name} />
+											<div className={styles.image} style={{ backgroundColor: awardEntry.acf?.award_background_color || "white" }}>
+												<img src={awardEntry.acf?.award_image} alt={awardEntry.name} />
 											</div>
-											<div className={styles.title}>{category.name}</div>
+											<div className={styles.title}>{awardEntry.name}</div>
 										</div>
-										{Object.entries(awardsByYear)
-											.sort((a, b) => Number(b[0]) - Number(a[0]))
-											.map(([year, awards]) => (
-												<div key={year} className={styles.awardYearBlock}>
-													<div className={styles.year}>{year}</div>
-													<div className={styles.awardsList}>
-														{awards.map((award: any) => {
-															const projectId = award.acf.award_project;
-															const project = projectsList.find((p) => p.id === projectId);
-															const projectSlug = project?.slug;
 
-															const projectSlugDefault = award._embedded?.["acf:post"]?.[0]?.slug;
-															return projectSlugDefault ? (
-																<LinkWithPreloader
-																	key={award.id}
-																	href={`/${language}/projects/${projectSlugDefault}`}
-																	className={styles.award}
-																	customMouseEnter={() => setHoveredAwardId(award.id)}
-																	customMouseLeave={() => setHoveredAwardId(null)}
-																>
-																	<div className={styles.linkIcon} />
-																	<div className={styles.text}>{award.title.rendered}</div>
-																</LinkWithPreloader>
-															) : (
-																<LinkWithPreloader
-																	key={award.id}
-																	href={`/${language}/projects/${projectSlug}`}
-																	className={styles.award}
-																	customMouseEnter={() => setHoveredAwardId(award.id)}
-																	customMouseLeave={() => setHoveredAwardId(null)}
-																>
-																	<div className={styles.linkIcon} />
-																	<div className={styles.text}>{award.title.rendered}</div>
-																</LinkWithPreloader>
-															);
-														})}
+										{Object.entries(awardEntry.years)
+											.sort((a, b) => Number(b[0]) - Number(a[0]))
+											.map(([year, data]) => {
+												return (
+													<div key={year} className={styles.awardYearBlock}>
+														<div className={styles.year}>{year}</div>
+														<div className={styles.awardsList}>
+															{data.map((nom, index) => {
+																const project = nom.project;
+																const slug = project?.slug;
+
+																if (!slug) return null;
+
+																return (
+																	<LinkWithPreloader
+																		key={`${year}-${index}`}
+																		href={`/${language}/projects/${slug}`}
+																		className={styles.award}
+																		customMouseEnter={() => setHoveredAwardId(project.id)}
+																		customMouseLeave={() => setHoveredAwardId(null)}
+																	>
+																		<div className={styles.linkIcon} />
+																		<div className={styles.text}>{nom.nomination}</div>
+																	</LinkWithPreloader>
+																);
+															})}
+														</div>
 													</div>
-												</div>
-											))}
+												);
+											})}
 									</div>
 								);
 							})}
 						</div>
 						<div className={styles.projectsList}>
 							{projectsList.map((project: any, index) => {
-								const awards = project.acf?.project_awards;
-								const isActive = Array.isArray(awards) && awards.some((award: any) => award.ID === hoveredAwardId);
+								const isActive = hoveredAwardId === project.id;
 								return (
 									<div key={`projectItem${project.id} ${index}`} className={`${styles.projectItem} ${isActive ? styles.active : ""}`}>
 										<div className={styles.image}>

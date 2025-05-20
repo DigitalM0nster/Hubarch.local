@@ -1,31 +1,107 @@
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+// src/app/[language]/projects/[projectId]/page.tsx
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-const wpApi = process.env.NEXT_PUBLIC_WP_API;
+import { Metadata, ResolvingMetadata } from "next";
+import https from "https";
+import ProjectIdPage from "./ProjectIdPage";
 
+// ⛔️ Временно отключаем SSL-проверку во всей Node-среде
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+// Типы для параметров
 type Props = {
-	params: Promise<{
-		language: string;
-		projectId: string;
-	}>;
+	params: Promise<{ language: string; projectId: string }>;
+	searchParams: { [key: string]: string | string[] | undefined };
 };
 
-// Генерация мета-данных для SEO
-export async function generateMetadata(props: Props): Promise<Metadata> {
-	const params = await props.params;
-	const { language, projectId } = params;
+interface Project {
+	id: number;
+	lang: string;
+	slug: string;
+	acf: any;
+	[otherProps: string]: any;
+}
 
-	const res = await fetch(`${wpApi}/projects?slug=${projectId}&lang=${language}`, { cache: "no-store" });
-	const data = await res.json();
+interface Award {
+	id: number;
+	name: string;
+	slug: string;
+	acf: any;
+}
 
-	if (!data || !data.length) return {};
+export async function getProjectData(language: string, projectId: string) {
+	const API_URL = process.env.NEXT_PUBLIC_WP_API;
+	if (!API_URL) throw new Error("NEXT_PUBLIC_WP_API не задан");
 
-	const project = data[0];
+	const agent = new https.Agent({ rejectUnauthorized: false });
 
-	const title = project.yoast_head_json?.title || project.title.rendered;
-	const description = project.yoast_head_json?.description || "";
-	const ogImage = project.yoast_head_json?.og_image?.[0]?.url || `${siteUrl}/images/og-default.jpg`;
+	try {
+		// Загружаем все проекты (так же, как в сторе)
+		const projectsRes = await fetch(`${API_URL}/projects?per_page=100&_embed`, {
+			next: { revalidate: 3600 },
+			agent,
+			headers: { Accept: "application/json" },
+		});
+		const projects: Project[] = await projectsRes.json();
+
+		// Ищем нужный проект по slug и языку
+		const foundProject = projects.find((p) => p.slug === projectId && p.lang === language);
+		if (!foundProject) return null;
+
+		// Загружаем все премии
+		const awardsRes = await fetch(`${API_URL}/awards?per_page=100&_fields=id,name,slug,acf`, {
+			next: { revalidate: 3600 },
+			agent,
+			headers: { Accept: "application/json" },
+		});
+		const allAwards: Award[] = await awardsRes.json();
+
+		// Обогащаем данные проекта премиями (как в сторе)
+		const awards = foundProject.acf?.project_awards || [];
+
+		// Заменяем каждую entry.award на чистый объект без title
+		const updatedAwards = awards
+			.map((entry: any) => {
+				const award = entry.award;
+				if (!award?.title || !award.year) return null;
+
+				const term = award.title;
+				const fullAward = allAwards.find((a) => a.id === term.term_id);
+				if (!fullAward) return null;
+
+				return {
+					term_id: term.term_id,
+					name: term.name,
+					slug: term.slug,
+					acf: fullAward.acf || {},
+					year: award.year,
+					nominations: award.nominations || [],
+				};
+			})
+			.filter(Boolean);
+
+		foundProject.acf.project_awards = updatedAwards;
+
+		return foundProject;
+	} catch (error) {
+		console.error("Ошибка при получении projectData:", error);
+		return null;
+	}
+}
+
+// Функция генерации метаданных страницы
+export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+	const { language, projectId } = await params;
+	const projectData = await getProjectData(language, projectId);
+	const previousImages = (await parent).openGraph?.images || [];
+
+	if (!projectData) {
+		return {
+			title: language === "ru" ? "Проект не найден" : "Project not found",
+		};
+	}
+
+	const title = projectData.title || `${language === "ru" ? "Проект" : "Project"} ${projectId}`;
+	const description = projectData.description || "";
 
 	return {
 		title,
@@ -33,49 +109,24 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 		openGraph: {
 			title,
 			description,
-			url: `${siteUrl}/${language}/projects/${project.slug}`,
-			images: [
-				{
-					url: ogImage,
-					width: 1200,
-					height: 630,
-				},
-			],
-			type: "article",
+			images: projectData.images?.length ? [{ url: projectData.images[0], alt: title }] : previousImages,
 		},
 	};
 }
 
-// Страница конкретного проекта
-export default async function ProjectPage(props: Props) {
-	const params = await props.params;
-	const { language, projectId } = params;
-
-	const res = await fetch(`${wpApi}/projects?slug=${projectId}&lang=${language}`, {
-		next: { revalidate: 60 }, // ISR
-	});
-	const data = await res.json();
-
-	if (!data || !data.length) return notFound();
-
-	const project = data[0];
-
-	return (
-		<main className="p-4">
-			<h1 className="text-2xl font-bold mb-4">{project.title.rendered}</h1>
-
-			{/* Пример клиентского компонента: <ProjectGallery images={project.acf.gallery} /> */}
-		</main>
-	);
+// Статические языковые параметры
+export function generateStaticParams() {
+	return [{ language: "ru" }, { language: "en" }];
 }
 
-// Для SSG: какие маршруты собирать
-export async function generateStaticParams() {
-	const res = await fetch(`${wpApi}/projects?per_page=100`);
-	const projects = await res.json();
+// Основной компонент страницы
+export default async function ProjectId({ params }: { params: Promise<{ language: string; projectId: string }> }) {
+	const { language, projectId } = await params;
 
-	return projects.map((project: any) => ({
-		language: project.lang || "ru", // язык проекта от Polylang
-		projectId: project.slug,
-	}));
+	const projectData = await getProjectData(language, projectId);
+	return (
+		<>
+			<ProjectIdPage language={language} projectId={projectId} projectData={projectData} />
+		</>
+	);
 }

@@ -6,8 +6,7 @@ export function generateStaticParams() {
 	return [{ language: "ru" }, { language: "en" }]; // Доступные языки
 }
 
-export default async function Projects(props: unknown) {
-	const { language } = (props as { params: { language: string } }).params;
-
+export default async function Projects({ params }: { params: Promise<{ language: string; projectId?: string }> }) {
+	const { language, projectId } = await params;
 	return <ProjectsPageClient language={language} />;
 }

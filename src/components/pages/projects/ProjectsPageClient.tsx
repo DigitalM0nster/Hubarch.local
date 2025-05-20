@@ -332,7 +332,8 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 										filteredProjects.map((project, index) => {
 											return (
 												<LinkWithPreloader
-													href={project.link}
+													// href={project.link}
+													href={`/${language}/projects/${project.slug}`}
 													key={`project${index}`}
 													className={`${styles.projectItem} ${activeProjectIndex === index ? styles.active : ""} ${
 														activeProjectIndex > index ? styles.prev : ""

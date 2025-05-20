@@ -1,21 +1,23 @@
+"use client";
+
 import styles from "./styles.module.scss";
-import { useMainPageStore } from "@/store/mainPageStore";
 import { usePreloaderStore } from "@/store/preloaderStore";
 import { useEffect } from "react";
 import { useWindowStore } from "@/store/windowStore";
+import { useAllOptionsStore } from "@/store/allOptionsStore";
 
 export default function Screen7({ language }: { language: string }) {
 	const { markReady } = usePreloaderStore();
 	const { isMobile } = useWindowStore();
-	const data = useMainPageStore((state) => state.data?.main_page_screen7);
-	const { mainPageFetchingFinished } = useMainPageStore();
+	const { footerData, isLoading } = useAllOptionsStore();
+	const data = footerData;
 
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
-		if (mainPageFetchingFinished) {
+		if (isLoading === false) {
 			markReady();
 		}
-	}, [mainPageFetchingFinished]);
+	}, [isLoading]);
 	/* eslint-enable react-hooks/exhaustive-deps */
 
 	return (
@@ -32,9 +34,9 @@ export default function Screen7({ language }: { language: string }) {
 				data-vertical-height={isMobile ? 100 : 100}
 				data-lines-color={"dark"}
 				data-left-line-x={0}
-				data-left-line-height={0}
+				data-left-line-height={100}
 				data-right-line-x={100}
-				data-right-line-height={0}
+				data-right-line-height={100}
 			>
 				<div className={`screenContent ${styles.screenContent}`}>
 					<div className={styles.logoBlock}>

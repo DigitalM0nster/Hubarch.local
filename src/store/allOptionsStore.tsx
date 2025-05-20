@@ -15,6 +15,14 @@ interface MenuLink {
 	};
 }
 
+export interface Letter {
+	image: {
+		alt: string;
+		name: string;
+		url: string;
+	};
+}
+
 interface TopMenuConnectText {
 	text_ru: string;
 	text_en: string;
@@ -59,6 +67,9 @@ interface AllOptionsState {
 		};
 		popup_inside_image: string;
 	} | null;
+	footerData: {
+		letters?: Letter[];
+	} | null;
 	fetchAllOptions: () => Promise<void>;
 }
 
@@ -68,13 +79,14 @@ export const useAllOptionsStore = create<AllOptionsState>((set, get) => ({
 	menuSettingsData: null,
 	privacyPolicyData: null,
 	popupData: null,
+	footerData: null,
 
 	fetchAllOptions: async () => {
 		const API_URL = process.env.NEXT_PUBLIC_WP_API?.replace("/wp/v2", "") ?? "";
 		if (!API_URL) {
 			throw new Error("NEXT_PUBLIC_WP_API не задан или некорректен");
 		}
-		if (get().menuSettingsData && get().privacyPolicyData && get().popupData) return; // Если данные уже есть, не запрашиваем заново
+		if (get().menuSettingsData && get().privacyPolicyData && get().popupData && get().footerData) return; // Если данные уже есть, не запрашиваем заново
 
 		set({ isLoading: true });
 		try {
@@ -82,6 +94,8 @@ export const useAllOptionsStore = create<AllOptionsState>((set, get) => ({
 			set({ menuSettingsData: response.data.menu_settings });
 			set({ privacyPolicyData: response.data.privacy_policy });
 			set({ popupData: response.data.popup });
+			set({ footerData: response.data.footer_screen });
+			console.log(response.data.footer_screen);
 		} catch (error) {
 			console.error("Ошибка загрузки меню", error);
 		} finally {

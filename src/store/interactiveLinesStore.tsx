@@ -17,7 +17,9 @@ export interface InteractiveLinesStore {
 
 	verticalLine: {
 		x: number;
+		y: number;
 		setNewX: (newX: number) => void;
+		setNewY: (newY: number) => void;
 
 		height: number;
 		setHeight: (newHeight: number) => void;
@@ -70,9 +72,16 @@ export const useInteractiveLinesStore = create<InteractiveLinesStore>((set) => (
 	},
 	verticalLine: {
 		x: 50,
+		y: 50,
+
 		setNewX: (newX) =>
 			set((state) => ({
 				verticalLine: { ...state.verticalLine, x: newX },
+			})),
+
+		setNewY: (newY) =>
+			set((state) => ({
+				verticalLine: { ...state.verticalLine, y: newY },
 			})),
 
 		height: 100,

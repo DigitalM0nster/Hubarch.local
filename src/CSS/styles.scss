@@ -73,6 +73,42 @@ p {
 	&.noScroll {
 		overflow: hidden;
 	}
+
+	&.simpleScroll {
+		overflow: auto;
+		overflow-x: hidden;
+
+		.screen {
+			top: auto;
+			opacity: 1;
+			position: relative;
+
+			&.projectsScreen {
+				&.active {
+					.titleBackground {
+						bottom: 50%;
+					}
+
+					.projectsContainer {
+						opacity: 1;
+					}
+				}
+				&.prev {
+					.titleBackground {
+						bottom: 50%;
+						opacity: 1;
+					}
+				}
+				.titleBackground {
+					bottom: 70%;
+				}
+
+				.projectsContainer {
+					opacity: 0;
+				}
+			}
+		}
+	}
 }
 
 .screen {

@@ -26,8 +26,8 @@ export default function MobileHud() {
 	useEffect(() => {
 		if (activeMenu) {
 			savedZIndex.current = zIndex;
-			console.log("gg1");
 			setScrollAllowed(false);
+			console.log("gg1");
 		} else {
 			setNewIndex(savedZIndex.current);
 			if (progress >= 100) {
@@ -78,7 +78,7 @@ export default function MobileHud() {
 					</div>
 				</div>
 			</div>
-			<div className={`${styles.mobileMenu} ${activeMenu ? styles.active : ""}`}>
+			<div className={`${styles.mobileMenu} mobileMenu ${activeMenu ? `${styles.active} active` : ""}`}>
 				<div className={`screenContent ${styles.menuContent}`}>
 					<div className={styles.languageBlock}>
 						<LinkWithPreloader
