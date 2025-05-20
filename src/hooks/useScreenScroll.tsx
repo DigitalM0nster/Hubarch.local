@@ -155,7 +155,6 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 				(entries) => {
 					for (const entry of entries) {
 						if (entry.isIntersecting) {
-							console.log(entry.target);
 							const index = Array.from(screensRef.current!).findIndex((el) => el === entry.target);
 							if (index !== -1) {
 								setActiveScreenIndex(index);
