@@ -111,31 +111,25 @@ export default function InfiniteGallery({ images }: Props) {
 		updateActiveItem(); // первый запуск
 
 		function updateActiveItem() {
-			const container = containerRef.current;
-			if (!container) return; // ⬅️ защита от null
-
-			const selector = `.${styles.imageItem as string}`;
-			const items = container.querySelectorAll<HTMLElement>(selector);
+			const items = container.querySelectorAll(`.${styles.imageItem}`);
 			const center = container.scrollLeft + container.offsetWidth / 2;
 
 			let closest: HTMLElement | null = null;
 			let closestDistance = Infinity;
 
-			items.forEach((item: HTMLElement) => {
+			items.forEach((item) => {
 				const box = item.getBoundingClientRect();
 				const itemCenter = box.left + box.width / 2;
 				const distance = Math.abs(itemCenter - container.offsetWidth / 2);
 
 				if (distance < closestDistance) {
 					closestDistance = distance;
-					closest = item;
+					closest = item as HTMLElement;
 				}
 			});
 
-			items.forEach((item: HTMLElement) => item.classList.remove(styles.active));
-			if (closest) {
-				(closest as HTMLElement).classList.add(styles.active);
-			}
+			items.forEach((item) => item.classList.remove(styles.active));
+			if (closest) closest.classList.add(styles.active);
 		}
 
 		return () => {
