@@ -9,6 +9,7 @@
 	--mainTextSize: 27px;
 	--miniTextSize: 15px;
 	--additionalTextSize: 17px;
+	--largeTextSize: 88px;
 	--titleBackgroundSize: 162px;
 	--letterSpacing: calc(var(--mainTextSize) * 0);
 	--letterSpacingHover: calc(var(--mainTextSize) * 0.035);
@@ -82,9 +83,12 @@ p {
 			top: auto;
 			opacity: 1;
 			position: relative;
+			pointer-events: auto;
 
 			&.projectsScreen {
+				pointer-events: none;
 				&.active {
+					pointer-events: auto;
 					.titleBackground {
 						bottom: 50%;
 					}
@@ -94,6 +98,7 @@ p {
 					}
 				}
 				&.prev {
+					pointer-events: none;
 					.titleBackground {
 						bottom: 50%;
 						opacity: 1;
@@ -163,6 +168,7 @@ p {
 	:root {
 		--contentWidth: calc(100vw - 480px);
 		--titleBackgroundSize: 8.5vw;
+		--largeTextSize: 4.6vw;
 	}
 	.screenContent {
 		height: calc(100% - ((var(--screenPadding) * 3) * 2));
@@ -173,6 +179,7 @@ p {
 @media (max-width: 1440px) {
 	:root {
 		--contentWidth: calc(100vw - 420px);
+		--mainTextSize: 1.7vw;
 	}
 }
 
@@ -180,6 +187,7 @@ p {
 	:root {
 		--contentWidth: calc(100vw - (var(--screenPadding) * 2) - 200px);
 		--menuFontSize: 16px;
+		--mainTextSize: 20px;
 	}
 	.screenContent {
 		max-width: var(--contentWidth);
@@ -235,6 +243,7 @@ p {
 	:root {
 		--mainTextSize: 20px;
 		--titleBackgroundSize: 15vw;
+		--largeTextSize: 28px;
 	}
 }
 
@@ -242,5 +251,10 @@ p {
 	:root {
 		--mainTextSize: 18px;
 		--titleBackgroundSize: 70px;
+	}
+}
+@media (max-width: 640px) {
+	:root {
+		--largeTextSize: 21px;
 	}
 }

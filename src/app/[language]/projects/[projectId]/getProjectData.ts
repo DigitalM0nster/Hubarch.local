@@ -17,6 +17,8 @@ interface Award {
 
 export async function getProjectData(language: string, projectId: string) {
 	const API_URL = process.env.NEXT_PUBLIC_WP_API;
+	process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 	if (!API_URL) throw new Error("NEXT_PUBLIC_WP_API не задан");
 
 	try {

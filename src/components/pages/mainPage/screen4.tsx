@@ -59,7 +59,7 @@ export default function Screen4({ language }: { language: string }) {
 				<div className={`screenContent ${styles.screenContent}`}>
 					<div className={styles.topBlock}>
 						<div className={styles.number}>({totalNominationsCount})</div>
-						<div className={styles.text}>{getPlural(totalNominationsCount, "Номинация", "Номинации", "Номинаций")}</div>
+						<div className={styles.text}>{getPlural(totalNominationsCount, "Премия", "Премии", "Премий")}</div>
 					</div>
 					<div className={styles.leftBlock}>
 						<div className={`titleBackground ${styles.titleBackgroundColor}`}>{totalNominationsCount}</div>

@@ -34,9 +34,9 @@ export default function Screen7({ language }: { language: string }) {
 				data-vertical-height={isMobile ? 100 : 100}
 				data-lines-color={"dark"}
 				data-left-line-x={0}
-				data-left-line-height={100}
+				data-left-line-height={isMobile ? 0 : 100}
 				data-right-line-x={100}
-				data-right-line-height={100}
+				data-right-line-height={isMobile ? 0 : 100}
 			>
 				<div className={`screenContent ${styles.screenContent}`}>
 					<div className={styles.logoBlock}>

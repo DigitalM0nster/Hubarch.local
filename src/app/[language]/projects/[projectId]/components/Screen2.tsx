@@ -19,8 +19,12 @@ export default function Screen2({ language, projectData }: { language: string; p
 			data-right-line-height={0}
 		>
 			<div className={`screenContent ${styles.screenContent}`}>
-				<div className={`${styles.content} ${!projectData?.acf?.project_services && !projectData?.acf?.project_team ? styles.noFirstBlock : ""}`}>
-					<div className={`${styles.block}`}>
+				<div
+					className={`${styles.content} ${!projectData?.acf?.project_services && !projectData?.acf?.project_team ? styles.noFirstBlock : ""} ${
+						projectData?.acf?.project_services != false && projectData?.acf?.project_team != false ? styles.twoBlocks : ""
+					} ${projectData?.acf?.project_articles === false ? styles.noArticles : ""}`}
+				>
+					<div className={`${styles.block} ${styles.teamServicesBlock}`}>
 						{projectData.acf.project_services != false && (
 							<div className={styles.projectServices}>
 								<div className={styles.blockTitle}>{language === "ru" ? "Услуги" : "Services"}</div>
@@ -50,7 +54,7 @@ export default function Screen2({ language, projectData }: { language: string; p
 							</div>
 						)}
 					</div>
-					<div className={styles.block}>
+					<div className={`${styles.block} ${styles.projectAboutBlock}`}>
 						{projectData?.acf?.project_description != false ? (
 							<div className={styles.projectAbout}>
 								<div className={styles.blockTitle}>{language === "ru" ? "О проекте" : "About the project"}</div>
@@ -64,7 +68,7 @@ export default function Screen2({ language, projectData }: { language: string; p
 						)}
 					</div>
 
-					<div className={styles.block}>
+					<div className={`${styles.block} ${styles.projectSpaceBlock}`}>
 						<div className={styles.projectSpace}>
 							{projectData?.acf?.project_footage && (
 								<div className={styles.text}>
@@ -74,8 +78,8 @@ export default function Screen2({ language, projectData }: { language: string; p
 						</div>
 					</div>
 
-					<div className={styles.block}>
-						{projectData?.acf?.project_articles != false && (
+					{projectData?.acf?.project_articles != false && (
+						<div className={`${styles.block} ${styles.projectArticlesBlock}`}>
 							<div className={styles.projectSmi}>
 								<div className={styles.blockTitle}>
 									{projectData?.acf?.project_articles?.length > 1
@@ -108,8 +112,8 @@ export default function Screen2({ language, projectData }: { language: string; p
 									);
 								})}
 							</div>
-						)}
-					</div>
+						</div>
+					)}
 				</div>
 				<div className={styles.awardsBlock}>
 					{projectData?.acf?.project_awards != false && <div className={styles.blockTitle}>Awards</div>}

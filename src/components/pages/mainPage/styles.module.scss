@@ -398,6 +398,11 @@
 			height: fit-content;
 			font-size: var(--mainTextSize);
 			opacity: 0;
+
+			.text {
+				font-family: "Panama Regular";
+				text-transform: uppercase;
+			}
 		}
 		.leftBlock {
 			position: fixed;
@@ -2019,6 +2024,17 @@
 		.imageBlock {
 			width: calc(20vw + 20dvh);
 			height: calc(20vw + 20dvh);
+		}
+	}
+
+	.screen3 {
+		.screenContent {
+			max-width: unset;
+			padding: 0px;
+		}
+		.projectsContainer {
+			padding: 0px var(--screenPadding) 5px var(--screenPadding);
+			width: calc(100% - var(--screenPadding) * 2);
 		}
 	}
 

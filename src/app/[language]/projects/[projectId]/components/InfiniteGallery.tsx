@@ -9,39 +9,28 @@ interface Props {
 
 export default function InfiniteGallery({ images }: Props) {
 	const containerRef = useRef<HTMLDivElement>(null);
-	const [galleryImages, setGalleryImages] = useState<string[]>(() => [...images, ...images, ...images]);
+	const galleryImages = [...images, ...images, ...images]; // 3 копии
 
-	const ITEM_WIDTH = 15 * 16; // 15vw approx in px — можно динамически
+	// const ITEM_WIDTH = 15 * 16; // 15vw approx in px — можно динамически
 	const DUPLICATION_THRESHOLD = 3; // Когда остаётся 3 элемента до конца — дублируем
 
-	const prependImages = () => {
-		setGalleryImages((prev) => [...images, ...prev]);
-		requestAnimationFrame(() => {
-			const container = containerRef.current;
-			if (container) {
-				container.scrollLeft += images.length * ITEM_WIDTH;
-			}
-		});
-	};
-
-	const appendImages = () => {
-		setGalleryImages((prev) => [...prev, ...images]);
-	};
+	let itemWidth = 0;
 
 	const handleScroll = () => {
 		const container = containerRef.current;
 		if (!container) return;
 
+		const totalWidth = images.length * itemWidth;
 		const scrollLeft = container.scrollLeft;
-		const maxScrollLeft = container.scrollWidth - container.clientWidth;
 
-		// Если подходим к началу
-		if (scrollLeft < images.length * ITEM_WIDTH * 0.5) {
-			prependImages();
+		// если ушли слишком влево — прыгаем в центр
+		if (scrollLeft < totalWidth * 0.5) {
+			container.scrollLeft += totalWidth;
 		}
-		// Если подходим к концу
-		else if (scrollLeft > maxScrollLeft - images.length * ITEM_WIDTH * 1.5) {
-			appendImages();
+
+		// если ушли слишком вправо — тоже прыгаем в центр
+		if (scrollLeft > totalWidth * 2.5) {
+			container.scrollLeft -= totalWidth;
 		}
 	};
 
@@ -49,10 +38,27 @@ export default function InfiniteGallery({ images }: Props) {
 		const container = containerRef.current;
 		if (!container) return;
 
-		container.scrollLeft = container.scrollWidth / 3;
+		const item = container.querySelector(`.${styles.imageItem}`) as HTMLElement;
+		if (item) {
+			itemWidth = item.offsetWidth;
+		}
 
-		container.addEventListener("scroll", handleScroll);
-		return () => container.removeEventListener("scroll", handleScroll);
+		container.scrollLeft = images.length * itemWidth;
+
+		const onScroll = () => {
+			const totalWidth = images.length * itemWidth;
+			const scrollLeft = container.scrollLeft;
+
+			if (scrollLeft < totalWidth * 0.5) {
+				container.scrollLeft += totalWidth;
+			}
+			if (scrollLeft > totalWidth * 2.5) {
+				container.scrollLeft -= totalWidth;
+			}
+		};
+
+		container.addEventListener("scroll", onScroll);
+		return () => container.removeEventListener("scroll", onScroll);
 	}, []);
 
 	// Drag

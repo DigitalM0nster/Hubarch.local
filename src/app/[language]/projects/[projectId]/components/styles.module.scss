@@ -324,6 +324,7 @@
 
 	.contentCenterScreen {
 		--imageWidth: 520px;
+		--textBottomPosition: 100px;
 
 		.screenContent {
 			flex-direction: column;
@@ -342,7 +343,7 @@
 			width: fit-content;
 			left: 0;
 			bottom: 0;
-			transform: translate(-100%, -100px);
+			transform: translate(-100%, calc(var(--textBottomPosition) * -1));
 
 			&.noImage {
 				position: relative;
@@ -362,12 +363,12 @@
 			}
 			.description {
 				padding: 0px 0px 0px var(--screenPadding);
-				max-height: calc(var(--imageWidth) - 100px * 2 - var(--textGap) - var(--mainTextSize));
+				max-height: calc(var(--imageWidth) - var(--textBottomPosition) * 2 - var(--textGap) - var(--mainTextSize));
 			}
 			.scrollOverlay {
 				display: none;
 				position: absolute;
-				bottom: 0;
+				bottom: -1px;
 				left: 0;
 				width: 100%;
 				height: 25px;
@@ -400,6 +401,7 @@
 		&.contentRightScreen {
 			.contentBlock {
 				flex-direction: column-reverse;
+				align-items: flex-start;
 				order: 2;
 			}
 			.imageBlock {
@@ -413,13 +415,12 @@
 		}
 
 		.contentContainer {
+			align-items: stretch;
 			position: relative;
 			width: 100%;
 		}
 		.contentBlock {
 			width: 50%;
-			min-height: 100%;
-			height: fit-content;
 			flex-direction: column;
 			justify-content: center;
 			align-items: flex-end;
@@ -428,9 +429,14 @@
 		}
 		.imageBlock {
 			width: 50%;
-			height: 100dvh;
-			min-height: 70vw;
-			gap: 10vw;
+			align-items: stretch;
+
+			img {
+				position: relative;
+				height: 100%;
+				min-height: 70vw;
+				object-fit: cover;
+			}
 
 			&.noImage {
 				min-height: unset;
@@ -445,6 +451,7 @@
 		}
 
 		.littleImageBlock {
+			justify-content: center;
 			height: 25vw;
 			img {
 				width: 25vw;
@@ -590,18 +597,226 @@
 }
 
 @media (max-width: 1680px) {
-	.imageScreen {
-		.screenContent {
-			gap: calc(var(--screenPadding) * 3);
+	.screenScroll {
+		.screen {
+			.screenTitle {
+				margin: 0px 0px calc(var(--screenPadding) * 3) 0px;
+			}
+		}
+		.screen1 {
+			.projectName {
+				font-size: 4.6vw;
+				bottom: 80px;
+			}
+		}
+		.screen2 {
+			.block {
+				&:nth-child(1n) {
+					padding: 0px 2vw 0px 0px;
+					width: calc(50% - 10px - 2vw);
+				}
+				&:nth-child(2n) {
+					padding: 0px 0px 0px 2vw;
+					width: calc(50% - 10px - 2vw);
+				}
+			}
+		}
+		.contentCenterScreen {
+			--imageWidth: 25vw;
+			--textBottomPosition: 3vw;
+
+			.textBlock {
+				max-width: calc((var(--contentWidth) - var(--imageWidth)) * 0.5 - var(--screenPadding) * 1 * 2);
+				padding: 0px calc(var(--screenPadding) * 1);
+
+				.description {
+					font-size: 16px;
+				}
+			}
+		}
+		.contentLeftRightScreen {
+			&.contentRightScreen {
+				.textBlock,
+				.littleImageBlock {
+					width: calc(var(--contentWidth) * 0.5 - var(--screenPadding) * 3 - var(--screenPadding) * 2);
+					padding: 0px calc(var(--screenPadding) * 2) 0px calc(var(--screenPadding) * 3);
+				}
+			}
+			.textBlock,
+			.littleImageBlock {
+				width: calc(var(--contentWidth) * 0.5 - var(--screenPadding) * 3 - var(--screenPadding) * 2);
+				padding: 0px calc(var(--screenPadding) * 3) 0px calc(var(--screenPadding) * 2);
+			}
 		}
 	}
 }
 @media (max-width: 1440px) {
+	.screenScroll {
+		.screen2 {
+			.content {
+				gap: 8vw 4vw;
+
+				&.twoBlocks {
+					&.noArticles {
+						.projectSpaceBlock {
+							padding: 0px 0vw 0px 2vw;
+						}
+					}
+
+					.teamServicesBlock {
+						flex-direction: row;
+						padding: 0px 0px 0px 0px;
+						width: calc(100% - 0vw);
+						gap: 4vw;
+						order: 1;
+
+						.projectServices {
+							padding: 0px 2vw 0px 0px;
+							width: calc(50% - 2vw - 2vw);
+						}
+
+						.projectTeam {
+							padding: 0px 0px 0px 2vw;
+							width: calc(50% - 2vw - 2vw);
+						}
+					}
+
+					.projectAboutBlock {
+						padding: 0px 2vw 0px 0px;
+						order: 2;
+					}
+
+					.projectSpaceBlock {
+						padding: 0px 2vw 0px 0vw;
+						order: 4;
+					}
+
+					.projectArticlesBlock {
+						padding: 0px 0vw 0px 2vw;
+						order: 3;
+					}
+				}
+			}
+			.block {
+				flex-wrap: wrap;
+				gap: 8vw 4vw;
+				width: calc(50% - 2vw - 2vw);
+
+				&:nth-child(1n) {
+					width: calc(50% - 2vw - 2vw);
+				}
+				&:nth-child(2n) {
+					width: calc(50% - 2vw - 2vw);
+				}
+
+				.projectServices {
+					width: calc(50% - 2vw);
+					min-width: 200px;
+				}
+
+				.projectTeam {
+					width: calc(50% - 2vw);
+					min-width: 200px;
+				}
+			}
+		}
+		.contentCenterScreen {
+			--imageWidth: 30vw;
+
+			.textBlock {
+				padding: 0px calc(var(--screenPadding) * 1) 0px 0px;
+				max-width: calc((var(--contentWidth) - var(--imageWidth)) * 0.5 - var(--screenPadding) * 1 * 1);
+
+				.description {
+					font-size: 1.1vw;
+					padding: 0px 0px 0px calc(var(--screenPadding) * 0.5);
+				}
+			}
+		}
+		.contentLeftRightScreen {
+			.textBlock {
+				.description {
+					font-size: 1.1vw;
+				}
+			}
+		}
+		.galleryScreen {
+			.imageItem {
+				width: calc(100vw / 5);
+				height: 35vw;
+			}
+		}
+	}
 }
 @media (max-width: 1280px) {
+	.screenScroll {
+		.contentCenterScreen {
+			--imageWidth: 33vw;
+
+			.imageBlock {
+				flex-direction: column;
+				align-items: center;
+				height: fit-content;
+				gap: 25px;
+
+				img {
+					width: var(--imageWidth);
+					height: var(--imageWidth);
+					position: relative;
+					order: 2;
+				}
+				.textBlock {
+					order: 1;
+					position: relative;
+					transform: translate(0px, 0px);
+					padding: 0px;
+					width: 100%;
+					max-width: unset;
+					gap: 2px;
+
+					.description {
+						max-height: unset;
+						font-size: 16px;
+						padding: 0px 0px 0px calc(var(--screenPadding) * 1);
+					}
+				}
+			}
+		}
+		.contentLeftRightScreen {
+			&.contentRightScreen {
+				.textBlock,
+				.littleImageBlock {
+					width: calc(var(--contentWidth) * 0.5 - var(--screenPadding) * 2 - var(--screenPadding) * 0);
+					padding: 0px calc(var(--screenPadding) * 0) 0px calc(var(--screenPadding) * 1);
+				}
+			}
+			.textBlock,
+			.littleImageBlock {
+				width: calc(var(--contentWidth) * 0.5 - var(--screenPadding) * 2 - var(--screenPadding) * 0);
+				padding: 0px calc(var(--screenPadding) * 2) 0px calc(var(--screenPadding) * 0);
+				.description {
+					font-size: 16px;
+				}
+				img {
+					width: calc(var(--contentWidth) * 0.5 - var(--screenPadding) * 2 - var(--screenPadding) * 0);
+					height: calc(var(--contentWidth) * 0.5 - var(--screenPadding) * 2 - var(--screenPadding) * 0);
+				}
+			}
+
+			.littleImageBlock {
+				height: calc(var(--contentWidth) * 0.5 - var(--screenPadding) * 2);
+			}
+		}
+	}
 }
 @media (max-width: 980px) {
 	.screenScroll {
+		.screen {
+			padding: 100px 0px 0px 0px;
+			.screenTitle {
+				margin: 0px 0px calc(var(--screenPadding) * 2) 0px;
+			}
+		}
 		.screen2 {
 			.awardsBlock {
 				left: calc(var(--screenPadding) * -1);
@@ -637,18 +852,276 @@
 			}
 		}
 
+		.contentCenterScreen {
+			--imageWidth: 40vw;
+		}
+
+		.imageScreen {
+			.imageBlock {
+				height: 62vw;
+			}
+		}
+
 		.contentLeftRightScreen {
 			&.contentRightScreen {
 				.contentBlock {
 					flex-direction: column;
+					padding: 0px var(--screenPadding) 0px calc(var(--screenPadding) * 2);
+				}
+
+				.textBlock {
+					width: calc(100%);
+					padding: 0;
+				}
+
+				.imageBlock {
+					width: calc(50% - var(--screenPadding));
+					padding: 0px 0px 0px var(--screenPadding);
+				}
+
+				.littleImageBlock {
+					padding: 0;
+					width: 100%;
+					height: calc(50vw - var(--screenPadding) * 3);
+
+					img {
+						width: 100%;
+						height: 100%;
+						object-fit: cover;
+					}
+				}
+			}
+
+			.contentBlock {
+				width: calc(50% - var(--screenPadding) * 3);
+				padding: 0px calc(var(--screenPadding) * 2) 0px var(--screenPadding);
+			}
+
+			.textBlock {
+				width: calc(100%);
+				padding: 0;
+			}
+
+			.imageBlock {
+				width: calc(50% - var(--screenPadding));
+				padding: 0px var(--screenPadding) 0px 0px;
+			}
+
+			.littleImageBlock {
+				padding: 0;
+				width: 100%;
+				height: calc(50vw - var(--screenPadding) * 3);
+
+				img {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+				}
+			}
+		}
+
+		.contentListsScreen {
+			.screenContent {
+				height: fit-content;
+				gap: 50px 30px;
+			}
+
+			.block {
+				padding: 0px 3vw 0px 0px;
+				width: calc(50% - 15px - 3vw);
+
+				&:nth-child(2n) {
+					padding: 0px 0px 0px 3vw;
+					width: calc(50% - 15px - 3vw);
 				}
 			}
 		}
 	}
 }
 @media (max-width: 768px) {
+	.screenScroll {
+		.screen1 {
+			height: 100dvh;
+			padding: 0;
+			.screenContent {
+				position: absolute;
+				height: 100%;
+				width: 100%;
+			}
+			.projectName {
+				height: fit-content;
+				bottom: unset;
+				top: 50dvh;
+				transform: translate(0px, 25px);
+			}
+		}
+		.contentCenterScreen {
+			--imageWidth: 300px;
+		}
+		.contentLeftRightScreen {
+			&.contentRightScreen {
+				.contentBlock {
+					padding: 0;
+					width: 100%;
+					order: 1;
+				}
+				.imageBlock {
+					width: 100%;
+					padding: 0;
+					height: fit-content;
+					order: 2;
+				}
+				.textBlock {
+					order: 2;
+				}
+				.littleImageBlock {
+					height: fit-content;
+					order: 1;
+				}
+			}
+			.contentContainer {
+				flex-direction: column;
+				align-items: center;
+				width: calc(100% - var(--screenPadding) * 2);
+				padding: 0px var(--screenPadding);
+				gap: 25px;
+			}
+			.contentBlock {
+				flex-direction: column-reverse;
+				width: 100%;
+				padding: 0;
+				gap: 25px;
+			}
+
+			.littleImageBlock {
+				padding: 0;
+				width: 100%;
+				height: fit-content;
+
+				img {
+					position: relative;
+				}
+			}
+
+			.imageBlock {
+				width: 100%;
+				padding: 0;
+				height: fit-content;
+
+				img {
+					position: relative;
+				}
+			}
+		}
+		.galleryScreen {
+			.screenContent {
+				min-height: 50dvh;
+				height: fit-content;
+			}
+			.gallery {
+				align-items: center;
+				padding: 0;
+				gap: 15px;
+			}
+			.imageItem {
+				width: calc(100vw / 3);
+				height: 55vw;
+			}
+		}
+	}
 }
 @media (max-width: 640px) {
+	.screenScroll {
+		.screen2 {
+			.content {
+				gap: 75px 0px;
+				&.twoBlocks {
+					&.noArticles {
+						.projectSpaceBlock {
+							padding: 0px 0px 0px 0px;
+						}
+					}
+					.teamServicesBlock {
+					}
+					.projectAboutBlock {
+						padding: 0px 0px 0px 0px;
+					}
+					.projectSpaceBlock {
+						padding: 0px 0px 0px 0px;
+					}
+					.projectArticlesBlock {
+						padding: 0px 0px 0px 0px;
+					}
+				}
+			}
+			.block {
+				&:nth-child(1n) {
+					width: calc(100%);
+					padding: 0px;
+				}
+				&:nth-child(2n) {
+					width: calc(100%);
+					padding: 0px;
+				}
+			}
+		}
+		.contentListsScreen {
+			.screenContent {
+				gap: 75px;
+			}
+			.block {
+				width: 100%;
+				padding: 0px;
+
+				&:nth-child(2n) {
+					width: 100%;
+					padding: 0px;
+				}
+			}
+		}
+	}
 }
 @media (max-width: 480px) {
+	.screenScroll {
+		.screen1 {
+			.projectName {
+				font-size: 21px;
+				bottom: 50%;
+			}
+		}
+		.screen2 {
+			.content {
+				flex-direction: column;
+				gap: 50px;
+				&.twoBlocks {
+					.teamServicesBlock {
+						flex-direction: column;
+						gap: 50px;
+						.projectServices {
+							width: 100%;
+							padding: 0px 0px 0px 0px;
+						}
+						.projectTeam {
+							width: 100%;
+							padding: 0px 0px 0px 0px;
+						}
+					}
+				}
+			}
+			.block {
+			}
+		}
+		.contentCenterScreen {
+			--imageWidth: calc(100vw - var(--screenPadding) * 2);
+
+			.imageBlock {
+				width: 100%;
+				.textBlock {
+					.description {
+						padding: 0px;
+					}
+				}
+			}
+		}
+	}
 }
