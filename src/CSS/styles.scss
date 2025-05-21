@@ -151,6 +151,7 @@ p {
 }
 
 .titleBackground {
+	text-align: center;
 	text-transform: uppercase;
 	font-family: "Panama Regular";
 	font-size: var(--titleBackgroundSize);
@@ -209,6 +210,14 @@ p {
 
 		&.noScroll {
 			overflow-y: hidden;
+		}
+
+		&.simpleScroll {
+			.screen {
+				&.projectsScreen {
+					padding: 150px 0px 0px 0px;
+				}
+			}
 		}
 	}
 

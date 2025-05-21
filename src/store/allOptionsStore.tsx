@@ -95,7 +95,6 @@ export const useAllOptionsStore = create<AllOptionsState>((set, get) => ({
 			set({ privacyPolicyData: response.data.privacy_policy });
 			set({ popupData: response.data.popup });
 			set({ footerData: response.data.footer_screen });
-			console.log(response.data.footer_screen);
 		} catch (error) {
 			console.error("Ошибка загрузки меню", error);
 		} finally {

@@ -17,7 +17,7 @@ import Screen7 from "@/components/pages/mainPage/screen7";
 
 export default function ProjectIdPage({ language, projectId, projectData }: { language: string; projectId: string; projectData: any }) {
 	// Получаем данные проекта из стора или из initialData
-	console.log(projectData);
+	// console.log(projectData);
 
 	const ConstructorMap: Record<string, React.FC<{ blockData: any; language: string; projectId: string; projectData: any }>> = {
 		image_screen: ImageScreen,

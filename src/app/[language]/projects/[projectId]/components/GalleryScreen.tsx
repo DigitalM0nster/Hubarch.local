@@ -1,13 +1,17 @@
 import styles from "./styles.module.scss";
 import InfiniteGallery from "./InfiniteGallery";
 
+interface Image {
+	caption: string;
+	url: string;
+}
 interface ScreenProps {
 	language: string;
 	projectId: string;
 	projectData: any;
 	blockData: {
 		acf_fc_layout: string;
-		images_list: string[] | false;
+		images_list: [Image] | false;
 	};
 }
 
