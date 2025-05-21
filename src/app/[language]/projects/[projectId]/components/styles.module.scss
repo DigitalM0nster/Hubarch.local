@@ -549,8 +549,10 @@
 
 		.gallery {
 			display: flex;
+			justify-content: center;
 			gap: 2vw;
-			padding: 0 20vw;
+			padding: 0;
+			width: 100%;
 			overflow-x: scroll;
 			cursor: grab;
 			user-select: none;
