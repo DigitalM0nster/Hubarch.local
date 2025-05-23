@@ -4,6 +4,11 @@ import { Metadata, ResolvingMetadata } from "next";
 import ProjectIdPage from "./ProjectIdPage";
 import { getProjectData } from "./getProjectData";
 
+// Указываем Next.js, что страница должна быть динамической
+export const dynamic = "force-dynamic";
+// Отключаем кеширование данных
+export const revalidate = 0;
+
 export async function generateMetadata({ params }: { params: Promise<{ language: string; projectId: string }> }, parent: ResolvingMetadata): Promise<Metadata> {
 	const { language, projectId } = await params;
 	const projectData = await getProjectData(language, projectId);
