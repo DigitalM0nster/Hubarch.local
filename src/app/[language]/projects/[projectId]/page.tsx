@@ -4,8 +4,7 @@ import { Metadata, ResolvingMetadata } from "next";
 import ProjectIdPage from "./ProjectIdPage";
 import { getProjectData } from "./getProjectData";
 
-// Отключаем кеширование для метаданных
-export const revalidate = 0;
+// Отключаем кеширование полностью
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ language: string; projectId: string }> }, parent: ResolvingMetadata): Promise<Metadata> {
@@ -33,13 +32,11 @@ export async function generateMetadata({ params }: { params: Promise<{ language:
 	};
 }
 
-// Компонент страницы теперь просто передает параметры в клиентский компонент
 export default async function ProjectId({ params }: { params: Promise<{ language: string; projectId: string }> }) {
 	const { language, projectId } = await params;
 
-	// Получаем начальные данные для гидрации
-	const initialData = await getProjectData(language, projectId);
+	// Получаем свежие данные при каждом запросе
+	const projectData = await getProjectData(language, projectId);
 
-	// Передаем всё в клиентский компонент
-	return <ProjectIdPage language={language} projectId={projectId} initialData={initialData} />;
+	return <ProjectIdPage language={language} projectId={projectId} projectData={projectData} />;
 }

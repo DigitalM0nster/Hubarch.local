@@ -23,7 +23,7 @@ export async function getProjectData(language: string, projectId: string) {
 
 	try {
 		const projectsRes = await fetch(`${API_URL}/projects?per_page=100&_embed`, {
-			next: { revalidate: 3600 },
+			cache: "no-store",
 			headers: { Accept: "application/json" },
 		});
 		const projects: Project[] = await projectsRes.json();
@@ -32,7 +32,7 @@ export async function getProjectData(language: string, projectId: string) {
 		if (!foundProject) return null;
 
 		const awardsRes = await fetch(`${API_URL}/awards?per_page=100&_fields=id,name,slug,acf`, {
-			next: { revalidate: 3600 },
+			cache: "no-store",
 			headers: { Accept: "application/json" },
 		});
 		const allAwards: Award[] = await awardsRes.json();
@@ -60,7 +60,7 @@ export async function getProjectData(language: string, projectId: string) {
 			.filter(Boolean);
 
 		foundProject.acf.project_awards = updatedAwards;
-		console.log(foundProject);
+		console.log("getProjectData: Получены свежие данные для", projectId);
 
 		return foundProject;
 	} catch (error) {
