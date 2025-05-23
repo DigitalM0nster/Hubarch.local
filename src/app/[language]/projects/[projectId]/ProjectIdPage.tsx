@@ -1,7 +1,11 @@
 // src\app\[language]\projects\[projectId]\ProjectId.tsx
 
+"use client";
+
+import { useEffect, useState } from "react";
 import ClientComponent from "./components/ClientComponent";
 import styles from "./components/styles.module.scss";
+import { getProjectData } from "./getProjectData";
 
 import ImageScreen from "./components/ImageScreen";
 import ContentCenterScreen from "./components/ContentCenterScreen";
@@ -15,9 +19,30 @@ import Screen3 from "@/components/pages/mainPage/screen3";
 import ProjectsClientScreen from "./components/ProjectsClientScreen";
 import Screen7 from "@/components/pages/mainPage/screen7";
 
-export default function ProjectIdPage({ language, projectId, projectData }: { language: string; projectId: string; projectData: any }) {
-	// Получаем данные проекта из стора или из initialData
-	console.log("projectData", projectData);
+interface ProjectIdPageProps {
+	language: string;
+	projectId: string;
+	initialData: any;
+}
+
+export default function ProjectIdPage({ language, projectId, initialData }: ProjectIdPageProps) {
+	const [projectData, setProjectData] = useState(initialData);
+
+	// Функция для обновления данных
+	const refreshData = async () => {
+		try {
+			const newData = await getProjectData(language, projectId);
+			setProjectData(newData);
+			console.log("ProjectIdPage: Data refreshed", newData);
+		} catch (error) {
+			console.error("Error refreshing data:", error);
+		}
+	};
+
+	// Обновляем данные при изменении параметров
+	useEffect(() => {
+		refreshData();
+	}, [language, projectId]);
 
 	const ConstructorMap: Record<string, React.FC<{ blockData: any; language: string; projectId: string; projectData: any }>> = {
 		image_screen: ImageScreen,
@@ -27,6 +52,10 @@ export default function ProjectIdPage({ language, projectId, projectData }: { la
 		content_lists_screen: ContentListsScreen,
 		gallery_screen: GalleryScreen,
 	};
+
+	if (!projectData) {
+		return <div>Loading...</div>;
+	}
 
 	return (
 		<>
@@ -39,7 +68,7 @@ export default function ProjectIdPage({ language, projectId, projectData }: { la
 						console.log("ProjectIDPage -> projectBlock", projectBlock);
 						const BlockComponent = ConstructorMap[projectBlock.acf_fc_layout];
 
-						return <BlockComponent blockData={projectBlock} language={language} projectId={projectId} projectData={projectData} />;
+						return <BlockComponent key={index} blockData={projectBlock} language={language} projectId={projectId} projectData={projectData} />;
 					})}
 				<ProjectsClientScreen language={language} currentProjectId={projectId} />
 				<Screen7 language={language} />

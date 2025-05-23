@@ -23,6 +23,18 @@ export function middleware(request: NextRequest) {
 		return NextResponse.next();
 	}
 
+	// Проверяем, является ли путь страницей проекта
+	if (pathname.includes("/projects/")) {
+		const response = NextResponse.next();
+
+		// Устанавливаем заголовки для предотвращения кеширования
+		response.headers.set("Cache-Control", "no-store, must-revalidate");
+		response.headers.set("Pragma", "no-cache");
+		response.headers.set("Expires", "0");
+
+		return response;
+	}
+
 	// Всё остальное считаем 404
 	return NextResponse.rewrite(new URL("/not-found", request.url));
 }

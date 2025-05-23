@@ -4,10 +4,9 @@ import { Metadata, ResolvingMetadata } from "next";
 import ProjectIdPage from "./ProjectIdPage";
 import { getProjectData } from "./getProjectData";
 
-// Указываем Next.js, что страница должна быть динамической
-export const dynamic = "force-dynamic";
-// Отключаем кеширование данных
+// Отключаем кеширование для метаданных
 export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ language: string; projectId: string }> }, parent: ResolvingMetadata): Promise<Metadata> {
 	const { language, projectId } = await params;
@@ -34,14 +33,13 @@ export async function generateMetadata({ params }: { params: Promise<{ language:
 	};
 }
 
-export function generateStaticParams() {
-	return [{ language: "ru" }, { language: "en" }];
-}
-
+// Компонент страницы теперь просто передает параметры в клиентский компонент
 export default async function ProjectId({ params }: { params: Promise<{ language: string; projectId: string }> }) {
 	const { language, projectId } = await params;
 
-	const projectData = await getProjectData(language, projectId);
-	console.log("projectData page.tsx", projectData);
-	return <ProjectIdPage language={language} projectId={projectId} projectData={projectData} />;
+	// Получаем начальные данные для гидрации
+	const initialData = await getProjectData(language, projectId);
+
+	// Передаем всё в клиентский компонент
+	return <ProjectIdPage language={language} projectId={projectId} initialData={initialData} />;
 }
