@@ -126,7 +126,7 @@ export default function Preloader() {
 						img.addEventListener(
 							"error",
 							() => {
-								alert(`❌ Ошибка загрузки изображения: ${img.src}`);
+								// alert(`❌ Ошибка загрузки изображения: ${img.src}`);
 								checkAllLoaded();
 							},
 							{ once: true }
@@ -136,7 +136,7 @@ export default function Preloader() {
 
 				timeoutId = setTimeout(() => {
 					const notLoaded = images.filter((img) => !img.complete);
-					alert("⏱️ Время ожидания загрузки изображений истекло.\nНе загружены:\n" + notLoaded.map((img) => img.src).join("\n"));
+					// alert("⏱️ Время ожидания загрузки изображений истекло.\nНе загружены:\n" + notLoaded.map((img) => img.src).join("\n"));
 					targetProgress.current = 100;
 					observer?.disconnect();
 				}, 8000);

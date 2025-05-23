@@ -60,6 +60,7 @@ export default function InfiniteGallery({ images }: Props) {
 		} else {
 			setGalleryImages([...normalizedImages, ...normalizedImages, ...normalizedImages]);
 		}
+		console.log(images, normalizedImages);
 	}, [normalizedImages, images, isInfinite]);
 
 	// 2. Инициализация скролла и ширины
