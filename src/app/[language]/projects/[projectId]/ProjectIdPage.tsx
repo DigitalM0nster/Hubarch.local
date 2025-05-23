@@ -17,7 +17,7 @@ import Screen7 from "@/components/pages/mainPage/screen7";
 
 export default function ProjectIdPage({ language, projectId, projectData }: { language: string; projectId: string; projectData: any }) {
 	// Получаем данные проекта из стора или из initialData
-	console.log(projectData);
+	console.log("projectData", projectData);
 
 	const ConstructorMap: Record<string, React.FC<{ blockData: any; language: string; projectId: string; projectData: any }>> = {
 		image_screen: ImageScreen,
@@ -36,6 +36,7 @@ export default function ProjectIdPage({ language, projectId, projectData }: { la
 				<Screen2 language={language} projectData={projectData} />
 				{projectData?.acf?.project_blocks != false &&
 					projectData?.acf?.project_blocks?.map((projectBlock: any, index: number) => {
+						console.log("ProjectIDPage -> projectBlock", projectBlock);
 						const BlockComponent = ConstructorMap[projectBlock.acf_fc_layout];
 
 						return <BlockComponent blockData={projectBlock} language={language} projectId={projectId} projectData={projectData} />;

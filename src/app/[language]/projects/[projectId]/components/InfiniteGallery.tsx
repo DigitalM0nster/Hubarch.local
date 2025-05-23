@@ -60,7 +60,7 @@ export default function InfiniteGallery({ images }: Props) {
 		} else {
 			setGalleryImages([...normalizedImages, ...normalizedImages, ...normalizedImages]);
 		}
-		console.log(images, normalizedImages);
+		// console.log(images, normalizedImages);
 	}, [normalizedImages, images, isInfinite]);
 
 	// 2. Инициализация скролла и ширины
@@ -107,7 +107,7 @@ export default function InfiniteGallery({ images }: Props) {
 		const scrollWidth = container.scrollWidth;
 		const oneThird = scrollWidth / 3;
 
-		console.log(container.scrollLeft, oneThird);
+		// console.log(container.scrollLeft, oneThird);
 		// если слишком далеко влево — переносим вправо на треть
 		if (scrollLeft <= oneThird / 2) {
 			container.scrollLeft += oneThird;
@@ -115,7 +115,6 @@ export default function InfiniteGallery({ images }: Props) {
 
 		// если слишком далеко вправо — переносим влево на треть
 		else if (scrollLeft > oneThird + oneThird / 2) {
-			console.log("gg2");
 			container.scrollLeft -= oneThird;
 		}
 

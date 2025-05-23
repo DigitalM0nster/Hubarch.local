@@ -37,5 +37,6 @@ export default async function ProjectId({ params }: { params: Promise<{ language
 	const { language, projectId } = await params;
 
 	const projectData = await getProjectData(language, projectId);
+	console.log("projectData page.tsx", projectData);
 	return <ProjectIdPage language={language} projectId={projectId} projectData={projectData} />;
 }

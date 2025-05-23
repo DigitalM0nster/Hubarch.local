@@ -16,6 +16,7 @@ interface ScreenProps {
 }
 
 export default function GalleryScreen({ language, projectId, projectData, blockData }: ScreenProps) {
+	console.log("blockData", blockData);
 	if (blockData.images_list === false) {
 		return null;
 	}
