@@ -20,7 +20,7 @@ export default function Screen1() {
 		if (mainPageFetchingFinished) {
 			markReady();
 		}
-		console.log(data);
+		// console.log(data);
 	}, [mainPageFetchingFinished]);
 
 	/* eslint-enable react-hooks/exhaustive-deps */

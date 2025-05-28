@@ -53,6 +53,7 @@ export default function Preloader() {
 			lastUpdateTime.current = now;
 
 			let step;
+			console.log(targetProgress.current);
 			if (targetProgress.current < 95) {
 				step = (targetProgress.current - currentProgress.current) / (500 / deltaTime);
 			} else {
@@ -80,13 +81,6 @@ export default function Preloader() {
 	}, []);
 
 	useEffect(() => {
-		// const timeout = setTimeout(() => {
-		// 	if (!started.current) {
-		// 		targetProgress.current = 100;
-		// 		animateProgress();
-		// 	}
-		// }, 5000); // 5 секунд
-
 		const startLoader = () => {
 			const screenContainer = document.querySelector(".screenScroll");
 			if (!screenContainer) {
@@ -191,6 +185,7 @@ export default function Preloader() {
 						const totalDelay = duration + delay;
 
 						setTimeout(() => {
+							alert("GG");
 							animateProgress();
 							resolve();
 						}, totalDelay);

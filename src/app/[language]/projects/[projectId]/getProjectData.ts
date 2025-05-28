@@ -60,7 +60,7 @@ export async function getProjectData(language: string, projectId: string) {
 			.filter(Boolean);
 
 		foundProject.acf.project_awards = updatedAwards;
-		console.log("getProjectData: Получены свежие данные для", projectId);
+		// console.log("getProjectData: Получены свежие данные для", projectId);
 
 		return foundProject;
 	} catch (error) {

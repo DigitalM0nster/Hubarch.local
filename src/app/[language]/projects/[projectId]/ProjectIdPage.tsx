@@ -43,7 +43,7 @@ export default function ProjectIdPage({ language, projectId, projectData }: Proj
 				<Screen2 language={language} projectData={projectData} />
 				{projectData?.acf?.project_blocks != false &&
 					projectData?.acf?.project_blocks?.map((projectBlock: any, index: number) => {
-						console.log("ProjectIDPage -> projectBlock", projectBlock);
+						// console.log("ProjectIDPage -> projectBlock", projectBlock);
 						const BlockComponent = ConstructorMap[projectBlock.acf_fc_layout];
 
 						return <BlockComponent key={index} blockData={projectBlock} language={language} projectId={projectId} projectData={projectData} />;

@@ -27,7 +27,6 @@ export default function MobileHud() {
 		if (activeMenu) {
 			savedZIndex.current = zIndex;
 			setScrollAllowed(false);
-			console.log("gg1");
 		} else {
 			setNewIndex(savedZIndex.current);
 			if (progress >= 100) {
