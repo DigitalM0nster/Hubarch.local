@@ -1,3 +1,5 @@
+// src\app\[language]\page.tsx
+
 import MainPageClient from "@/components/pages/mainPage/mainPageClient";
 import type { Metadata } from "next";
 

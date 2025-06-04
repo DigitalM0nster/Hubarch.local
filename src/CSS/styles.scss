@@ -76,6 +76,8 @@ p {
 	}
 
 	&.simpleScroll {
+		display: flex;
+		flex-direction: column;
 		overflow: auto;
 		overflow-x: hidden;
 
@@ -214,6 +216,8 @@ p {
 
 		&.simpleScroll {
 			.screen {
+				padding: 100px 0px 0px 0px;
+
 				&.projectsScreen {
 					padding: 150px 0px 0px 0px;
 				}

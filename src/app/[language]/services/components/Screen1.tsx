@@ -1,0 +1,41 @@
+"use client";
+
+import Faq from "@/components/faq/Faq";
+import styles from "./styles.module.scss";
+import { useServicesPageStore } from "@/store/servicesPageStore";
+import parse from "html-react-parser";
+import { useWindowStore } from "@/store/windowStore";
+
+export default function Screen1({ language }: { language: string }) {
+	const { data } = useServicesPageStore();
+	const { isMobile } = useWindowStore();
+	return (
+		<div
+			className={`screen active ${styles.screen} ${styles.screen1}`}
+			data-screen-lightness="light"
+			data-lines-index={1}
+			data-mini-line-rotation={-45}
+			data-position-x={isMobile ? 50 : 25}
+			data-position-y={50}
+			data-vertical-y={isMobile ? 50 : 40}
+			data-horizontal-x={50}
+			data-horizontal-width={isMobile ? 100 : 50}
+			data-vertical-height={isMobile ? 100 : 60}
+			data-lines-color={"dark"}
+			data-left-line-x={0}
+			data-left-line-height={0}
+			data-right-line-x={100}
+			data-right-line-height={0}
+		>
+			<div className={`screenContent ${styles.screenContent}`}>
+				<div className={styles.leftPart}>
+					<div className={`${styles.titleBackground} titleBackground`}>{data?.services_page_screen1?.left_block?.background_title}</div>
+					{data?.services_page_screen1?.left_block?.text && <div className={styles.text}>{parse(data?.services_page_screen1?.left_block?.text)}</div>}
+				</div>
+				<div className={styles.rightPart}>
+					<Faq faqData={data?.services_page_screen1?.right_block_faq} />
+				</div>
+			</div>
+		</div>
+	);
+}

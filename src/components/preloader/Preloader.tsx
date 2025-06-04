@@ -185,7 +185,6 @@ export default function Preloader() {
 						const totalDelay = duration + delay;
 
 						setTimeout(() => {
-							alert("GG");
 							animateProgress();
 							resolve();
 						}, totalDelay);

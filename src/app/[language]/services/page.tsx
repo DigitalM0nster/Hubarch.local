@@ -1,4 +1,11 @@
+// src\app\[language]\services\page.tsx
+
 import type { Metadata } from "next";
+import ClientComponent from "./components/ClientComponent";
+import Screen1 from "./components/Screen1";
+import Screen2 from "./components/Screen2";
+import Screen3 from "./components/Screen3";
+import Screen7 from "@/components/pages/mainPage/screen7";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -24,13 +31,19 @@ export const metadata: Metadata = {
 	},
 };
 
-export default function Services() {
+export default async function Services({ params }: { params: Promise<{ language: string }> }) {
+	const { language } = await params;
+	// const pageData = await getServicesPageData(language);
+
 	return (
 		<>
-			<main>
-				<h1>Наши услуги</h1>
-				<p>Описание всех услуг, которые мы предоставляем.</p>
-			</main>
+			<div className="screenScroll simpleScroll">
+				<ClientComponent language={language} />
+				<Screen1 language={language} />
+				<Screen2 language={language} />
+				<Screen3 language={language} />
+				<Screen7 language={language} />
+			</div>
 		</>
 	);
 }

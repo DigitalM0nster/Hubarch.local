@@ -1,0 +1,457 @@
+.applicationScreen {
+	opacity: 1;
+	top: 100%;
+	justify-content: center;
+	align-items: center;
+	transition: 1s;
+
+	--formPadding: 30px;
+
+	* {
+		transition: 1s;
+	}
+
+	&.active {
+		opacity: 1;
+		top: 0dvh;
+		transition: 1s 0.5s;
+
+		.titleBackgroundBlock {
+			opacity: 1;
+			transform: translate(-0, -75dvh);
+			transition: 1s 0s;
+
+			&.transparent {
+				opacity: 0;
+				transition: all 1s 0s, opacity 1s 1s;
+			}
+
+			.titleBackground {
+				transform: translate(0, calc(75dvh - 40%));
+				transition: 1s 0.5s;
+				opacity: 0.15;
+			}
+		}
+
+		.form {
+			opacity: 1;
+			transition: 1s 0.75s;
+		}
+		.image {
+			opacity: 1;
+			transition: 1s 0.75s;
+		}
+	}
+	.titleBackgroundBlock {
+		position: absolute;
+		top: 0;
+		justify-content: center;
+		width: 100%;
+		pointer-events: none;
+		transform: translate(0, 0dvh);
+		opacity: 1;
+		z-index: -1;
+
+		.titleBackground {
+			justify-content: center;
+			text-align: center;
+			opacity: 1;
+		}
+	}
+
+	.form {
+		opacity: 0;
+		font-size: var(--additionalTextSize);
+		flex-direction: column;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		border-left: 1px solid #c7c7c7;
+		border-right: 1px solid #c7c7c7;
+
+		&::before {
+			content: "";
+			display: flex;
+			position: absolute;
+			left: -1px;
+			top: 0;
+			width: 1px;
+			height: 10%;
+			background-color: var(--backgroundColor);
+		}
+
+		&::after {
+			content: "";
+			display: flex;
+			position: absolute;
+			left: -1px;
+			bottom: 0;
+			width: 1px;
+			height: 10%;
+			background-color: var(--backgroundColor);
+		}
+
+		.topPart {
+			flex-direction: column;
+			justify-content: flex-end;
+			height: 50%;
+		}
+		.bottomPart {
+			flex-direction: column;
+			justify-content: space-between;
+			height: 50%;
+
+			.formInputs {
+				flex-direction: column;
+			}
+		}
+
+		input,
+		textarea {
+			font-family: Inter;
+			font-size: var(--additionalTextSize);
+			font-weight: 300;
+			background-color: transparent;
+			padding: var(--formPadding) 50% var(--formPadding) var(--formPadding);
+			border: 1px solid transparent;
+			border-bottom: 1px solid #c7c7c7;
+			color: var(--mainTextColor);
+			opacity: 1;
+			min-width: calc(100% - var(--formPadding) - 50%);
+			max-width: calc(100% - var(--formPadding) - 50%);
+			max-height: 150px;
+
+			&::placeholder {
+				opacity: 1;
+				color: var(--mainTextColor);
+			}
+			&:hover {
+				border-bottom: 1px solid var(--mainTextColor);
+			}
+
+			&:focus-visible {
+				outline: none;
+				border: 1px solid var(--mainTextColor);
+			}
+		}
+
+		.dropdown {
+			font-family: Inter;
+			font-weight: 300;
+			width: 100%;
+			border: 1px solid transparent;
+			border-bottom: 1px solid #c7c7c7;
+			cursor: pointer;
+
+			&:hover {
+				border-bottom: 1px solid var(--mainTextColor);
+			}
+
+			&.active {
+				outline: none;
+				border: 1px solid var(--mainTextColor);
+
+				.dropdownList {
+					max-height: 500px;
+					pointer-events: auto;
+					transition: 0.3s;
+				}
+			}
+
+			.dropdownSelected {
+				padding: var(--formPadding);
+				width: calc(100% - (var(--formPadding) * 2));
+				height: fit-content;
+			}
+
+			.dropdownList {
+				flex-direction: column;
+				position: absolute;
+				left: -1px;
+				top: 0%;
+				width: calc(100% + 2px);
+				height: fit-content;
+				max-height: 0px;
+				pointer-events: none;
+				overflow: hidden;
+				background-color: var(--backgroundColor);
+				z-index: 1;
+				transition: 0s;
+
+				.dropdownItem {
+					padding: var(--formPadding);
+					width: calc(100% - var(--formPadding) * 2 - 2px);
+					height: 100%;
+					border: 1px solid black;
+					// border-top: none;
+					border-bottom: 1px solid transparent;
+					cursor: pointer;
+					opacity: 0.75;
+
+					&:hover {
+						opacity: 1;
+					}
+
+					&.active {
+						font-weight: 600;
+					}
+
+					&:first-child {
+						border-top: none;
+					}
+					&:last-child {
+						border-bottom: 1px solid black;
+					}
+				}
+			}
+		}
+
+		.buttonBlock {
+			width: calc(50% - var(--formPadding) * 2);
+			padding: var(--formPadding);
+			gap: 50px;
+
+			.button {
+				align-items: center;
+				font-family: Panama Regular;
+				font-weight: 400;
+				font-size: var(--menuFontSize);
+				gap: 10px;
+				cursor: pointer;
+
+				.icon {
+					width: var(--menuFontSize);
+					height: var(--menuFontSize);
+					background-image: url("/images/linkArrow.svg");
+					background-position: center;
+					background-repeat: no-repeat;
+					background-size: contain;
+				}
+
+				.text {
+					text-transform: uppercase;
+					transform: translate(0px, 6%);
+				}
+			}
+
+			.acceptText {
+				font-family: Inter;
+				font-size: var(--miniTextSize);
+				opacity: 0.5;
+				max-width: 370px;
+
+				.privacyPolicy {
+					cursor: pointer;
+
+					&:hover {
+						text-decoration: underline;
+					}
+				}
+			}
+		}
+
+		.textBlock {
+			font-family: Inter;
+			position: absolute;
+			bottom: 0;
+			transform: translate(-1px, calc(var(--screenPadding) * 2));
+			font-size: var(--mainTextSize);
+			background-color: var(--backgroundColor);
+			width: calc(50% - var(--formPadding));
+
+			p {
+				margin: 0;
+			}
+		}
+	}
+	.image {
+		position: absolute;
+		width: 50%;
+		height: 100%;
+		left: 50%;
+		z-index: 2;
+		opacity: 0;
+	}
+}
+
+@media (max-width: 1750px) {
+	.applicationScreen {
+		--formPadding: 1.2vw;
+	}
+}
+
+@media (max-width: 1680px) {
+}
+
+@media (max-width: 1440px) {
+}
+
+@media (max-width: 1280px) {
+}
+
+@media (max-width: 980px) {
+	.applicationScreen {
+		top: auto;
+		pointer-events: all;
+		opacity: 1;
+		transition: 1s;
+		height: fit-content;
+		margin: 30dvh 0px 0px 0px;
+
+		.screenContent {
+			flex-direction: column;
+			align-items: center;
+			height: fit-content;
+		}
+
+		&.active {
+			top: auto;
+			opacity: 1;
+
+			.titleBackgroundBlock {
+				position: relative;
+				top: 0;
+				transform: translate(0, calc(-0%));
+				transition: 1s;
+
+				.titleBackground {
+					transform: translate(0, 0);
+					opacity: 1;
+					transition: 1s;
+				}
+			}
+
+			.form {
+				opacity: 1;
+				transition: 1s;
+			}
+		}
+
+		.titleBackgroundBlock {
+			position: relative;
+			top: 0;
+			transform: translate(0, calc(0%));
+			margin: 0px 0px 30px 0px;
+
+			.titleBackground {
+				transform: translate(0, 0);
+				line-height: 1.2;
+			}
+		}
+
+		.form {
+			width: 50%;
+			opacity: 1;
+			&::before,
+			&::after {
+				display: none;
+			}
+
+			input,
+			textarea {
+				padding: var(--formPadding);
+				min-width: calc(100% - var(--formPadding) * 2);
+				max-width: calc(100% - var(--formPadding) * 2);
+			}
+
+			.buttonBlock {
+				flex-direction: column;
+				gap: 10px;
+				width: calc(100% - var(--formPadding) * 2);
+			}
+
+			.topPart {
+				order: 2;
+			}
+
+			.bottomPart {
+				order: 3;
+			}
+
+			.textBlock {
+				position: relative;
+				font-size: var(--additionalTextSize);
+				top: auto;
+				transform: translate(0, 0);
+				padding: auto;
+				width: 100%;
+				justify-content: center;
+				text-align: center;
+				order: 1;
+				margin: 0px 0px 30px 0px;
+			}
+		}
+
+		.image {
+			position: relative;
+			width: 50%;
+			height: 50vw;
+			order: 4;
+			left: 0;
+			margin: 30px 0px 0px 0px;
+			opacity: 1;
+		}
+	}
+}
+
+@media (max-width: 768px) {
+	.applicationScreen {
+		--formPadding: 10px;
+
+		.titleBackgroundBlock {
+			justify-content: center;
+			.titleBackground {
+				justify-content: center;
+				text-align: center;
+				line-height: 1;
+			}
+		}
+		.form {
+			width: 100%;
+			max-width: 350px;
+		}
+
+		.image {
+			width: 100%;
+			height: 55vw;
+			max-width: 350px;
+			order: 4;
+		}
+	}
+}
+
+@media (max-width: 640px) {
+	.applicationScreen {
+		.image {
+			width: 100%;
+			height: 100vw;
+			max-height: 360px;
+		}
+	}
+}
+
+@media (max-width: 480px) {
+	.applicationScreen {
+		.image {
+			width: 100vw;
+			height: 110vw;
+			max-height: unset;
+			max-width: unset;
+		}
+
+		.form {
+			max-width: unset;
+		}
+	}
+}
+
+@media (max-height: 450px) {
+	@media (max-width: 1280px) {
+	}
+
+	@media (max-width: 980px) {
+	}
+
+	@media (max-width: 640px) {
+	}
+}

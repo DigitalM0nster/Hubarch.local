@@ -1,4 +1,4 @@
-// src/lib/getProjectData.ts
+// src\app\[language]\projects\[projectId]\getProjectData.ts
 
 interface Project {
 	id: number;

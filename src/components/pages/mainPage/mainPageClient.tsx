@@ -15,7 +15,6 @@ import Screen6 from "./screen6";
 import { usePreloaderStore } from "@/store/preloaderStore";
 import { useDetectMobile } from "@/hooks/useDetectMobile";
 import { useScrollStore } from "@/store/scrollStore";
-import { useAreaRangeStore } from "@/store/areaRangeStore";
 import Screen7 from "./screen7";
 import { useAwardsAndProjectsStore } from "@/store/awardsAndProjectsStore";
 
@@ -24,7 +23,6 @@ export default function MainPageClient({ language }: { language: string }) {
 	useDetectMobile();
 	const { data, error, fetchData } = useMainPageStore();
 	const { fetchAwardsAndProjects } = useAwardsAndProjectsStore();
-	const { fetchRanges } = useAreaRangeStore();
 	const { setTotal } = usePreloaderStore();
 	const { scrollAllowed } = useScrollStore();
 
@@ -34,7 +32,6 @@ export default function MainPageClient({ language }: { language: string }) {
 	useEffect(() => {
 		fetchData(language);
 		fetchAwardsAndProjects(language);
-		fetchRanges(); // ← добавляем это!
 	}, []);
 
 	/* eslint-enable react-hooks/exhaustive-deps */
