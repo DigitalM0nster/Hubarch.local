@@ -22,6 +22,7 @@
 
 	.rightPart {
 		flex-direction: column;
+		justify-content: flex-end;
 		width: calc(50% - var(--screenPadding));
 		padding: 0px 0px 0px var(--screenPadding);
 		gap: 70px;
