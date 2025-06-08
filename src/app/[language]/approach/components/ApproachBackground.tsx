@@ -35,7 +35,7 @@ export default function ApproachBackground({ language }: { language: string }) {
 
 			// Активируем overlay если последний экран активен
 			if (overlayRef.current && textRef.current) {
-				if (approachActiveScreen === 7) {
+				if (approachActiveScreen > 7) {
 					overlayRef.current.classList.add(styles.inactive);
 					textRef.current.classList.add(styles.inactive);
 				} else {
