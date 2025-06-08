@@ -4,6 +4,7 @@ import { useWindowStore } from "@/store/windowStore";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 import { usePathname } from "next/navigation";
 import { useScreenInit } from "@/hooks/useScreenInit";
+import { useApproachPageStore } from "@/store/approachPageStore";
 
 export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 	const { scrollAllowed, setScrollAllowed } = useScrollStore();
@@ -12,6 +13,7 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 	const pathname = usePathname();
 
 	const [activeScreenIndex, setActiveScreenIndex] = useState(0);
+	const { setApproachActiveScreen } = useApproachPageStore();
 
 	const scrollAllowedRef = useRef(scrollAllowed);
 	const scrollAllowedLocalRef = useRef(true);
@@ -118,6 +120,7 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 				scrollAllowedLocalRef.current = false;
 				setScrollAllowed(false);
 				setActiveScreenIndex(newIndex);
+				setApproachActiveScreen(newIndex);
 
 				const screen = screensRef.current[newIndex] as HTMLElement;
 				changeScreenOptions(screen);
@@ -158,6 +161,7 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 							const index = Array.from(screensRef.current!).findIndex((el) => el === entry.target);
 							if (index !== -1) {
 								setActiveScreenIndex(index);
+								setApproachActiveScreen(index);
 								changeScreenOptions(entry.target as HTMLElement);
 							}
 						}

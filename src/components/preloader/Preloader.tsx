@@ -53,7 +53,6 @@ export default function Preloader() {
 			lastUpdateTime.current = now;
 
 			let step;
-			console.log(targetProgress.current);
 			if (targetProgress.current < 95) {
 				step = (targetProgress.current - currentProgress.current) / (500 / deltaTime);
 			} else {
