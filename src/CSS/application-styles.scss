@@ -1,5 +1,6 @@
 .simpleScroll {
 	.applicationScreen {
+		margin-top: 150px;
 		&.active {
 			.titleBackgroundBlock {
 				opacity: 1;
@@ -25,33 +26,33 @@
 	&.active {
 		opacity: 1;
 		top: 0dvh;
-		transition: 1s 0.5s;
+		transition: 0.5s 0.25s;
 
 		.titleBackgroundBlock {
 			opacity: 1;
 			transform: translate(-0, -75dvh);
-			transition: 1s 0s;
+			transition: 0.5s 0s;
 
 			&.transparent {
 				opacity: 0;
-				transition: all 1s 0s, opacity 1s 1s;
+				transition: all 0.5s 0s, opacity 0.5s 0.5s;
 			}
 
 			.titleBackground {
 				transform: translate(0, calc(75dvh - 40%));
-				transition: 1s 0.5s;
+				transition: 0.5s 0.25s;
 				opacity: 0.15;
 			}
 		}
 
 		.form {
 			opacity: 1;
-			transition: 1s 1.25s;
+			transition: 0.5s 0.625s;
 		}
 
 		.image {
 			opacity: 1;
-			transition: 1s 1.25s;
+			transition: 0.5s 0.625s;
 		}
 	}
 }

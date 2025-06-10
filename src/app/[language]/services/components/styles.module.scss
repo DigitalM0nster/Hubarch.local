@@ -19,6 +19,7 @@
 	.rightPart {
 		width: calc(50% - var(--screenPadding));
 		padding: 0px 0px 0px var(--screenPadding);
+		align-items: center;
 	}
 }
 
