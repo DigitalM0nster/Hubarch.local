@@ -24,7 +24,7 @@ export default function ApproachBackground({ language }: { language: string }) {
 			numbers.forEach((number, index) => {
 				const rect = number.querySelector("rect");
 				if (rect) {
-					rect.setAttribute("fill", index <= approachActiveScreen ? "#101118" : "#f3f1ed");
+					rect.setAttribute("fill", index <= approachActiveScreen ? "#e2e2e2" : "#f3f1ed");
 				}
 			});
 
@@ -97,7 +97,7 @@ export default function ApproachBackground({ language }: { language: string }) {
 				numbers.forEach((number, index) => {
 					const rect = number.querySelector("rect");
 					if (rect) {
-						rect.setAttribute("fill", index <= currentScreen ? "#101118" : "#f3f1ed");
+						rect.setAttribute("fill", index <= currentScreen ? "#e2e2e2" : "#f3f1ed");
 					}
 				});
 
@@ -217,7 +217,7 @@ export default function ApproachBackground({ language }: { language: string }) {
 				<path d="M459.501 31.2416C505.809 40.6281 548.918 58.8296 587.001 84.0187" stroke="#4F505F" strokeOpacity="0.16" pathLength="100" strokeDasharray="100 0" />
 				<path
 					d="M459.501 31.2416C505.809 40.6281 548.918 58.8296 587.001 84.0187"
-					stroke="#101118"
+					stroke="#c1c1c1"
 					strokeOpacity="1"
 					pathLength="100"
 					strokeDasharray="20 80"
@@ -228,7 +228,7 @@ export default function ApproachBackground({ language }: { language: string }) {
 				<path d="M689.319 186.001C714.943 224.465 733.422 268.097 742.86 315.001" stroke="#4F505F" strokeOpacity="0.16" pathLength="100" strokeDasharray="100 0" />
 				<path
 					d="M689.319 186.001C714.943 224.465 733.422 268.097 742.86 315.001"
-					stroke="#101118"
+					stroke="#c1c1c1"
 					strokeOpacity="1"
 					pathLength="100"
 					strokeDasharray="0 100"
@@ -239,7 +239,7 @@ export default function ApproachBackground({ language }: { language: string }) {
 				<path d="M742.86 459.001C733.445 505.794 715.03 549.33 689.501 587.727" stroke="#4F505F" strokeOpacity="0.16" pathLength="100" strokeDasharray="100 0" />
 				<path
 					d="M742.86 459.001C733.445 505.794 715.03 549.33 689.501 587.727"
-					stroke="#101118"
+					stroke="#c1c1c1"
 					strokeOpacity="1"
 					pathLength="100"
 					strokeDasharray="0 100"
@@ -250,7 +250,7 @@ export default function ApproachBackground({ language }: { language: string }) {
 				<path d="M587.727 689.501C549.467 714.939 506.104 733.313 459.501 742.76" stroke="#4F505F" strokeOpacity="0.16" pathLength="100" strokeDasharray="100 0" />
 				<path
 					d="M587.727 689.501C549.467 714.939 506.104 733.313 459.501 742.76"
-					stroke="#101118"
+					stroke="#c1c1c1"
 					strokeOpacity="1"
 					pathLength="100"
 					strokeDasharray="0 100"
@@ -261,7 +261,7 @@ export default function ApproachBackground({ language }: { language: string }) {
 				<path d="M315.001 742.86C268.097 733.422 224.465 714.943 186.001 689.319" stroke="#4F505F" strokeOpacity="0.16" pathLength="100" strokeDasharray="100 0" />
 				<path
 					d="M315.001 742.86C268.097 733.422 224.465 714.943 186.001 689.319"
-					stroke="#101118"
+					stroke="#c1c1c1"
 					strokeOpacity="1"
 					pathLength="100"
 					strokeDasharray="0 100"
@@ -272,7 +272,7 @@ export default function ApproachBackground({ language }: { language: string }) {
 				<path d="M84.0187 587.001C58.8296 548.918 40.6281 505.809 31.2416 459.501" stroke="#4F505F" strokeOpacity="0.16" pathLength="100" strokeDasharray="100 0" />
 				<path
 					d="M84.0187 587.001C58.8296 548.918 40.6281 505.809 31.2416 459.501"
-					stroke="#101118"
+					stroke="#c1c1c1"
 					strokeOpacity="1"
 					pathLength="100"
 					strokeDasharray="0 100"
@@ -283,7 +283,7 @@ export default function ApproachBackground({ language }: { language: string }) {
 				<path d="M31.1406 315.001C40.538 268.3 58.8983 224.843 84.35 186.501" stroke="#4F505F" strokeOpacity="0.16" pathLength="100" strokeDasharray="100 0" />
 				<path
 					d="M31.1406 315.001C40.538 268.3 58.8983 224.843 84.35 186.501"
-					stroke="#101118"
+					stroke="#c1c1c1"
 					strokeOpacity="1"
 					pathLength="100"
 					strokeDasharray="0 100"
@@ -294,7 +294,7 @@ export default function ApproachBackground({ language }: { language: string }) {
 				<path d="M186.501 84.35C224.843 58.8983 268.3 40.538 315.001 31.1406" stroke="#4F505F" strokeOpacity="0.16" pathLength="100" strokeDasharray="100 0" />
 				<path
 					d="M186.501 84.35C224.843 58.8983 268.3 40.538 315.001 31.1406"
-					stroke="#101118"
+					stroke="#c1c1c1"
 					strokeOpacity="1"
 					pathLength="100"
 					strokeDasharray="0 100"

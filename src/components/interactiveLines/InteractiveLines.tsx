@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 
 export default function InteractiveLines() {
-	const { zIndex, active, miniLine, verticalLine, horizontalLine, rightLine, leftLine, linesColor } = useInteractiveLinesStore();
+	const { zIndex, active, miniLine, verticalLine, horizontalLine, rightLine, leftLine, linesColor, linesOpacity } = useInteractiveLinesStore();
 	const { activeMenu } = useHudMenuStore();
 	const interactiveLinesRef = useRef<HTMLDivElement | null>(null);
 	const verticalLineRef = useRef<HTMLDivElement | null>(null);
@@ -35,7 +35,8 @@ export default function InteractiveLines() {
 
 	useEffect(() => {
 		interactiveLinesRef.current?.style.setProperty("z-index", zIndex.toString());
-	}, [zIndex]);
+		interactiveLinesRef.current?.style.setProperty("opacity", linesOpacity.toString());
+	}, [zIndex, linesOpacity]);
 
 	useEffect(() => {
 		if (activeMenu) {

@@ -1014,7 +1014,16 @@
 					margin: 0;
 					padding: 0 0 0 20px;
 
-					li {
+					li,
+					a.li {
+						a {
+							color: var(--mainTextColor);
+							text-decoration: none;
+							word-wrap: break-word;
+							opacity: 0.5;
+						}
+						color: var(--mainTextColor);
+						text-decoration: none;
 						word-wrap: break-word;
 						opacity: 0.5;
 					}

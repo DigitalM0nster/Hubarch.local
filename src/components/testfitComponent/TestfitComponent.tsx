@@ -11,7 +11,7 @@ interface PriceItem {
 export default function TestfitComponent({ language, data }: { language: string; data: any }) {
 	return (
 		<div
-			className={`screen active ${styles.screen}`}
+			className={`screen ${styles.screen}`}
 			data-screen-lightness="light"
 			data-lines-index={1}
 			data-mini-line-rotation={45}

@@ -1,6 +1,13 @@
+// src\app\[language]\services\page.tsx
+
 import type { Metadata } from "next";
+import ClientComponent from "./components/ClientComponent";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
+export function generateStaticParams() {
+	return [{ language: "ru" }, { language: "en" }]; // Доступные языки
+}
 
 export const metadata: Metadata = {
 	title: "Hubarch - контакты",
@@ -8,7 +15,7 @@ export const metadata: Metadata = {
 	openGraph: {
 		title: "Hubarch - контакты",
 		description: "Описание страницы контакты",
-		url: `${siteUrl}/services`, // Динамически подставляем домен
+		url: `${siteUrl}/contacts`, // Динамически подставляем домен
 		images: [
 			{
 				url: `${siteUrl}/images/about-us.jpg`, // Динамический URL для картинки
@@ -20,17 +27,15 @@ export const metadata: Metadata = {
 	},
 };
 
-export function generateStaticParams() {
-	return [{ language: "ru" }, { language: "en" }]; // Доступные языки
-}
+export default async function Services({ params }: { params: Promise<{ language: string }> }) {
+	const { language } = await params;
+	// const pageData = await getServicesPageData(language);
 
-export default function Contacts() {
 	return (
 		<>
-			<main>
-				<h1>Контакты</h1>
-				<p>Контактная информация</p>
-			</main>
+			<div className="screenScroll simpleScroll">
+				<ClientComponent language={language} />
+			</div>
 		</>
 	);
 }

@@ -4,7 +4,7 @@ import { useHudMenuStore } from "@/store/hudMenuStore";
 import { usePathname } from "next/navigation";
 
 export const useScreenInit = () => {
-	const { setActiveLinesHud, setLinesColor, setNewIndex, miniLine, verticalLine, horizontalLine, leftLine, rightLine } = useInteractiveLinesStore();
+	const { setActiveLinesHud, setLinesColor, setLinesOpacity, setNewIndex, miniLine, verticalLine, horizontalLine, leftLine, rightLine } = useInteractiveLinesStore();
 	const { setScreenLightness } = useHudMenuStore();
 	const pathname = usePathname();
 	const screensRef = useRef<NodeListOf<Element> | null>(null);
@@ -25,6 +25,7 @@ export const useScreenInit = () => {
 		const rightLineX = parseFloat(screen.dataset.rightLineX || "100");
 		const rightLineHeight = parseFloat(screen.dataset.rightLineHeight || "0");
 		const linesColor = (screen.dataset.linesColor === "light" ? "light" : "dark") as "light" | "dark";
+		const linesOpacity = parseFloat(screen.dataset.linesOpacity || "1.0");
 
 		setScreenLightness(screenLightness === "light" ? "light" : "dark");
 
@@ -46,6 +47,7 @@ export const useScreenInit = () => {
 		rightLine.setNewX(rightLineX);
 
 		setLinesColor(linesColor);
+		setLinesOpacity(linesOpacity);
 	};
 
 	const waitForScreensReady = (): Promise<NodeListOf<Element>> => {

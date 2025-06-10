@@ -10,6 +10,9 @@ export interface InteractiveLinesStore {
 	linesColor: "light" | "dark";
 	setLinesColor: (newColor: "light" | "dark") => void;
 
+	linesOpacity: number;
+	setLinesOpacity: (newOpacity: number) => void;
+
 	miniLine: {
 		rotation: number;
 		setNewRotation: (degrees: number) => void;
@@ -58,6 +61,9 @@ export const useInteractiveLinesStore = create<InteractiveLinesStore>((set) => (
 	setActiveLinesHud: (state) => set({ active: state }),
 
 	linesColor: "dark",
+	linesOpacity: 1.0,
+	setLinesOpacity: (newOpacity) => set({ linesOpacity: newOpacity }),
+
 	setLinesColor: (newColor) => set({ linesColor: newColor }), // Изменение zIndex
 
 	zIndex: 0,

@@ -115,7 +115,7 @@ export default function ApplicationComponent({ language, data }: { language: str
 			>
 				<div className={`screenContent ${styles.screenContent}`}>
 					<div className={`${styles.titleBackgroundBlock} titleBackgroundBlock ${data?.image ? styles.transparent : ""} ${data?.image ? "transparent" : ""}`}>
-						{data?.title_background && <div className={`titleBackground ${styles.titleBackground}`}>{data?.title_background}</div>}
+						<div className={`titleBackground ${styles.titleBackground}`}>{data?.title_background || (language === "ru" ? "СВЯЖИТЕСЬ С НАМИ" : "CONTACT US")}</div>
 					</div>
 					<div ref={formRef} className={`${styles.form} form`}>
 						<div className={styles.topPart}>
@@ -241,7 +241,14 @@ export default function ApplicationComponent({ language, data }: { language: str
 								</div>
 							</div>
 						</div>
-						{data?.additional_text && <div className={styles.textBlock}>{parse(data.additional_text)}</div>}
+						<div className={styles.textBlock}>
+							{parse(
+								data?.additional_text ||
+									(language === "ru"
+										? `<p><span style='font-family: "Panama Regular", sans-serif;'>СВЯЖИТЕСЬ С&nbsp;НАМИ</span>, будем рады обсудить ваш проект и ответить на вопросы.</p>`
+										: `<p><span style='font-family: "Panama Regular", sans-serif;'>CONTACT US</span>, we would be happy to discuss your project and answer any questions.</p>`)
+							)}
+						</div>
 					</div>
 					{data?.image && (
 						<div className={`${styles.image} image`}>

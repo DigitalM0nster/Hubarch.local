@@ -17,7 +17,7 @@ declare global {
 }
 
 export default function Preloader() {
-	const { zIndex, verticalLine, horizontalLine } = useInteractiveLinesStore();
+	const { zIndex, verticalLine, horizontalLine, linesOpacity } = useInteractiveLinesStore();
 	const { activeMenu } = useHudMenuStore();
 	const { setOnAllScreensReady, setResetPreloaderCallback, triggerResetPreloader, progress, setProgress } = usePreloaderStore();
 
@@ -252,6 +252,10 @@ export default function Preloader() {
 		linesBlockRef.current?.style.setProperty("left", `${verticalLine.x}%`);
 		linesBlockRef.current?.style.setProperty("transition", "all 1s");
 	}, [verticalLine.x]);
+
+	useEffect(() => {
+		linesBlockRef.current?.style.setProperty("opacity", linesOpacity.toString());
+	}, [linesOpacity]);
 
 	useEffect(() => {
 		linesBlockRef.current?.style.setProperty("top", `${horizontalLine.y}%`);
