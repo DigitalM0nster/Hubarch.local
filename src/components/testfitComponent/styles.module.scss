@@ -122,6 +122,22 @@
 	}
 }
 
+@media (max-width: 1750px) {
+}
+
+@media (max-width: 1680px) {
+	.screen {
+		.leftPart {
+			.imageBlock {
+				height: 20vw;
+			}
+		}
+	}
+}
+
+@media (max-width: 1440px) {
+}
+
 @media (max-width: 980px) {
 	.screen {
 		min-height: unset;

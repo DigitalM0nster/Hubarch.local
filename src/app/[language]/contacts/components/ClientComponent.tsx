@@ -6,7 +6,7 @@ import { useScreenScroll } from "@/hooks/useScreenScroll";
 import { usePreloaderStore } from "@/store/preloaderStore";
 import { useScrollStore } from "@/store/scrollStore";
 import { useWindowStore } from "@/store/windowStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import { useContactsPageStore } from "@/store/contactsPageStore";
 import parse from "html-react-parser";
@@ -54,6 +54,8 @@ export default function ClientComponent({ language }: { language: string }) {
 	const { windowWidth } = useWindowStore();
 	const { data, contactsPageFetchingFinished, fetchData } = useContactsPageStore();
 	const { isMobile } = useWindowStore();
+	const [activeMapItem, setActiveMapItem] = useState<number | null>(null);
+
 	useEffect(() => {
 		fetchData(language);
 		setTotal(0);
@@ -69,7 +71,13 @@ export default function ClientComponent({ language }: { language: string }) {
 		}
 	}, [scrollAllowed]);
 
-	useEffect(() => {}, [windowWidth]);
+	useEffect(() => {
+		if (isMobile) {
+			setActiveMapItem(0);
+		} else {
+			setActiveMapItem(null);
+		}
+	}, [isMobile]);
 
 	return (
 		<>
@@ -91,12 +99,29 @@ export default function ClientComponent({ language }: { language: string }) {
 				data-right-line-height={0}
 				data-lines-opacity={0.0}
 			>
-				<div className="screenContent">
+				<div className={`screenContent ${styles.screenContent}`}>
+					{isMobile && data?.contacts_page?.map_items && data?.contacts_page?.map_items?.length > 0 && (
+						<div className={styles.mapButtons}>
+							{data?.contacts_page?.map_items?.map((item, index) => {
+								return (
+									<div
+										className={`${styles.mapButton} ${activeMapItem === index ? styles.active : ""}`}
+										key={`map_button_${index}`}
+										onClick={() => {
+											setActiveMapItem(index);
+										}}
+									>
+										{item.title}
+									</div>
+								);
+							})}
+						</div>
+					)}
 					<div className={styles.mapBlock}>
 						{data?.contacts_page?.map_items &&
 							data?.contacts_page?.map_items?.map((item, index) => {
 								return (
-									<div className={styles.mapItem} key={`map_item_${index}`}>
+									<div className={`${styles.mapItem} ${activeMapItem === index ? styles.active : ""}`} key={`map_item_${index}`}>
 										<div className={styles.map}>
 											<YandexMap
 												coordinates={[

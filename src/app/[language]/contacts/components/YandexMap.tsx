@@ -50,7 +50,7 @@ export default function YandexMap({ coordinates, zoom = 16 }: Props) {
 
 				if (mask && markerEl && mapRect) {
 					const rect = markerEl.getBoundingClientRect();
-					mask.style.transform = `translate(calc(${rect.left - mapRect.left}px - 50%), calc(${rect.top}px - 50%))`;
+					mask.style.transform = `translate(calc(${rect.left - mapRect.left}px - 50%), calc(${rect.top - mapRect.top - 40}px - 50%))`;
 				}
 
 				rafId.current = requestAnimationFrame(animate);
@@ -104,17 +104,7 @@ export default function YandexMap({ coordinates, zoom = 16 }: Props) {
 	}, [coordinates, zoom]);
 
 	return (
-		<div
-			className={styles.yandexMap}
-			style={{
-				width: "100vw",
-				height: "100vh",
-				position: "absolute",
-				left: "50%",
-				top: "50%",
-				transform: "translate(-50%, -50%)",
-			}}
-		>
+		<div className={styles.yandexMap}>
 			<div
 				ref={mapRef}
 				style={{

@@ -2,13 +2,30 @@
 	.applicationScreen {
 		margin-top: 150px;
 		&.active {
+			transition: 0.5s 0.25s;
+
 			.titleBackgroundBlock {
 				opacity: 1;
 				transform: translate(0, 0);
+				transition: 0.5s 0s;
+
+				&.transparent {
+					transition: all 0.5s 0s, opacity 0.5s 0.5s;
+				}
+
 				.titleBackground {
 					opacity: 0.15;
 					transform: translate(0, -50%);
+					transition: 0.5s 0.25s;
 				}
+			}
+
+			.form {
+				transition: 0.5s 0.625s;
+			}
+
+			.image {
+				transition: 0.5s 0.625s;
 			}
 		}
 		.titleBackgroundBlock {
@@ -23,36 +40,41 @@
 }
 
 .applicationScreen {
+	&.prev {
+		.form {
+			// opacity: 1;
+		}
+	}
 	&.active {
 		opacity: 1;
 		top: 0dvh;
-		transition: 0.5s 0.25s;
+		transition: 1s 0.5s;
 
 		.titleBackgroundBlock {
 			opacity: 1;
 			transform: translate(-0, -75dvh);
-			transition: 0.5s 0s;
+			transition: 1s 0s;
 
 			&.transparent {
 				opacity: 0;
-				transition: all 0.5s 0s, opacity 0.5s 0.5s;
+				transition: all 1s 0s, opacity 1s 1s;
 			}
 
 			.titleBackground {
 				transform: translate(0, calc(75dvh - 40%));
-				transition: 0.5s 0.25s;
 				opacity: 0.15;
+				transition: 1s 0.5s;
 			}
 		}
 
 		.form {
 			opacity: 1;
-			transition: 0.5s 0.625s;
+			transition: 1s 1.25s;
 		}
 
 		.image {
 			opacity: 1;
-			transition: 0.5s 0.625s;
+			transition: 1s 1.25s;
 		}
 	}
 }
@@ -70,6 +92,12 @@
 }
 
 @media (max-width: 980px) {
+	.simpleScroll {
+		.applicationScreen {
+			padding: 0px;
+			margin: 0px;
+		}
+	}
 	.applicationScreen {
 		&.active {
 			top: auto;

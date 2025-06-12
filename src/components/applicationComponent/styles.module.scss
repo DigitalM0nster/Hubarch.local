@@ -296,7 +296,8 @@
 		opacity: 1;
 		transition: 1s;
 		height: fit-content;
-		margin: 30dvh 0px 0px 0px;
+		min-height: unset;
+		margin: 0px;
 
 		.screenContent {
 			flex-direction: column;

@@ -51,10 +51,11 @@
 /* Стили для контейнера Яндекс Карты */
 .yandexMap {
 	position: absolute;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
+	width: 100vw;
+	height: 100vh;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
 	z-index: 1;
 	filter: grayscale(1);
 }
@@ -113,7 +114,187 @@
 
 .text,
 a.text {
+	width: max-content;
 	text-decoration: none;
 	color: var(--mainTextColor);
 	transition: 0.3s;
+}
+
+@media (max-width: 1750px) {
+}
+
+@media (max-width: 1680px) {
+}
+
+@media (max-width: 1440px) {
+	.mapItem {
+		&:hover {
+			.contacts {
+				transition: 0.5s 0.25s;
+			}
+		}
+	}
+	.adress,
+	.contacts {
+		transition: 0.5s 0s;
+		// font-size: 1.5vw;
+	}
+
+	.adress {
+		width: 15vw;
+	}
+}
+
+@media (max-width: 1280px) {
+	@media (max-height: 640px) {
+		.title {
+			left: calc(var(--screenPadding));
+			top: calc(var(--screenPadding));
+			max-width: calc(100% - var(--screenPadding) * 2);
+		}
+	}
+}
+
+@media (max-width: 980px) {
+	.mapButtons {
+		display: none;
+	}
+	.screen {
+		min-height: unset;
+	}
+	.screenContent {
+		height: fit-content;
+	}
+	.textBlock {
+		flex-direction: column;
+		justify-content: flex-start;
+		gap: 10px;
+	}
+
+	.adress {
+		width: 100%;
+	}
+
+	.mapItem {
+		&:hover {
+			.contacts {
+				opacity: 0.5;
+			}
+		}
+	}
+
+	.contacts {
+		position: relative;
+		max-width: unset;
+		width: 100%;
+		align-items: flex-start;
+		opacity: 0.5;
+	}
+}
+
+@media (max-width: 768px) {
+	.screenContent {
+		flex-direction: column;
+		gap: 10px;
+	}
+	.mapButtons {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 5px;
+		overflow-x: auto;
+		padding: 0px 0px 5px 0px;
+
+		.mapButton {
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			width: 100%;
+			padding: 5px 35px;
+			border: 1px solid black;
+			font-family: "Panama Regular";
+			font-size: 20px;
+			text-transform: uppercase;
+			min-width: fit-content;
+
+			&.active {
+				background-color: var(--mainTextColor);
+				color: white;
+			}
+		}
+	}
+
+	.mapBlock {
+		width: 100%;
+		height: 60dvh;
+	}
+
+	.mapItem,
+	.mapItem:hover {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		pointer-events: none;
+
+		&.active {
+			opacity: 1;
+			pointer-events: auto;
+		}
+
+		.title {
+			opacity: 0;
+		}
+
+		.map {
+			flex-basis: 100%;
+		}
+
+		.textBlock {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 40%;
+			height: calc(100% - 30px);
+			padding: 15px;
+			background-color: rgba(255, 255, 255, 0.9);
+		}
+
+		.contacts {
+			gap: 5px;
+		}
+
+		.yandexMap {
+			transform: translate(-30%, -50%);
+		}
+
+		.overlay {
+			opacity: 1;
+		}
+	}
+}
+
+@media (max-width: 640px) {
+	.mapBlock {
+		height: fit-content;
+	}
+	.mapItem,
+	.mapItem:hover {
+		&.active {
+			position: relative;
+		}
+		.textBlock {
+			position: relative;
+			width: 100%;
+			padding: 0px;
+			background-color: transparent;
+			order: 1;
+		}
+		.map {
+			position: relative;
+			order: 2;
+		}
+		.yandexMap {
+			transform: translate(-50%, -50%);
+		}
+	}
 }

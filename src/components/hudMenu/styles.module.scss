@@ -394,6 +394,7 @@
 	width: calc(100% - calc(var(--screenPadding) * 2));
 	transition: 0.5s;
 	z-index: 2;
+	pointer-events: none;
 
 	* {
 		transition: 0.5s;
@@ -425,8 +426,8 @@
 	.logo {
 		width: fit-content;
 		height: fit-content;
-
 		align-items: center;
+		pointer-events: all;
 
 		img {
 			position: absolute;
@@ -449,6 +450,7 @@
 	.burgerButtonBlock {
 		gap: 8px;
 		align-items: center;
+		pointer-events: all;
 		cursor: pointer;
 
 		&.active {
