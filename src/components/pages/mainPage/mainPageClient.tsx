@@ -9,20 +9,19 @@ import { useScreenScroll } from "@/hooks/useScreenScroll";
 import Screen1 from "./screen1";
 import Screen2 from "./screen2";
 import Screen3 from "./screen3";
-import Screen4 from "./screen4";
 import Screen5 from "./screen5";
 import Screen6 from "./screen6";
 import { usePreloaderStore } from "@/store/preloaderStore";
 import { useDetectMobile } from "@/hooks/useDetectMobile";
 import { useScrollStore } from "@/store/scrollStore";
 import Screen7 from "./screen7";
-import { useAwardsAndProjectsStore } from "@/store/awardsAndProjectsStore";
+import AwardsScreen from "@/components/awardsComponent/AwardsScreen";
 
 export default function MainPageClient({ language }: { language: string }) {
 	useScreenScroll(styles); // Хук для прокрутки экрана
 	useDetectMobile();
 	const { data, error, fetchData } = useMainPageStore();
-	const { fetchAwardsAndProjects } = useAwardsAndProjectsStore();
+	console.log(data);
 	const { setTotal } = usePreloaderStore();
 	const { scrollAllowed } = useScrollStore();
 
@@ -31,7 +30,6 @@ export default function MainPageClient({ language }: { language: string }) {
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		fetchData(language);
-		fetchAwardsAndProjects(language);
 	}, []);
 
 	/* eslint-enable react-hooks/exhaustive-deps */
@@ -54,7 +52,7 @@ export default function MainPageClient({ language }: { language: string }) {
 				<Screen1 />
 				<Screen2 />
 				<Screen3 language={language} />
-				<Screen4 language={language} />
+				<AwardsScreen data={data.main_page_screen4} language={language} />
 				<Screen5 language={language} />
 				<Screen6 language={language} />
 				<Screen7 language={language} />

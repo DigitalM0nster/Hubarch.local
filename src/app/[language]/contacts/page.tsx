@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 	},
 };
 
-export default async function Services({ params }: { params: Promise<{ language: string }> }) {
+export default async function Contacts({ params }: { params: Promise<{ language: string }> }) {
 	const { language } = await params;
 	// const pageData = await getServicesPageData(language);
 

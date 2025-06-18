@@ -7,21 +7,23 @@ import { useWindowStore } from "@/store/windowStore";
 import { useAwardsAndProjectsStore } from "@/store/awardsAndProjectsStore";
 import parse from "html-react-parser";
 
-export default function Screen4({ language }: { language: string }) {
+export default function AwardsScreen({ language, data }: { language: string; data: any }) {
 	const { markReady } = usePreloaderStore();
 	const { isMobile } = useWindowStore();
 
-	const data = useMainPageStore((state) => state.data?.main_page_screen4);
-	const { mainPageFetchingFinished } = useMainPageStore();
-	const { structuredAwards, projectsList, awardsAndProjectsFetchingFinished } = useAwardsAndProjectsStore();
+	const { structuredAwards, projectsList, awardsAndProjectsFetchingFinished, fetchAwardsAndProjects } = useAwardsAndProjectsStore();
 	const [hoveredAwardId, setHoveredAwardId] = useState<number | null>(null);
 
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
-		if (mainPageFetchingFinished && awardsAndProjectsFetchingFinished) {
+		if (awardsAndProjectsFetchingFinished) {
 			markReady();
 		}
-	}, [mainPageFetchingFinished, awardsAndProjectsFetchingFinished]);
+	}, [awardsAndProjectsFetchingFinished]);
+
+	useEffect(() => {
+		fetchAwardsAndProjects(language);
+	}, []);
 
 	const totalNominationsCount = structuredAwards.reduce((sum, { years }) => {
 		return sum + Object.values(years).reduce((acc, nominations) => acc + nominations.length, 0);
@@ -41,7 +43,7 @@ export default function Screen4({ language }: { language: string }) {
 	return (
 		<>
 			<div
-				className={`screen ${styles.screen4}`}
+				className={`screen awardsScreen ${styles.awardsScreen}`}
 				data-screen-lightness="light"
 				data-lines-index={isMobile ? 1 : 1}
 				data-mini-line-rotation={-45}
@@ -57,16 +59,16 @@ export default function Screen4({ language }: { language: string }) {
 				data-right-line-height={0}
 			>
 				<div className={`screenContent ${styles.screenContent}`}>
-					<div className={styles.topBlock}>
+					<div className={`topBlock ${styles.topBlock}`}>
 						<div className={styles.number}>({totalNominationsCount})</div>
 						<div className={styles.text}>{getPlural(totalNominationsCount, "Премия", "Премии", "Премий")}</div>
 					</div>
-					<div className={styles.leftBlock}>
-						<div className={`titleBackground ${styles.titleBackgroundColor}`}>{totalNominationsCount}</div>
+					<div className={`leftBlock ${styles.leftBlock}`}>
+						<div className={`titleBackground titleBackgroundColor ${styles.titleBackgroundColor}`}>{totalNominationsCount}</div>
 						{data?.title_background && <div className={`titleBackground ${styles.titleBackground}`}>{data.title_background}</div>}
-						{data?.text && <div className={styles.text}>{parse(data.text)}</div>}
+						{data?.text && <div className={`text ${styles.text}`}>{parse(data.text)}</div>}
 					</div>
-					<div className={`${styles.rightBlock} noScreenScrollZone`}>
+					<div className={`rightBlock ${styles.rightBlock} noScreenScrollZone`}>
 						<div className={`${styles.awardItemsList} scrollable`}>
 							{structuredAwards.map((awardEntry) => {
 								return (

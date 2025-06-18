@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import "@/CSS/fonts.css";
 import "@/CSS/styles.scss";
 import "@/CSS/application-styles.scss";
+import "@/CSS/awards-styles.scss";
 import HudMenu from "@/components/hudMenu/HudMenu";
 import InteractiveLines from "@/components/interactiveLines/InteractiveLines";
 import Preloader from "@/components/preloader/Preloader";
