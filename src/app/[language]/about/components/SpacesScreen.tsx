@@ -53,7 +53,6 @@ export default function SpacesScreen({ data, language }: { data: SpaceScreenData
 							<div className={styles.name}>{data.person.name}</div>
 							{data.person.position != false &&
 								data.person.position.map((text, index) => {
-									// console.log(text);
 									return (
 										// <></>
 										<div className={styles.position} key={`person_position_${index}`}>

@@ -91,7 +91,6 @@ export const useAboutPageStore = create<AboutPageStore>((set) => ({
 			}
 
 			const acf = pages[0].acf;
-			console.log(acf);
 			set({ data: acf, aboutPageFetchingFinished: true });
 		} catch (error: unknown) {
 			if (error instanceof Error) {

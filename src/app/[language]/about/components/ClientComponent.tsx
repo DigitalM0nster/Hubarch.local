@@ -32,7 +32,6 @@ export default function ClientComponent({ language }: { language: string }) {
 		fetchData(language);
 		setTotal(0);
 		markReady();
-		console.log(data);
 	}, []);
 
 	useEffect(() => {

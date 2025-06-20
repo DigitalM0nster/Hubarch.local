@@ -73,7 +73,6 @@ export const useContactsPageStore = create<ContactsPageStore>((set) => ({
 			}
 
 			const acf = pages[0].acf;
-			console.log(acf);
 			set({ data: acf, contactsPageFetchingFinished: true });
 		} catch (error: unknown) {
 			if (error instanceof Error) {
