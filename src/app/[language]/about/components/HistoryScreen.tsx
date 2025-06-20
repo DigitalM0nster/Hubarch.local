@@ -3,7 +3,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import { Year } from "@/store/aboutPageStore";
 import parse from "html-react-parser";
-
 interface HistoryScreenData {
 	background_title: string;
 	screen_text: string;
@@ -20,7 +19,7 @@ export default function HistoryScreen({ data, language }: { data: HistoryScreenD
 		<div
 			className={`screen ${styles.screen} ${styles.historyScreen}`}
 			data-screen-lightness="light"
-			data-lines-index={1}
+			data-lines-index={0}
 			data-mini-line-rotation={-45}
 			data-position-x={50}
 			data-position-y={50}
@@ -36,11 +35,13 @@ export default function HistoryScreen({ data, language }: { data: HistoryScreenD
 			data-lines-opacity={1.0}
 		>
 			<div className={`screenContent ${styles.screenContent}`}>
-				<div className={`titleBackground ${styles.titleBackground}`}>{data.background_title ? data.background_title : language === "ru" ? "История" : "History"}</div>
 				<div className={styles.historyContainer}>
 					{data.screen_text != "" && <div className={styles.historyText}>{parse(data.screen_text)}</div>}
 					{data.years != false && (
 						<div className={styles.historyItemsBlock}>
+							<div className={`titleBackground ${styles.titleBackground}`}>
+								{data.background_title ? data.background_title : language === "ru" ? "История" : "History"}
+							</div>
 							<div className={styles.historyItems}>
 								{data.years.map((year, index) => {
 									return (
@@ -48,10 +49,31 @@ export default function HistoryScreen({ data, language }: { data: HistoryScreenD
 											className={`${styles.historyItem} ${activeItemIndex === index ? styles.active : ""}`}
 											key={`historyItem_${index}`}
 											onMouseEnter={() => setActiveItemIndex(index)}
+											style={{
+												width:
+													window.innerWidth > 768
+														? activeItemIndex === index
+															? `var(--historyItemActiveWidth)`
+															: `calc((100% - var(--historyItemActiveWidth)) / ${
+																	data.years != false ? data.years.length - 1 : 11
+															  } - var(--historyItemsGap))`
+														: "",
+												minWidth:
+													window.innerWidth > 768
+														? activeItemIndex === index
+															? `var(--historyItemActiveWidth)`
+															: `calc((100% - var(--historyItemActiveWidth)) / ${
+																	data.years != false ? data.years.length - 1 : 11
+															  } - var(--historyItemsGap))`
+														: "",
+											}}
 										>
 											<div className={styles.background} style={{ backgroundColor: year.color }} />
 											<div className={styles.cardBlock}>
-												<div className={`${styles.line}`} style={{ backgroundColor: activeItemIndex === index ? year.color : "#4F505F29" }} />
+												<div
+													className={`${styles.line}`}
+													style={{ backgroundColor: window.innerWidth > 768 ? (activeItemIndex === index ? year.color : "#4F505F29") : "#4F505F29" }}
+												/>
 												<div className={styles.card} style={{ backgroundColor: year.color }}>
 													{year.image && <img src={year.image} alt={`hubarch ${year.year}`} />}
 												</div>
@@ -60,7 +82,10 @@ export default function HistoryScreen({ data, language }: { data: HistoryScreenD
 												{parse(year.text)}
 											</div>
 											<div className={styles.yearBlock}>
-												<div className={`${styles.line}`} style={{ backgroundColor: activeItemIndex === index ? year.color : "#4F505F29" }} />
+												<div
+													className={`${styles.line}`}
+													style={{ backgroundColor: window.innerWidth > 768 ? (activeItemIndex === index ? year.color : "#4F505F29") : "#4F505F29" }}
+												/>
 												<div className={styles.year}>{year.year}</div>
 											</div>
 										</div>

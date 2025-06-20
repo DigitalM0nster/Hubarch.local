@@ -312,6 +312,15 @@
 }
 
 @media (max-width: 980px) {
+	.simpleScroll {
+		.awardsScreen {
+			.screenContent {
+				.leftBlock {
+					position: relative;
+				}
+			}
+		}
+	}
 	.awardsScreen {
 		margin: 30dvh 0px 0px 0px;
 		&.active {

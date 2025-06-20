@@ -15,11 +15,20 @@ export interface Partner {
 	image: string | false;
 }
 
+export interface Contact {
+	acf_fc_layout: string;
+	contact: string | false;
+}
+
 export interface Person {
 	image: string | false;
 	name: string;
 	position: string;
 	quote: string;
+	contacts: Contact[] | false;
+}
+export interface Position {
+	text: string;
 }
 
 export interface AboutPageData {
@@ -30,7 +39,15 @@ export interface AboutPageData {
 			screen_text: string;
 			years: Year[] | false;
 		};
-		space_screen: string;
+		space_screen: {
+			title: string;
+			image: string | false;
+			person: {
+				quote: string;
+				name: string;
+				position: Position[] | false;
+			};
+		};
 		partners_screen: {
 			text: string;
 			partners: Partner[] | false;

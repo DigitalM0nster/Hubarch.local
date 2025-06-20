@@ -4,9 +4,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import parse from "html-react-parser";
 import { Person } from "@/store/aboutPageStore";
+import { useWindowStore } from "@/store/windowStore";
 
 export default function TeamScreen({ data, language }: { data: Person[]; language: string }) {
 	const [activePersonIndex, setActivePersonIndex] = useState(0);
+	const { isMobile } = useWindowStore();
+
+	useEffect(() => {}, [activePersonIndex]);
 	if (!data) return <div>Данные не загружены</div>;
 
 	return (
@@ -29,38 +33,48 @@ export default function TeamScreen({ data, language }: { data: Person[]; languag
 			data-lines-opacity={1}
 		>
 			<div className={`screenContent ${styles.screenContent}`}>
-				<div className={styles.leftBlock}>
-					<div className={styles.photoBlock}>
-						{data?.map((person, index) => {
-							return (
-								<div className={`${styles.photo} ${index === activePersonIndex ? styles.active : ""}`} key={`photo_person_${index}`}>
-									{person.image ? (
-										<img src={person.image} alt={`Hubarch ${person.name}`} />
-									) : (
-										<img src="/images/mainPage/screen5/placeholder.png" alt={`Hubarch ${person.name}`} />
-									)}
-								</div>
-							);
-						})}
-					</div>
-					<div className={styles.listBlock}>
-						{data?.map((person, index) => {
-							return (
-								<div
-									className={`${styles.littlePhoto} ${index === activePersonIndex ? styles.active : ""}`}
-									key={`little_photo_person_${index}`}
-									onClick={() => {
-										setActivePersonIndex(index);
-									}}
-								>
-									{person.image ? (
-										<img src={person.image} alt={`Hubarch ${person.name}`} />
-									) : (
-										<img src="/images/mainPage/screen5/placeholder.png" alt={`Hubarch ${person.name}`} />
-									)}
-								</div>
-							);
-						})}
+				<div className={styles.photoBlock}>
+					{data?.map((person, index) => {
+						return (
+							<div className={`${styles.photo} ${index === activePersonIndex ? styles.active : ""}`} key={`photo_person_${index}`}>
+								{person.image ? (
+									<img src={person.image} alt={`Hubarch ${person.name}`} />
+								) : (
+									<img src="/images/mainPage/screen5/placeholder.png" alt={`Hubarch ${person.name}`} />
+								)}
+							</div>
+						);
+					})}
+				</div>
+				<div className={styles.listBlock}>
+					{data?.map((person, index) => {
+						return (
+							<div
+								className={`${styles.littlePhoto} ${index === activePersonIndex ? styles.active : ""}`}
+								key={`little_photo_person_${index}`}
+								onClick={() => {
+									setActivePersonIndex(index);
+								}}
+							>
+								{person.image ? (
+									<img src={person.image} alt={`Hubarch ${person.name}`} />
+								) : (
+									<img src="/images/mainPage/screen5/placeholder.png" alt={`Hubarch ${person.name}`} />
+								)}
+							</div>
+						);
+					})}
+					<div
+						className={styles.frame}
+						style={{
+							top: !isMobile ? `calc(${activePersonIndex} * var(--littlePhotoHeight) + ${activePersonIndex} * var(--listBlockGap))` : "",
+							left: isMobile ? `calc(${activePersonIndex} * var(--littlePhotoWidth) + ${activePersonIndex} * var(--listBlockGap))` : "",
+						}}
+					>
+						<div className={styles.topLeft} />
+						<div className={styles.topRight} />
+						<div className={styles.bottomRight} />
+						<div className={styles.bottomLeft} />
 					</div>
 				</div>
 				<div className={styles.infoBlock}>
@@ -71,6 +85,18 @@ export default function TeamScreen({ data, language }: { data: Person[]; languag
 								<div className={styles.nameBlock}>
 									<div className={styles.name}>{person.name}</div>
 									<div className={styles.position}>{person.position}</div>
+									{person.contacts != false &&
+										person.contacts.map((contact, contactIndex) => {
+											return contact.acf_fc_layout === "mail" ? (
+												<a href={`mailto:${contact.contact}`} className={styles.contact} key={`person_${index}_contact_${contactIndex}`}>
+													{contact.contact}
+												</a>
+											) : (
+												<a href={`tel:${contact.contact}`} className={styles.contact} key={`person_${index}_contact_${contactIndex}`}>
+													{contact.contact}
+												</a>
+											);
+										})}
 								</div>
 							</div>
 						);

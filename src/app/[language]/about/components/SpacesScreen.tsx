@@ -1,8 +1,20 @@
 // src\app\[language]\about\components\SpacesScreen.tsx
 import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./styles.module.scss";
+import parse from "html-react-parser";
+import { Position } from "@/store/aboutPageStore";
 
-export default function SpacesScreen() {
+interface SpaceScreenData {
+	title: string;
+	image: string | false;
+	person: {
+		quote: string;
+		name: string;
+		position: Position[] | false;
+	};
+}
+
+export default function SpacesScreen({ data, language }: { data: SpaceScreenData; language: string }) {
 	// if (!data) return <div>Данные не загружены</div>;
 
 	return (
@@ -28,17 +40,27 @@ export default function SpacesScreen() {
 				<div className={styles.circleBlock}>
 					<div className={styles.image}>
 						<div className={styles.backgroundCircle} />
-						<img src="/images/spaces_image.png" alt="hubarch создание пространств" />
-						<div className={styles.title}>Мы создаем пространства</div>
+						{data.image != false ? (
+							<img src={data.image} alt="hubarch создание пространств" />
+						) : (
+							<img src="/images/spaces_image.png" alt="hubarch создание пространств" />
+						)}
+						<div className={styles.title}>{data.title}</div>
 					</div>
 					<div className={styles.textBlock}>
-						<div className={styles.text}>
-							Где каждый человек чувствует себя неотъемлемой частью общего целого, где эстетика, комфорт и гармония не оставляют его равнодушным. Наш акцент на
-							качестве, соблюдении сроков и чутко выстроенная концепция позволяют каждому проекту стать особым.
-						</div>
+						<div className={styles.text}>{parse(data.person.quote)}</div>
 						<div className={styles.person}>
-							<div className={styles.name}>Павел Губаревич</div>
-							<div className={styles.position}>CEO / руководитель AMG</div>
+							<div className={styles.name}>{data.person.name}</div>
+							{data.person.position != false &&
+								data.person.position.map((text, index) => {
+									// console.log(text);
+									return (
+										// <></>
+										<div className={styles.position} key={`person_position_${index}`}>
+											{text.text}
+										</div>
+									);
+								})}
 						</div>
 					</div>
 				</div>

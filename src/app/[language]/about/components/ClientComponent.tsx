@@ -48,7 +48,7 @@ export default function ClientComponent({ language }: { language: string }) {
 		<div className="screenScroll simpleScroll">
 			{data?.about_page.team_screen && <TeamScreen data={data.about_page.team_screen} language={language} />}
 			{data?.about_page.history_screen && <HistoryScreen data={data.about_page.history_screen} language={language} />}
-			<SpacesScreen />
+			{data?.about_page.space_screen && <SpacesScreen data={data.about_page.space_screen} language={language} />}
 			{data?.about_page.partners_screen && <PartnersScreen data={data.about_page.partners_screen} language={language} />}
 			{data?.about_page.awards_screen && <AwardsScreen data={data.about_page.awards_screen} language={language} />}
 		</div>
