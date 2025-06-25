@@ -21,7 +21,7 @@ const ArticleCard = ({ article, language }: { article: Article; language: string
 			<div className={styles.line} />
 			<LinkWithPreloader href={`/${language}/media/${article.slug}`} className={styles.articleContent}>
 				<div className={styles.articleTextContent}>
-					<div className={styles.articleTitle}>{article.title.rendered}</div>
+					<div className={styles.articleTitle}>{parse(article.title.rendered)}</div>
 					{article.acf.description && <div className={styles.articleDescription}>{parse(article.acf.description)}</div>}
 				</div>
 				<div className={styles.line} />
