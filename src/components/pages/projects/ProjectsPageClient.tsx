@@ -55,7 +55,30 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 
 	// Функция фильтрации
 	const filteredProjects = projectsList.filter((project) => {
-		const matchesType = selectedTypes.length === 0 || project.acf.project_type?.some((type: any) => selectedTypes.includes(type.term_id));
+		// Проверяем, что project_type существует и является массивом
+		const projectType = project.acf.project_type;
+		let matchesType = selectedTypes.length === 0;
+
+		if (projectType) {
+			// Проверяем, является ли project_type массивом
+			if (Array.isArray(projectType)) {
+				matchesType =
+					matchesType ||
+					projectType.some((type) => {
+						if (typeof type === "object" && type !== null && "term_id" in type) {
+							// Если это объект с term_id
+							return selectedTypes.includes((type as { term_id: number }).term_id);
+						} else {
+							// Если это строка или число
+							const typeId = typeof type === "string" ? parseInt(type, 10) : Number(type);
+							return !isNaN(typeId) && selectedTypes.includes(typeId);
+						}
+					});
+			} else if (typeof projectType === "object" && projectType !== null && "term_id" in projectType) {
+				// Если это один объект с term_id
+				matchesType = matchesType || selectedTypes.includes((projectType as { term_id: number }).term_id);
+			}
+		}
 
 		const footage = parseInt(project.acf.project_footage || "0", 10);
 		const matchesRange = selectedRanges.length === 0 || selectedRanges.some((range) => footage >= range.min && footage <= range.max);
@@ -345,7 +368,7 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 													<div className={styles.aboutProject}>
 														<div className={styles.buttonBlock}>
 															<div className={styles.button}>
-																<div className={styles.text}>Подробнее</div>
+																<div className={styles.text}>{language === "ru" ? "Подробнее" : "More"}</div>
 																<div className={styles.icon} />
 															</div>
 														</div>
@@ -453,7 +476,7 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 										}
 									}}
 								>
-									<div className={styles.text}>Сбросить</div>
+									<div className={styles.text}>{language === "ru" ? "Сбросить" : "Reset"}</div>
 									<div className={styles.icon} />
 								</div>
 								<div
@@ -462,7 +485,7 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 										setVisibleMobileFilters(false);
 									}}
 								>
-									<div className={styles.text}>Применить</div>
+									<div className={styles.text}>{language === "ru" ? "Применить" : "Apply"}</div>
 								</div>
 							</div>
 						</div>

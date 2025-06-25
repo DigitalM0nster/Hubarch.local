@@ -13,6 +13,7 @@
 	--titleBackgroundSize: 162px;
 	--letterSpacing: calc(var(--mainTextSize) * 0);
 	--letterSpacingHover: calc(var(--mainTextSize) * 0.035);
+	--mediaMaxWidth: calc((var(--contentWidth) / 2) * 0.85);
 }
 
 body {
@@ -24,6 +25,10 @@ body {
 	color: var(--mainTextColor);
 	min-height: 100dvh;
 	height: 100dvh;
+
+	&.blue {
+		background-color: #353c94;
+	}
 	// overflow: hidden;
 }
 div {
@@ -183,6 +188,7 @@ p {
 	:root {
 		--contentWidth: calc(100vw - 420px);
 		--mainTextSize: 1.7vw;
+		--mediaMaxWidth: calc((var(--contentWidth) / 2) * 0.925);
 	}
 }
 
@@ -204,6 +210,7 @@ p {
 		--logoMaxHeight: 40px;
 		--mainTextSize: 24px;
 		--miniTextSize: 12px;
+		--mediaMaxWidth: calc(100% - (var(--screenPadding) * 2));
 	}
 
 	.screenScroll {

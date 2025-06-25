@@ -1,0 +1,104 @@
+.simpleScroll .applicationScreen {
+  margin-top: 150px;
+}
+.simpleScroll .applicationScreen.active {
+  transition: 0.5s 0.25s;
+}
+.simpleScroll .applicationScreen.active .titleBackgroundBlock {
+  opacity: 1;
+  transform: translate(0, 0);
+  transition: 0.5s 0s;
+}
+.simpleScroll .applicationScreen.active .titleBackgroundBlock.transparent {
+  transition: all 0.5s 0s, opacity 0.5s 0.5s;
+}
+.simpleScroll .applicationScreen.active .titleBackgroundBlock .titleBackground {
+  opacity: 0.15;
+  transform: translate(0, -50%);
+  transition: 0.5s 0.25s;
+}
+.simpleScroll .applicationScreen.active .form {
+  transition: 0.5s 0.625s;
+}
+.simpleScroll .applicationScreen.active .image {
+  transition: 0.5s 0.625s;
+}
+.simpleScroll .applicationScreen .titleBackgroundBlock {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+.simpleScroll .applicationScreen .titleBackgroundBlock .titleBackground {
+  opacity: 1;
+  transform: translate(0, -70%);
+}
+
+.applicationScreen.active {
+  opacity: 1;
+  top: 0dvh;
+  transition: 1s 0.5s;
+}
+.applicationScreen.active .titleBackgroundBlock {
+  opacity: 1;
+  transform: translate(0, -75dvh);
+  transition: 1s 0s;
+}
+.applicationScreen.active .titleBackgroundBlock.transparent {
+  opacity: 0;
+  transition: all 1s 0s, opacity 1s 1s;
+}
+.applicationScreen.active .titleBackgroundBlock .titleBackground {
+  transform: translate(0, calc(75dvh - 40%));
+  opacity: 0.15;
+  transition: 1s 0.5s;
+}
+.applicationScreen.active .form {
+  opacity: 1;
+  transition: 1s 1.25s;
+}
+.applicationScreen.active .image {
+  opacity: 1;
+  transition: 1s 1.25s;
+}
+
+@media (max-width: 980px) {
+  .simpleScroll .applicationScreen {
+    padding: 0px;
+    margin: 0px;
+  }
+  .applicationScreen.active {
+    top: auto;
+    opacity: 1;
+  }
+  .applicationScreen.active .titleBackgroundBlock {
+    position: relative;
+    top: 0;
+    transform: translate(0, 0%);
+    transition: 1s;
+  }
+  .applicationScreen.active .titleBackgroundBlock.transparent {
+    opacity: 1;
+  }
+  .applicationScreen.active .titleBackgroundBlock .titleBackground {
+    transform: translate(0, 0%);
+    opacity: 1;
+    transition: 1s;
+  }
+  .applicationScreen.active .form {
+    opacity: 1;
+    transition: 1s;
+  }
+  .applicationScreen .image {
+    opacity: 1;
+  }
+  .simpleScroll .applicationScreen .titleBackgroundBlock .titleBackground {
+    transform: translate(0, -20%);
+  }
+  .simpleScroll .applicationScreen.active .titleBackgroundBlock .titleBackground {
+    transform: translate(0, 0%);
+  }
+}
+@media (max-width: 480px) {
+  .applicationScreen .form {
+    max-width: unset;
+  }
+}/*# sourceMappingURL=application-styles.css.map */

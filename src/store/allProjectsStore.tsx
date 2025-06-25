@@ -11,7 +11,7 @@ export interface Project {
 		project_category: {
 			slug: string;
 		};
-		project_type: string[];
+		project_type: Array<{ term_id: number } | number | string>;
 		project_preview: string;
 		project_description: string;
 		project_awards: string[];

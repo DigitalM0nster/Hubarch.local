@@ -1,0 +1,387 @@
+.applicationScreen {
+  opacity: 1;
+  top: 100%;
+  justify-content: center;
+  align-items: center;
+  transition: 1s;
+  --formPadding: 30px;
+}
+.applicationScreen * {
+  transition: 1s;
+}
+.applicationScreen.active {
+  opacity: 1;
+  top: 0dvh;
+  transition: 1s 0.5s;
+}
+.applicationScreen.active .titleBackgroundBlock {
+  opacity: 1;
+  transform: translate(0, -75dvh);
+  transition: 1s 0s;
+}
+.applicationScreen.active .titleBackgroundBlock.transparent {
+  opacity: 0;
+  transition: all 1s 0s, opacity 1s 1s;
+}
+.applicationScreen.active .titleBackgroundBlock .titleBackground {
+  transform: translate(0, calc(75dvh - 40%));
+  transition: 1s 0.5s;
+  opacity: 0.15;
+}
+.applicationScreen.active .form {
+  opacity: 1;
+  transition: 1s 0.75s;
+}
+.applicationScreen.active .image {
+  opacity: 1;
+  transition: 1s 0.75s;
+}
+.applicationScreen .titleBackgroundBlock {
+  position: absolute;
+  top: 0;
+  justify-content: center;
+  width: 100%;
+  pointer-events: none;
+  transform: translate(0, 0dvh);
+  opacity: 1;
+  z-index: -1;
+}
+.applicationScreen .titleBackgroundBlock .titleBackground {
+  justify-content: center;
+  text-align: center;
+  opacity: 1;
+}
+.applicationScreen .form {
+  opacity: 0;
+  font-size: var(--additionalTextSize);
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-left: 1px solid #c7c7c7;
+  border-right: 1px solid #c7c7c7;
+}
+.applicationScreen .form::before {
+  content: "";
+  display: flex;
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 1px;
+  height: 10%;
+  background-color: var(--backgroundColor);
+}
+.applicationScreen .form::after {
+  content: "";
+  display: flex;
+  position: absolute;
+  left: -1px;
+  bottom: 0;
+  width: 1px;
+  height: 10%;
+  background-color: var(--backgroundColor);
+}
+.applicationScreen .form .topPart {
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 50%;
+}
+.applicationScreen .form .bottomPart {
+  flex-direction: column;
+  justify-content: space-between;
+  height: 50%;
+}
+.applicationScreen .form .bottomPart .formInputs {
+  flex-direction: column;
+}
+.applicationScreen .form input,
+.applicationScreen .form textarea {
+  font-family: Inter;
+  font-size: var(--additionalTextSize);
+  font-weight: 300;
+  background-color: transparent;
+  padding: var(--formPadding) 50% var(--formPadding) var(--formPadding);
+  border: 1px solid transparent;
+  border-bottom: 1px solid #c7c7c7;
+  color: var(--mainTextColor);
+  opacity: 1;
+  min-width: calc(100% - var(--formPadding) - 50%);
+  max-width: calc(100% - var(--formPadding) - 50%);
+  max-height: 150px;
+}
+.applicationScreen .form input::-moz-placeholder, .applicationScreen .form textarea::-moz-placeholder {
+  opacity: 1;
+  color: var(--mainTextColor);
+}
+.applicationScreen .form input::placeholder,
+.applicationScreen .form textarea::placeholder {
+  opacity: 1;
+  color: var(--mainTextColor);
+}
+.applicationScreen .form input:hover,
+.applicationScreen .form textarea:hover {
+  border-bottom: 1px solid var(--mainTextColor);
+}
+.applicationScreen .form input:focus-visible,
+.applicationScreen .form textarea:focus-visible {
+  outline: none;
+  border: 1px solid var(--mainTextColor);
+}
+.applicationScreen .form .dropdown {
+  font-family: Inter;
+  font-weight: 300;
+  width: 100%;
+  border: 1px solid transparent;
+  border-bottom: 1px solid #c7c7c7;
+  cursor: pointer;
+}
+.applicationScreen .form .dropdown:hover {
+  border-bottom: 1px solid var(--mainTextColor);
+}
+.applicationScreen .form .dropdown.active {
+  outline: none;
+  border: 1px solid var(--mainTextColor);
+}
+.applicationScreen .form .dropdown.active .dropdownList {
+  max-height: 500px;
+  pointer-events: auto;
+  transition: 0.3s;
+}
+.applicationScreen .form .dropdown .dropdownSelected {
+  padding: var(--formPadding);
+  width: calc(100% - var(--formPadding) * 2);
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.applicationScreen .form .dropdown .dropdownList {
+  flex-direction: column;
+  position: absolute;
+  left: -1px;
+  top: 0%;
+  width: calc(100% + 2px);
+  height: -moz-fit-content;
+  height: fit-content;
+  max-height: 0px;
+  pointer-events: none;
+  overflow: hidden;
+  background-color: var(--backgroundColor);
+  z-index: 1;
+  transition: 0s;
+}
+.applicationScreen .form .dropdown .dropdownList .dropdownItem {
+  padding: var(--formPadding);
+  width: calc(100% - var(--formPadding) * 2 - 2px);
+  height: 100%;
+  border: 1px solid black;
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+  opacity: 0.75;
+}
+.applicationScreen .form .dropdown .dropdownList .dropdownItem:hover {
+  opacity: 1;
+}
+.applicationScreen .form .dropdown .dropdownList .dropdownItem.active {
+  font-weight: 600;
+}
+.applicationScreen .form .dropdown .dropdownList .dropdownItem:first-child {
+  border-top: none;
+}
+.applicationScreen .form .dropdown .dropdownList .dropdownItem:last-child {
+  border-bottom: 1px solid black;
+}
+.applicationScreen .form .buttonBlock {
+  width: calc(50% - var(--formPadding) * 2);
+  padding: var(--formPadding);
+  gap: 50px;
+}
+.applicationScreen .form .buttonBlock .button {
+  align-items: center;
+  font-family: Panama Regular;
+  font-weight: 400;
+  font-size: var(--menuFontSize);
+  gap: 10px;
+  cursor: pointer;
+}
+.applicationScreen .form .buttonBlock .button .icon {
+  width: var(--menuFontSize);
+  height: var(--menuFontSize);
+  background-image: url("/images/linkArrow.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.applicationScreen .form .buttonBlock .button .text {
+  text-transform: uppercase;
+  transform: translate(0px, 6%);
+}
+.applicationScreen .form .buttonBlock .acceptText {
+  font-family: Inter;
+  font-size: var(--miniTextSize);
+  opacity: 0.5;
+  max-width: 370px;
+}
+.applicationScreen .form .buttonBlock .acceptText .privacyPolicy {
+  cursor: pointer;
+}
+.applicationScreen .form .buttonBlock .acceptText .privacyPolicy:hover {
+  text-decoration: underline;
+}
+.applicationScreen .form .textBlock {
+  font-family: Inter;
+  position: absolute;
+  bottom: 0;
+  transform: translate(-1px, calc(var(--screenPadding) * 2));
+  font-size: var(--mainTextSize);
+  background-color: var(--backgroundColor);
+  width: calc(50% - var(--formPadding));
+}
+.applicationScreen .form .textBlock p {
+  margin: 0;
+}
+.applicationScreen .image {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  left: 50%;
+  z-index: 2;
+  opacity: 0;
+}
+
+@media (max-width: 1750px) {
+  .applicationScreen {
+    --formPadding: 1.2vw;
+  }
+}
+@media (max-width: 980px) {
+  .applicationScreen {
+    top: auto;
+    pointer-events: all;
+    opacity: 1;
+    transition: 1s;
+    height: -moz-fit-content;
+    height: fit-content;
+    min-height: unset;
+    margin: 0px;
+  }
+  .applicationScreen .screenContent {
+    flex-direction: column;
+    align-items: center;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  .applicationScreen.active {
+    top: auto;
+    opacity: 1;
+  }
+  .applicationScreen.active .titleBackgroundBlock {
+    position: relative;
+    top: 0;
+    transform: translate(0, 0%);
+    transition: 1s;
+  }
+  .applicationScreen.active .titleBackgroundBlock .titleBackground {
+    transform: translate(0, 0);
+    opacity: 1;
+    transition: 1s;
+  }
+  .applicationScreen.active .form {
+    opacity: 1;
+    transition: 1s;
+  }
+  .applicationScreen .titleBackgroundBlock {
+    position: relative;
+    top: 0;
+    transform: translate(0, 0%);
+    margin: 0px 0px 30px 0px;
+  }
+  .applicationScreen .titleBackgroundBlock .titleBackground {
+    transform: translate(0, 0);
+    line-height: 1.2;
+  }
+  .applicationScreen .form {
+    width: 50%;
+    opacity: 1;
+  }
+  .applicationScreen .form::before, .applicationScreen .form::after {
+    display: none;
+  }
+  .applicationScreen .form input,
+  .applicationScreen .form textarea {
+    padding: var(--formPadding);
+    min-width: calc(100% - var(--formPadding) * 2);
+    max-width: calc(100% - var(--formPadding) * 2);
+  }
+  .applicationScreen .form .buttonBlock {
+    flex-direction: column;
+    gap: 10px;
+    width: calc(100% - var(--formPadding) * 2);
+  }
+  .applicationScreen .form .topPart {
+    order: 2;
+  }
+  .applicationScreen .form .bottomPart {
+    order: 3;
+  }
+  .applicationScreen .form .textBlock {
+    position: relative;
+    font-size: var(--additionalTextSize);
+    top: auto;
+    transform: translate(0, 0);
+    padding: auto;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    order: 1;
+    margin: 0px 0px 30px 0px;
+  }
+  .applicationScreen .image {
+    position: relative;
+    width: 50%;
+    height: 50vw;
+    order: 4;
+    left: 0;
+    margin: 30px 0px 0px 0px;
+    opacity: 1;
+  }
+}
+@media (max-width: 768px) {
+  .applicationScreen {
+    --formPadding: 10px;
+  }
+  .applicationScreen .titleBackgroundBlock {
+    justify-content: center;
+  }
+  .applicationScreen .titleBackgroundBlock .titleBackground {
+    justify-content: center;
+    text-align: center;
+    line-height: 1;
+  }
+  .applicationScreen .form {
+    width: 100%;
+    max-width: 350px;
+  }
+  .applicationScreen .image {
+    width: 100%;
+    height: 55vw;
+    max-width: 350px;
+    order: 4;
+  }
+}
+@media (max-width: 640px) {
+  .applicationScreen .image {
+    width: 100%;
+    height: 100vw;
+    max-height: 360px;
+  }
+}
+@media (max-width: 480px) {
+  .applicationScreen .image {
+    width: 100vw;
+    height: 110vw;
+    max-height: unset;
+    max-width: unset;
+  }
+  .applicationScreen .form {
+    max-width: unset;
+  }
+}/*# sourceMappingURL=styles.module.css.map */

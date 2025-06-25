@@ -2,10 +2,13 @@ import { useEffect, useLayoutEffect, useRef } from "react";
 import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 import { usePathname } from "next/navigation";
+import { useWindowStore } from "@/store/windowStore";
 
 export const useScreenInit = () => {
 	const { setActiveLinesHud, setLinesColor, setLinesOpacity, setNewIndex, miniLine, verticalLine, horizontalLine, leftLine, rightLine } = useInteractiveLinesStore();
 	const { setScreenLightness } = useHudMenuStore();
+	const { windowWidth } = useWindowStore();
+
 	const pathname = usePathname();
 	const screensRef = useRef<NodeListOf<Element> | null>(null);
 	const simpleScrollRef = useRef<boolean>(false);
@@ -93,11 +96,28 @@ export const useScreenInit = () => {
 			mObserver.observe(document.body, { childList: true, subtree: true });
 		});
 
+		// Проверяем наличие активного экрана
+		const checkActiveScreen = () => {
+			const screens = document.querySelectorAll(".screen");
+			if (screens && screens.length > 0) {
+				for (let i = 0; i < screens.length; i++) {
+					const screen = screens[i] as HTMLElement;
+					if (screen.classList.contains("active")) {
+						changeScreenOptions(screen);
+						break;
+					}
+				}
+			}
+		};
+
+		// Вызываем проверку сразу
+		checkActiveScreen();
+
 		return () => {
 			destroyed = true;
 			mObserver?.disconnect();
 		};
-	}, [pathname]);
+	}, [pathname, windowWidth]);
 
 	return { changeScreenOptions, screensRef, simpleScrollRef };
 };

@@ -1,0 +1,820 @@
+.historyScreen {
+  --historyItemGap: 20px;
+  --historyItemActiveWidth: calc(100% / 4);
+  --historyItemsGap: 15px;
+  max-height: unset;
+  min-height: unset;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.historyScreen .screenContent {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-height: unset;
+  min-height: unset;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.historyScreen .titleBackground {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -30%);
+}
+.historyScreen .historyContainer {
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+}
+.historyScreen .historyText {
+  display: block;
+  align-self: flex-end;
+  max-width: calc(50% - var(--screenPadding));
+}
+.historyScreen .historyItemsBlock {
+  border-left: 1px solid #e0dedc;
+  border-right: 1px solid #e0dedc;
+  flex-direction: column;
+  width: calc(100% - var(--screenPadding) * 2);
+  gap: var(--historyItemGap);
+  padding: 0px var(--screenPadding);
+}
+.historyScreen .historyItems {
+  gap: var(--historyItemsGap);
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.historyScreen .historyItem {
+  width: calc((100% - var(--historyItemActiveWidth)) / 11 - var(--historyItemsGap));
+  min-width: calc((100% - var(--historyItemActiveWidth)) / 11 - var(--historyItemsGap));
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--historyItemGap);
+  transition: 0.25s;
+}
+.historyScreen .historyItem.active {
+  width: var(--historyItemActiveWidth);
+  min-width: var(--historyItemActiveWidth);
+}
+.historyScreen .historyItem.active .background {
+  opacity: 1;
+}
+.historyScreen .historyItem.active .text {
+  opacity: 1;
+  pointer-events: auto;
+}
+.historyScreen .historyItem.active .cardBlock {
+  width: 100%;
+  max-width: 160px;
+}
+.historyScreen .historyItem.active .cardBlock .card {
+  width: 100%;
+}
+.historyScreen .historyItem.active .cardBlock .card img {
+  opacity: 1;
+  pointer-events: auto;
+}
+.historyScreen .historyItem.active .yearBlock .year {
+  color: var(--mainTextColor);
+}
+.historyScreen .historyItem .background {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - var(--additionalTextSize) - var(--historyItemGap) * 0.5);
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transition: 0.25s;
+}
+.historyScreen .historyItem .line {
+  width: 1px;
+  height: 40px;
+  background-color: black;
+  transition: 0.25s;
+}
+.historyScreen .historyItem .cardBlock {
+  width: 100%;
+  max-width: 60px;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--historyItemGap) * 0.5);
+}
+.historyScreen .historyItem .cardBlock .card {
+  height: 160px;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: 0.25s;
+}
+.historyScreen .historyItem .cardBlock .card img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s;
+}
+.historyScreen .historyItem .text {
+  justify-content: center;
+  text-align: center;
+  padding: 0px calc(var(--screenPadding) * 0.25);
+  width: calc(var(--contentWidth) / 4 - var(--screenPadding) * 0.5 - 15px);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.125s;
+}
+.historyScreen .historyItem .text p {
+  text-align: center;
+}
+.historyScreen .historyItem .yearBlock {
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.historyScreen .historyItem .yearBlock .year {
+  font-size: var(--additionalTextSize);
+  color: rgba(79, 80, 95, 0.1607843137);
+}
+.historyScreen .historyNumberBlock {
+  flex-direction: column;
+  align-self: center;
+}
+.historyScreen .historyNumberBlock .text {
+  text-align: center;
+  justify-content: center;
+}
+.historyScreen .historyNumberBlock .number {
+  position: absolute;
+  top: 100%;
+  transform: translate(0px, -100%);
+  justify-content: center;
+  text-align: center;
+  font-family: "Panama Regular";
+  font-size: 50px;
+  text-transform: uppercase;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s;
+  width: 100%;
+}
+.historyScreen .historyNumberBlock .number:nth-child(2) {
+  position: relative;
+  top: 0;
+  transform: translate(0, 0);
+}
+.historyScreen .historyNumberBlock .number.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.spacesScreen {
+  height: -moz-fit-content;
+  height: fit-content;
+  min-height: unset;
+  max-height: unset;
+  top: unset;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.spacesScreen .screenContent {
+  min-height: calc(100% - var(--screenPadding) * 4 * 2);
+  height: -moz-fit-content;
+  height: fit-content;
+  justify-content: center;
+}
+.spacesScreen .circleBlock {
+  flex-direction: column;
+  align-items: center;
+  gap: 45px;
+  width: 100%;
+}
+.spacesScreen .image {
+  justify-content: center;
+  align-items: center;
+  width: 1000px;
+  height: 1000px;
+}
+.spacesScreen .image .backgroundCircle {
+  position: absolute;
+  width: 135%;
+  height: 135%;
+  background-image: url("/images/spaces_background_circle.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  justify-content: center;
+}
+.spacesScreen .image .title {
+  position: absolute;
+  justify-content: center;
+  text-align: center;
+  font-family: "Panama Regular";
+  text-transform: uppercase;
+  line-height: 1;
+  font-size: var(--titleBackgroundSize);
+  color: var(--additionalColor);
+}
+.spacesScreen .textBlock {
+  align-self: flex-end;
+  flex-direction: column;
+  font-size: var(--additionalTextSize);
+  gap: 25px;
+  max-width: 520px;
+}
+.spacesScreen .person {
+  flex-direction: column;
+  gap: 2px;
+}
+.spacesScreen .person .position {
+  left: 20px;
+  width: calc(100% - 20px);
+  display: list-item;
+  opacity: 0.5;
+}
+
+.partnersScreen {
+  height: -moz-fit-content;
+  height: fit-content;
+  min-height: unset;
+  max-height: unset;
+  top: unset;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.partnersScreen .screenContent {
+  flex-direction: column;
+  min-height: calc(100% - var(--screenPadding) * 4 * 2);
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.partnersScreen .partnersBlock {
+  width: 100%;
+  height: 700px;
+}
+.partnersScreen .partnersBlock .partnerItem {
+  position: absolute;
+  width: 300px;
+  height: 150px;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(1) {
+  left: 0%;
+  top: 17%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(2) {
+  left: 30%;
+  top: 0%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(3) {
+  left: 58%;
+  top: 13%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(4) {
+  left: 74%;
+  top: 33%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(5) {
+  left: 78%;
+  top: 57%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(6) {
+  left: 47%;
+  top: 79%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(7) {
+  left: 13%;
+  top: 61%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(8) {
+  left: 78%;
+  top: 3%;
+}
+.partnersScreen .textBlock {
+  max-width: 520px;
+  font-size: var(--mainTextSize);
+}
+.partnersScreen .textBlock img {
+  max-height: var(--mainTextSize);
+}
+.teamScreen {
+  --listBlockGap: 6px;
+  --littlePhotoHeight: 115px;
+  --littlePhotoWidth: 75px;
+  --listBlockPadding: 10px;
+  --teamScreenLeftBlockWidth: calc(50% + var(--littlePhotoWidth) * 0.5);
+  --teamScreenGap: 50px;
+}
+.teamScreen .screenContent {
+  justify-content: space-between;
+  gap: 0;
+}
+.teamScreen .leftBlock {
+  width: var(--teamScreenLeftBlockWidth);
+  height: 100%;
+  gap: var(--teamScreenGap);
+}
+.teamScreen .photoBlock {
+  width: calc(50% - var(--littlePhotoWidth) * 0.5 - var(--teamScreenGap));
+}
+.teamScreen .photoBlock .photo {
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s;
+}
+.teamScreen .photoBlock .photo.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.teamScreen .photoBlock .photo img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.teamScreen .listBlock {
+  position: absolute;
+  left: 50%;
+  flex-direction: column;
+  align-items: center;
+  width: calc(var(--littlePhotoWidth) + 0px);
+  min-width: calc(var(--littlePhotoWidth) + 0px);
+  padding: 5px var(--listBlockPadding) 5px var(--listBlockPadding);
+  height: -moz-fit-content;
+  height: fit-content;
+  gap: var(--listBlockGap);
+  max-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  align-self: center;
+  transform: translate(calc(-50% + 3px), 0);
+  z-index: 1;
+}
+.teamScreen .listBlock .littlePhoto {
+  min-height: var(--littlePhotoHeight);
+  height: var(--littlePhotoHeight);
+  width: var(--littlePhotoWidth);
+  min-width: var(--littlePhotoWidth);
+  opacity: 0.5;
+  cursor: pointer;
+  transition: 0.25s;
+}
+.teamScreen .listBlock .littlePhoto:hover {
+  opacity: 0.75;
+}
+.teamScreen .listBlock .littlePhoto.active {
+  opacity: 1;
+}
+.teamScreen .listBlock .frame {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 5px);
+  width: var(--littlePhotoWidth);
+  height: var(--littlePhotoHeight);
+  pointer-events: none;
+  transition: 0.25s;
+}
+.teamScreen .listBlock .frame .topRight {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid var(--mainTextColor);
+  border-right: 2px solid var(--mainTextColor);
+}
+.teamScreen .listBlock .frame .bottomLeft {
+  position: absolute;
+  bottom: -4px;
+  left: -4px;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid var(--mainTextColor);
+  border-left: 2px solid var(--mainTextColor);
+}
+.teamScreen .infoBlock {
+  justify-content: flex-end;
+  width: calc(50% - var(--littlePhotoWidth) * 0.5);
+}
+.teamScreen .infoBlock .infoPerson {
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  max-width: 400px;
+  width: 100%;
+  height: 100%;
+}
+.teamScreen .infoBlock .infoPerson.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.teamScreen .infoBlock .quoteBlock {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -100%);
+  font-size: var(--mainTextSize);
+  padding: 0px 0px var(--screenPadding) 0px;
+  max-height: calc(50% - var(--screenPadding));
+  overflow-y: auto;
+}
+.teamScreen .infoBlock .nameBlock {
+  position: absolute;
+  top: calc(50% + var(--screenPadding));
+  flex-direction: column;
+}
+.teamScreen .infoBlock .name {
+  text-transform: uppercase;
+  font-size: var(--mainTextSize);
+  font-family: "Panama Regular";
+  margin: 0px 0px 5px 0px;
+}
+.teamScreen .infoBlock .contact,
+.teamScreen .infoBlock a.contact,
+.teamScreen .infoBlock .position {
+  display: list-item;
+  position: relative;
+  left: 20px;
+  font-size: var(--additionalTextSize);
+  opacity: 0.5;
+  color: var(--mainTextColor);
+  text-decoration: none;
+}
+.teamScreen .infoBlock a.contact:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1680px) {
+  .spacesScreen .image {
+    width: 60vw;
+    height: 60vw;
+  }
+  .partnersScreen .partnersBlock {
+    height: 35vw;
+  }
+  .partnersScreen .partnersBlock .partnerItem {
+    width: 15vw;
+    height: 7.5vw;
+  }
+}
+@media (max-width: 1440px) {
+  .historyScreen {
+    --historyItemsGap: 1vw;
+  }
+  .historyScreen .historyItem .cardBlock {
+    max-width: 4vw;
+  }
+  .historyScreen .historyItem .cardBlock .card {
+    height: 13vw;
+  }
+  .historyScreen .historyItem .text {
+    font-size: 1.1vw;
+  }
+  .teamScreen .infoBlock .infoPerson {
+    max-width: 27vw;
+  }
+}
+@media (max-width: 1280px) {
+  .teamScreen {
+    --teamScreenGap: 2vw;
+  }
+}
+@media (max-width: 980px) {
+  .teamScreen {
+    min-height: unset;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  .teamScreen .screenContent {
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  .teamScreen .listBlock {
+    position: relative;
+    left: unset;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: -moz-fit-content;
+    width: fit-content;
+    max-width: calc(100% - var(--listBlockPadding) * 2);
+    overflow-x: auto;
+    transform: translate(0);
+    padding: var(--listBlockPadding);
+    min-width: unset;
+    overflow-y: auto;
+    overflow-x: auto;
+    order: 3;
+  }
+  .teamScreen .listBlock .frame {
+    transform: translate(var(--listBlockPadding), 0);
+  }
+  .teamScreen .photoBlock {
+    justify-content: center;
+    align-self: center;
+    width: calc(50% - 15px);
+    height: 67.5vw;
+    order: 2;
+  }
+  .teamScreen .photoBlock .photo {
+    left: 0;
+    top: 0;
+  }
+  .teamScreen .infoBlock {
+    width: calc(50% - 15px);
+    order: 2;
+  }
+  .teamScreen .infoBlock .infoPerson {
+    max-width: unset;
+  }
+  .teamScreen .infoBlock .infoPerson.active {
+    position: relative;
+  }
+  .historyScreen .historyItem {
+    max-width: 4.7vw;
+    width: 100%;
+  }
+  .historyScreen .historyItem.active .cardBlock .card {
+    width: 20vw;
+  }
+  .historyScreen .historyItem .text {
+    width: 22vw;
+    font-size: var(--miniTextSize);
+  }
+  .historyScreen .historyItem .cardBlock {
+    width: 100%;
+  }
+  .historyScreen .historyItem .cardBlock .card {
+    width: 100%;
+    height: 20vw;
+  }
+  .historyScreen .historyItem .background {
+    height: calc(100% - 1.6vw - var(--historyItemGap) * 0.5);
+  }
+  .historyScreen .historyItem .yearBlock .year {
+    font-size: 1.6vw;
+  }
+  .spacesScreen .textBlock {
+    align-self: center;
+    width: 60vw;
+  }
+  .partnersScreen .partnersBlock {
+    align-self: center;
+    justify-content: center;
+    height: -moz-fit-content;
+    height: fit-content;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .partnersScreen .partnersBlock .partnerItem {
+    position: relative;
+    width: 20vw;
+    height: 10vw;
+  }
+  .partnersScreen .partnersBlock .partnerItem:nth-child(1) {
+    top: auto;
+    left: auto;
+  }
+  .partnersScreen .partnersBlock .partnerItem:nth-child(2) {
+    top: auto;
+    left: auto;
+  }
+  .partnersScreen .partnersBlock .partnerItem:nth-child(3) {
+    top: auto;
+    left: auto;
+  }
+  .partnersScreen .partnersBlock .partnerItem:nth-child(4) {
+    top: auto;
+    left: auto;
+  }
+  .partnersScreen .partnersBlock .partnerItem:nth-child(5) {
+    top: auto;
+    left: auto;
+  }
+  .partnersScreen .partnersBlock .partnerItem:nth-child(6) {
+    top: auto;
+    left: auto;
+  }
+  .partnersScreen .partnersBlock .partnerItem:nth-child(7) {
+    top: auto;
+    left: auto;
+  }
+  .partnersScreen .partnersBlock .partnerItem:nth-child(8) {
+    top: auto;
+    left: auto;
+  }
+  .partnersScreen .textBlock {
+    justify-content: center;
+    align-self: center;
+    text-align: center;
+    margin: 20px 0px 0px 0px;
+  }
+}
+@media (max-width: 768px) {
+  .historyScreen .titleBackground {
+    display: none;
+  }
+  .historyScreen .historyText {
+    align-self: flex-start;
+    max-width: 100%;
+  }
+  .historyScreen .historyItemsBlock {
+    padding: 0;
+    width: 100%;
+    border-left: none;
+    border-right: none;
+  }
+  .historyScreen .historyItems {
+    height: -moz-fit-content;
+    height: fit-content;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .historyScreen .historyItem {
+    justify-content: flex-start;
+    width: 320px;
+    min-width: 320px;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  .historyScreen .historyItem.active {
+    width: 320px;
+    min-width: 320px;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  .historyScreen .historyItem.active .text {
+    opacity: 1;
+  }
+  .historyScreen .historyItem.active .cardBlock {
+    max-width: unset;
+  }
+  .historyScreen .historyItem.active .cardBlock .card {
+    width: 220px;
+    height: 220px;
+  }
+  .historyScreen .historyItem.active .cardBlock .card img {
+    opacity: 1;
+  }
+  .historyScreen .historyItem.active .yearBlock .year {
+    color: var(--mainTextColor);
+  }
+  .historyScreen .historyItem.active .background {
+    opacity: 1;
+  }
+  .historyScreen .historyItem .line {
+    height: 20px;
+  }
+  .historyScreen .historyItem .background {
+    height: calc(100% - var(--additionalTextSize) - 10px);
+    opacity: 1;
+  }
+  .historyScreen .historyItem .text {
+    opacity: 1;
+    padding: 0px 10px;
+    width: calc(100% - 20px);
+    font-size: var(--additionalTextSize);
+  }
+  .historyScreen .historyItem .cardBlock {
+    max-width: unset;
+  }
+  .historyScreen .historyItem .cardBlock .card {
+    width: 220px;
+    height: 220px;
+  }
+  .historyScreen .historyItem .cardBlock .card img {
+    opacity: 1;
+  }
+  .historyScreen .historyItem .yearBlock .year {
+    line-height: 1;
+    font-size: var(--additionalTextSize);
+    color: var(--mainTextColor);
+  }
+  .historyScreen .historyNumberBlock .number {
+    display: none;
+    opacity: 0;
+  }
+  .historyScreen .historyNumberBlock .number.active {
+    display: none;
+    opacity: 0;
+  }
+  .historyScreen .historyNumberBlock .number:last-child {
+    position: relative;
+    display: flex;
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  .historyScreen .historyNumberBlock .number:last-child.active {
+    position: relative;
+    display: flex;
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  .spacesScreen .textBlock {
+    width: 80vw;
+  }
+}
+@media (max-width: 640px) {
+  .teamScreen .listBlock {
+    order: 1;
+  }
+  .teamScreen .infoBlock {
+    width: calc(50% - 30px);
+    order: 2;
+  }
+  .teamScreen .infoBlock .infoPerson {
+    justify-content: center;
+    max-width: unset;
+  }
+  .teamScreen .infoBlock .infoPerson.active {
+    position: relative;
+  }
+  .teamScreen .infoBlock .quoteBlock {
+    position: relative;
+    top: unset;
+    transform: translate(0, 0);
+    max-height: unset;
+    order: 2;
+    padding: 0;
+  }
+  .teamScreen .infoBlock .nameBlock {
+    position: relative;
+    top: unset;
+    order: 1;
+    padding: 0px 0px 10px 0px;
+  }
+  .teamScreen .photoBlock {
+    order: 3;
+    align-self: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .historyScreen {
+    --historyItemsGap: 10px;
+  }
+  .historyScreen .historyItem {
+    width: 265px;
+    min-width: 265px;
+  }
+  .historyScreen .historyItem.active {
+    width: 265px;
+    min-width: 265px;
+  }
+  .spacesScreen .image {
+    width: 85vw;
+    height: 85vw;
+  }
+  .spacesScreen .image .backgroundCircle {
+    width: 90vw;
+    height: 90vw;
+  }
+  .spacesScreen .image .title {
+    font-size: 13vw;
+  }
+  .spacesScreen .textBlock {
+    width: 100%;
+  }
+  .partnersScreen .partnersBlock .partnerItem {
+    width: 30vw;
+    height: 15vw;
+  }
+}
+@media (max-width: 480px) {
+  .teamScreen .screenContent {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .teamScreen .infoBlock {
+    width: 100%;
+  }
+  .teamScreen .photoBlock {
+    align-self: center;
+    width: 80vw;
+    height: 120vw;
+  }
+  .partnersScreen .partnersBlock .partnerItem {
+    width: 40vw;
+    height: 20vw;
+  }
+  .partnersScreen .textBlock {
+    margin: 50px 0px 0px 0px;
+  }
+}/*# sourceMappingURL=styles.module.css.map */

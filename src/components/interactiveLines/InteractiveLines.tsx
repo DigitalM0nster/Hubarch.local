@@ -63,7 +63,7 @@ export default function InteractiveLines() {
 					className={`${styles.line} ${styles.horizontalLine}`}
 					style={{
 						top: `${horizontalLine.y}%`,
-						left: `${verticalLine.x}%`,
+						left: `${horizontalLine.x}%`,
 						width: `${horizontalLine.width}%`,
 					}}
 				/>
@@ -81,7 +81,7 @@ export default function InteractiveLines() {
 					className={`${styles.line} ${styles.leftLine}`}
 					style={{
 						height: `${leftLine.height}%`,
-						left: `calc(${leftLine.x}% - 0px)`,
+						left: `calc(${leftLine.x}% - 2px)`,
 						transition: "all 0.5s ease, transform 0.5s ease-in-out",
 					}}
 				/>
@@ -90,7 +90,7 @@ export default function InteractiveLines() {
 					className={`${styles.line} ${styles.rightLine}`}
 					style={{
 						height: `${rightLine.height}%`,
-						left: `calc(${rightLine.x}% - 0px)`,
+						left: `calc(${rightLine.x}% - 2px)`,
 						transition: "all 0.5s ease, transform 0.5s ease-in-out",
 					}}
 				/>

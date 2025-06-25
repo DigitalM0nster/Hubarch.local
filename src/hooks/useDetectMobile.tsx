@@ -2,7 +2,7 @@ import { useWindowStore } from "@/store/windowStore";
 import { useEffect } from "react";
 
 export function useDetectMobile() {
-	const { setIsMobile, setWindowWidth, setWindowHeight } = useWindowStore();
+	const { setIsMobile, setWindowWidth, setWindowHeight, windowWidth } = useWindowStore();
 
 	// 💻 Детект мобильного устройства
 	useEffect(() => {
@@ -16,7 +16,7 @@ export function useDetectMobile() {
 
 		const handleResize = () => {
 			clearTimeout(resizeTimeout);
-			resizeTimeout = setTimeout(() => checkIsMobile(), 300);
+			resizeTimeout = setTimeout(() => checkIsMobile(), 50);
 		};
 
 		checkIsMobile();
@@ -26,5 +26,5 @@ export function useDetectMobile() {
 			clearTimeout(resizeTimeout);
 			window.removeEventListener("resize", handleResize);
 		};
-	}, [setIsMobile]);
+	}, [windowWidth, setIsMobile]);
 }

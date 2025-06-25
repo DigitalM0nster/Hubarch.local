@@ -1,0 +1,74 @@
+.faqBlock {
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+}
+.faqBlock .faqItem {
+  flex-direction: column;
+}
+.faqBlock .faqItem:hover .faqTitle {
+  border-bottom: 1px solid rgb(79, 80, 95);
+  opacity: 1;
+}
+.faqBlock .faqItem.active .faqTitle {
+  border-bottom: 1px solid rgb(79, 80, 95);
+  opacity: 1;
+}
+.faqBlock .faqItem.active .faqTitle .arrow {
+  transform: rotate(180deg);
+}
+.faqBlock .faqItem.active .contentBlock {
+  padding: 20px 0px 0px 0px;
+}
+.faqBlock .faqItem .faqTitle {
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+  padding: 20px 0px 20px 0px;
+  border-bottom: 1px solid rgba(79, 80, 95, 0.16);
+  opacity: 0.5;
+  transition: 0.25s;
+  cursor: pointer;
+}
+.faqBlock .faqItem .faqTitle .titleStart {
+  gap: 20px;
+}
+.faqBlock .faqItem .faqTitle .titleStart .icon {
+  justify-content: center;
+  align-items: center;
+  width: 21px;
+  min-width: 21px;
+  height: 21px;
+}
+.faqBlock .faqItem .faqTitle .titleStart .icon img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.faqBlock .faqItem .faqTitle .titleStart .title {
+  font-family: "Panama Regular";
+  font-size: var(--mainTextSize);
+  color: var(--mainTextColor);
+  text-transform: uppercase;
+}
+.faqBlock .faqItem .faqTitle .arrow {
+  width: 21px;
+  min-width: 21px;
+  height: 21px;
+  background-image: url("/images/faq_arrow.svg");
+  transition: transform 0.3s ease;
+}
+.faqBlock .faqItem .contentBlock {
+  flex-direction: column;
+  padding: 0px;
+  gap: 10px;
+  height: -moz-fit-content;
+  height: fit-content;
+  max-height: 0px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}/*# sourceMappingURL=styles.module.css.map */

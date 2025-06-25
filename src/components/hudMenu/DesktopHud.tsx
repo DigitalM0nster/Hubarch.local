@@ -199,7 +199,7 @@ export default function DesktopHud() {
 					</div>
 				</div>
 			</div>
-			<div className={styles.leftHud}>
+			<div className={`${styles.leftHud} ${activePage === "/en/media" || activePage === "/ru/media" ? styles.hidden : ""}`}>
 				{menuSettingsData?.left_menu_links &&
 					menuSettingsData?.left_menu_links.map((linkItem, index) => {
 						const link = linkItem.link;

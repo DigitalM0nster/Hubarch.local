@@ -1,0 +1,602 @@
+.desktopHud {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  font-family: "Panama Regular";
+  font-size: var(--menuFontSize);
+  text-transform: uppercase;
+  pointer-events: none;
+  opacity: 1;
+  transition: 0.3s;
+}
+.desktopHud * {
+  transition: 0.3s;
+}
+.desktopHud.inactive {
+  opacity: 0;
+}
+.desktopHud.dark {
+  color: var(--mainTextColor);
+}
+.desktopHud.dark a.li,
+.desktopHud.dark .li {
+  color: var(--mainTextColor);
+}
+.desktopHud.light {
+  color: var(--backgroundColor);
+}
+.desktopHud.light a.li,
+.desktopHud.light .li {
+  color: var(--backgroundColor);
+}
+.desktopHud a.li,
+.desktopHud .li {
+  display: flex;
+  position: relative;
+  color: var(--mainTextColor);
+  text-decoration: none;
+  cursor: pointer;
+  pointer-events: all;
+  word-break: break-word;
+  letter-spacing: var(--letterSpacing);
+}
+.desktopHud a.li:hover,
+.desktopHud .li:hover {
+  letter-spacing: var(--letterSpacingHover);
+}
+.desktopHud .topHud {
+  justify-content: space-between;
+  align-self: center;
+  position: fixed;
+  top: calc(var(--screenPadding) * 2);
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: calc(100% - var(--screenPadding) * 4);
+  pointer-events: none;
+}
+.desktopHud .topHud .leftPart {
+  gap: 55px;
+  transform: translate(0px, 7%);
+}
+.desktopHud .topHud .centerPart {
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: var(--contentWidth);
+  transform: translate(0px, 7%);
+}
+.desktopHud .topHud .rightPart {
+  justify-content: flex-end;
+  gap: 33px;
+}
+.desktopHud .topHud .leftPart,
+.desktopHud .topHud .rightPart {
+  width: calc((100% - var(--contentWidth)) / 2);
+}
+.desktopHud .topHud a.logoBlock,
+.desktopHud .topHud .logoBlock {
+  position: relative;
+  display: flex;
+  max-width: 180px;
+  max-height: 22px;
+  cursor: pointer;
+  pointer-events: all;
+}
+.desktopHud .topHud a.logoBlock img,
+.desktopHud .topHud .logoBlock img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  max-height: var(--logoMaxHeight);
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: left;
+     object-position: left;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+}
+.desktopHud .topHud a.logoBlock img.active,
+.desktopHud .topHud .logoBlock img.active {
+  position: relative;
+  opacity: 1;
+  pointer-events: auto;
+}
+.desktopHud .topHud .languageBlock a.lang,
+.desktopHud .topHud .languageBlock .lang {
+  position: relative;
+  display: flex;
+  text-decoration: none;
+  color: inherit;
+  opacity: 0.3;
+  cursor: pointer;
+  pointer-events: all;
+  letter-spacing: var(--letterSpacing);
+}
+.desktopHud .topHud .languageBlock a.lang.active,
+.desktopHud .topHud .languageBlock .lang.active {
+  opacity: 1;
+}
+.desktopHud .topHud .languageBlock a.lang.active:hover,
+.desktopHud .topHud .languageBlock .lang.active:hover {
+  opacity: 1;
+}
+.desktopHud .topHud .languageBlock a.lang:hover,
+.desktopHud .topHud .languageBlock .lang:hover {
+  opacity: 0.65;
+  letter-spacing: var(--letterSpacingHover);
+}
+.desktopHud .topHud .navigation {
+  gap: 50px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+.desktopHud .topHud a.phone,
+.desktopHud .topHud .phone {
+  display: flex;
+  position: relative;
+  cursor: pointer;
+  pointer-events: all;
+  text-decoration: none;
+  color: inherit;
+  letter-spacing: var(--letterSpacing);
+}
+.desktopHud .topHud a.phone:hover,
+.desktopHud .topHud .phone:hover {
+  letter-spacing: var(--letterSpacingHover);
+}
+.desktopHud .topHud .contactUsBlock {
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  pointer-events: all;
+}
+.desktopHud .topHud .contactUsBlock:hover .text {
+  text-decoration: underline;
+}
+.desktopHud .topHud .contactUsBlock:hover .icon .door {
+  transform: scaleX(0.4) scaleY(0.95);
+}
+.desktopHud .topHud .contactUsBlock .text {
+  text-decoration: none;
+  transform: translate(0px, 7%);
+}
+.desktopHud .topHud .contactUsBlock .icon {
+  width: var(--menuFontSize);
+  min-width: var(--menuFontSize);
+  height: var(--menuFontSize);
+  overflow: hidden;
+}
+.desktopHud .topHud .contactUsBlock .icon img {
+  opacity: 0;
+  pointer-events: none;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: center;
+     object-position: center;
+  transition: 0.3s;
+}
+.desktopHud .topHud .contactUsBlock .icon img.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.desktopHud .topHud .contactUsBlock .icon img.door {
+  position: absolute;
+  left: 0;
+  transition: 0.3s;
+  transform-origin: 0% 50%;
+  transform: scaleX(0.65) scaleY(0.95);
+}
+.desktopHud .rightHud {
+  flex-direction: column;
+  gap: 33px;
+  position: fixed;
+  top: 50%;
+  right: calc(var(--screenPadding) * 2);
+  transform: translate(0px, -50%);
+  max-width: calc((100% - var(--contentWidth)) / 2 - 15px);
+  pointer-events: all;
+  opacity: 1;
+}
+.desktopHud .rightHud.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.desktopHud .rightHud.hidden a {
+  pointer-events: none;
+}
+.desktopHud .bottomHud {
+  justify-content: space-between;
+  align-self: center;
+  align-items: flex-end;
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, 0);
+  bottom: calc(var(--screenPadding) * 2);
+  width: calc(100% - var(--screenPadding) * 4);
+  pointer-events: none;
+}
+.desktopHud .bottomHud .leftPart {
+  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  pointer-events: all;
+  justify-content: flex-end;
+  max-width: calc((100% - var(--contentWidth)) / 2 - 15px);
+}
+.desktopHud .bottomHud .rightPart {
+  justify-content: flex-end;
+  align-items: center;
+  width: -moz-fit-content;
+  width: fit-content;
+  pointer-events: all;
+}
+.desktopHud .bottomHud .stoneIcon {
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+}
+.desktopHud .bottomHud .stoneIcon.active:hover img:nth-child(1) {
+  opacity: 0;
+}
+.desktopHud .bottomHud .stoneIcon.active:hover img:nth-child(2) {
+  opacity: 1;
+}
+.desktopHud .bottomHud .stoneIcon.active img:nth-child(1) {
+  opacity: 0;
+}
+.desktopHud .bottomHud .stoneIcon.active img:nth-child(2) {
+  opacity: 1;
+}
+.desktopHud .bottomHud .stoneIcon.active .linesBlock .line:nth-child(1) {
+  transform: rotate(-90deg) scaleY(0);
+}
+.desktopHud .bottomHud .stoneIcon.active .linesBlock .line:nth-child(2) {
+  transform: rotate(-45deg);
+}
+.desktopHud .bottomHud .stoneIcon.active .linesBlock .line:nth-child(3) {
+  transform: rotate(-135deg);
+}
+.desktopHud .bottomHud .stoneIcon:hover img:nth-child(1) {
+  opacity: 0;
+}
+.desktopHud .bottomHud .stoneIcon:hover img:nth-child(2) {
+  opacity: 1;
+}
+.desktopHud .bottomHud .stoneIcon .linesBlock {
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: translate(3%, -2%);
+}
+.desktopHud .bottomHud .stoneIcon .linesBlock .line {
+  position: absolute;
+  width: 3px;
+  height: 25px;
+  background-color: white;
+  transform: rotate(0deg);
+  transition: 0.3s;
+}
+.desktopHud .bottomHud .stoneIcon .linesBlock .line:nth-child(1) {
+  transform: rotate(0deg);
+}
+.desktopHud .bottomHud .stoneIcon .linesBlock .line:nth-child(2) {
+  transform: rotate(45deg);
+}
+.desktopHud .bottomHud .stoneIcon .linesBlock .line:nth-child(3) {
+  transform: rotate(90deg);
+}
+.desktopHud .bottomHud .stoneIcon img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: center;
+     object-position: center;
+}
+.desktopHud .bottomHud .stoneIcon img:nth-child(1) {
+  opacity: 1;
+}
+.desktopHud .bottomHud .stoneIcon img:nth-child(2) {
+  opacity: 0;
+}
+.desktopHud .leftHud {
+  flex-direction: column;
+  gap: 33px;
+  position: fixed;
+  top: 50%;
+  left: calc(var(--screenPadding) * 2);
+  transform: translate(0px, -50%);
+  max-width: calc((100% - var(--contentWidth)) / 2 - 15px);
+  pointer-events: all;
+}
+.desktopHud .leftHud.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.desktopHud .leftHud.hidden a {
+  pointer-events: none;
+}
+
+.mobileHud {
+  display: none;
+  position: fixed;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Panama Regular";
+  left: 0;
+  padding: var(--screenPadding);
+  width: calc(100% - var(--screenPadding) * 2);
+  transition: 0.5s;
+  z-index: 2;
+  pointer-events: none;
+}
+.mobileHud * {
+  transition: 0.5s;
+}
+.mobileHud.light {
+  color: var(--backgroundColor);
+}
+.mobileHud.light .burger {
+  background-color: var(--backgroundColor);
+}
+.mobileHud.light .burger .line {
+  color: var(--mainTextColor);
+}
+.mobileHud.dark {
+  color: var(--mainTextColor);
+}
+.mobileHud.dark .burger {
+  background-color: var(--mainTextColor);
+}
+.mobileHud.dark .burger .line {
+  color: var(--backgroundColor);
+}
+.mobileHud .logo {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  align-items: center;
+  pointer-events: all;
+}
+.mobileHud .logo img {
+  position: absolute;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  max-height: var(--logoMaxHeight);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+}
+.mobileHud .logo img.active {
+  position: relative;
+  opacity: 1;
+  pointer-events: auto;
+}
+.mobileHud .burgerButtonBlock {
+  gap: 8px;
+  align-items: center;
+  pointer-events: all;
+  cursor: pointer;
+}
+.mobileHud .burgerButtonBlock.active .burger .line:nth-child(1) {
+  transform: rotate(135deg);
+}
+.mobileHud .burgerButtonBlock.active .burger .line:nth-child(2) {
+  transform: rotate(225deg);
+}
+.mobileHud .burgerButtonBlock.active .burger .line:nth-child(3) {
+  transform: rotate(0deg) scale(0);
+}
+.mobileHud .burgerButtonBlock.active .textBlock .text.open {
+  right: 0;
+  transform: translate(calc(100% + 2px), 7%);
+  opacity: 0;
+}
+.mobileHud .burgerButtonBlock.active .textBlock .text.close {
+  transform: translate(calc(0% + 0px), 7%);
+  opacity: 1;
+}
+.mobileHud .burgerButtonBlock .textBlock {
+  overflow: hidden;
+  font-size: var(--menuFontSize);
+  text-transform: uppercase;
+}
+.mobileHud .burgerButtonBlock .textBlock .text.open {
+  position: absolute;
+  right: 0;
+  transform: translate(calc(0% + 0px), 7%);
+  opacity: 1;
+}
+.mobileHud .burgerButtonBlock .textBlock .text.close {
+  transform: translate(calc(-100% - 2px), 7%);
+  opacity: 0;
+}
+.mobileHud .burgerButtonBlock .burger {
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--mainTextColor);
+  border-radius: 50%;
+}
+.mobileHud .burgerButtonBlock .burger .line {
+  position: absolute;
+  background-color: var(--backgroundColor);
+  width: 2px;
+  height: 16px;
+}
+.mobileHud .burgerButtonBlock .burger .line:nth-child(1) {
+  transform: rotate(45deg);
+}
+.mobileHud .burgerButtonBlock .burger .line:nth-child(2) {
+  transform: rotate(90deg);
+}
+.mobileHud .burgerButtonBlock .burger .line:nth-child(3) {
+  transform: rotate(0deg);
+}
+
+.mobileMenu {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  font-family: "Panama Regular";
+  background-color: var(--backgroundColor);
+  opacity: 0;
+  pointer-events: none;
+  transition: 1s;
+}
+.mobileMenu * {
+  transition: 1s;
+}
+.mobileMenu.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.mobileMenu .menuContent {
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.mobileMenu .menuContent .languageBlock {
+  gap: 3px;
+}
+.mobileMenu .menuContent .languageBlock a.lang,
+.mobileMenu .menuContent .languageBlock .lang {
+  font-size: var(--menuFontSize);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--mainTextColor);
+}
+.mobileMenu .menuContent .languageBlock a.lang.active,
+.mobileMenu .menuContent .languageBlock .lang.active {
+  font-weight: 700;
+}
+.mobileMenu .menuContent .navigationBlock {
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+.mobileMenu .menuContent .navigationBlock .li,
+.mobileMenu .menuContent .navigationBlock a.li {
+  font-size: 24px;
+  color: var(--mainTextColor);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.mobileMenu .menuContent .phoneBlock a.phone,
+.mobileMenu .menuContent .phoneBlock .phone {
+  font-size: var(--menuFontSize);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--mainTextColor);
+}
+.mobileMenu .menuContent .contactUsBlock {
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  pointer-events: all;
+}
+.mobileMenu .menuContent .contactUsBlock .icon {
+  width: var(--menuFontSize);
+  min-width: var(--menuFontSize);
+  height: var(--menuFontSize);
+  overflow: hidden;
+}
+.mobileMenu .menuContent .contactUsBlock .icon img {
+  opacity: 0;
+  pointer-events: none;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: center;
+     object-position: center;
+  transition: 0.3s;
+}
+.mobileMenu .menuContent .contactUsBlock .icon img.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.mobileMenu .bottom {
+  position: absolute;
+}
+
+@media (max-width: 1680px) {
+  .desktopHud .topHud {
+    top: var(--screenPadding);
+    width: calc(100% - var(--screenPadding) * 2);
+  }
+  .desktopHud .topHud .logoBlock {
+    width: 150px;
+  }
+  .desktopHud .leftHud {
+    left: var(--screenPadding);
+  }
+  .desktopHud .rightHud {
+    right: var(--screenPadding);
+  }
+  .desktopHud .bottomHud {
+    bottom: var(--screenPadding);
+    width: calc(100% - var(--screenPadding) * 2);
+  }
+}
+@media (max-width: 1440px) {
+  .desktopHud {
+    font-size: calc(var(--menuFontSize) * 0.85);
+  }
+}
+@media (max-width: 1280px) {
+  .desktopHud {
+    --centerPartWidth: calc(var(--contentWidth) * 0.775);
+    font-size: calc(var(--menuFontSize) * 1);
+  }
+  .desktopHud .topHud .logoBlock {
+    max-width: 120px;
+  }
+  .desktopHud .topHud .navigation {
+    gap: var(--screenPadding);
+  }
+  .desktopHud .topHud .rightPart,
+  .desktopHud .topHud .leftPart {
+    width: calc((100% - var(--centerPartWidth)) * 0.5);
+  }
+  .desktopHud .topHud .centerPart {
+    max-width: var(--centerPartWidth);
+  }
+  .desktopHud .bottomHud .leftPart {
+    max-width: calc((100% - var(--contentWidth)) / 2 - 15px);
+  }
+  .desktopHud .leftHud,
+  .desktopHud .rightHud {
+    max-width: calc((100% - var(--contentWidth)) / 2 - 15px);
+  }
+}
+@media (max-width: 980px) {
+  .desktopHud {
+    display: none;
+  }
+  .desktopHud .topHud,
+  .desktopHud .leftHud,
+  .desktopHud .bottomHud,
+  .desktopHud .rightHud {
+    display: none;
+  }
+  .mobileHud,
+  .mobileMenu {
+    display: flex;
+  }
+}/*# sourceMappingURL=styles.module.css.map */

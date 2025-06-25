@@ -1,0 +1,187 @@
+.screen1 .leftPart {
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+}
+.screen1 .leftPart .titleBackground {
+  transform: translate(0px, 6%);
+}
+.screen1 .leftPart .text {
+  font-size: var(--mainTextSize);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  max-width: 100%;
+}
+.screen1 .rightPart {
+  width: calc(50% - var(--screenPadding));
+  padding: 0px 0px 0px var(--screenPadding);
+  align-items: center;
+}
+
+.screen2 .leftPart {
+  flex-direction: column;
+  width: calc(50% - var(--screenPadding));
+  padding: 0px var(--screenPadding) 0px 0px;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--screenPadding);
+}
+.screen2 .leftPart .textBlock {
+  font-size: var(--mainTextSize);
+  max-width: 75%;
+  flex-direction: column;
+}
+.screen2 .leftPart .imageBlock {
+  width: 100%;
+  height: 23vw;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.screen2 .rightPart {
+  flex-direction: column;
+  width: calc(50% - var(--screenPadding));
+  padding: 0px 0px 0px var(--screenPadding);
+  gap: 70px;
+}
+.screen2 .rightPart .textBlock {
+  flex-direction: column;
+  gap: 50px;
+}
+.screen2 .rightPart .textBlock .text {
+  flex-direction: column;
+  font-size: var(--additionalTextSize);
+  gap: 10px;
+}
+.screen2 .rightPart .textBlock .button,
+.screen2 .rightPart .textBlock a.button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  color: var(--mainColor);
+  text-decoration: none;
+}
+.screen2 .rightPart .textBlock .button .icon,
+.screen2 .rightPart .textBlock a.button .icon {
+  width: var(--mainTextSize);
+  height: var(--mainTextSize);
+  background-image: url("/images/arrow_right.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(-45deg);
+}
+.screen2 .rightPart .textBlock .button .text,
+.screen2 .rightPart .textBlock a.button .text {
+  font-family: "Panama Regular";
+  font-size: var(--mainTextSize);
+  text-transform: uppercase;
+  transform: translate(0px, 6%);
+}
+.screen2 .rightPart .priceBlock {
+  flex-direction: column;
+  gap: 50px;
+}
+.screen2 .rightPart .priceBlock .priceItems {
+  flex-direction: column;
+}
+.screen2 .rightPart .priceBlock .priceItems .priceItem {
+  justify-content: space-between;
+  padding: 25px 0px;
+  border-bottom: 1px solid rgba(79, 80, 95, 0.16);
+  font-size: var(--additionalTextSize);
+  font-family: "Inter";
+}
+.screen2 .rightPart .callbackButtonBlock {
+  flex-direction: column;
+  gap: 10px;
+}
+.screen2 .rightPart .callbackButtonBlock .button {
+  gap: 5px;
+  cursor: pointer;
+  align-items: center;
+}
+.screen2 .rightPart .callbackButtonBlock .button .icon {
+  width: var(--mainTextSize);
+  height: var(--mainTextSize);
+  background-image: url("/images/arrow_right.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.screen2 .rightPart .callbackButtonBlock .button .text {
+  font-family: "Panama Regular";
+  font-size: var(--mainTextSize);
+  text-transform: uppercase;
+  transform: translate(0px, 6%);
+}
+.screen2 .rightPart .callbackButtonBlock .description {
+  font-family: "Inter";
+  font-size: var(--miniTextSize);
+  opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+  .screen1 {
+    min-height: 60dvh;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  .screen1 .screenContent {
+    flex-direction: column;
+    height: -moz-fit-content;
+    height: fit-content;
+    min-height: calc(60dvh - var(--screenPadding) * 2 - var(--logoMaxHeight) * 2);
+    gap: 20px;
+  }
+  .screen1 .leftPart {
+    flex-direction: column;
+    width: 100%;
+    padding: 0px;
+  }
+  .screen1 .leftPart .text {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+  .screen1 .rightPart {
+    width: 100%;
+    padding: 0px;
+  }
+  .screen2 {
+    min-height: unset;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  .screen2 .screenContent {
+    flex-direction: column;
+    height: -moz-fit-content;
+    height: fit-content;
+    min-height: unset;
+    gap: 30px;
+  }
+  .screen2 .leftPart {
+    width: 100%;
+    padding: 0px;
+  }
+  .screen2 .leftPart .imageBlock {
+    order: 1;
+    height: 60vw;
+  }
+  .screen2 .leftPart .textBlock {
+    width: 100%;
+    max-width: 100%;
+    order: 2;
+  }
+  .screen2 .rightPart {
+    width: 100%;
+    padding: 0px;
+  }
+  .screen2 .rightPart .textBlock {
+    gap: 15px;
+  }
+}/*# sourceMappingURL=styles.module.css.map */

@@ -6,10 +6,8 @@ import { useScreenScroll } from "@/hooks/useScreenScroll";
 import { usePreloaderStore } from "@/store/preloaderStore";
 import { useScrollStore } from "@/store/scrollStore";
 import { useWindowStore } from "@/store/windowStore";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styles from "./styles.module.scss";
-// import screen4Styles from "@/components/pages/mainPage/styles.module.scss";
-import parse from "html-react-parser";
 import HistoryScreen from "./HistoryScreen";
 import { useAboutPageStore } from "@/store/aboutPageStore";
 import SpacesScreen from "./SpacesScreen";
@@ -26,7 +24,6 @@ export default function ClientComponent({ language }: { language: string }) {
 	const { windowWidth } = useWindowStore();
 	const { data, fetchData } = useAboutPageStore();
 	const { isMobile } = useWindowStore();
-	const [activeMapItem, setActiveMapItem] = useState<number | null>(null);
 
 	useEffect(() => {
 		fetchData(language);

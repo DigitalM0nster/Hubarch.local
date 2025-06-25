@@ -1,55 +1,42 @@
-import { notFound } from "next/navigation";
+// src/app/[language]/projects/[projectId]/page.tsx
 
-export async function generateStaticParams() {
-	try {
-		const res = await fetch(`${process.env.NEXT_PUBLIC_WP_API}/media`);
-		const posts = await res.json();
+import { Metadata, ResolvingMetadata } from "next";
+import { getArticleData } from "./getArticleData";
+import ArticleIdPage from "./ArticleIdPage";
 
-		// допустим в твоём проекте доступны только ru и en
-		const languages = ["ru", "en"];
+// Отключаем кеширование полностью
+export const dynamic = "force-dynamic";
 
-		// создаём маршруты для каждой статьи и каждого языка
-		const staticParams = [];
+export async function generateMetadata({ params }: { params: Promise<{ language: string; articleId: string }> }, parent: ResolvingMetadata): Promise<Metadata> {
+	const { language, articleId } = await params;
+	const articleData = await getArticleData(language, articleId);
+	const previousImages = (await parent).openGraph?.images || [];
 
-		for (const lang of languages) {
-			for (const post of posts) {
-				staticParams.push({
-					language: lang,
-					articleId: post.slug,
-				});
-			}
-		}
-
-		return staticParams;
-	} catch (e) {
-		console.error("Ошибка загрузки статей:", e);
-		return [];
+	if (!articleData) {
+		return {
+			title: language === "ru" ? "Статья не найдена" : "Article not found",
+		};
 	}
+
+	const title = articleData.title || `${language === "ru" ? "Статья" : "Article"} ${articleId}`;
+	const description = articleData.description || "";
+
+	return {
+		title,
+		description,
+		openGraph: {
+			title,
+			description,
+			images: articleData.images?.length ? [{ url: articleData.images[0], alt: title }] : previousImages,
+		},
+	};
 }
 
-export default async function ArticlePage(props: { params: Promise<{ language: string; articleId: string }> }) {
-	const { language, articleId } = await props.params;
+export default async function ArticleId({ params }: { params: Promise<{ language: string; articleId: string }> }) {
+	const { language, articleId } = await params;
 
-	try {
-		const res = await fetch(`${process.env.NEXT_PUBLIC_WP_API}/media?slug=${articleId}`, {
-			next: { revalidate: 3600 },
-		});
-		if (!res.ok) throw new Error("Ошибка при загрузке статьи");
+	// Получаем свежие данные при каждом запросе
+	const articleData = await getArticleData(language, articleId);
 
-		const mediaNews = await res.json();
-		if (!mediaNews.length) notFound();
-
-		const mediaNewItem = mediaNews[0];
-
-		return (
-			<div>
-				<h1>{mediaNewItem.title.rendered}</h1>
-				<p>{mediaNewItem.acf?.description || language === "ru" ? "Описание отсутствует" : "No description"}</p>
-				{/* {mediaNewItem.acf?.image_url && <img src={mediaNewItem.acf.image_url} alt={mediaNewItem.title.rendered} />} */}
-			</div>
-		);
-	} catch (error) {
-		console.error("Ошибка загрузки статьи:", error);
-		notFound();
-	}
+	return <ArticleIdPage language={language} articleId={articleId} articleData={articleData} />;
 }
