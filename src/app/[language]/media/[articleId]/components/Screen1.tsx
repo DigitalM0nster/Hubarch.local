@@ -36,7 +36,7 @@ export default function Screen1({ articleData, language = "ru" }: { articleData:
 			{articleData ? (
 				<div className={`screenContent ${styles.screenContent}`}>
 					<div className={styles.leftBlock}>
-						<div className={styles.text}>{articleData?.title?.rendered}</div>
+						<div className={styles.text}>{`«${articleData?.title?.rendered}»`}</div>
 						<div className={styles.date}>{formatDate(articleData?.date)}</div>
 					</div>
 					<div className={styles.rightBlock}>
