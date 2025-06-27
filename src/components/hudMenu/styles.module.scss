@@ -702,6 +702,7 @@
 			line-height: 1.1;
 			color: var(--backgroundColor);
 			text-align: center;
+			margin: 0px 0px 20px 0px;
 		}
 
 		.image {
@@ -1058,6 +1059,14 @@
 
 	.popupHud {
 		width: 100%;
+
+		.popupContent {
+			.popupItem {
+				.image {
+					height: 35vw;
+				}
+			}
+		}
 	}
 }
 
