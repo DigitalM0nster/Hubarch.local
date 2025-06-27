@@ -29,6 +29,7 @@ export interface ApproachPageData {
 					  }[]
 					| false;
 			};
+			visible: boolean;
 		};
 		application_screen: {
 			title_background?: string;

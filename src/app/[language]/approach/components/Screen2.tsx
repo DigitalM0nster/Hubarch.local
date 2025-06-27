@@ -5,5 +5,5 @@ import { useApproachPageStore } from "@/store/approachPageStore";
 
 export default function Screen2({ language }: { language: string }) {
 	const { data } = useApproachPageStore();
-	return <TestfitComponent data={data?.approach_page?.testfit_screen} language={language} />;
+	return <>{data?.approach_page?.testfit_screen?.visible && <TestfitComponent data={data?.approach_page?.testfit_screen} language={language} />}</>;
 }
