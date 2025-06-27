@@ -102,6 +102,9 @@ export default function MobileHud() {
 						</LinkWithPreloader>
 					</div>
 					<div className={styles.navigationBlock}>
+						<LinkWithPreloader href={lang === "ru" ? "/ru" : "/en"} className={styles.li}>
+							{lang === "ru" ? "Главная" : "Main"}
+						</LinkWithPreloader>
 						{menuSettingsData?.top_menu_links &&
 							menuSettingsData?.top_menu_links.map((linkItem, index) => {
 								const link = linkItem.link;
