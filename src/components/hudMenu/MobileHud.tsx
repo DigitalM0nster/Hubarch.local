@@ -10,11 +10,12 @@ import LinkWithPreloader from "../preloader/LinkWithPreloader";
 import Image from "next/image";
 import { useScrollStore } from "@/store/scrollStore";
 import { usePreloaderStore } from "@/store/preloaderStore";
+import PopupHud from "./PopupHud";
 
 export default function MobileHud() {
 	const pathname = usePathname(); // Получаем текущий путь
-	const { menuSettingsData } = useAllOptionsStore();
-	const { activeMenu, setActiveMenu, screenLightness } = useHudMenuStore();
+	const { menuSettingsData, popupData } = useAllOptionsStore();
+	const { activeMenu, setActiveMenu, screenLightness, activePopup, setActivePopup } = useHudMenuStore();
 	const { zIndex, setNewIndex } = useInteractiveLinesStore();
 	const { setScrollAllowed } = useScrollStore();
 	const { progress } = usePreloaderStore();
@@ -160,6 +161,16 @@ export default function MobileHud() {
 					<div className="popupIcon"></div>
 				</div>
 			</div>
+			<div className={`${styles.stoneIcon} ${activePopup ? styles.active : ""}`} onClick={() => setActivePopup(!activePopup)}>
+				<img src={popupData?.popup_open_image?.image1 ? popupData?.popup_open_image?.image1 : "/images/stone.svg"} alt="" />
+				<img src={popupData?.popup_open_image?.image2 ? popupData?.popup_open_image?.image2 : "/images/stone_red.svg"} alt="" />
+				<div className={styles.linesBlock}>
+					<div className={styles.line} />
+					<div className={styles.line} />
+					<div className={styles.line} />
+				</div>
+			</div>
+			<PopupHud activePopup={activePopup} language={lang} popupData={popupData} />
 		</>
 	);
 }

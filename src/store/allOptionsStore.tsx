@@ -33,6 +33,24 @@ interface TopMenuPhone {
 	phone_ru: string;
 }
 
+export interface PopupData {
+	popup_open_image: {
+		image1: string;
+		image2: string;
+	};
+	popup_items: {
+		title: {
+			ru: string;
+			en: string;
+		};
+		image: string | false;
+		button_text: {
+			ru: string;
+			en: string;
+		};
+	}[];
+}
+
 interface AllOptionsState {
 	isLoading: boolean;
 	menuSettingsData: {
@@ -60,13 +78,7 @@ interface AllOptionsState {
 			en: string;
 		};
 	} | null;
-	popupData: {
-		popup_open_image: {
-			image1: string;
-			image2: string;
-		};
-		popup_inside_image: string;
-	} | null;
+	popupData: PopupData | null;
 	footerData: {
 		letters?: Letter[];
 	} | null;
@@ -86,14 +98,15 @@ export const useAllOptionsStore = create<AllOptionsState>((set, get) => ({
 		if (!API_URL) {
 			throw new Error("NEXT_PUBLIC_WP_API не задан или некорректен");
 		}
-		if (get().menuSettingsData && get().privacyPolicyData && get().popupData && get().footerData) return; // Если данные уже есть, не запрашиваем заново
+		// if (get().menuSettingsData && get().privacyPolicyData && get().popupData && get().footerData) return; // Если данные уже есть, не запрашиваем заново
 
 		set({ isLoading: true });
 		try {
 			const response = await axios.get(`${API_URL}/acf/v3/options/ANYTHING`);
+			console.log(response.data);
 			set({ menuSettingsData: response.data.menu_settings });
 			set({ privacyPolicyData: response.data.privacy_policy });
-			set({ popupData: response.data.popup });
+			set({ popupData: response.data.popup_settings });
 			set({ footerData: response.data.footer_screen });
 		} catch (error) {
 			console.error("Ошибка загрузки меню", error);

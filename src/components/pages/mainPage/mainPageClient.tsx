@@ -21,7 +21,6 @@ export default function MainPageClient({ language }: { language: string }) {
 	useScreenScroll(styles); // Хук для прокрутки экрана
 	useDetectMobile();
 	const { data, error, fetchData } = useMainPageStore();
-	console.log(data);
 	const { setTotal } = usePreloaderStore();
 	const { scrollAllowed } = useScrollStore();
 

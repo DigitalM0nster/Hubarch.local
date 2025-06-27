@@ -5,6 +5,7 @@
 	--contentWidth: 70vw;
 	--screenPadding: 25px;
 	--logoMaxHeight: 22px;
+	--bigTextSize: 45px;
 	--menuFontSize: 21px;
 	--mainTextSize: 27px;
 	--miniTextSize: 15px;
@@ -177,6 +178,7 @@ p {
 		--contentWidth: calc(100vw - 480px);
 		--titleBackgroundSize: 8.5vw;
 		--largeTextSize: 4.6vw;
+		--bigTextSize: 2.5vw;
 	}
 	.screenContent {
 		height: calc(100% - ((var(--screenPadding) * 3) * 2));
@@ -197,6 +199,7 @@ p {
 		--contentWidth: calc(100vw - (var(--screenPadding) * 2) - 200px);
 		--menuFontSize: 16px;
 		--mainTextSize: 20px;
+		--largeTextSize: 32px;
 	}
 	.screenContent {
 		max-width: var(--contentWidth);
@@ -210,6 +213,7 @@ p {
 		--logoMaxHeight: 40px;
 		--mainTextSize: 24px;
 		--miniTextSize: 12px;
+		--bigTextSize: 32px;
 		--mediaMaxWidth: calc(100% - (var(--screenPadding) * 2));
 	}
 

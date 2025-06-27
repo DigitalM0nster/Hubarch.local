@@ -6,6 +6,7 @@ import { useAllOptionsStore } from "@/store/allOptionsStore";
 import { useEffect, useState } from "react";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 import LinkWithPreloader from "../preloader/LinkWithPreloader";
+import PopupHud from "./PopupHud";
 
 // Функция для форматирования телефонного номера
 function formatPhoneNumber(phoneNumber: string) {
@@ -37,10 +38,6 @@ export default function DesktopHud() {
 	useEffect(() => {
 		setActivePage(pathname);
 	}, [pathname]);
-
-	useEffect(() => {
-		// console.log(menuSettingsData);
-	}, [isLoading, menuSettingsData]);
 
 	return (
 		<div className={`${styles.desktopHud} ${isLoading || localLoading ? styles.inactive : ""} ${screenLightness === "light" ? styles.dark : styles.light}`}>
@@ -210,6 +207,7 @@ export default function DesktopHud() {
 						);
 					})}
 			</div>
+			<PopupHud activePopup={activePopup} language={lang} popupData={popupData} />
 		</div>
 	);
 }

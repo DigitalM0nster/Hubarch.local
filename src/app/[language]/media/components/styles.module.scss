@@ -227,7 +227,7 @@
 		.articleTitle {
 			justify-content: center;
 			font-family: "Panama Regular";
-			font-size: 48px;
+			font-size: var(--bigTextSize);
 			line-height: 1.1;
 			text-transform: uppercase;
 			text-align: center;
@@ -334,7 +334,6 @@
 			--cardWidth: 25vw;
 
 			.articleTitle {
-				font-size: 32px;
 				max-height: 175px;
 			}
 		}
