@@ -1,0 +1,97 @@
+.interactiveLines {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+  opacity: 0;
+  transition: all 1s 0s, z-index 0s 0.5s;
+  pointer-events: none;
+}
+.interactiveLines.over {
+  z-index: 1;
+}
+.interactiveLines.active {
+  opacity: 1;
+}
+
+.linesBlock {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+}
+.linesBlock.light .line {
+  background-color: var(--backgroundColor);
+}
+.linesBlock .line {
+  position: absolute;
+  background-color: #4f505f;
+  opacity: 0.16;
+  transition: 1s 0s;
+}
+.linesBlock .line.verticalLine {
+  width: 1px;
+  height: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.linesBlock .line.horizontalLine {
+  height: 1px;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.linesBlock .line.miniLine {
+  width: 300px;
+  height: 1px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.linesBlock .line.leftLine {
+  width: 1px;
+  height: 100%;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+}
+.linesBlock .line.rightLine {
+  width: 1px;
+  height: 100%;
+  top: 50%;
+  left: calc(100% - 1px);
+  transform: translate(0, -50%);
+}
+.linesBlock .icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  justify-content: center;
+  align-items: center;
+}
+.linesBlock .icon .line {
+  width: 3px;
+  height: 25px;
+  background-color: #e0dedc;
+  opacity: 1;
+}
+.linesBlock .icon .line:nth-child(1) {
+  transform: rotate(0deg);
+}
+.linesBlock .icon .line:nth-child(2) {
+  transform: rotate(45deg);
+}
+.linesBlock .icon .line:nth-child(3) {
+  transform: rotate(90deg);
+}
+
+@media (max-height: 420px) {
+  .linesBlock .line.miniLine {
+    width: 50dvh;
+  }
+}/*# sourceMappingURL=styles.module.css.map */

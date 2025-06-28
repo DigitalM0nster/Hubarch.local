@@ -216,6 +216,9 @@
   transform: translate(0, -50%);
   opacity: 1;
 }
+.simpleScroll .awardsScreen .screenContent .leftBlock .titleBackgroundColor {
+  transform: translate(0vw, 4%);
+}
 .simpleScroll .awardsScreen .screenContent .leftBlock .titleBackgroundColor.titleBackground {
   transform: translate(0vw, 4%);
   opacity: 1;
@@ -256,8 +259,52 @@
   }
 }
 @media (max-width: 980px) {
+  .simpleScroll .awardsScreen {
+    min-height: unset;
+    height: -moz-fit-content;
+    height: fit-content;
+    max-height: unset;
+    margin: 0px;
+  }
+  .simpleScroll .awardsScreen.active .screenContent .topBlock {
+    transform: translate(0, 0%);
+    opacity: 1;
+  }
+  .simpleScroll .awardsScreen.active .screenContent .leftBlock .titleBackground {
+    opacity: 0.15;
+  }
+  .simpleScroll .awardsScreen.active .screenContent .leftBlock .titleBackground.titleBackgroundColor {
+    opacity: 1;
+  }
+  .simpleScroll .awardsScreen.active .screenContent .leftBlock .text {
+    transform: translate(0, 0%);
+    opacity: 1;
+  }
+  .simpleScroll .awardsScreen .screenContent {
+    min-height: unset;
+    height: -moz-fit-content;
+    height: fit-content;
+    max-height: unset;
+  }
+  .simpleScroll .awardsScreen .screenContent .topBlock {
+    opacity: 0;
+    transform: translate(0, 100%);
+  }
   .simpleScroll .awardsScreen .screenContent .leftBlock {
     position: relative;
+    transform: translate(0, 0%);
+  }
+  .simpleScroll .awardsScreen .screenContent .leftBlock .titleBackground {
+    transform: translate(0px, 0%);
+    opacity: 1;
+  }
+  .simpleScroll .awardsScreen .screenContent .leftBlock .titleBackground.titleBackgroundColor {
+    opacity: 0;
+    transform: translate(0vw, 0%);
+  }
+  .simpleScroll .awardsScreen .screenContent .leftBlock .text {
+    opacity: 0;
+    transform: translate(0, -50px);
   }
   .awardsScreen {
     margin: 30dvh 0px 0px 0px;

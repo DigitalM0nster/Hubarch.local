@@ -5,6 +5,7 @@
   --contentWidth: 70vw;
   --screenPadding: 25px;
   --logoMaxHeight: 22px;
+  --bigTextSize: 45px;
   --menuFontSize: 21px;
   --mainTextSize: 27px;
   --miniTextSize: 15px;
@@ -13,7 +14,7 @@
   --titleBackgroundSize: 162px;
   --letterSpacing: calc(var(--mainTextSize) * 0);
   --letterSpacingHover: calc(var(--mainTextSize) * 0.035);
-  --mediaMaxWidth: 520px;
+  --mediaMaxWidth: calc((var(--contentWidth) / 2) * 0.85);
 }
 
 body {
@@ -50,6 +51,8 @@ p img {
   position: relative;
   width: auto;
   height: auto;
+  max-height: var(--additionalTextSize);
+  transform: translate(0px, 10%);
 }
 
 ::-webkit-scrollbar {
@@ -162,6 +165,7 @@ p img {
     --contentWidth: calc(100vw - 480px);
     --titleBackgroundSize: 8.5vw;
     --largeTextSize: 4.6vw;
+    --bigTextSize: 2.5vw;
   }
   .screenContent {
     height: calc(100% - var(--screenPadding) * 3 * 2);
@@ -172,6 +176,7 @@ p img {
   :root {
     --contentWidth: calc(100vw - 420px);
     --mainTextSize: 1.7vw;
+    --mediaMaxWidth: calc((var(--contentWidth) / 2) * 0.925);
   }
 }
 @media (max-width: 1280px) {
@@ -179,6 +184,7 @@ p img {
     --contentWidth: calc(100vw - (var(--screenPadding) * 2) - 200px);
     --menuFontSize: 16px;
     --mainTextSize: 20px;
+    --largeTextSize: 32px;
   }
   .screenContent {
     max-width: var(--contentWidth);
@@ -191,6 +197,8 @@ p img {
     --logoMaxHeight: 40px;
     --mainTextSize: 24px;
     --miniTextSize: 12px;
+    --bigTextSize: 32px;
+    --mediaMaxWidth: calc(100% - (var(--screenPadding) * 2));
   }
   .screenScroll {
     position: relative;

@@ -198,6 +198,7 @@
 	}
 
 	.approachScreen {
+		height: fit-content;
 		&:nth-child(odd) {
 			.textPart {
 				order: 1;
@@ -216,9 +217,15 @@
 				order: 2;
 			}
 		}
+		&:nth-child(2) {
+			.screenContent {
+				margin: calc(var(--screenPadding) * 2 + var(--logoMaxHeight)) auto;
+			}
+		}
 		.screenContent {
 			flex-direction: column;
 			justify-content: center;
+			height: fit-content;
 		}
 
 		.textPart {

@@ -250,6 +250,7 @@
 				opacity: 1;
 
 				.titleBackgroundColor {
+					transform: translate(0vw, 4%);
 					&.titleBackground {
 						transform: translate(0vw, 4%);
 						opacity: 1;
@@ -314,9 +315,58 @@
 @media (max-width: 980px) {
 	.simpleScroll {
 		.awardsScreen {
+			min-height: unset;
+			height: fit-content;
+			max-height: unset;
+			margin: 0px;
+
+			&.active {
+				.screenContent {
+					.topBlock {
+						transform: translate(0, 0%);
+						opacity: 1;
+					}
+					.leftBlock {
+						.titleBackground {
+							opacity: 0.15;
+							&.titleBackgroundColor {
+								opacity: 1;
+							}
+						}
+						.text {
+							transform: translate(0, 0%);
+							opacity: 1;
+						}
+					}
+				}
+			}
+
 			.screenContent {
+				min-height: unset;
+				height: fit-content;
+				max-height: unset;
+				.topBlock {
+					opacity: 0;
+					transform: translate(0, 100%);
+				}
 				.leftBlock {
 					position: relative;
+					transform: translate(0, 0%);
+
+					.titleBackground {
+						transform: translate(0px, 0%);
+						opacity: 1;
+
+						&.titleBackgroundColor {
+							opacity: 0;
+							transform: translate(0vw, 0%);
+						}
+					}
+
+					.text {
+						opacity: 0;
+						transform: translate(0, -50px);
+					}
 				}
 			}
 		}

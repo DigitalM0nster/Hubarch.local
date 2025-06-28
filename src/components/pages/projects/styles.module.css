@@ -1,0 +1,476 @@
+.screenScroll {
+  background-color: var(--additionalColor);
+}
+
+.screen {
+  background-color: var(--additionalColor);
+  --projectCardWidth: 70px;
+  --projectCardHeight: 50px;
+  --projectsGap: 15px;
+  --projectItemWidth: 780px;
+  --centerBlockHeight: calc(100dvh - var(--screenPadding) * 4 * 2);
+  --projectItemHeight: calc(var(--centerBlockHeight) * 0.7);
+  --projectItemsGap: calc((var(--centerBlockHeight) - var(--projectItemHeight)) * 0.5);
+  --frameCardDiffer: 10px;
+  --centerBlockWidthMultiplier: 0.8;
+  --leftBlockWidth: calc(var(--contentWidth) * (1 - var(--centerBlockWidthMultiplier)) * 0.5);
+  --leftBlockGapWidth: calc(var(--leftBlockWidth) - var(--projectCardWidth));
+  --projectsRightBlockWidth: calc(((100vw - var(--contentWidth)) * 0.5) + var(--leftBlockWidth) - var(--screenPadding) * 2 - var(--leftBlockGapWidth));
+  font-size: var(--additionalTextSize);
+  transition: 1s;
+}
+.screen * {
+  transition: 1s;
+}
+.screen .screenContent {
+  justify-content: center;
+}
+
+.leftBlock {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: calc((100% - 100% * var(--centerBlockWidthMultiplier)) * 0.5 - var(--screenPadding) * 0.5);
+}
+.leftBlock .frame {
+  position: absolute;
+  top: 50%;
+  transform: translate(calc(var(--frameCardDiffer) * -0.5), calc(-50% - 0px));
+  width: calc(var(--projectCardWidth) + var(--frameCardDiffer));
+  height: calc(var(--projectCardHeight) + var(--frameCardDiffer));
+  z-index: 1;
+  transition: 0s;
+}
+.leftBlock .frame.hidden {
+  opacity: 0;
+}
+.leftBlock .frame .line {
+  position: absolute;
+  background-color: white;
+}
+.leftBlock .frame .top {
+  right: 0;
+  top: 0;
+  width: 50%;
+  height: 1px;
+}
+.leftBlock .frame .right {
+  right: 0;
+  top: 0;
+  width: 1px;
+  height: 70%;
+}
+.leftBlock .frame .bottom {
+  left: 0;
+  bottom: 0;
+  width: 50%;
+  height: 1px;
+}
+.leftBlock .frame .left {
+  left: 0;
+  bottom: 0;
+  width: 1px;
+  height: 70%;
+}
+.leftBlock .projectsList {
+  position: absolute;
+  top: 50%;
+  transform: translate(0px, calc(var(--projectCardHeight) * -0.5));
+  flex-direction: column;
+  gap: var(--projectsGap);
+  transition: 1s;
+}
+.leftBlock .projectsList.noProjects {
+  transition: 0s ease-in-out;
+}
+.leftBlock .projectsList .projectCard {
+  width: calc(var(--projectCardWidth) + 0px);
+  height: calc(var(--projectCardHeight) + 0px);
+  background-color: black;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 0.35s;
+}
+.leftBlock .projectsList .projectCard.active {
+  opacity: 1;
+}
+.leftBlock .projectsList .projectCard:hover {
+  opacity: 1;
+}
+.centerBlock {
+  justify-content: center;
+  align-items: center;
+  width: calc(100% * var(--centerBlockWidthMultiplier));
+  height: 100%;
+}
+.centerBlock.noProjects .projectsItems {
+  transition: 0s ease-in-out;
+}
+.centerBlock .projectsItems {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  top: calc(50% - var(--projectItemHeight) * 0.5);
+  gap: var(--projectItemsGap);
+  transition: 1s ease-in-out;
+}
+.centerBlock .projectsItems .projectItem,
+.centerBlock .projectsItems a.projectItem {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: Inter;
+  font-weight: 300;
+  font-size: var(--additionalTextSize);
+  width: var(--projectItemWidth);
+  max-width: calc(var(--contentWidth) * 0.7);
+  height: var(--projectItemHeight);
+  max-height: var(--centerBlockHeight);
+  pointer-events: none;
+  opacity: 0.15;
+  z-index: 0;
+}
+.centerBlock .projectsItems .projectItem.active,
+.centerBlock .projectsItems a.projectItem.active {
+  pointer-events: auto;
+  opacity: 1;
+  z-index: 1;
+}
+.centerBlock .projectsItems .projectItem.prev,
+.centerBlock .projectsItems a.projectItem.prev {
+  top: 0%;
+  opacity: 0.15;
+}
+.centerBlock .projectsItems .projectItem.prev .aboutProject,
+.centerBlock .projectsItems a.projectItem.prev .aboutProject {
+  transform: translate(0px, calc(0% - 20px));
+}
+.centerBlock .projectsItems .projectItem.placeholder .buttonBlock,
+.centerBlock .projectsItems .projectItem.placeholder .projectFootage,
+.centerBlock .projectsItems a.projectItem.placeholder .buttonBlock,
+.centerBlock .projectsItems a.projectItem.placeholder .projectFootage {
+  opacity: 0;
+  pointer-events: none;
+}
+.centerBlock .projectsItems .projectItem.placeholder .projectName,
+.centerBlock .projectsItems a.projectItem.placeholder .projectName {
+  flex-direction: column;
+  gap: 10px;
+}
+.centerBlock .projectsItems .projectItem.placeholder .projectName .button,
+.centerBlock .projectsItems a.projectItem.placeholder .projectName .button {
+  padding: 2px 15px;
+  border: 1px solid white;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 0.25s;
+}
+.centerBlock .projectsItems .projectItem.placeholder .projectName .button:hover,
+.centerBlock .projectsItems a.projectItem.placeholder .projectName .button:hover {
+  opacity: 1;
+}
+.centerBlock .projectsItems .projectItem.placeholder:hover .image img,
+.centerBlock .projectsItems a.projectItem.placeholder:hover .image img {
+  width: 100%;
+  height: 100%;
+}
+.centerBlock .projectsItems .projectItem:hover .image img,
+.centerBlock .projectsItems a.projectItem:hover .image img {
+  width: 105%;
+  height: 105%;
+}
+.centerBlock .projectsItems .projectItem:hover .aboutProject .buttonBlock .button,
+.centerBlock .projectsItems a.projectItem:hover .aboutProject .buttonBlock .button {
+  transform: translate(calc(0% + 0px + 0px), 0);
+}
+.centerBlock .projectsItems .projectItem .image,
+.centerBlock .projectsItems a.projectItem .image {
+  justify-content: center;
+  align-items: center;
+  width: var(--projectItemWidth);
+  max-width: calc(var(--contentWidth) * 0.7);
+  height: var(--projectItemHeight);
+  max-height: var(--centerBlockHeight);
+  background-color: black;
+  overflow: hidden;
+  z-index: 1;
+}
+.centerBlock .projectsItems .projectItem .image img,
+.centerBlock .projectsItems a.projectItem .image img {
+  transition: 0.35s;
+}
+.centerBlock .projectsItems .projectItem .aboutProject,
+.centerBlock .projectsItems a.projectItem .aboutProject {
+  position: absolute;
+  bottom: 0;
+  padding: 20px 0px 0px 0px;
+  transform: translate(0px, calc(100% + 0px));
+  width: 100%;
+  color: white;
+  justify-content: space-between;
+}
+.centerBlock .projectsItems .projectItem .aboutProject .buttonBlock,
+.centerBlock .projectsItems a.projectItem .aboutProject .buttonBlock {
+  align-items: center;
+  width: 25%;
+  overflow: hidden;
+}
+.centerBlock .projectsItems .projectItem .aboutProject .buttonBlock .button,
+.centerBlock .projectsItems a.projectItem .aboutProject .buttonBlock .button {
+  gap: 10px;
+  transform: translate(calc(-100% + var(--additionalTextSize) * 1.25 + 1px), 0);
+  transition: 0.35s;
+}
+.centerBlock .projectsItems .projectItem .aboutProject .buttonBlock .button .text,
+.centerBlock .projectsItems a.projectItem .aboutProject .buttonBlock .button .text {
+  font-weight: 200;
+}
+.centerBlock .projectsItems .projectItem .aboutProject .buttonBlock .button .icon,
+.centerBlock .projectsItems a.projectItem .aboutProject .buttonBlock .button .icon {
+  width: calc(var(--additionalTextSize) * 1.25);
+  height: calc(var(--additionalTextSize) * 1.25);
+  background-image: url("/images/linkArrow_white.svg");
+  background-position: left;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.centerBlock .projectsItems .projectItem .aboutProject .projectName,
+.centerBlock .projectsItems a.projectItem .aboutProject .projectName {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.centerBlock .projectsItems .projectItem .aboutProject .projectFootage,
+.centerBlock .projectsItems a.projectItem .aboutProject .projectFootage {
+  justify-content: flex-end;
+  width: 25%;
+}
+
+.rightBlock {
+  position: absolute;
+  top: 10%;
+  left: 100%;
+  height: 80%;
+  flex-direction: column;
+  transform: translate(calc(var(--leftBlockWidth) * -1 + var(--leftBlockWidth) - var(--projectCardWidth)), 0);
+  width: var(--projectsRightBlockWidth);
+  overflow-y: auto;
+  transition: 0.25s;
+}
+.rightBlock .mobileFilter {
+  display: none;
+  width: calc(100% - var(--screenPadding) * 2);
+  padding: var(--screenPadding);
+}
+.rightBlock .mobileFilter .filterButton {
+  gap: 7px;
+  height: var(--mainTextSize);
+  font-family: Panama Regular;
+  font-size: var(--mainTextSize);
+  text-transform: uppercase;
+  color: white;
+  cursor: pointer;
+}
+.rightBlock .mobileFilter .filterButton .icon {
+  width: var(--mainTextSize);
+  height: var(--mainTextSize);
+  background-image: url("/images/filterIcon.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.rightBlock .projectsFilters {
+  font-family: Inter;
+  color: var(--backgroundColor);
+  flex-direction: column;
+  gap: 30px;
+  overflow-y: auto;
+}
+.rightBlock .projectsFilters .filter {
+  flex-direction: column;
+  gap: 10px;
+}
+.rightBlock .projectsFilters .filter .filterNameBlock {
+  gap: 10px;
+}
+.rightBlock .projectsFilters .filter .filterNameBlock .icon {
+  width: var(--additionalTextSize);
+  height: var(--additionalTextSize);
+}
+.rightBlock .projectsFilters .filter .filterValues {
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.rightBlock .projectsFilters .filter .filterValues .value {
+  font-weight: 200;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 100%;
+  overflow: hidden;
+  height: -moz-fit-content;
+  height: fit-content;
+  white-space: nowrap;
+  padding: 3px 10px;
+  border: 1px solid var(--backgroundColor);
+  cursor: pointer;
+  opacity: 0.5;
+}
+.rightBlock .projectsFilters .filter .filterValues .value:hover {
+  opacity: 0.75;
+  transition: 0.25s;
+}
+.rightBlock .projectsFilters .filter .filterValues .value.active {
+  opacity: 1;
+}
+.rightBlock .projectsFilters .resetFilterButton {
+  cursor: pointer;
+  transition: 0s;
+}
+.rightBlock .projectsFilters .resetFilterButton:hover {
+  text-decoration: underline;
+}
+.rightBlock .projectsFilters .resetFilterButton.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.rightBlock .mobileButtonsBlock {
+  display: none;
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  transition: 0s;
+}
+.rightBlock .mobileButtonsBlock .button {
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  height: 88px;
+  font-size: 24px;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.rightBlock .mobileButtonsBlock .button:nth-child(1) {
+  border-right: 1px solid transparent;
+}
+.rightBlock .mobileButtonsBlock .button.resetButton {
+  align-items: center;
+  gap: 7px;
+  color: white;
+  background-color: var(--additionalColor);
+}
+.rightBlock .mobileButtonsBlock .button.resetButton .icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("/images/closeIcon.svg");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.rightBlock .mobileButtonsBlock .button.acceptButton {
+  color: var(--additionalColor);
+  background-color: var(--backgroundColor);
+}
+
+@media (max-width: 1680px) {
+  .screen {
+    --centerBlockHeight: calc(100dvh - var(--screenPadding) * 3 * 2);
+    --projectsRightBlockWidth: calc(((100vw - var(--contentWidth)) * 0.5) + var(--leftBlockWidth) - var(--screenPadding) * 1 - var(--leftBlockGapWidth));
+  }
+}
+@media (max-width: 1280px) {
+  .screen {
+    --projectCardWidth: 6vw;
+    --projectCardHeight: 4.3vw;
+  }
+}
+@media (max-width: 980px) {
+  .screen {
+    --centerBlockHeight: calc(100dvh - var(--leftBlockHeight) * 2);
+    --projectCardWidth: 11vw;
+    --projectCardHeight: 7vw;
+    --projectItemHeight: calc(var(--centerBlockHeight) * 0.7);
+    --projectItemWidth: var(--projectItemHeight);
+    --leftBlockHeight: calc((var(--screenPadding) + var(--logoMaxHeight)) * 1.5);
+  }
+  .screen .screenContent {
+    align-items: center;
+  }
+  .leftBlock {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: var(--leftBlockHeight);
+    width: 100%;
+    z-index: 1;
+    background-color: var(--additionalColor);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  .leftBlock .frame {
+    left: 50%;
+    transform: translate(-50%, calc(-50% - 0px));
+  }
+  .leftBlock .projectsList {
+    flex-direction: row;
+    left: 50%;
+    transform: translate(-50%, calc(-50% - 0px));
+  }
+  .centerBlock {
+    position: fixed;
+    width: 100%;
+    height: var(--centerBlockHeight);
+    overflow: hidden;
+  }
+  .centerBlock .projectsItems .projectItem,
+  .centerBlock .projectsItems a.projectItem {
+    max-width: calc(100vw - var(--screenPadding) * 2);
+    max-height: calc(var(--centerBlockHeight) * 0.8);
+  }
+  .centerBlock .projectsItems .projectItem .image,
+  .centerBlock .projectsItems a.projectItem .image {
+    max-width: calc(100vw - var(--screenPadding) * 2);
+    max-height: calc(var(--centerBlockHeight) * 0.8);
+  }
+  .rightBlock {
+    justify-content: space-between;
+    position: fixed;
+    left: 0;
+    top: var(--leftBlockHeight);
+    width: 100%;
+    height: calc(0dvh - var(--leftBlockHeight) * 0 + var(--mainTextSize) + var(--screenPadding) * 2);
+    transform: translate(0, 0);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: var(--additionalColor);
+    z-index: 1;
+    overflow: hidden;
+  }
+  .rightBlock.active {
+    height: calc(100dvh - var(--leftBlockHeight) * 1 + var(--mainTextSize) * 0 + var(--screenPadding) * 0);
+  }
+  .rightBlock .mobileFilter {
+    display: flex;
+  }
+  .rightBlock .projectsFilters {
+    height: calc(100dvh - var(--leftBlockHeight) - var(--screenPadding) * 2 - var(--mainTextSize) - 90px - 40px);
+    margin: 40px 0px 0px 0px;
+    padding: 0 var(--screenPadding);
+  }
+  .rightBlock .projectsFilters .resetFilterButton {
+    display: none;
+  }
+  .rightBlock .mobileButtonsBlock {
+    height: 90px;
+    display: flex;
+  }
+}
+@media (max-width: 640px) {
+  .screen {
+    --projectCardWidth: 70px;
+    --projectCardHeight: 45px;
+  }
+}/*# sourceMappingURL=styles.module.css.map */

@@ -1,0 +1,395 @@
+.backButton,
+a.backButton {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: calc(var(--screenPadding) * 2);
+  top: calc(var(--screenPadding) * 4);
+  gap: 10px;
+  text-decoration: none;
+  z-index: 1;
+}
+.backButton:hover .text,
+a.backButton:hover .text {
+  letter-spacing: var(--letterSpacingHover);
+}
+.backButton .icon,
+a.backButton .icon {
+  width: var(--mainTextSize);
+  height: var(--mainTextSize);
+  background-image: url("/images/media/back_icon.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: translate(0px, -2px);
+  cursor: pointer;
+}
+.backButton .text,
+a.backButton .text {
+  font-size: var(--mainTextSize);
+  font-family: "Panama Regular";
+  text-transform: uppercase;
+  letter-spacing: var(--letterSpacing);
+  text-decoration: none;
+  color: var(--mainTextColor);
+  transition: 0.25s;
+}
+
+.screen1 {
+  height: -moz-fit-content;
+  height: fit-content;
+  max-height: unset;
+  min-height: unset;
+}
+.screen1 .screenContent {
+  height: -moz-fit-content;
+  height: fit-content;
+  max-height: unset;
+  min-height: unset;
+}
+.screen1 .leftBlock {
+  flex-direction: column;
+  gap: 5px;
+  width: 50%;
+}
+.screen1 .leftBlock .text {
+  font-size: var(--mainTextSize);
+  font-family: "Panama Regular";
+  text-transform: uppercase;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 85%;
+}
+.screen1 .leftBlock .date {
+  font-size: var(--additionalTextSize);
+  font-family: Inter;
+  text-transform: uppercase;
+}
+.screen1 .rightBlock {
+  flex-direction: column;
+  width: 50%;
+  gap: 30px;
+}
+.screen1 .rightBlock .text {
+  flex-direction: column;
+  gap: 10px;
+  align-self: flex-end;
+  font-size: var(--additionalTextSize);
+  font-family: Inter;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: var(--mediaMaxWidth);
+}
+.screen1 .rightBlock .authorBlock {
+  flex-direction: column;
+  gap: 5px;
+  align-self: flex-end;
+  width: 100%;
+  max-width: var(--mediaMaxWidth);
+  font-size: var(--miniTextSize);
+  font-family: Inter;
+}
+.screen1 .rightBlock .authorBlock .text {
+  align-self: flex-start;
+  width: 100%;
+  font-size: var(--additionalTextSize);
+  font-family: Inter;
+}
+.screen1 .rightBlock .authorBlock .authorName {
+  padding: 0px 0px 0px 15px;
+}
+
+.contentOneBlock {
+  height: -moz-fit-content;
+  height: fit-content;
+  max-height: unset;
+  min-height: unset;
+}
+.contentOneBlock .screenContent {
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  height: -moz-fit-content;
+  height: fit-content;
+  max-height: unset;
+  min-height: unset;
+  max-width: 960px;
+}
+.contentOneBlock .textBlock.quoteBlock .text {
+  justify-content: flex-start;
+  text-align: left;
+}
+.contentOneBlock .textBlock.listBlock .title {
+  justify-content: flex-start;
+  text-align: left;
+}
+.contentOneBlock .textBlock.listBlock .text {
+  text-align: left;
+  align-items: flex-start;
+}
+.contentOneBlock .textBlock .title {
+  justify-content: center;
+  text-align: center;
+}
+.contentOneBlock .textBlock .text {
+  align-items: center;
+  text-align: center;
+}
+
+.contentTwoBlocks {
+  height: -moz-fit-content;
+  height: fit-content;
+  max-height: unset;
+  min-height: unset;
+}
+.contentTwoBlocks .screenContent {
+  max-width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  max-height: unset;
+  min-height: unset;
+}
+.contentTwoBlocks .leftBlock {
+  flex-direction: column;
+  gap: 50px;
+  width: 50%;
+  padding: 0px 0px 0px 0px;
+}
+.contentTwoBlocks .leftBlock .textBlock {
+  align-self: flex-start;
+  max-width: var(--mediaMaxWidth);
+  width: calc(100% - var(--screenPadding) * 2 - (100vw - var(--contentWidth)) / 2);
+  padding: 0px calc(var(--screenPadding) * 2) 0px calc((100vw - var(--contentWidth)) / 2);
+}
+.contentTwoBlocks .rightBlock {
+  flex-direction: column;
+  gap: 50px;
+  width: 50%;
+  padding: 0px 0px 0px 0px;
+}
+.contentTwoBlocks .rightBlock .textBlock {
+  align-self: flex-end;
+  max-width: var(--mediaMaxWidth);
+  width: calc(100% - var(--screenPadding) * 2 - (100vw - var(--contentWidth)) / 2);
+  padding: 0px calc((100vw - var(--contentWidth)) / 2) 0px calc(var(--screenPadding) * 2);
+}
+.contentTwoBlocks .imageBlock {
+  width: 100%;
+}
+.contentTwoBlocks .imageBlock img {
+  width: 100%;
+}
+
+.imageBlock {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  max-width: 100%;
+}
+.imageBlock img {
+  position: relative;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  -o-object-fit: contain;
+     object-fit: contain;
+  max-width: 100%;
+}
+
+.textBlock {
+  flex-direction: column;
+  gap: 30px;
+}
+.textBlock.quoteBlock .text {
+  font-family: "Panama Regular";
+  font-size: var(--mainTextSize);
+  text-transform: uppercase;
+}
+.textBlock.linkBlock .linkItem,
+.textBlock.linkBlock a.linkItem {
+  display: flex;
+  position: relative;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--menuFontSize);
+  font-family: "Panama Regular";
+  text-transform: uppercase;
+  color: var(--mainTextColor);
+  text-decoration: none;
+  letter-spacing: var(--letterSpacing);
+  transition: 0.25s;
+}
+.textBlock.linkBlock .linkItem:hover,
+.textBlock.linkBlock a.linkItem:hover {
+  gap: 10px;
+  letter-spacing: var(--letterSpacingHover);
+}
+.textBlock.linkBlock .linkItem:hover .icon,
+.textBlock.linkBlock a.linkItem:hover .icon {
+  transform: rotate(45deg) translate(0px, -1px);
+}
+.textBlock.linkBlock .linkItem .icon,
+.textBlock.linkBlock a.linkItem .icon {
+  width: calc(var(--menuFontSize) * 1.3);
+  height: calc(var(--menuFontSize) * 1.3);
+  background-image: url("/images/media/link_icon.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(0deg) translate(0px, 0px);
+  transition: transform 0.25s;
+}
+.textBlock.listBlock .listItems {
+  flex-direction: column;
+  gap: 10px;
+}
+.textBlock.listBlock .listItems .listItem {
+  flex-direction: row;
+  gap: 10px;
+}
+.textBlock.listBlock .listItems .listItem .number {
+  width: 75px;
+  min-width: 75px;
+  font-size: var(--mainTextSize);
+  font-family: "Panama Regular";
+  text-transform: uppercase;
+}
+.textBlock.listBlock .listItems .listItem .text {
+  flex-direction: column;
+  font-size: var(--additionalTextSize);
+  font-family: Inter;
+  gap: 10px;
+  margin: 5px 0px 0px 0px;
+}
+.textBlock .title {
+  font-size: var(--mainTextSize);
+  font-family: "Panama Regular";
+  text-transform: uppercase;
+}
+.textBlock .text {
+  flex-direction: column;
+  gap: 10px;
+  font-size: var(--additionalTextSize);
+  font-family: Inter;
+}
+.textBlock .authorBlock {
+  flex-direction: column;
+  gap: 3px;
+}
+.textBlock .authorBlock .author {
+  font-family: "Panama Regular";
+  text-transform: uppercase;
+  font-size: var(--menuFontSize);
+}
+.textBlock .authorBlock .position {
+  padding: 0px 0px 0px 20px;
+  opacity: 0.5;
+  font-size: var(--additionalTextSize);
+}
+
+@media (max-width: 1680px) {
+  .backButton,
+  a.backButton {
+    left: var(--screenPadding);
+    top: calc(var(--screenPadding) * 3);
+  }
+  .contentOneBlock .screenContent {
+    max-width: 768px;
+  }
+}
+@media (max-width: 1440px) {
+  .contentTwoBlocks .rightBlock .textBlock {
+    width: calc(100% - var(--screenPadding) * 1 - (100vw - var(--contentWidth)) / 2);
+    padding: 0px calc((100vw - var(--contentWidth)) / 2) 0px calc(var(--screenPadding) * 1);
+  }
+  .contentTwoBlocks .leftBlock .textBlock {
+    width: calc(100% - var(--screenPadding) * 1 - (100vw - var(--contentWidth)) / 2);
+    padding: 0px calc(var(--screenPadding) * 1) 0px calc((100vw - var(--contentWidth)) / 2);
+  }
+}
+@media (max-width: 1280px) {
+  .backButton,
+  a.backButton {
+    gap: 5px;
+  }
+  .backButton .text,
+  a.backButton .text {
+    font-size: var(--menuFontSize);
+  }
+  .screen1 .leftBlock .text {
+    max-width: 92.25%;
+  }
+  .contentOneBlock .screenContent {
+    max-width: var(--contentWidth);
+  }
+  .textBlock.listBlock .listItems .listItem .number {
+    width: 45px;
+    min-width: 45px;
+  }
+  .textBlock.listBlock .listItems .listItem .text {
+    margin: 2px 0px 0px 0px;
+  }
+}
+@media (max-width: 980px) {
+  .contentTwoBlocks .rightBlock .textBlock {
+    width: calc(100% - var(--screenPadding) * 2);
+    padding: 0px calc(var(--screenPadding) * 1);
+  }
+  .contentTwoBlocks .leftBlock .textBlock {
+    width: calc(100% - var(--screenPadding) * 2);
+    padding: 0px calc(var(--screenPadding) * 1);
+  }
+  .textBlock.listBlock .listItems .listItem .number {
+    width: 55px;
+    min-width: 55px;
+  }
+}
+@media (max-width: 768px) {
+  .textBlock.listBlock .listItems .listItem .number {
+    width: 45px;
+    min-width: 45px;
+  }
+}
+@media (max-width: 640px) {
+  .screen1 .screenContent {
+    flex-direction: column;
+    gap: 30px;
+  }
+  .screen1 .leftBlock {
+    width: 100%;
+  }
+  .screen1 .rightBlock {
+    width: 100%;
+  }
+  .screen1 .rightBlock .text {
+    align-self: flex-start;
+    max-width: unset;
+  }
+  .screen1 .rightBlock .authorBlock {
+    align-self: flex-start;
+    max-width: unset;
+  }
+  .screen1 .rightBlock .authorBlock .authorName {
+    font-size: var(--additionalTextSize);
+  }
+  .contentOneBlock .screenContent {
+    gap: 30px;
+  }
+  .contentTwoBlocks .screenContent {
+    flex-direction: column;
+    width: var(--contentWidth);
+    gap: 30px;
+  }
+  .contentTwoBlocks .leftBlock {
+    width: 100%;
+  }
+  .contentTwoBlocks .rightBlock {
+    width: 100%;
+  }
+  .textBlock.listBlock .listItems .listItem .number {
+    width: 40px;
+    min-width: 40px;
+  }
+}/*# sourceMappingURL=styles.module.css.map */

@@ -64,7 +64,7 @@ export default function Screen7({ language }: { language: string }) {
 			<div
 				className={`screen ${styles.screen7}`}
 				data-screen-lightness="light"
-				data-lines-index={isMobile ? 1 : 1}
+				data-lines-index={isMobile ? 0 : 1}
 				data-mini-line-rotation={-45}
 				data-position-x={isMobile ? 50 : 50}
 				data-position-y={50}

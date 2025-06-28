@@ -100,7 +100,7 @@ export default function ApplicationComponent({ language, data }: { language: str
 			<div
 				className={`screen ${styles.applicationScreen} applicationScreen`}
 				data-screen-lightness="light"
-				data-lines-index={isMobile ? 1 : 1}
+				data-lines-index={isMobile ? 0 : 1}
 				data-mini-line-rotation={-45}
 				data-position-x={isMobile ? 50 : 50}
 				data-position-y={50}

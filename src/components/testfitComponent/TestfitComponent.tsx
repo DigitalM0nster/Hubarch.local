@@ -1,5 +1,6 @@
 "use client";
 
+import { useWindowStore } from "@/store/windowStore";
 import styles from "./styles.module.scss";
 import parse from "html-react-parser";
 
@@ -9,11 +10,13 @@ interface PriceItem {
 }
 
 export default function TestfitComponent({ language, data }: { language: string; data: any }) {
+	const { isMobile } = useWindowStore();
+
 	return (
 		<div
 			className={`screen ${styles.screen}`}
 			data-screen-lightness="light"
-			data-lines-index={1}
+			data-lines-index={isMobile ? 0 : 1}
 			data-mini-line-rotation={45}
 			data-position-x={50}
 			data-position-y={50}
