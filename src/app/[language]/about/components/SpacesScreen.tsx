@@ -1,5 +1,4 @@
 // src\app\[language]\about\components\SpacesScreen.tsx
-import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import parse from "html-react-parser";
 import { Position } from "@/store/aboutPageStore";
