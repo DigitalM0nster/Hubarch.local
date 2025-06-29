@@ -118,8 +118,8 @@
 		left: 50%;
 		top: 50%;
 		transform: translate(-50%, -50%);
-		width: 170px;
-		height: 230px;
+		width: calc(var(--preloaderLineHeight) * 1.35);
+		height: var(--preloaderLineHeight);
 		max-width: var(--contentWidth);
 
 		&.step1 {
@@ -505,6 +505,24 @@
 			left: 50%;
 			transform: translate(-50%, -50%);
 			color: white;
+		}
+	}
+}
+
+@media (max-width: 640px) {
+	.preloader {
+		--preloaderLineWidth: 7vw;
+		--preloaderLineHeight: 50vw;
+
+		.linesBlock {
+			--preloaderLineWidth: 7vw;
+			max-width: calc(var(--contentWidth) * 0.5);
+
+			.centerLines {
+				.line {
+					width: calc(100% + 22vw);
+				}
+			}
 		}
 	}
 }
