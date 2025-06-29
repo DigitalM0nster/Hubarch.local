@@ -860,11 +860,11 @@
 @media (max-width: 640px) {
 	.teamScreen {
 		.listBlock {
-			order: 1;
+			order: 2;
 		}
 		.infoBlock {
 			width: calc(50% - 30px);
-			order: 2;
+			order: 3;
 			.infoPerson {
 				justify-content: center;
 				max-width: unset;
@@ -890,7 +890,7 @@
 			}
 		}
 		.photoBlock {
-			order: 3;
+			order: 1;
 			align-self: flex-start;
 			justify-content: flex-start;
 			align-items: flex-start;

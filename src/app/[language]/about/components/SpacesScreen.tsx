@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import parse from "html-react-parser";
 import { Position } from "@/store/aboutPageStore";
+import { useWindowStore } from "@/store/windowStore";
 
 interface SpaceScreenData {
 	title: string;
@@ -15,13 +16,14 @@ interface SpaceScreenData {
 }
 
 export default function SpacesScreen({ data, language }: { data: SpaceScreenData; language: string }) {
+	const { isMobile } = useWindowStore();
 	// if (!data) return <div>Данные не загружены</div>;
 
 	return (
 		<div
 			className={`screen ${styles.screen} ${styles.spacesScreen}`}
 			data-screen-lightness="light"
-			data-lines-index={1}
+			data-lines-index={isMobile ? 0 : 1}
 			data-mini-line-rotation={-45}
 			data-position-x={50}
 			data-position-y={50}

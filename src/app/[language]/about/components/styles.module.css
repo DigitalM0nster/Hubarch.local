@@ -734,11 +734,11 @@
 }
 @media (max-width: 640px) {
   .teamScreen .listBlock {
-    order: 1;
+    order: 2;
   }
   .teamScreen .infoBlock {
     width: calc(50% - 30px);
-    order: 2;
+    order: 3;
   }
   .teamScreen .infoBlock .infoPerson {
     justify-content: center;
@@ -762,7 +762,7 @@
     padding: 0px 0px 10px 0px;
   }
   .teamScreen .photoBlock {
-    order: 3;
+    order: 1;
     align-self: flex-start;
     justify-content: flex-start;
     align-items: flex-start;
