@@ -190,7 +190,6 @@ p {
 @media (max-width: 1440px) {
 	:root {
 		--contentWidth: calc(100vw - 420px);
-		--mainTextSize: 1.7vw;
 		--mediaMaxWidth: calc((var(--contentWidth) / 2) * 0.925);
 	}
 }
