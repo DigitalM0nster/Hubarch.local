@@ -39,6 +39,16 @@ export interface ApproachPageData {
 			};
 			additional_text?: string;
 		};
+		next_page: {
+			image: string | false;
+			link: {
+				target: string;
+				url: string;
+				title: string;
+			};
+			text: string;
+			visible: boolean;
+		};
 	};
 }
 

@@ -14,6 +14,7 @@ import SpacesScreen from "./SpacesScreen";
 import PartnersScreen from "./PartnersScreen";
 import AwardsScreen from "@/components/awardsComponent/AwardsScreen";
 import TeamScreen from "./TeamScreen";
+import NextPageScreen from "@/components/nextPageComponent/NextPageComponent";
 
 export default function ClientComponent({ language }: { language: string }) {
 	useScreenScroll(styles);
@@ -47,6 +48,7 @@ export default function ClientComponent({ language }: { language: string }) {
 			{data?.about_page.space_screen && <SpacesScreen data={data.about_page.space_screen} language={language} />}
 			{data?.about_page.partners_screen && <PartnersScreen data={data.about_page.partners_screen} language={language} />}
 			{data?.about_page.awards_screen && <AwardsScreen data={data.about_page.awards_screen} language={language} />}
+			{data?.about_page.next_page?.visible && <NextPageScreen data={data.about_page.next_page} language={language} />}
 		</div>
 	);
 }

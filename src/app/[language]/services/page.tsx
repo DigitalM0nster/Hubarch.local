@@ -6,6 +6,7 @@ import Screen1 from "./components/Screen1";
 import Screen2 from "./components/Screen2";
 import Screen3 from "./components/Screen3";
 import Screen7 from "@/components/pages/mainPage/screen7";
+import NextPageServicesScreen from "./components/NextPageServicesScreen";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -43,6 +44,7 @@ export default async function Services({ params }: { params: Promise<{ language:
 				<Screen2 language={language} />
 				<Screen3 language={language} />
 				<Screen7 language={language} />
+				<NextPageServicesScreen language={language} />
 			</div>
 		</>
 	);

@@ -63,6 +63,17 @@ export interface MainPageData {
 	main_page_screen7: {
 		letters?: Letter[];
 	};
+
+	next_page: {
+		image: string | false;
+		link: {
+			target: string;
+			url: string;
+			title: string;
+		};
+		text: string;
+		visible: boolean;
+	};
 }
 
 export interface MainPageStore {

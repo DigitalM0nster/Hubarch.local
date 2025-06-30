@@ -16,6 +16,7 @@ import { useDetectMobile } from "@/hooks/useDetectMobile";
 import { useScrollStore } from "@/store/scrollStore";
 import Screen7 from "./screen7";
 import AwardsScreen from "@/components/awardsComponent/AwardsScreen";
+import NextPageScreen from "@/components/nextPageComponent/NextPageComponent";
 
 export default function MainPageClient({ language }: { language: string }) {
 	useScreenScroll(styles); // Хук для прокрутки экрана
@@ -23,6 +24,8 @@ export default function MainPageClient({ language }: { language: string }) {
 	const { data, error, fetchData } = useMainPageStore();
 	const { setTotal } = usePreloaderStore();
 	const { scrollAllowed } = useScrollStore();
+
+	console.log(data);
 
 	// Вызываем фетч при смене языка
 
@@ -55,6 +58,7 @@ export default function MainPageClient({ language }: { language: string }) {
 				<Screen5 language={language} />
 				<Screen6 language={language} />
 				<Screen7 language={language} />
+				{data.next_page?.visible && <NextPageScreen data={data.next_page} language={language} />}
 			</div>
 		</>
 	);

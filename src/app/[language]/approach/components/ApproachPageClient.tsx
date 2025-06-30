@@ -15,6 +15,7 @@ import ApproachBackground from "./ApproachBackground";
 import Screen2 from "./Screen2";
 import ApplicationComponent from "@/components/applicationComponent/ApplicationComponent";
 import Screen7 from "@/components/pages/mainPage/screen7";
+import NextPageScreen from "@/components/nextPageComponent/NextPageComponent";
 
 export default function ApproachPageClient({ language }: { language: string }) {
 	useScreenScroll(styles); // Хук для прокрутки экрана
@@ -59,6 +60,7 @@ export default function ApproachPageClient({ language }: { language: string }) {
 				<Screen2 language={language} />
 				<ApplicationComponent language={language} data={data?.approach_page?.application_screen} />
 				<Screen7 language={language} />
+				{data?.approach_page?.next_page?.visible && <NextPageScreen data={data.approach_page.next_page} language={language} />}
 			</div>
 		</>
 	);

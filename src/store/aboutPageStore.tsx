@@ -56,6 +56,16 @@ export interface AboutPageData {
 			title_background: string;
 			text: string;
 		};
+		next_page: {
+			image: string | false;
+			link: {
+				target: string;
+				url: string;
+				title: string;
+			};
+			text: string;
+			visible: boolean;
+		};
 	};
 }
 
