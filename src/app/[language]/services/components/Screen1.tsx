@@ -18,7 +18,7 @@ export default function Screen1({ language }: { language: string }) {
 			data-position-x={isMobile ? 50 : 25}
 			data-position-y={50}
 			data-vertical-y={isMobile ? 50 : 40}
-			data-horizontal-x={50}
+			data-horizontal-x={isMobile ? 50 : 25}
 			data-horizontal-width={isMobile ? 100 : 50}
 			data-vertical-height={isMobile ? 100 : 60}
 			data-lines-color={"dark"}

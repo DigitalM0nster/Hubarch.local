@@ -20,6 +20,9 @@
 				}
 
 				.titleBackground {
+					&.titleBackgroundColor {
+						opacity: 1;
+					}
 					transform: translate(0vw, 4%);
 					opacity: 0.15;
 				}
