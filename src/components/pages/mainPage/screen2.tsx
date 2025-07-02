@@ -6,7 +6,6 @@ import parse from "html-react-parser";
 import { useEffect, useState, useRef, useMemo } from "react";
 
 export default function Screen2() {
-	const { markReady } = usePreloaderStore();
 	const { isMobile } = useWindowStore();
 
 	const data = useMainPageStore((state) => state.data?.main_page_screen2);
@@ -17,16 +16,6 @@ export default function Screen2() {
 	const [currentNumber, setCurrentNumber] = useState(parseInt(initialNumber));
 	const [digits, setDigits] = useState<string[]>(initialNumber.split(""));
 	const digitRefs = useRef<(HTMLDivElement | null)[][]>([]);
-
-	// ОТМЕЧАЕМСЯ ДЛЯ ПРЕЛОАДЕРА
-
-	/* eslint-disable react-hooks/exhaustive-deps */
-	useEffect(() => {
-		if (mainPageFetchingFinished) {
-			markReady();
-		}
-	}, [mainPageFetchingFinished]);
-	/* eslint-enable react-hooks/exhaustive-deps */
 
 	// Определяем группы в зависимости от длины числа
 	const getGroupClasses = (length: number) => {

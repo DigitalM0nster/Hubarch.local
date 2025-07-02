@@ -15,20 +15,12 @@ type Props = {
 };
 
 export default function Screen3({ language, projects, currentProjectId }: Props) {
-	const { markReady } = usePreloaderStore();
 	const { isMobile } = useWindowStore();
 
 	const storeData = useMainPageStore((state) => state.data?.main_page_screen3);
 	const projectsFromStore = storeData?.projects || [];
 	const { mainPageFetchingFinished } = useMainPageStore();
 	const containerRef = useRef<HTMLDivElement>(null);
-
-	// для прелоадера
-	useEffect(() => {
-		if (mainPageFetchingFinished) {
-			markReady();
-		}
-	}, [mainPageFetchingFinished]);
 
 	const projectsSource = projects ?? projectsFromStore;
 

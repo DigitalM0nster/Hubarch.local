@@ -18,6 +18,12 @@
 		transition: 1.5s ease-in-out;
 	}
 
+	&.hidden {
+		opacity: 0;
+		pointer-events: none;
+		z-index: -1;
+	}
+
 	.progressBar {
 		position: absolute;
 		bottom: 50px;

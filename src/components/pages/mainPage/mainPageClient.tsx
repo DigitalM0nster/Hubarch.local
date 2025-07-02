@@ -22,28 +22,18 @@ export default function MainPageClient({ language }: { language: string }) {
 	useScreenScroll(styles); // Хук для прокрутки экрана
 	useDetectMobile();
 	const { data, error, fetchData } = useMainPageStore();
-	const { setTotal } = usePreloaderStore();
 	const { scrollAllowed } = useScrollStore();
+	const { setPageState } = usePreloaderStore();
 
-	console.log(data);
-
-	// Вызываем фетч при смене языка
-
-	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		fetchData(language);
 	}, []);
 
-	/* eslint-enable react-hooks/exhaustive-deps */
-
-	// Указываем сколько компонентов должно отметиться
 	useEffect(() => {
-		const timeout = setTimeout(() => {
-			setTotal(7);
-		}, 0);
-
-		return () => clearTimeout(timeout);
-	}, [setTotal]);
+		if (data) {
+			setPageState("ready");
+		}
+	}, [data]);
 
 	if (error) return <div>Ошибка: {error}</div>;
 	if (!data) return <div>Нет данных</div>;

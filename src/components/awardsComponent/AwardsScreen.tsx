@@ -8,18 +8,10 @@ import { useAwardsAndProjectsStore } from "@/store/awardsAndProjectsStore";
 import parse from "html-react-parser";
 
 export default function AwardsScreen({ language, data }: { language: string; data: any }) {
-	const { markReady } = usePreloaderStore();
 	const { isMobile } = useWindowStore();
 
 	const { structuredAwards, projectsList, awardsAndProjectsFetchingFinished, fetchAwardsAndProjects } = useAwardsAndProjectsStore();
 	const [hoveredAwardId, setHoveredAwardId] = useState<number | null>(null);
-
-	/* eslint-disable react-hooks/exhaustive-deps */
-	useEffect(() => {
-		if (awardsAndProjectsFetchingFinished) {
-			markReady();
-		}
-	}, [awardsAndProjectsFetchingFinished]);
 
 	useEffect(() => {
 		fetchAwardsAndProjects(language);
@@ -37,8 +29,6 @@ export default function AwardsScreen({ language, data }: { language: string; dat
 		if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return few;
 		return many;
 	}
-
-	/* eslint-enable react-hooks/exhaustive-deps */
 
 	return (
 		<>
@@ -120,7 +110,7 @@ export default function AwardsScreen({ language, data }: { language: string; dat
 								return (
 									<div key={`projectItem${project.id} ${index}`} className={`${styles.projectItem} ${isActive ? styles.active : ""}`}>
 										<div className={styles.image}>
-											<img src={project.acf?.project_preview || "/placeholder.jpg"} alt={project.title?.rendered || "Проект"} />
+											<img src={project.acf?.project_preview || "/images/projects/placeholder_big.png"} alt={project.title?.rendered || "Проект"} />
 										</div>
 										<div className={styles.name}>
 											<div className={styles.text}>{project.title?.rendered}</div>

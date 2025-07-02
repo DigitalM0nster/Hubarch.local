@@ -8,15 +8,7 @@ import { useWindowStore } from "@/store/windowStore";
 import parse from "html-react-parser";
 
 export default function NextPageScreen({ language, data }: { language: string; data: any }) {
-	const { markReady } = usePreloaderStore();
 	const { isMobile } = useWindowStore();
-
-	/* eslint-disable react-hooks/exhaustive-deps */
-	useEffect(() => {
-		markReady();
-	}, []);
-
-	/* eslint-enable react-hooks/exhaustive-deps */
 
 	return (
 		<>

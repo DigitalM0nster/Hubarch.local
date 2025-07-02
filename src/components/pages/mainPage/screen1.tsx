@@ -11,20 +11,6 @@ export default function Screen1() {
 	const images = useMemo(() => data?.images || [], [data?.images]);
 	const text = data?.text;
 
-	const { markReady } = usePreloaderStore();
-
-	// ОТМЕЧАЕМСЯ ДЛЯ ПРЕЛОАДЕРА
-
-	/* eslint-disable react-hooks/exhaustive-deps */
-	useEffect(() => {
-		if (mainPageFetchingFinished) {
-			markReady();
-		}
-		// console.log(data);
-	}, [mainPageFetchingFinished]);
-
-	/* eslint-enable react-hooks/exhaustive-deps */
-
 	// Храним индекс активного изображения
 	const [activeIndex, setActiveIndex] = useState(0);
 
