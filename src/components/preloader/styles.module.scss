@@ -4,13 +4,13 @@
 	top: 0;
 	width: 100%;
 	height: 100%;
-	background-color: var(--backgroundColor);
+	// background-color: var(--backgroundColor);
 	color: white;
 	justify-content: center;
 	align-items: center;
 	pointer-events: auto;
 	z-index: 10;
-	transition: 2s;
+	transition: 0.5s;
 	--preloaderLineWidth: 32px;
 	--preloaderLineHeight: 230px;
 
@@ -19,24 +19,69 @@
 	}
 
 	&.hidden {
-		opacity: 0;
+		opacity: 1;
 		pointer-events: none;
 		z-index: -1;
+		transition: 0.25s 0.35s;
+
+		.background {
+			transform: translate(-100%, 0px);
+			transition: 1s 0s;
+		}
+		.progressBar {
+			.progressLine {
+				width: 0%;
+				transition: 0.25s 0.1s;
+			}
+			.progress {
+				transform: translate(-100px, 0px);
+				opacity: 0;
+				transition: 0.25s 0s;
+			}
+		}
+	}
+
+	&.loading {
+		.progressBar {
+			.progressLine {
+				width: 100%;
+			}
+			.progress {
+				transform: translate(0px, 0px);
+				opacity: 1;
+			}
+			.background {
+				transform: translate(0%, 0px);
+			}
+		}
+	}
+
+	.background {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 200%;
+		height: 100%;
+		background: linear-gradient(to right, var(--backgroundColor), var(--backgroundColor) 50%, transparent 100%);
+		transform: translate(0%, 0px);
+		transition: 0.5s;
 	}
 
 	.progressBar {
 		position: absolute;
 		bottom: 50px;
-		left: 10px;
-		width: calc(100% - 20px);
+		left: 0px;
+		width: calc(100% - 0px);
 		height: fit-content;
+		transition: 0.25s;
 		.progressLine {
 			justify-content: flex-start;
 			align-items: center;
 			position: relative;
-			width: 100%;
+			width: 0%;
 			height: 1px;
 			background: var(--mainTextColor);
+			transition: 0.25s;
 
 			.currentLine {
 				position: absolute;
@@ -45,12 +90,15 @@
 				background: var(--mainTextColor);
 				transition: 0.1s;
 			}
-			.progress {
-				right: 0;
-				top: 10px;
-				position: absolute;
-				color: var(--mainTextColor);
-			}
+		}
+		.progress {
+			right: 0;
+			top: 10px;
+			position: absolute;
+			color: var(--mainTextColor);
+			transform: translate(-100px, 0px);
+			transition: 0.25s 0.25s;
+			opacity: 0;
 		}
 	}
 }

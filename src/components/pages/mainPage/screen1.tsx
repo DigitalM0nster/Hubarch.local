@@ -7,7 +7,6 @@ import { usePreloaderStore } from "@/store/preloaderStore";
 
 export default function Screen1() {
 	const data = useMainPageStore((state) => state.data?.main_page_screen1);
-	const { mainPageFetchingFinished } = useMainPageStore();
 	const images = useMemo(() => data?.images || [], [data?.images]);
 	const text = data?.text;
 

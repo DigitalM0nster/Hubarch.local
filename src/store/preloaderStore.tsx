@@ -4,8 +4,8 @@ import { create } from "zustand";
 interface PreloaderStore {
 	progress: number;
 	setProgress: (newProgress: number) => void;
-	pageState: "loading" | "ready";
-	setPageState: (newState: "loading" | "ready") => void;
+	pageState: "default" | "loading" | "ready";
+	setPageState: (newState: "default" | "loading" | "ready") => void;
 
 	resetPreloaderCallback: (() => Promise<void>) | null;
 	setResetPreloaderCallback: (cb: () => Promise<void>) => void;
@@ -15,7 +15,7 @@ interface PreloaderStore {
 export const usePreloaderStore = create<PreloaderStore>((set, get) => ({
 	progress: typeof window !== "undefined" ? window.__initialProgress ?? 1 : 1,
 	setProgress: (newProgress) => set({ progress: newProgress }),
-	pageState: "loading",
+	pageState: "default",
 	setPageState: (newState) => set({ pageState: newState }),
 
 	resetPreloaderCallback: null,

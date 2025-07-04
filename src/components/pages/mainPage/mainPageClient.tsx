@@ -17,6 +17,7 @@ import { useScrollStore } from "@/store/scrollStore";
 import Screen7 from "./screen7";
 import AwardsScreen from "@/components/awardsComponent/AwardsScreen";
 import NextPageScreen from "@/components/nextPageComponent/NextPageComponent";
+import { useImagesLoaded } from "@/hooks/useImagesLoaded";
 
 export default function MainPageClient({ language }: { language: string }) {
 	useScreenScroll(styles); // Хук для прокрутки экрана
@@ -25,15 +26,19 @@ export default function MainPageClient({ language }: { language: string }) {
 	const { scrollAllowed } = useScrollStore();
 	const { setPageState } = usePreloaderStore();
 
+	// Используем новый хук для проверки загрузки изображений с максимальным временем ожидания 8 секунд
+	const imagesLoaded = useImagesLoaded(data);
+
 	useEffect(() => {
 		fetchData(language);
 	}, []);
 
+	// Устанавливаем pageState = "ready" только когда данные и изображения загружены
 	useEffect(() => {
-		if (data) {
+		if (data && imagesLoaded) {
 			setPageState("ready");
 		}
-	}, [data]);
+	}, [data, imagesLoaded]);
 
 	if (error) return <div>Ошибка: {error}</div>;
 	if (!data) return <div>Нет данных</div>;

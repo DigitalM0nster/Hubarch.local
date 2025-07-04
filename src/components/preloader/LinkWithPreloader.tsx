@@ -34,10 +34,14 @@ export default function LinkWithPreloader({ href, children, className, customCli
 			return;
 		}
 
+		// ПЕРЕД ПЕРЕХОДОМ: запускаем анимацию прелоадера и выполняем пользовательские действия
 		await triggerResetPreloader();
 		if (customClick) {
 			await Promise.resolve(customClick());
 		}
+
+		// ПОСЛЕ ПОДГОТОВКИ: выполняем переход на новую страницу
+		// Это автоматически запустит afterNavigation в новом компоненте Preloader
 		router.push(href);
 		setActiveMenu(false);
 	};
