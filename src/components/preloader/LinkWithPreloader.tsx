@@ -3,19 +3,20 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { usePreloaderStore } from "@/store/preloaderStore";
-import { MouseEvent } from "react";
+import { MouseEvent, CSSProperties } from "react";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 
 type Props = {
 	href: string;
 	children: React.ReactNode;
 	className?: string;
+	style?: CSSProperties;
 	customClick?: () => void;
 	customMouseEnter?: () => void;
 	customMouseLeave?: () => void;
 };
 
-export default function LinkWithPreloader({ href, children, className, customClick, customMouseEnter, customMouseLeave }: Props) {
+export default function LinkWithPreloader({ href, children, className, style, customClick, customMouseEnter, customMouseLeave }: Props) {
 	if (!href || href === "undefined") {
 		console.error("🚨 [LinkWithPreloader] href is invalid:", href);
 	}
@@ -34,11 +35,13 @@ export default function LinkWithPreloader({ href, children, className, customCli
 			return;
 		}
 
-		// ПЕРЕД ПЕРЕХОДОМ: запускаем анимацию прелоадера и выполняем пользовательские действия
-		await triggerResetPreloader();
+		// СНАЧАЛА: выполняем пользовательские действия (customClick)
 		if (customClick) {
 			await Promise.resolve(customClick());
 		}
+
+		// ЗАТЕМ: запускаем анимацию прелоадера (beforeNavigation)
+		await triggerResetPreloader();
 
 		// ПОСЛЕ ПОДГОТОВКИ: выполняем переход на новую страницу
 		// Это автоматически запустит afterNavigation в новом компоненте Preloader
@@ -47,7 +50,7 @@ export default function LinkWithPreloader({ href, children, className, customCli
 	};
 
 	return (
-		<a href={href} onClick={handleClick} className={className} onMouseEnter={customMouseEnter!} onMouseLeave={customMouseLeave!}>
+		<a href={href} onClick={handleClick} className={className} style={style} onMouseEnter={customMouseEnter!} onMouseLeave={customMouseLeave!}>
 			{children}
 		</a>
 	);

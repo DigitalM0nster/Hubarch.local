@@ -3,7 +3,7 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useMainPageStore } from "@/store/mainPageStore";
 import { useScreenScroll } from "@/hooks/useScreenScroll";
 import Screen1 from "./screen1";
@@ -17,35 +17,41 @@ import { useScrollStore } from "@/store/scrollStore";
 import Screen7 from "./screen7";
 import AwardsScreen from "@/components/awardsComponent/AwardsScreen";
 import NextPageScreen from "@/components/nextPageComponent/NextPageComponent";
-import { useImagesLoaded } from "@/hooks/useImagesLoaded";
+import { usePageReady } from "@/hooks/usePageReady";
 
 export default function MainPageClient({ language }: { language: string }) {
 	useScreenScroll(styles); // Хук для прокрутки экрана
 	useDetectMobile();
 	const { data, error, fetchData } = useMainPageStore();
-	const { scrollAllowed } = useScrollStore();
-	const { setPageState } = usePreloaderStore();
+	const { scrollAllowed, setScrollAllowed } = useScrollStore();
+	const { setPageState, pageState } = usePreloaderStore();
+	const containerRef = useRef<HTMLDivElement>(null);
 
-	// Используем новый хук для проверки загрузки изображений с максимальным временем ожидания 8 секунд
-	const imagesLoaded = useImagesLoaded(data);
+	// Используем новый хук для проверки готовности страницы
+	// Передаем массив зависимостей, которые должны быть загружены
+	const pageReady = usePageReady([data], containerRef);
 
 	useEffect(() => {
 		fetchData(language);
 	}, []);
 
-	// Устанавливаем pageState = "ready" только когда данные и изображения загружены
+	// Устанавливаем pageState = "ready" только когда страница полностью готова
 	useEffect(() => {
-		if (data && imagesLoaded) {
+		if (pageReady) {
 			setPageState("ready");
+			setScrollAllowed(true);
+		} else {
+			setPageState("loading");
+			setScrollAllowed(false);
 		}
-	}, [data, imagesLoaded]);
+	}, [pageReady]);
 
 	if (error) return <div>Ошибка: {error}</div>;
 	if (!data) return <div>Нет данных</div>;
 
 	return (
 		<>
-			<div className={`screenScroll ${scrollAllowed === true ? "" : "noScroll"}`}>
+			<div ref={containerRef} className={`screenScroll ${scrollAllowed === true ? "" : "noScroll"}`}>
 				<Screen1 />
 				<Screen2 />
 				<Screen3 language={language} />

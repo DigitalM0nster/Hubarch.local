@@ -37,8 +37,8 @@ export default function ProjectIdPage({ language, projectId, projectData }: Proj
 
 	return (
 		<>
-			<ClientComponent />
-			<div className={`screenScroll ${styles.screenScroll} simpleScroll`}>
+			<ClientComponent projectData={projectData} />
+			<div className={`screenScroll ${styles.screenScroll} simpleScroll`} id="projectContainer">
 				<Screen1 projectData={projectData} />
 				<Screen2 language={language} projectData={projectData} />
 				{projectData?.acf?.project_blocks != false &&

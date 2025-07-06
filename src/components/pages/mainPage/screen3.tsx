@@ -19,7 +19,6 @@ export default function Screen3({ language, projects, currentProjectId }: Props)
 
 	const storeData = useMainPageStore((state) => state.data?.main_page_screen3);
 	const projectsFromStore = storeData?.projects || [];
-	const { mainPageFetchingFinished } = useMainPageStore();
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	const projectsSource = projects ?? projectsFromStore;

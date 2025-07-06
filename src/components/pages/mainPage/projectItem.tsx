@@ -2,7 +2,8 @@ import styles from "./styles.module.scss";
 import LinkWithPreloader from "@/components/preloader/LinkWithPreloader";
 import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
 import { useWindowStore } from "@/store/windowStore";
-import Image from "next/image";
+import { useRef, useState } from "react";
+import { usePreloaderStore } from "@/store/preloaderStore";
 
 interface ProjectItemProps {
 	language: string;
@@ -12,7 +13,7 @@ interface ProjectItemProps {
 			rendered: string;
 		};
 		acf: {
-			project_preview: string;
+			project_preview: string | false;
 		};
 		slug: string;
 	};
@@ -22,6 +23,12 @@ interface ProjectItemProps {
 export default function ProjectItem({ language, project, index }: ProjectItemProps) {
 	const { verticalLine, miniLine } = useInteractiveLinesStore();
 	const { isMobile } = useWindowStore();
+	const [activeIndex, setActiveIndex] = useState(10);
+	const { pageState } = usePreloaderStore();
+	const { setIsProjectLoading, setProjectImage, setImageRect } = usePreloaderStore();
+
+	// Создаем реф для изображения
+	const imageRef = useRef<HTMLDivElement>(null);
 
 	function updateVerticalLine(i: number) {
 		const container = document.querySelector(`.${styles.projectsContainer}`) as HTMLElement;
@@ -42,6 +49,28 @@ export default function ProjectItem({ language, project, index }: ProjectItemPro
 		verticalLine.setNewX(percentX);
 	}
 
+	// Функция для получения размеров изображения
+	const getImageRect = () => {
+		if (!imageRef.current) return null;
+		return imageRef.current.getBoundingClientRect();
+	};
+
+	// Функция для получения запасного изображения по индексу
+	const getFallbackImage = (index: number) => {
+		switch (index % 4) {
+			case 0:
+				return "/images/mainPage/screen3/project1.png";
+			case 1:
+				return "/images/mainPage/screen3/project2.png";
+			case 2:
+				return "/images/mainPage/screen3/project3.png";
+			case 3:
+				return "/images/mainPage/screen3/project4.png";
+			default:
+				return "/images/projects/placeholder_big.png";
+		}
+	};
+
 	if (!project) {
 		return (
 			<div
@@ -53,7 +82,7 @@ export default function ProjectItem({ language, project, index }: ProjectItemPro
 					}
 				}}
 			>
-				<div className={styles.image}>
+				<div className={styles.image} ref={imageRef}>
 					{index === 0 && <img src="/images/mainPage/screen3/project1.png" alt="" width={1550} height={1100} />}
 					{index === 1 && <img src="/images/mainPage/screen3/project2.png" alt="" width={1550} height={1100} />}
 					{index === 2 && <img src="/images/mainPage/screen3/project3.png" alt="" width={1550} height={1100} />}
@@ -70,16 +99,86 @@ export default function ProjectItem({ language, project, index }: ProjectItemPro
 		<LinkWithPreloader
 			key={id}
 			href={`/${language}/projects/${project.slug}`}
-			className={styles.projectItem}
+			className={`${styles.projectItem} ${acf.project_preview == false ? styles.noProject : ""}`}
 			customMouseEnter={() => {
 				if (!isMobile) {
 					updateVerticalLine(index);
 					// miniLine.setNewRotation(45 + index * 90);
 				}
 			}}
+			style={
+				pageState === "loading"
+					? {
+							width: activeIndex === index ? "30%" : "25%",
+					  }
+					: undefined
+			}
+			customClick={() => {
+				// Получаем размеры и позицию изображения
+				const localImageRect = getImageRect();
+				setActiveIndex(index);
+
+				// Исправление ошибки с опциональным оператором доступа
+				if (imageRef.current) {
+					imageRef.current.style.width = "100%";
+				}
+
+				// Сохраняем информацию о размерах в store
+				if (localImageRect) {
+					setImageRect({
+						x: localImageRect.x + "px",
+						y: localImageRect.y + "px",
+						width: localImageRect.width + "px",
+						height: localImageRect.height + "px",
+						top: localImageRect.top + "px",
+						right: localImageRect.right + "px",
+						bottom: localImageRect.bottom + "px",
+						left: localImageRect.left + "px",
+						opacity: 0,
+						transition: "all 0s 0s",
+						innerImageWidth: "100%",
+						innerImageHeight: "100%",
+						progressLineTransition: "all 0.25s 1s",
+						progressTransition: "all 0.25s 1s",
+					});
+
+					setTimeout(() => {
+						setImageRect({
+							x: `calc((100% - var(--contentWidth)) * 0.5)`,
+							y: `calc(var(--screenPadding) * 4)`,
+							width: `var(--contentWidth)`,
+							height:
+								window.innerWidth <= 980
+									? `calc(100% - var(--screenPadding) * 2 - var(--logoMaxHeight) - 50px - 30px)`
+									: window.innerWidth > 1680
+									? "calc(100% - var(--screenPadding) * 4 * 2 - 50px - 20px)"
+									: `calc(100% - var(--screenPadding) * 3 * 2 - 50px - 20px)`,
+							top: window.innerWidth <= 980 ? `var(--screenPadding)` : window.innerWidth > 1680 ? "calc(var(--screenPadding) * 4)" : `calc(var(--screenPadding) * 3)`,
+							right: `calc((100% - var(--contentWidth)) * 0.5)`,
+							bottom:
+								window.innerWidth <= 980 ? `var(--screenPadding)` : window.innerWidth > 1680 ? "calc(var(--screenPadding) * 4)" : `calc(var(--screenPadding) * 3)`,
+							left: `calc((100% - var(--contentWidth)) * 0.5)`,
+							opacity: 1,
+							transition: "all 0.25s 0.3s, opacity 0s 0s",
+							innerImageWidth: "100%",
+							innerImageHeight: "100%",
+							progressLineTransition: "all 0.5s 0.55s",
+							progressTransition: "all 0.3s 0.7s",
+						});
+					}, 0);
+				}
+
+				// Устанавливаем состояние загрузки проекта и изображение для прелоадера
+				setIsProjectLoading(true);
+				setProjectImage(acf.project_preview !== false ? acf.project_preview : getFallbackImage(index));
+			}}
 		>
-			<div className={styles.image}>
-				<img src={acf.project_preview} alt={title.rendered} />
+			<div className={`${styles.image}`} ref={imageRef}>
+				{acf.project_preview != false ? (
+					<img src={acf.project_preview} alt={title.rendered} />
+				) : (
+					<img src={getFallbackImage(index)} alt={title.rendered} width={1550} height={1100} />
+				)}
 			</div>
 			<div className={styles.projectName}>{title.rendered}</div>
 		</LinkWithPreloader>

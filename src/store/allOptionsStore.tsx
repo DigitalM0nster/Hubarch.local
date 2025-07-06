@@ -98,12 +98,10 @@ export const useAllOptionsStore = create<AllOptionsState>((set, get) => ({
 		if (!API_URL) {
 			throw new Error("NEXT_PUBLIC_WP_API не задан или некорректен");
 		}
-		// if (get().menuSettingsData && get().privacyPolicyData && get().popupData && get().footerData) return; // Если данные уже есть, не запрашиваем заново
 
 		set({ isLoading: true });
 		try {
 			const response = await axios.get(`${API_URL}/acf/v3/options/ANYTHING`);
-			console.log(response.data);
 			set({ menuSettingsData: response.data.menu_settings });
 			set({ privacyPolicyData: response.data.privacy_policy });
 			set({ popupData: response.data.popup_settings });

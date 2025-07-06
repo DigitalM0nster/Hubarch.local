@@ -6,9 +6,25 @@ import { usePathname } from "next/navigation";
 import { usePreloaderStore } from "@/store/preloaderStore";
 import styles from "./styles.module.scss";
 import { useScrollStore } from "@/store/scrollStore";
+import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
 
 export default function Preloader() {
-	const { setResetPreloaderCallback, triggerResetPreloader, progress, setProgress, pageState, setPageState } = usePreloaderStore();
+	const {
+		setResetPreloaderCallback,
+		triggerResetPreloader,
+		progress,
+		setProgress,
+		pageState,
+		setPageState,
+		isProjectLoading,
+		setIsProjectLoading,
+		projectImage,
+		setProjectImage,
+		imageRect,
+		setImageRect,
+	} = usePreloaderStore();
+
+	const { verticalLine, horizontalLine, linesOpacity } = useInteractiveLinesStore();
 
 	const { setScrollAllowed } = useScrollStore();
 	const pathname = usePathname();
@@ -18,6 +34,7 @@ export default function Preloader() {
 	const intervalRef = useRef<number | null>(null);
 
 	const preloaderRef = useRef<HTMLDivElement | null>(null);
+	const imageRef = useRef<HTMLDivElement | null>(null);
 
 	const currentProgress = useRef(1);
 	const targetProgress = useRef(9);
@@ -83,19 +100,41 @@ export default function Preloader() {
 					// Запускаем интервал увеличения targetProgress
 					startProgressInterval();
 
-					// resolve();
 					setTimeout(() => {
 						resolve();
 					}, totalDelay);
 				});
 			});
 		});
-	}, [startProgressInterval]);
+	}, [startProgressInterval, pageState]);
 
 	// Функция, которая выполняется ПОСЛЕ перехода по ссылке
-	const afterNavigation = useCallback(() => {
-		// Ничего не делаем, так как анимация уже запущена в beforeNavigation
-	}, []);
+	const afterProgress100 = useCallback(() => {
+		setPageState("ready");
+		setScrollAllowed(true);
+
+		new Promise<void>((resolve) => {
+			requestAnimationFrame(() => {
+				requestAnimationFrame(() => {
+					// Получаем скорость анимации у прелоадера
+					const styles = window.getComputedStyle(preloaderRef.current!);
+					const durationStr = styles.getPropertyValue("transition-duration");
+					const delayStr = styles.getPropertyValue("transition-delay");
+					const duration = parseFloat(durationStr) * 1000;
+					const delay = parseFloat(delayStr) * 1000 || 0;
+					const totalDelay = duration + delay;
+
+					setTimeout(() => {
+						setProjectImage("");
+						setImageRect(null);
+						setIsProjectLoading(false);
+						setScrollAllowed(true);
+						resolve();
+					}, totalDelay);
+				});
+			});
+		});
+	}, [progress, pageState]);
 
 	const animateProgress = useCallback(() => {
 		if (preloaderRef.current) {
@@ -158,15 +197,15 @@ export default function Preloader() {
 
 	useEffect(() => {
 		if (progress >= 100) {
-			setTimeout(() => {
-				setPageState("ready");
-				setScrollAllowed(true);
-			}, 0);
-		} else {
-			setPageState("loading");
-			setScrollAllowed(false);
+			afterProgress100();
 		}
 	}, [progress]);
+
+	// useEffect(() => {
+	// 	console.log(pageState, progress);
+	// 	if (pageState === "ready" && progress >= 100) {
+	// 	}
+	// }, [pageState, progress]);
 
 	useEffect(() => {
 		if (pageState === "ready") {
@@ -175,15 +214,57 @@ export default function Preloader() {
 	}, [pageState]);
 
 	return (
-		<div ref={preloaderRef} className={`preloader ${styles.preloader} ${pageState === "ready" && styles.hidden} ${pageState === "loading" && styles.loading}`}>
+		<div
+			ref={preloaderRef}
+			className={`preloader ${styles.preloader} ${pageState === "ready" && progress >= 100 && styles.hidden} ${pageState != "default" && progress < 100 && styles.loading} ${
+				isProjectLoading ? styles.loadingProject : ""
+			}`}
+		>
 			<div className={styles.background} />
-			<div className="screenContent">
+			<div className={`screenContent ${styles.screenContent}`}>
+				<div
+					className={styles.hubarchLogo}
+					style={{
+						top: pageState === "ready" && progress >= 100 ? `${horizontalLine.y}%` : "50%",
+						left: pageState === "ready" && progress >= 100 ? `${verticalLine.x}%` : "50%",
+						opacity: pageState === "ready" && progress >= 100 ? linesOpacity : "",
+						transition: pageState === "ready" && progress >= 100 ? "all 1s 0s" : "",
+					}}
+				>
+					<div className={styles.leftMiniLine}></div>
+					<div className={styles.leftLine}></div>
+					<div className={styles.centerLine}></div>
+					<div className={styles.rightLine}></div>
+				</div>
 				<div className={styles.progressBar}>
 					<div className={styles.progressLine}>
 						<div className={styles.currentLine} style={{ width: `${progress}%` }} />
 					</div>
 					<div className={styles.progress}>{progress}%</div>
 				</div>
+			</div>
+			<div
+				ref={imageRef}
+				className={`${styles.image} ${projectImage ? styles.active : ""}`}
+				style={{
+					top: pageState === "ready" && progress >= 100 ? "0%" : imageRect?.top,
+					left: pageState === "ready" && progress >= 100 ? "0%" : imageRect?.left,
+					width: pageState === "ready" && progress >= 100 ? "100%" : imageRect?.width,
+					height: pageState === "ready" && progress >= 100 ? "100%" : imageRect?.height,
+					opacity: pageState === "ready" && progress >= 100 ? "0" : projectImage != false ? imageRect?.opacity : 0,
+					transition: pageState === "ready" && progress >= 100 ? "all 0.3s 0s, opacity 0.25s 0.3s" : imageRect?.transition,
+				}}
+			>
+				<img
+					src={projectImage ? projectImage : "/images/projects/placeholder_big.png"}
+					alt="project"
+					style={{
+						width: imageRect?.innerImageWidth,
+						height: imageRect?.innerImageHeight,
+						transition: pageState === "ready" && progress >= 100 ? "all 0.55s 0s" : imageRect?.transition,
+					}}
+				/>
+				<div className={styles.overlay} />
 			</div>
 		</div>
 	);
