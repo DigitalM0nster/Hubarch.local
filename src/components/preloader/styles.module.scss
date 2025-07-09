@@ -13,12 +13,19 @@
 	transition: 0.5s;
 	--preloaderLineWidth: 32px;
 	--preloaderLineHeight: 230px;
+	--hubarchLogoLineWidth: 30px;
+	--hubarchLogoLineHeight: calc(var(--hubarchLogoLineWidth) * 7.7);
+	--hubarchLogoWidth: 300px;
+	--hubarchLogoOffset: calc(var(--hubarchLogoLineHeight) * 0.45);
 
 	&.hidden {
 		opacity: 1;
 		pointer-events: none;
 		z-index: 1;
 		transition: 0.3s 0.5s;
+
+		--hubarchLogoWidth: 2px;
+		--hubarchLogoLineWidth: 3px;
 		&.loadingProject {
 			.image {
 				justify-content: center;
@@ -54,6 +61,13 @@
 			}
 		}
 
+		.imagesBlock {
+			opacity: 0;
+			width: 0px;
+			height: 0px;
+			transition: 0.5s 0s;
+		}
+
 		.background {
 			transform: translateX(-100%);
 			transition: 0.5s 0.3s;
@@ -70,8 +84,6 @@
 			}
 		}
 		.hubarchLogo {
-			--hubarchLogoWidth: 2px;
-			--hubarchLogoLineWidth: 3px;
 			transform: translate(calc(-50%), -50%);
 			transition: all 0.35s 0s;
 
@@ -107,10 +119,24 @@
 	}
 
 	&.loading {
+		--hubarchLogoWidth: 300px;
 		&.loadingProject {
 			opacity: 1;
 			z-index: 10;
 			transition: 0s 0s;
+
+			--hubarchLogoWidth: 2px;
+			--hubarchLogoLineWidth: 3px;
+			&.type1,
+			&.type2,
+			&.type3,
+			&.type4 {
+				.imagesBlock {
+					width: 0px;
+					height: 0px;
+					opacity: 0;
+				}
+			}
 			.image {
 				width: 100%;
 				height: 100%;
@@ -129,8 +155,6 @@
 			}
 
 			.hubarchLogo {
-				--hubarchLogoWidth: 2px;
-				--hubarchLogoLineWidth: 3px;
 				transform: translate(calc(-50%), -50%);
 				transition: all 0.15s 0s;
 
@@ -180,6 +204,81 @@
 				}
 			}
 		}
+		&.type1 {
+			.imagesBlock {
+				height: calc(var(--hubarchLogoLineHeight) * 1.25);
+				opacity: 0;
+				transition: 1s 0s;
+			}
+		}
+
+		&.type2 {
+			--hubarchLogoWidth: calc(var(--contentWidth) * 0.75);
+
+			.imagesBlock {
+				height: calc(var(--hubarchLogoLineHeight) * 1.4);
+				opacity: 1;
+				transition: 1s 0s;
+
+				.image {
+					&:nth-child(2) {
+						opacity: 1;
+					}
+				}
+			}
+		}
+
+		&.type3 {
+			--hubarchLogoWidth: calc(var(--contentWidth) * 0.5);
+			.imagesBlock {
+				height: calc(var(--hubarchLogoWidth) * 0.85);
+				opacity: 1;
+				transition: 1s 0s;
+
+				.image {
+					&:nth-child(3) {
+						opacity: 1;
+					}
+				}
+			}
+		}
+
+		&.type4 {
+			--hubarchLogoWidth: var(--contentWidth);
+
+			.imagesBlock {
+				height: 100%;
+				opacity: 1;
+				transition: 1s 0s;
+
+				.image {
+					left: 100%;
+					top: 0%;
+					transform: translate(calc(-100%), calc(0));
+					height: calc(100% - 50px - 20px);
+					width: calc(var(--contentWidth) * 0.4);
+
+					&:nth-child(4) {
+						width: calc(var(--contentWidth) * 0.15);
+						height: calc(var(--contentWidth) * 0.15);
+						top: 50%;
+						transform: translate(0%, calc(var(--hubarchLogoLineWidth) * 0.5));
+						left: 0;
+						opacity: 1;
+					}
+
+					&:nth-child(5) {
+						top: 0%;
+						left: 100%;
+						transform: translate(calc(-100%), calc(0));
+						width: calc(var(--contentWidth) * 0.4);
+						height: calc(100% - 50px - 20px);
+						opacity: 1;
+					}
+				}
+			}
+		}
+
 		.progressBar {
 			.progressLine {
 				width: 100%;
@@ -195,9 +294,13 @@
 
 		.hubarchLogo {
 			left: 50%;
-			--hubarchLogoWidth: 300px;
 			transform: translate(-50%, -50%);
 			opacity: 1;
+			transition: 1s;
+
+			* {
+				transition: 1s;
+			}
 
 			.leftLine {
 				left: 0;
@@ -221,6 +324,14 @@
 				// transform: translate(calc(-50%), -50%);
 			}
 		}
+
+		.imagesBlock {
+			width: calc(var(--hubarchLogoWidth) - var(--hubarchLogoLineWidth) * 2 - var(--hubarchLogoOffset));
+
+			.image {
+				transition: 1s;
+			}
+		}
 	}
 
 	.background {
@@ -234,6 +345,35 @@
 		transform: translateX(0%);
 		will-change: transform;
 		transition: 0.5s;
+	}
+
+	.imagesBlock {
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(calc(-50% - 0px), -50%);
+		width: 0px;
+		height: 0px;
+		transition: 0.5s;
+		opacity: 0;
+		z-index: 1;
+
+		.image {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(calc(-50% - 0px), -50%);
+			width: 100%;
+			height: 100%;
+			opacity: 0;
+			transition: 0.5s;
+
+			img {
+				opacity: 1;
+			}
+		}
 	}
 
 	.progressBar {
@@ -279,11 +419,8 @@
 		width: var(--hubarchLogoWidth);
 		transform: translate(calc(-50% - var(--hubarchLogoOffset) * 0.5 - 200px), -50%);
 		opacity: 0;
-		--hubarchLogoLineWidth: 30px;
-		--hubarchLogoLineHeight: calc(var(--hubarchLogoLineWidth) * 7.7);
-		--hubarchLogoWidth: 300px;
-		--hubarchLogoOffset: calc(var(--hubarchLogoLineHeight) * 0.45);
 		transition: 0.5s;
+		z-index: 1;
 
 		* {
 			transition: 0.5s;
@@ -343,8 +480,11 @@
 		overflow: hidden;
 
 		img {
-			// width: 105%;
-			// height: 105%;
+			opacity: 0;
+
+			&.active {
+				opacity: 1;
+			}
 		}
 	}
 	.overlay {

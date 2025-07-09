@@ -11,7 +11,7 @@ export default function AwardsScreen({ language, data }: { language: string; dat
 	const { isMobile } = useWindowStore();
 
 	const { structuredAwards, projectsList, fetchAwardsAndProjects } = useAwardsAndProjectsStore();
-	const { setIsProjectLoading, setProjectImage, setImageRect } = usePreloaderStore();
+	const { setIsProjectLoading, setProjectImage, setImageRect, addCachedImage } = usePreloaderStore();
 	const [hoveredAwardId, setHoveredAwardId] = useState<number | null>(null);
 
 	// Создаем объект для хранения ссылок на изображения проектов
@@ -26,6 +26,14 @@ export default function AwardsScreen({ language, data }: { language: string; dat
 	useEffect(() => {
 		fetchAwardsAndProjects(language);
 	}, []);
+
+	useEffect(() => {
+		projectsList.forEach((project, index) => {
+			if (project?.acf?.project_preview !== false) {
+				addCachedImage({ src: project?.acf?.project_preview ?? "" });
+			}
+		});
+	}, [projectsList]);
 
 	const totalNominationsCount = structuredAwards.reduce((sum, { years }) => {
 		return sum + Object.values(years).reduce((acc, nominations) => acc + nominations.length, 0);

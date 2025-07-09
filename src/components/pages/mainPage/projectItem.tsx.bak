@@ -24,11 +24,53 @@ export default function ProjectItem({ language, project, index }: ProjectItemPro
 	const { verticalLine, miniLine } = useInteractiveLinesStore();
 	const { isMobile } = useWindowStore();
 	const [activeIndex, setActiveIndex] = useState(10);
-	const { pageState, addCachedImage } = usePreloaderStore();
-	const { setIsProjectLoading, setProjectImage, setImageRect } = usePreloaderStore();
+	const { pageState } = usePreloaderStore();
+	const { setIsProjectLoading, setProjectImage, setImageRect, preloadImage } = usePreloaderStore();
 
 	// Создаем реф для изображения
 	const imageRef = useRef<HTMLDivElement>(null);
+
+	// Функция для получения запасного изображения по индексу
+	const getFallbackImage = (index: number) => {
+		switch (index % 4) {
+			case 0:
+				return "/images/mainPage/screen3/project1.png";
+			case 1:
+				return "/images/mainPage/screen3/project2.png";
+			case 2:
+				return "/images/mainPage/screen3/project3.png";
+			case 3:
+				return "/images/mainPage/screen3/project4.png";
+			default:
+				return "/images/projects/placeholder_big.png";
+		}
+	};
+
+	// Получаем URL изображения проекта
+	const projectImageUrl = project && project.acf.project_preview !== false ? project.acf.project_preview : getFallbackImage(index);
+
+	// Предварительно загружаем изображение при монтировании компонента
+	useEffect(() => {
+		if (projectImageUrl) {
+			// Асинхронно загружаем изображение в кэш
+			preloadImage(projectImageUrl).catch((error) => {
+				console.error("Ошибка предварительной загрузки изображения:", error);
+			});
+		}
+	}, [projectImageUrl, preloadImage]);
+
+	// Получаем URL изображения проекта
+	const projectImageUrl = project && project.acf.project_preview !== false ? project.acf.project_preview : getFallbackImage(index);
+
+	// Предварительно загружаем изображение при монтировании компонента
+	useEffect(() => {
+		if (projectImageUrl) {
+			// Асинхронно загружаем изображение в кэш
+			preloadImage(projectImageUrl).catch((error) => {
+				console.error("Ошибка предварительной загрузки изображения:", error);
+			});
+		}
+	}, [projectImageUrl, preloadImage]);
 
 	function updateVerticalLine(i: number) {
 		const container = document.querySelector(`.${styles.projectsContainer}`) as HTMLElement;
@@ -71,11 +113,18 @@ export default function ProjectItem({ language, project, index }: ProjectItemPro
 		}
 	};
 
+	// Получаем URL изображения проекта
+	const projectImageUrl = project && project.acf.project_preview !== false ? project.acf.project_preview : getFallbackImage(index);
+
+	// Предварительно загружаем изображение при монтировании компонента
 	useEffect(() => {
-		if (project?.acf?.project_preview !== false) {
-			addCachedImage({ src: project?.acf?.project_preview ?? "" });
+		if (projectImageUrl) {
+			// Асинхронно загружаем изображение в кэш
+			preloadImage(projectImageUrl).catch((error) => {
+				console.error("Ошибка предварительной загрузки изображения:", error);
+			});
 		}
-	}, [project]);
+	}, [projectImageUrl, preloadImage]);
 
 	if (!project) {
 		return (
@@ -176,7 +225,7 @@ export default function ProjectItem({ language, project, index }: ProjectItemPro
 
 				// Устанавливаем состояние загрузки проекта и изображение для прелоадера
 				setIsProjectLoading(true);
-				setProjectImage(acf.project_preview !== false ? acf.project_preview : getFallbackImage(index));
+				setProjectImage(projectImageUrl); // Используем предварительно загруженное изображение
 			}}
 		>
 			<div className={`${styles.image}`} ref={imageRef}>

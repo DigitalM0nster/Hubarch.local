@@ -9,6 +9,13 @@ import parse from "html-react-parser";
 
 export default function NextPageScreen({ language, data }: { language: string; data: any }) {
 	const { isMobile } = useWindowStore();
+	const { addCachedImage } = usePreloaderStore();
+
+	useEffect(() => {
+		if (data.image != false) {
+			addCachedImage({ src: data.image });
+		}
+	}, [data]);
 
 	return (
 		<>

@@ -19,6 +19,10 @@ interface ImageRect {
 	progressTransition: string;
 }
 
+interface Image {
+	src: string | false;
+}
+
 interface PreloaderStore {
 	progress: number;
 	setProgress: (newProgress: number) => void;
@@ -30,6 +34,9 @@ interface PreloaderStore {
 	setProjectImage: (newImage: string | false) => void;
 	imageRect: ImageRect | null;
 	setImageRect: (rect: ImageRect | null) => void;
+	cachedImages: Image[];
+	setCachedImages: (images: Image[]) => void;
+	addCachedImage: (image: Image) => void; // Новый метод для добавления одного изображения
 
 	resetPreloaderCallback: (() => Promise<void>) | null;
 	setResetPreloaderCallback: (cb: () => Promise<void>) => void;
@@ -47,10 +54,24 @@ export const usePreloaderStore = create<PreloaderStore>((set, get) => ({
 	setProjectImage: (newImage) => set({ projectImage: newImage }),
 	imageRect: null,
 	setImageRect: (rect) => set({ imageRect: rect }),
+	cachedImages: [],
+	setCachedImages: (images) => set({ cachedImages: images }),
+	addCachedImage: (image) =>
+		set((state) => {
+			// Проверяем, есть ли уже такое изображение в массиве
+			const exists = state.cachedImages.some((cachedImage) => cachedImage.src === image.src);
+
+			// Если изображения нет, добавляем его
+			if (!exists && image.src !== false) {
+				return { cachedImages: [...state.cachedImages, image] };
+			}
+
+			// Если изображение уже есть, возвращаем текущее состояние
+			return state;
+		}),
+
 	resetPreloaderCallback: null,
-
 	setResetPreloaderCallback: (cb) => set({ resetPreloaderCallback: cb }),
-
 	triggerResetPreloader: async () => {
 		const { resetPreloaderCallback } = get();
 		if (resetPreloaderCallback) {

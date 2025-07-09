@@ -24,7 +24,7 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 	const { fetchProjectTypes, projectTypes, projectTypesFetchFinished } = useProjectTypesStore();
 	const { fetchData, projectsPageFetchFinished, data } = useProjectsPageStore();
 	const { fetchRanges, ranges, areaRangesFetchFinished } = useAreaRangeStore();
-	const { setPageState, setIsProjectLoading, setProjectImage, setImageRect } = usePreloaderStore();
+	const { setPageState, setIsProjectLoading, setProjectImage, setImageRect, addCachedImage } = usePreloaderStore();
 	const { scrollAllowed, setScrollAllowed } = useScrollStore();
 	const { isMobile, windowWidth } = useWindowStore();
 
@@ -113,6 +113,14 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 			setScrollAllowed(false);
 		}
 	}, [pageReady]);
+
+	useEffect(() => {
+		projectsList.forEach((project, index) => {
+			if (project?.acf?.project_preview !== false) {
+				addCachedImage({ src: project?.acf?.project_preview ?? "" });
+			}
+		});
+	}, [projectsList]);
 
 	useEffect(() => {
 		if (activeProjectIndex > filteredProjects.length - 1) {

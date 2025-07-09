@@ -22,6 +22,7 @@ export default function Preloader() {
 		setProjectImage,
 		imageRect,
 		setImageRect,
+		cachedImages,
 	} = usePreloaderStore();
 
 	const { verticalLine, horizontalLine, linesOpacity } = useInteractiveLinesStore();
@@ -32,6 +33,7 @@ export default function Preloader() {
 
 	const animationFrameRef = useRef<number | null>(null);
 	const intervalRef = useRef<number | null>(null);
+	const styleIntervalRef = useRef<number | null>(null);
 
 	const preloaderRef = useRef<HTMLDivElement | null>(null);
 	const imageRef = useRef<HTMLDivElement | null>(null);
@@ -39,6 +41,9 @@ export default function Preloader() {
 	const currentProgress = useRef(1);
 	const targetProgress = useRef(9);
 	const lastUpdateTime = useRef(performance.now());
+
+	// Состояние для типа прелоадера
+	const [preloaderStyle, setPreloaderStyle] = useState<string>("type1");
 
 	// Функция для запуска интервала увеличения targetProgress
 	const startProgressInterval = useCallback(() => {
@@ -62,6 +67,34 @@ export default function Preloader() {
 		}, 1000); // 1000 мс = 1 секунда
 	}, []);
 
+	// Функция для циклического изменения стиля прелоадера
+	const startStyleChangeInterval = useCallback(() => {
+		// Очищаем предыдущий интервал, если он существует
+		if (styleIntervalRef.current !== null) {
+			setPreloaderStyle("type1");
+			clearInterval(styleIntervalRef.current);
+			styleIntervalRef.current = null;
+		}
+
+		// Создаем новый интервал для изменения стиля каждые 2 секунды
+		styleIntervalRef.current = window.setInterval(() => {
+			setPreloaderStyle((prevStyle) => {
+				switch (prevStyle) {
+					case "type1":
+						return "type2";
+					case "type2":
+						return "type3";
+					case "type3":
+						return "type4";
+					case "type4":
+						return "type1";
+					default:
+						return "type1";
+				}
+			});
+		}, 2000); // 2000 мс = 2 секунды
+	}, []);
+
 	// Функция, которая выполняется ПЕРЕД переходом по ссылке
 	const beforeNavigation = useCallback(async () => {
 		// Останавливаем текущую анимацию прогресса
@@ -76,7 +109,6 @@ export default function Preloader() {
 			intervalRef.current = null;
 		}
 
-		console.log("1");
 		// Сбрасываем состояние прелоадера
 		setPageState("loading");
 		lastUpdateTime.current = performance.now();
@@ -101,18 +133,27 @@ export default function Preloader() {
 					// Запускаем интервал увеличения targetProgress
 					startProgressInterval();
 
+					// Запускаем интервал изменения стиля
+					startStyleChangeInterval();
+
 					setTimeout(() => {
 						resolve();
 					}, totalDelay);
 				});
 			});
 		});
-	}, [startProgressInterval, pageState]);
+	}, [startProgressInterval, startStyleChangeInterval, pageState]);
 
 	// Функция, которая выполняется ПОСЛЕ перехода по ссылке
 	const afterProgress100 = useCallback(() => {
 		setPageState("ready");
 		setScrollAllowed(true);
+
+		// Останавливаем интервал изменения стиля
+		if (styleIntervalRef.current !== null) {
+			clearInterval(styleIntervalRef.current);
+			styleIntervalRef.current = null;
+		}
 
 		new Promise<void>((resolve) => {
 			requestAnimationFrame(() => {
@@ -180,14 +221,22 @@ export default function Preloader() {
 		// Запускаем интервал увеличения targetProgress
 		startProgressInterval();
 
-		// Очищаем интервал при размонтировании компонента
+		// Запускаем интервал изменения стиля
+		startStyleChangeInterval();
+
+		// Очищаем интервалы при размонтировании компонента
 		return () => {
 			if (intervalRef.current !== null) {
 				clearInterval(intervalRef.current);
 				intervalRef.current = null;
 			}
+
+			if (styleIntervalRef.current !== null) {
+				clearInterval(styleIntervalRef.current);
+				styleIntervalRef.current = null;
+			}
 		};
-	}, [beforeNavigation, startProgressInterval]);
+	}, [beforeNavigation, startProgressInterval, startStyleChangeInterval]);
 
 	useEffect(() => {
 		// console.log(pageState, progress);
@@ -206,6 +255,11 @@ export default function Preloader() {
 	useEffect(() => {
 		// console.log(pageState, progress);
 		if (pageState === "ready" && progress >= 100) {
+			// Останавливаем интервал изменения стиля
+			if (styleIntervalRef.current !== null) {
+				clearInterval(styleIntervalRef.current);
+				styleIntervalRef.current = null;
+			}
 		}
 	}, [pageState, progress, pathname]);
 
@@ -215,12 +269,16 @@ export default function Preloader() {
 		}
 	}, [pageState]);
 
+	useEffect(() => {
+		console.log(cachedImages);
+	}, [cachedImages]);
+
 	return (
 		<div
 			ref={preloaderRef}
 			className={`preloader ${styles.preloader} ${pageState === "ready" && progress >= 100 && styles.hidden} ${pageState != "default" && progress < 100 && styles.loading} ${
 				isProjectLoading ? styles.loadingProject : ""
-			}`}
+			} ${styles[preloaderStyle]}`}
 		>
 			<div className={styles.background} />
 			<div className={`screenContent ${styles.screenContent}`}>
@@ -237,6 +295,23 @@ export default function Preloader() {
 					<div className={styles.leftLine}></div>
 					<div className={styles.centerLine}></div>
 					<div className={styles.rightLine}></div>
+				</div>
+				<div className={styles.imagesBlock}>
+					<div className={styles.image}>
+						<img src="/images/preloader/1.png" alt="hubarch preloader image1" />
+					</div>
+					<div className={styles.image}>
+						<img src="/images/preloader/2.png" alt="hubarch preloader image2" />
+					</div>
+					<div className={styles.image}>
+						<img src="/images/preloader/3.png" alt="hubarch preloader image3" />
+					</div>
+					<div className={styles.image}>
+						<img src="/images/preloader/4.png" alt="hubarch preloader image4" />
+					</div>
+					<div className={styles.image}>
+						<img src="/images/preloader/5.png" alt="hubarch preloader image4" />
+					</div>
 				</div>
 				<div className={styles.progressBar}>
 					<div className={styles.progressLine}>
@@ -257,15 +332,23 @@ export default function Preloader() {
 					transition: pageState === "ready" && progress >= 100 ? "all 0.3s 0s, opacity 0.25s 0.3s" : imageRect?.transition,
 				}}
 			>
-				<img
-					src={projectImage ? projectImage : "/images/projects/placeholder_big.png"}
-					alt="project"
-					style={{
-						width: imageRect?.innerImageWidth,
-						height: imageRect?.innerImageHeight,
-						transition: pageState === "ready" && progress >= 100 ? "all 0.55s 0s" : imageRect?.transition,
-					}}
-				/>
+				{cachedImages.map((image, index) => {
+					if (image.src != false) {
+						return (
+							<img
+								src={image.src}
+								alt="project"
+								key={`${image.src}-${index}`}
+								className={projectImage === image.src ? styles.active : ""}
+								style={{
+									width: imageRect?.innerImageWidth,
+									height: imageRect?.innerImageHeight,
+									transition: pageState === "ready" && progress >= 100 ? "all 0.55s 0s" : imageRect?.transition,
+								}}
+							/>
+						);
+					}
+				})}
 				<div className={styles.overlay} />
 			</div>
 		</div>
