@@ -76,6 +76,7 @@ export default function Preloader() {
 			intervalRef.current = null;
 		}
 
+		console.log("1");
 		// Сбрасываем состояние прелоадера
 		setPageState("loading");
 		lastUpdateTime.current = performance.now();
@@ -189,8 +190,9 @@ export default function Preloader() {
 	}, [beforeNavigation, startProgressInterval]);
 
 	useEffect(() => {
+		// console.log(pageState, progress);
 		if (prevPath.current !== null && prevPath.current !== pathname) {
-			// afterNavigation происходит здесь
+			// setPageState("loading");
 		}
 		prevPath.current = pathname;
 	}, [pathname]);
@@ -201,11 +203,11 @@ export default function Preloader() {
 		}
 	}, [progress]);
 
-	// useEffect(() => {
-	// 	console.log(pageState, progress);
-	// 	if (pageState === "ready" && progress >= 100) {
-	// 	}
-	// }, [pageState, progress]);
+	useEffect(() => {
+		// console.log(pageState, progress);
+		if (pageState === "ready" && progress >= 100) {
+		}
+	}, [pageState, progress, pathname]);
 
 	useEffect(() => {
 		if (pageState === "ready") {

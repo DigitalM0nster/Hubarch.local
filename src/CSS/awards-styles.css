@@ -19,6 +19,9 @@
   transform: translate(0vw, 4%);
   opacity: 0.15;
 }
+.awardsScreen.active .screenContent .leftBlock .titleBackground.titleBackgroundColor {
+  opacity: 1;
+}
 .awardsScreen.active .screenContent .leftBlock .text {
   transform: translate(0vw, 0%);
   opacity: 1;

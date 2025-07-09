@@ -44,10 +44,10 @@ export default function MainPageClient({ language }: { language: string }) {
 			setPageState("loading");
 			setScrollAllowed(false);
 		}
-	}, [pageReady]);
+	}, [pageReady, error]);
 
 	if (error) return <div>Ошибка: {error}</div>;
-	if (!data) return <div>Нет данных</div>;
+	if (!data) return <div>Данные ещё грузятся</div>;
 
 	return (
 		<>
