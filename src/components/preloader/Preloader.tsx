@@ -238,88 +238,88 @@ export default function Preloader() {
 		};
 	}, [beforeNavigation, startProgressInterval, startStyleChangeInterval]);
 
-	// Блокировка навигации назад/вперед
-	useEffect(() => {
-		// Сохраняем текущий URL при первой загрузке
-		if (prevPath.current === null) {
-			prevPath.current = pathname;
-			// Заменяем текущую запись в истории браузера
-			window.history.replaceState({ path: pathname, blockNav: true }, "", pathname);
-		}
+	// // Блокировка навигации назад/вперед
+	// useEffect(() => {
+	// 	// Сохраняем текущий URL при первой загрузке
+	// 	if (prevPath.current === null) {
+	// 		prevPath.current = pathname;
+	// 		// Заменяем текущую запись в истории браузера
+	// 		window.history.replaceState({ path: pathname, blockNav: true }, "", pathname);
+	// 	}
 
-		// Переменная для отслеживания, был ли переход инициирован кнопкой назад/вперед
-		let isBackForwardNav = false;
+	// 	// Переменная для отслеживания, был ли переход инициирован кнопкой назад/вперед
+	// 	let isBackForwardNav = false;
 
-		// Функция для блокировки навигации назад/вперед
-		const handlePopState = (e: PopStateEvent) => {
-			// Проверяем, был ли это переход по кнопке назад/вперед
-			// Если в state нет нашего флага blockNav, значит это обычный переход по ссылке
-			if (!e.state || e.state.blockNav !== true) {
-				// Это обычный переход по ссылке, не блокируем
-				return;
-			}
+	// 	// Функция для блокировки навигации назад/вперед
+	// 	const handlePopState = (e: PopStateEvent) => {
+	// 		// Проверяем, был ли это переход по кнопке назад/вперед
+	// 		// Если в state нет нашего флага blockNav, значит это обычный переход по ссылке
+	// 		if (!e.state || e.state.blockNav !== true) {
+	// 			// Это обычный переход по ссылке, не блокируем
+	// 			return;
+	// 		}
 
-			// Получаем URL, куда пытается перейти пользователь
-			const targetUrl = document.location.href;
+	// 		// Получаем URL, куда пытается перейти пользователь
+	// 		const targetUrl = document.location.href;
 
-			// Выводим в консоль ссылку, куда должен был произойти переход
-			console.log("Попытка перехода назад/вперед на:", targetUrl);
-			console.log("Навигация назад/вперед заблокирована");
+	// 		// Выводим в консоль ссылку, куда должен был произойти переход
+	// 		console.log("Попытка перехода назад/вперед на:", targetUrl);
+	// 		console.log("Навигация назад/вперед заблокирована");
 
-			// Устанавливаем флаг, что это навигация назад/вперед
-			isBackForwardNav = true;
+	// 		// Устанавливаем флаг, что это навигация назад/вперед
+	// 		isBackForwardNav = true;
 
-			// Предотвращаем навигацию, возвращая пользователя на текущую страницу
-			window.history.pushState({ path: pathname, blockNav: true }, "", pathname);
-		};
+	// 		// Предотвращаем навигацию, возвращая пользователя на текущую страницу
+	// 		window.history.pushState({ path: pathname, blockNav: true }, "", pathname);
+	// 	};
 
-		// Блокировка клавиш навигации (Alt+Left, Backspace и др.)
-		const handleKeyDown = (e: KeyboardEvent) => {
-			// Блокируем Alt+Left (назад) и Alt+Right (вперед)
-			if (e.altKey && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
-				e.preventDefault();
-				console.log("Навигация с помощью клавиш заблокирована");
-				return false;
-			}
+	// 	// Блокировка клавиш навигации (Alt+Left, Backspace и др.)
+	// 	const handleKeyDown = (e: KeyboardEvent) => {
+	// 		// Блокируем Alt+Left (назад) и Alt+Right (вперед)
+	// 		if (e.altKey && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
+	// 			e.preventDefault();
+	// 			console.log("Навигация с помощью клавиш заблокирована");
+	// 			return false;
+	// 		}
 
-			// Блокируем Backspace, если не в поле ввода
-			if (
-				e.key === "Backspace" &&
-				!["INPUT", "TEXTAREA"].includes((e.target as HTMLElement).tagName) &&
-				!((e.target as HTMLElement).getAttribute("contenteditable") === "true")
-			) {
-				e.preventDefault();
-				console.log("Навигация с помощью Backspace заблокирована");
-				return false;
-			}
-		};
+	// 		// Блокируем Backspace, если не в поле ввода
+	// 		if (
+	// 			e.key === "Backspace" &&
+	// 			!["INPUT", "TEXTAREA"].includes((e.target as HTMLElement).tagName) &&
+	// 			!((e.target as HTMLElement).getAttribute("contenteditable") === "true")
+	// 		) {
+	// 			e.preventDefault();
+	// 			console.log("Навигация с помощью Backspace заблокирована");
+	// 			return false;
+	// 		}
+	// 	};
 
-		// Перехватываем все переходы по ссылкам, чтобы добавить наш флаг
-		const handleClick = (e: MouseEvent) => {
-			// Проверяем, является ли цель клика ссылкой
-			const target = e.target as HTMLElement;
-			const anchor = target.closest("a");
+	// 	// Перехватываем все переходы по ссылкам, чтобы добавить наш флаг
+	// 	const handleClick = (e: MouseEvent) => {
+	// 		// Проверяем, является ли цель клика ссылкой
+	// 		const target = e.target as HTMLElement;
+	// 		const anchor = target.closest("a");
 
-			if (anchor && anchor.href && !anchor.getAttribute("target")) {
-				// Не блокируем переход, но добавляем наш флаг в историю
-				// Это позволит отличить обычные переходы от навигации назад/вперед
-				window.history.pushState({ path: anchor.href, blockNav: true }, "", anchor.href);
-			}
-		};
+	// 		if (anchor && anchor.href && !anchor.getAttribute("target")) {
+	// 			// Не блокируем переход, но добавляем наш флаг в историю
+	// 			// Это позволит отличить обычные переходы от навигации назад/вперед
+	// 			window.history.pushState({ path: anchor.href, blockNav: true }, "", anchor.href);
+	// 		}
+	// 	};
 
-		// Добавляем обработчики событий
-		window.addEventListener("popstate", handlePopState);
-		window.addEventListener("keydown", handleKeyDown);
-		document.addEventListener("click", handleClick);
+	// 	// Добавляем обработчики событий
+	// 	window.addEventListener("popstate", handlePopState);
+	// 	window.addEventListener("keydown", handleKeyDown);
+	// 	document.addEventListener("click", handleClick);
 
-		// Удаляем обработчики при размонтировании компонента
-		return () => {
-			window.removeEventListener("popstate", handlePopState);
-			window.removeEventListener("keydown", handleKeyDown);
-			document.removeEventListener("click", handleClick);
-			// Удаляем интервал, так как он больше не нужен
-		};
-	}, [pathname]);
+	// 	// Удаляем обработчики при размонтировании компонента
+	// 	return () => {
+	// 		window.removeEventListener("popstate", handlePopState);
+	// 		window.removeEventListener("keydown", handleKeyDown);
+	// 		document.removeEventListener("click", handleClick);
+	// 		// Удаляем интервал, так как он больше не нужен
+	// 	};
+	// }, [pathname]);
 
 	useEffect(() => {
 		if (progress >= 100) {

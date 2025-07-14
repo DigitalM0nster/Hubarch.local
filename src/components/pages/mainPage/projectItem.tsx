@@ -23,7 +23,7 @@ interface ProjectItemProps {
 }
 
 export default function ProjectItem({ language, project, index, currentProjectId }: ProjectItemProps) {
-	const { verticalLine, miniLine } = useInteractiveLinesStore();
+	const { verticalLine, horizontalLine, miniLine } = useInteractiveLinesStore();
 	const { isMobile } = useWindowStore();
 	const [activeIndex, setActiveIndex] = useState(10);
 	const { pageState, addCachedImage } = usePreloaderStore();
@@ -91,6 +91,7 @@ export default function ProjectItem({ language, project, index, currentProjectId
 				onMouseEnter={() => {
 					if (!isMobile) {
 						updateVerticalLine(index);
+						horizontalLine.setNewY(50);
 						// miniLine.setNewRotation(45 + index * 90);
 					}
 				}}
@@ -116,6 +117,7 @@ export default function ProjectItem({ language, project, index, currentProjectId
 			customMouseEnter={() => {
 				if (!isMobile) {
 					updateVerticalLine(index);
+					horizontalLine.setNewY(50);
 					// miniLine.setNewRotation(45 + index * 90);
 				}
 			}}

@@ -21,12 +21,12 @@ function formatPhoneNumber(phoneNumber: string) {
 	return phoneNumber; // Возвращаем оригинал, если форматирование не удалось
 }
 
-export default function DesktopHud() {
+export default function DesktopHud({ language }: { language: string }) {
 	const pathname = usePathname(); // Получаем текущий путь
 	const { isLoading, menuSettingsData, popupData, orderPopupData } = useAllOptionsStore();
 	const { screenLightness, activePage, setActivePage, activePopup, setActivePopup, activeOrderPopup, setActiveOrderPopup } = useHudMenuStore();
 
-	const [lang, setLang] = useState(pathname.startsWith("/en") ? "en" : "ru"); // Определяем язык
+	const lang = language;
 	const [localLoading, setLocalLoading] = useState(true);
 
 	// для плавного появления
@@ -86,23 +86,11 @@ export default function DesktopHud() {
 				<div className={styles.centerPart}>
 					{/* СМЕНА ЯЗЫКА */}
 					<div className={styles.languageBlock}>
-						<LinkWithPreloader
-							href={pathname.replace(/^\/en/, "/ru")}
-							className={`${styles.lang} ${lang === "ru" ? styles.active : ""}`}
-							customClick={() => {
-								setLang("ru");
-							}}
-						>
+						<LinkWithPreloader href={pathname.replace(/^\/en/, "/ru")} className={`${styles.lang} ${lang === "ru" ? styles.active : ""}`}>
 							Ru
 						</LinkWithPreloader>
 						<div className={styles.separator}>/</div>
-						<LinkWithPreloader
-							href={pathname.replace(/^\/ru/, "/en")}
-							className={`${styles.lang} ${lang === "en" ? styles.active : ""}`}
-							customClick={() => {
-								setLang("en");
-							}}
-						>
+						<LinkWithPreloader href={pathname.replace(/^\/ru/, "/en")} className={`${styles.lang} ${lang === "en" ? styles.active : ""}`}>
 							Eng
 						</LinkWithPreloader>
 					</div>

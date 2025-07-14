@@ -12,14 +12,14 @@ import { useScrollStore } from "@/store/scrollStore";
 import { usePreloaderStore } from "@/store/preloaderStore";
 import PopupHud from "./PopupHud";
 
-export default function MobileHud() {
+export default function MobileHud({ language }: { language: string }) {
 	const pathname = usePathname(); // Получаем текущий путь
 	const { menuSettingsData, popupData } = useAllOptionsStore();
 	const { activeMenu, setActiveMenu, screenLightness, activePopup, setActivePopup } = useHudMenuStore();
 	const { zIndex, setNewIndex } = useInteractiveLinesStore();
 	const { setScrollAllowed } = useScrollStore();
 	const { progress } = usePreloaderStore();
-	const [lang, setLang] = useState(pathname.startsWith("/en") ? "en" : "ru"); // Определяем язык
+	const lang = language;
 
 	const savedZIndex = useRef(zIndex);
 
@@ -81,23 +81,11 @@ export default function MobileHud() {
 			<div className={`${styles.mobileMenu} mobileMenu ${activeMenu ? `${styles.active} active` : ""}`}>
 				<div className={`screenContent ${styles.menuContent}`}>
 					<div className={styles.languageBlock}>
-						<LinkWithPreloader
-							href={pathname.replace(/^\/en/, "/ru")}
-							className={`${styles.lang} ${lang === "ru" ? styles.active : ""}`}
-							customClick={() => {
-								setLang("ru");
-							}}
-						>
+						<LinkWithPreloader href={pathname.replace(/^\/en/, "/ru")} className={`${styles.lang} ${lang === "ru" ? styles.active : ""}`}>
 							Ru
 						</LinkWithPreloader>
 						<div className={styles.separator}>/</div>
-						<LinkWithPreloader
-							href={pathname.replace(/^\/ru/, "/en")}
-							className={`${styles.lang} ${lang === "en" ? styles.active : ""}`}
-							customClick={() => {
-								setLang("en");
-							}}
-						>
+						<LinkWithPreloader href={pathname.replace(/^\/ru/, "/en")} className={`${styles.lang} ${lang === "en" ? styles.active : ""}`}>
 							Eng
 						</LinkWithPreloader>
 					</div>
