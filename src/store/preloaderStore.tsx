@@ -44,7 +44,7 @@ interface PreloaderStore {
 }
 
 export const usePreloaderStore = create<PreloaderStore>((set, get) => ({
-	progress: typeof window !== "undefined" ? window.__initialProgress ?? 1 : 1,
+	progress: 1,
 	setProgress: (newProgress) => set({ progress: newProgress }),
 	pageState: "default",
 	setPageState: (newState) => set({ pageState: newState }),
