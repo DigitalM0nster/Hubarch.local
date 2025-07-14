@@ -53,7 +53,7 @@ export default function AwardsScreen({ language, isSimpleScroll, data }: { langu
 			<div
 				className={`screen awardsScreen ${styles.awardsScreen}`}
 				data-screen-lightness="light"
-				data-lines-index={isMobile ? 1 : 1}
+				data-lines-index={isMobile ? 0 : 1}
 				data-mini-line-rotation={-45}
 				data-position-x={isMobile ? 50 : isSimpleScroll ? 50 : 25}
 				data-position-y={50}

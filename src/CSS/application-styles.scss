@@ -49,7 +49,6 @@
 	&.orderPopup {
 		opacity: 1;
 		width: 100%;
-		height: 100%;
 		top: 0dvh;
 		transition: 1s 0.5s;
 
@@ -82,6 +81,7 @@
 	}
 
 	&.orderPopup {
+		height: 100%;
 		.titleBackgroundBlock {
 			display: none;
 			opacity: 0;

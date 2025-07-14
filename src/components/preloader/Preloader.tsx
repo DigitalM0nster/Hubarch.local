@@ -268,6 +268,7 @@ export default function Preloader() {
 	return (
 		<div
 			ref={preloaderRef}
+			// className={`preloader ${styles.preloader} ${styles.loading} ${isProjectLoading ? styles.loadingProject : ""} ${styles.type1} ${projectImage ? styles.disabled : ""}`}
 			className={`preloader ${styles.preloader} ${pageState === "ready" && progress >= 100 && styles.hidden} ${pageState != "default" && progress < 100 && styles.loading} ${
 				isProjectLoading ? styles.loadingProject : ""
 			} ${styles[preloaderStyle]} ${projectImage ? styles.disabled : ""}`}

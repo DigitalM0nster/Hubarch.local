@@ -11,8 +11,6 @@
 	pointer-events: auto;
 	z-index: 10;
 	transition: 0.5s;
-	--preloaderLineWidth: 32px;
-	--preloaderLineHeight: 230px;
 	--hubarchLogoLineWidth: 30px;
 	--hubarchLogoLineHeight: calc(var(--hubarchLogoLineWidth) * 7.7);
 	--hubarchLogoWidth: 300px;
@@ -218,7 +216,7 @@
 		}
 
 		&.type2 {
-			--hubarchLogoWidth: calc(var(--contentWidth) * 0.75);
+			--hubarchLogoWidth: calc((100vw - (var(--screenPadding) * 2)) * 0.7);
 
 			.imagesBlock {
 				height: calc(var(--hubarchLogoLineHeight) * 1.4);
@@ -234,9 +232,9 @@
 		}
 
 		&.type3 {
-			--hubarchLogoWidth: calc(var(--contentWidth) * 0.5);
+			--hubarchLogoWidth: calc((100vw - (var(--screenPadding) * 2)) * 0.35);
 			.imagesBlock {
-				height: calc(var(--hubarchLogoWidth) * 0.85);
+				height: calc(var(--hubarchLogoWidth) - var(--hubarchLogoOffset));
 				opacity: 1;
 				transition: 1s 0s;
 
@@ -499,5 +497,74 @@
 		background-color: rgba(0, 0, 0, 0.6);
 		opacity: 0;
 		transition: 0.5s;
+	}
+}
+
+@media (max-width: 980px) {
+	.preloader {
+		--hubarchLogoLineWidth: 3vw;
+		--hubarchLogoWidth: calc((var(--hubarchLogoLineWidth) * 7.7) * 1.25);
+		&.loading {
+			--hubarchLogoWidth: calc((var(--hubarchLogoLineWidth) * 7.7) * 1.25);
+			&.type1 {
+			}
+			&.type2 {
+				--hubarchLogoWidth: calc((100vw - (var(--screenPadding) * 2)) * 0.85);
+
+				.imagesBlock {
+					height: calc(var(--hubarchLogoLineHeight) * 3);
+					opacity: 1;
+					transition: 1s 0s;
+
+					.image {
+						&:nth-child(2) {
+							opacity: 1;
+						}
+					}
+				}
+			}
+			&.type3 {
+				--hubarchLogoWidth: calc((100vw - (var(--screenPadding) * 2)) * 0.8);
+			}
+
+			&.type4 {
+				--hubarchLogoWidth: calc((100vw - (var(--screenPadding) * 2)) * 0.9);
+
+				.imagesBlock {
+					height: 100%;
+					opacity: 1;
+					transition: 1s 0s;
+
+					.image {
+						left: 100%;
+						top: 0%;
+						transform: translate(calc(-100%), calc(0));
+						height: calc(100% - 50px - 20px);
+						width: calc((100vw - (var(--screenPadding) * 2)) * 0.4);
+
+						&:nth-child(4) {
+							width: calc((100vw - (var(--screenPadding) * 2)) * 0.25);
+							height: calc((100vw - (var(--screenPadding) * 2)) * 0.25);
+							top: 50%;
+							transform: translate(0%, calc(var(--hubarchLogoLineWidth) * 0.5));
+							left: 0;
+							opacity: 1;
+						}
+
+						&:nth-child(5) {
+							top: 50%;
+							left: 100%;
+							transform: translate(calc(-100%), calc(-100% + (var(--hubarchLogoLineWidth) * 0.5) + (100vw - (var(--screenPadding) * 2)) * 0.25));
+							width: calc((100vw - (var(--screenPadding) * 2)) * 0.45);
+							height: calc(((100vw - (var(--screenPadding) * 2)) * 0.45) * 1.5);
+							opacity: 1;
+						}
+					}
+				}
+			}
+		}
+		&.disabled {
+			--hubarchLogoWidth: calc((var(--hubarchLogoLineWidth) * 7.7) * 1.25);
+		}
 	}
 }
