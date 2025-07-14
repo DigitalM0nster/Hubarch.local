@@ -7,7 +7,7 @@ import { useWindowStore } from "@/store/windowStore";
 import { useAwardsAndProjectsStore } from "@/store/awardsAndProjectsStore";
 import parse from "html-react-parser";
 
-export default function AwardsScreen({ language, data }: { language: string; data: any }) {
+export default function AwardsScreen({ language, isSimpleScroll, data }: { language: string; isSimpleScroll: boolean; data: any }) {
 	const { isMobile } = useWindowStore();
 
 	const { structuredAwards, projectsList, fetchAwardsAndProjects } = useAwardsAndProjectsStore();
@@ -55,11 +55,11 @@ export default function AwardsScreen({ language, data }: { language: string; dat
 				data-screen-lightness="light"
 				data-lines-index={isMobile ? 1 : 1}
 				data-mini-line-rotation={-45}
-				data-position-x={isMobile ? 50 : 25}
+				data-position-x={isMobile ? 50 : isSimpleScroll ? 50 : 25}
 				data-position-y={50}
-				data-horizontal-x={isMobile ? 50 : 25}
-				data-horizontal-width={isMobile ? 100 : 50}
-				data-vertical-height={isMobile ? 100 : 75}
+				data-horizontal-x={isMobile ? 50 : isSimpleScroll ? 50 : 25}
+				data-horizontal-width={isMobile ? 100 : isSimpleScroll ? 100 : 50}
+				data-vertical-height={isMobile ? 100 : isSimpleScroll ? 100 : 75}
 				data-lines-color={"dark"}
 				data-left-line-x={0}
 				data-left-line-height={0}

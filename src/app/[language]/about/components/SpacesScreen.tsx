@@ -22,7 +22,7 @@ export default function SpacesScreen({ data, language }: { data: SpaceScreenData
 		<div
 			className={`screen ${styles.screen} ${styles.spacesScreen}`}
 			data-screen-lightness="light"
-			data-lines-index={isMobile ? 0 : 1}
+			data-lines-index={isMobile ? 0 : 0}
 			data-mini-line-rotation={-45}
 			data-position-x={50}
 			data-position-y={50}

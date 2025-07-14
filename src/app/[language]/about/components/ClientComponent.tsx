@@ -62,7 +62,7 @@ export default function ClientComponent({ language }: { language: string }) {
 			{data?.about_page.history_screen && <HistoryScreen data={data.about_page.history_screen} language={language} />}
 			{data?.about_page.space_screen && <SpacesScreen data={data.about_page.space_screen} language={language} />}
 			{data?.about_page.partners_screen && <PartnersScreen data={data.about_page.partners_screen} language={language} />}
-			{data?.about_page.awards_screen && <AwardsScreen data={data.about_page.awards_screen} language={language} />}
+			{data?.about_page.awards_screen && <AwardsScreen data={data.about_page.awards_screen} language={language} isSimpleScroll={true} />}
 			{data?.about_page.next_page?.visible && <NextPageScreen data={data.about_page.next_page} language={language} />}
 		</div>
 	);

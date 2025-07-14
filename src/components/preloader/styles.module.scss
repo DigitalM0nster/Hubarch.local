@@ -90,14 +90,14 @@
 			.leftLine {
 				left: 50%;
 				transform: translate(-50%, -50%);
-				background: #e0dedc;
+				background: rgba(224, 222, 220, 1);
 				transition: all 0.35s 0s, left 0.35s 0s, transform 0.35s 0s;
 			}
 
 			.leftMiniLine {
 				left: 50%;
 				transform: translate(-50%, -50%) rotate(45deg);
-				background: #e0dedc;
+				background: rgba(224, 222, 220, 1);
 				transition: all 0.35s 0s, left 0.35s 0s, transform 0.35s 0s;
 			}
 
@@ -106,13 +106,13 @@
 				transform: translate(50%, -50%);
 				width: 0px;
 				height: 0px;
-				background: #e0dedc;
+				background: rgba(224, 222, 220, 1);
 				transition: all 0.35s 0s, right 0.35s 0s, transform 0.35s 0s;
 			}
 
 			.centerLine {
 				width: var(--hubarchLogoLineHeight);
-				background: #e0dedc;
+				background: rgba(224, 222, 220, 1);
 				transition: all 0.35s 0s, left 0.35s 0s, transform 0.35s 0s;
 			}
 		}
@@ -147,14 +147,14 @@
 					.leftLine {
 						left: 50%;
 						transform: translate(-50%, -50%);
-						background: #e0dedc;
+						background: rgba(224, 222, 220, 1);
 						transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
 					}
 
 					.leftMiniLine {
 						left: 50%;
 						transform: translate(-50%, -50%) rotate(45deg);
-						background: #e0dedc;
+						background: rgba(224, 222, 220, 1);
 						transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
 					}
 
@@ -163,7 +163,7 @@
 						transform: translate(50%, -50%);
 						width: 0px;
 						height: 0px;
-						background: #e0dedc;
+						background: rgba(224, 222, 220, 1);
 						transition: all 0.35s 0s, right 0.15s 0s, transform 0.15s 0s;
 					}
 
@@ -171,7 +171,7 @@
 						left: 50%;
 						transform: translate(-50%, -50%);
 						width: var(--hubarchLogoLineHeight);
-						background: #e0dedc;
+						background: rgba(224, 222, 220, 1);
 						transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
 					}
 				}

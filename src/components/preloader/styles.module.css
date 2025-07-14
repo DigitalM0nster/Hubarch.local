@@ -80,13 +80,13 @@
 .preloader.hidden .hubarchLogo .leftLine {
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #e0dedc;
+  background: rgb(224, 222, 220);
   transition: all 0.35s 0s, left 0.35s 0s, transform 0.35s 0s;
 }
 .preloader.hidden .hubarchLogo .leftMiniLine {
   left: 50%;
   transform: translate(-50%, -50%) rotate(45deg);
-  background: #e0dedc;
+  background: rgb(224, 222, 220);
   transition: all 0.35s 0s, left 0.35s 0s, transform 0.35s 0s;
 }
 .preloader.hidden .hubarchLogo .rightLine {
@@ -94,12 +94,12 @@
   transform: translate(50%, -50%);
   width: 0px;
   height: 0px;
-  background: #e0dedc;
+  background: rgb(224, 222, 220);
   transition: all 0.35s 0s, right 0.35s 0s, transform 0.35s 0s;
 }
 .preloader.hidden .hubarchLogo .centerLine {
   width: var(--hubarchLogoLineHeight);
-  background: #e0dedc;
+  background: rgb(224, 222, 220);
   transition: all 0.35s 0s, left 0.35s 0s, transform 0.35s 0s;
 }
 .preloader.loading {
@@ -126,13 +126,13 @@
 .preloader.loading.loadingProject.disabled .hubarchLogo .leftLine {
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #e0dedc;
+  background: rgb(224, 222, 220);
   transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
 }
 .preloader.loading.loadingProject.disabled .hubarchLogo .leftMiniLine {
   left: 50%;
   transform: translate(-50%, -50%) rotate(45deg);
-  background: #e0dedc;
+  background: rgb(224, 222, 220);
   transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
 }
 .preloader.loading.loadingProject.disabled .hubarchLogo .rightLine {
@@ -140,14 +140,14 @@
   transform: translate(50%, -50%);
   width: 0px;
   height: 0px;
-  background: #e0dedc;
+  background: rgb(224, 222, 220);
   transition: all 0.35s 0s, right 0.15s 0s, transform 0.15s 0s;
 }
 .preloader.loading.loadingProject.disabled .hubarchLogo .centerLine {
   left: 50%;
   transform: translate(-50%, -50%);
   width: var(--hubarchLogoLineHeight);
-  background: #e0dedc;
+  background: rgb(224, 222, 220);
   transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
 }
 .preloader.loading.loadingProject .image {

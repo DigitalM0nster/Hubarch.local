@@ -94,7 +94,7 @@
 
 		.form {
 			.textBlock {
-				transform: translate(4px, calc(var(--screenPadding) * 2 + 100px));
+				transform: translate(var(--formPadding), calc(var(--screenPadding) * 2 + 100px));
 				opacity: 0;
 				transition: 0.5s 0s;
 			}
@@ -107,7 +107,7 @@
 		&.orderPopup {
 			.form {
 				.textBlock {
-					transform: translate(4px, calc(var(--screenPadding) * 2));
+					transform: translate(var(--formPadding), calc(var(--screenPadding) * 2));
 					opacity: 1;
 					transition: 0.5s 0.25s;
 				}
@@ -177,6 +177,18 @@
 				.titleBackgroundBlock {
 					.titleBackground {
 						transform: translate(0, 0%);
+					}
+				}
+			}
+		}
+	}
+
+	.active {
+		.applicationScreen {
+			&.orderPopup {
+				.form {
+					.textBlock {
+						transform: translate(0);
 					}
 				}
 			}

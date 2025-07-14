@@ -643,6 +643,65 @@
 
 	.bottom {
 		position: absolute;
+		left: 50%;
+		bottom: var(--screenPadding);
+		transform: translate(-50%, 0%);
+		width: 100%;
+		justify-content: center;
+		gap: 20px;
+		z-index: 1;
+
+		.contactUsBlock {
+			align-items: center;
+			gap: 6px;
+			cursor: pointer;
+			pointer-events: all;
+
+			&:hover {
+				.text {
+					text-decoration: underline;
+				}
+				.icon {
+					.door {
+						transform: scaleX(0.4) scaleY(0.95);
+					}
+				}
+			}
+
+			.text {
+				text-transform: uppercase;
+				text-decoration: none;
+				transform: translate(0px, 7%);
+			}
+
+			.icon {
+				width: var(--menuFontSize);
+				min-width: var(--menuFontSize);
+				height: var(--menuFontSize);
+				overflow: hidden;
+
+				img {
+					opacity: 0;
+					pointer-events: none;
+					object-fit: contain;
+					object-position: center;
+					transition: 0.3s;
+
+					&.active {
+						opacity: 1;
+						pointer-events: auto;
+					}
+
+					&.door {
+						position: absolute;
+						left: 0;
+						transition: 0.3s;
+						transform-origin: 0% 50%;
+						transform: scaleX(0.65) scaleY(0.95);
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -1084,6 +1143,10 @@
 				}
 			}
 		}
+	}
+
+	.orderPopupHud {
+		z-index: 4;
 	}
 }
 

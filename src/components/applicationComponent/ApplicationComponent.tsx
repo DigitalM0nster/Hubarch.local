@@ -5,12 +5,13 @@ import { useAreaRangeStore } from "@/store/areaRangeStore";
 import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
 import { useAllOptionsStore } from "@/store/allOptionsStore";
 import parse from "html-react-parser";
+import { useHudMenuStore } from "@/store/hudMenuStore";
 
 export default function ApplicationComponent({ language, data, isPopup }: { language: string; data: any; isPopup?: boolean }) {
 	const { isMobile } = useWindowStore();
 	const { ranges, fetchRanges } = useAreaRangeStore();
 	// console.log(ranges);
-
+	const { setActiveOrderPopup, activeOrderPopup } = useHudMenuStore();
 	const { privacyPolicyData } = useAllOptionsStore();
 	const formRef = useRef<HTMLDivElement>(null);
 	const dropdownRef = useRef<HTMLDivElement>(null);
@@ -74,8 +75,6 @@ export default function ApplicationComponent({ language, data, isPopup }: { lang
 		}
 	};
 
-	/* eslint-disable react-hooks/exhaustive-deps */
-
 	// КЛИК ЧТОБЫ УБИРАТЬ ДРОПДАУН
 	useEffect(() => {
 		fetchRanges();
@@ -93,12 +92,12 @@ export default function ApplicationComponent({ language, data, isPopup }: { lang
 		};
 	}, []);
 
-	/* eslint-enable react-hooks/exhaustive-deps */
-
 	return (
 		<>
 			<div
-				className={`${isPopup ? "orderPopup" : "screen"} ${styles.applicationScreen} applicationScreen`}
+				className={`${isPopup ? `orderPopup ${styles.orderPopup}` : "screen"} ${styles.applicationScreen} applicationScreen ${
+					isPopup && activeOrderPopup ? styles.active : ""
+				}`}
 				data-screen-lightness="light"
 				data-lines-index={isMobile ? 0 : 1}
 				data-mini-line-rotation={-45}
@@ -118,6 +117,18 @@ export default function ApplicationComponent({ language, data, isPopup }: { lang
 						<div className={`titleBackground ${styles.titleBackground}`}>{data?.title_background || (language === "ru" ? "СВЯЖИТЕСЬ С НАМИ" : "CONTACT US")}</div>
 					</div>
 					<div ref={formRef} className={`${styles.form} form`}>
+						{isPopup && (
+							<div
+								className={styles.closeIcon}
+								onClick={() => {
+									setActiveOrderPopup(false);
+									console.log("gdsfsd");
+								}}
+							>
+								<div className={styles.line} />
+								<div className={styles.line} />
+							</div>
+						)}
 						<div className={styles.topPart}>
 							<input
 								type="text"
@@ -245,8 +256,8 @@ export default function ApplicationComponent({ language, data, isPopup }: { lang
 							{parse(
 								isPopup
 									? language === "ru"
-										? data?.text?.ru
-										: data?.text?.en
+										? data?.text?.ru || ``
+										: data?.text?.en || ``
 									: data?.additional_text ||
 											(language === "ru"
 												? `<p><span style='font-family: "Panama Regular", sans-serif;'>СВЯЖИТЕСЬ С&nbsp;НАМИ</span>, будем рады обсудить ваш проект и ответить на вопросы.</p>`
