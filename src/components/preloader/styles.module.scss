@@ -125,16 +125,55 @@
 			z-index: 10;
 			transition: 0s 0s;
 
-			--hubarchLogoWidth: 2px;
-			--hubarchLogoLineWidth: 3px;
-			&.type1,
-			&.type2,
-			&.type3,
-			&.type4 {
-				.imagesBlock {
-					width: 0px;
-					height: 0px;
-					opacity: 0;
+			&.disabled {
+				--hubarchLogoWidth: 2px;
+				--hubarchLogoLineWidth: 3px;
+
+				&.type1,
+				&.type2,
+				&.type3,
+				&.type4 {
+					.imagesBlock {
+						width: 0px;
+						height: 0px;
+						opacity: 0;
+					}
+				}
+
+				.hubarchLogo {
+					transform: translate(calc(-50%), -50%);
+					transition: all 0.15s 0s;
+
+					.leftLine {
+						left: 50%;
+						transform: translate(-50%, -50%);
+						background: #e0dedc;
+						transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
+					}
+
+					.leftMiniLine {
+						left: 50%;
+						transform: translate(-50%, -50%) rotate(45deg);
+						background: #e0dedc;
+						transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
+					}
+
+					.rightLine {
+						right: 50%;
+						transform: translate(50%, -50%);
+						width: 0px;
+						height: 0px;
+						background: #e0dedc;
+						transition: all 0.35s 0s, right 0.15s 0s, transform 0.15s 0s;
+					}
+
+					.centerLine {
+						left: 50%;
+						transform: translate(-50%, -50%);
+						width: var(--hubarchLogoLineHeight);
+						background: #e0dedc;
+						transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
+					}
 				}
 			}
 			.image {
@@ -152,40 +191,6 @@
 			.overlay {
 				opacity: 0;
 				// transition: 0.25s 0.5s;
-			}
-
-			.hubarchLogo {
-				transform: translate(calc(-50%), -50%);
-				transition: all 0.15s 0s;
-
-				.leftLine {
-					left: 50%;
-					transform: translate(-50%, -50%);
-					background: #e0dedc;
-					transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
-				}
-
-				.leftMiniLine {
-					left: 50%;
-					transform: translate(-50%, -50%) rotate(45deg);
-					background: #e0dedc;
-					transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
-				}
-
-				.rightLine {
-					right: 50%;
-					transform: translate(50%, -50%);
-					width: 0px;
-					height: 0px;
-					background: #e0dedc;
-					transition: all 0.35s 0s, right 0.15s 0s, transform 0.15s 0s;
-				}
-
-				.centerLine {
-					width: var(--hubarchLogoLineHeight);
-					background: #e0dedc;
-					transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
-				}
 			}
 			.background {
 				will-change: transform;

@@ -12,12 +12,18 @@
   transition: 0.5s;
   --preloaderLineWidth: 32px;
   --preloaderLineHeight: 230px;
+  --hubarchLogoLineWidth: 30px;
+  --hubarchLogoLineHeight: calc(var(--hubarchLogoLineWidth) * 7.7);
+  --hubarchLogoWidth: 300px;
+  --hubarchLogoOffset: calc(var(--hubarchLogoLineHeight) * 0.45);
 }
 .preloader.hidden {
   opacity: 1;
   pointer-events: none;
   z-index: 1;
   transition: 0.3s 0.5s;
+  --hubarchLogoWidth: 2px;
+  --hubarchLogoLineWidth: 3px;
 }
 .preloader.hidden.loadingProject .image {
   justify-content: center;
@@ -48,6 +54,12 @@
   opacity: 0;
   transition: 0.3s 0.1s;
 }
+.preloader.hidden .imagesBlock {
+  opacity: 0;
+  width: 0px;
+  height: 0px;
+  transition: 0.5s 0s;
+}
 .preloader.hidden .background {
   transform: translateX(-100%);
   transition: 0.5s 0.3s;
@@ -62,8 +74,6 @@
   transition: 0.25s 0.25s;
 }
 .preloader.hidden .hubarchLogo {
-  --hubarchLogoWidth: 2px;
-  --hubarchLogoLineWidth: 3px;
   transform: translate(-50%, -50%);
   transition: all 0.35s 0s;
 }
@@ -92,10 +102,53 @@
   background: #e0dedc;
   transition: all 0.35s 0s, left 0.35s 0s, transform 0.35s 0s;
 }
+.preloader.loading {
+  --hubarchLogoWidth: 300px;
+}
 .preloader.loading.loadingProject {
   opacity: 1;
   z-index: 10;
   transition: 0s 0s;
+}
+.preloader.loading.loadingProject.disabled {
+  --hubarchLogoWidth: 2px;
+  --hubarchLogoLineWidth: 3px;
+}
+.preloader.loading.loadingProject.disabled.type1 .imagesBlock, .preloader.loading.loadingProject.disabled.type2 .imagesBlock, .preloader.loading.loadingProject.disabled.type3 .imagesBlock, .preloader.loading.loadingProject.disabled.type4 .imagesBlock {
+  width: 0px;
+  height: 0px;
+  opacity: 0;
+}
+.preloader.loading.loadingProject.disabled .hubarchLogo {
+  transform: translate(-50%, -50%);
+  transition: all 0.15s 0s;
+}
+.preloader.loading.loadingProject.disabled .hubarchLogo .leftLine {
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #e0dedc;
+  transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
+}
+.preloader.loading.loadingProject.disabled .hubarchLogo .leftMiniLine {
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: #e0dedc;
+  transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
+}
+.preloader.loading.loadingProject.disabled .hubarchLogo .rightLine {
+  right: 50%;
+  transform: translate(50%, -50%);
+  width: 0px;
+  height: 0px;
+  background: #e0dedc;
+  transition: all 0.35s 0s, right 0.15s 0s, transform 0.15s 0s;
+}
+.preloader.loading.loadingProject.disabled .hubarchLogo .centerLine {
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--hubarchLogoLineHeight);
+  background: #e0dedc;
+  transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
 }
 .preloader.loading.loadingProject .image {
   width: 100%;
@@ -111,37 +164,6 @@
 .preloader.loading.loadingProject .overlay {
   opacity: 0;
 }
-.preloader.loading.loadingProject .hubarchLogo {
-  --hubarchLogoWidth: 2px;
-  --hubarchLogoLineWidth: 3px;
-  transform: translate(-50%, -50%);
-  transition: all 0.15s 0s;
-}
-.preloader.loading.loadingProject .hubarchLogo .leftLine {
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #e0dedc;
-  transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
-}
-.preloader.loading.loadingProject .hubarchLogo .leftMiniLine {
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(45deg);
-  background: #e0dedc;
-  transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
-}
-.preloader.loading.loadingProject .hubarchLogo .rightLine {
-  right: 50%;
-  transform: translate(50%, -50%);
-  width: 0px;
-  height: 0px;
-  background: #e0dedc;
-  transition: all 0.35s 0s, right 0.15s 0s, transform 0.15s 0s;
-}
-.preloader.loading.loadingProject .hubarchLogo .centerLine {
-  width: var(--hubarchLogoLineHeight);
-  background: #e0dedc;
-  transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
-}
 .preloader.loading.loadingProject .background {
   will-change: transform;
   transform: translateX(0%);
@@ -156,6 +178,64 @@
   opacity: 1;
   transition: 0.3s 1s;
 }
+.preloader.loading.type1 .imagesBlock {
+  height: calc(var(--hubarchLogoLineHeight) * 1.25);
+  opacity: 0;
+  transition: 1s 0s;
+}
+.preloader.loading.type2 {
+  --hubarchLogoWidth: calc(var(--contentWidth) * 0.75);
+}
+.preloader.loading.type2 .imagesBlock {
+  height: calc(var(--hubarchLogoLineHeight) * 1.4);
+  opacity: 1;
+  transition: 1s 0s;
+}
+.preloader.loading.type2 .imagesBlock .image:nth-child(2) {
+  opacity: 1;
+}
+.preloader.loading.type3 {
+  --hubarchLogoWidth: calc(var(--contentWidth) * 0.5);
+}
+.preloader.loading.type3 .imagesBlock {
+  height: calc(var(--hubarchLogoWidth) * 0.85);
+  opacity: 1;
+  transition: 1s 0s;
+}
+.preloader.loading.type3 .imagesBlock .image:nth-child(3) {
+  opacity: 1;
+}
+.preloader.loading.type4 {
+  --hubarchLogoWidth: var(--contentWidth);
+}
+.preloader.loading.type4 .imagesBlock {
+  height: 100%;
+  opacity: 1;
+  transition: 1s 0s;
+}
+.preloader.loading.type4 .imagesBlock .image {
+  left: 100%;
+  top: 0%;
+  transform: translate(-100%, 0);
+  height: calc(100% - 50px - 20px);
+  width: calc(var(--contentWidth) * 0.4);
+}
+.preloader.loading.type4 .imagesBlock .image:nth-child(4) {
+  width: calc(var(--contentWidth) * 0.15);
+  height: calc(var(--contentWidth) * 0.15);
+  top: 50%;
+  transform: translate(0%, calc(var(--hubarchLogoLineWidth) * 0.5));
+  left: 0;
+  opacity: 1;
+}
+.preloader.loading.type4 .imagesBlock .image:nth-child(5) {
+  top: 0%;
+  left: 100%;
+  transform: translate(-100%, 0);
+  width: calc(var(--contentWidth) * 0.4);
+  height: calc(100% - 50px - 20px);
+  opacity: 1;
+}
 .preloader.loading .progressBar .progressLine {
   width: 100%;
 }
@@ -168,9 +248,12 @@
 }
 .preloader.loading .hubarchLogo {
   left: 50%;
-  --hubarchLogoWidth: 300px;
   transform: translate(-50%, -50%);
   opacity: 1;
+  transition: 1s;
+}
+.preloader.loading .hubarchLogo * {
+  transition: 1s;
 }
 .preloader.loading .hubarchLogo .leftLine {
   left: 0;
@@ -188,6 +271,12 @@
   left: 50%;
   transform: translate(calc(-50% - var(--hubarchLogoOffset) * 0.5), -50%);
 }
+.preloader.loading .imagesBlock {
+  width: calc(var(--hubarchLogoWidth) - var(--hubarchLogoLineWidth) * 2 - var(--hubarchLogoOffset));
+}
+.preloader.loading .imagesBlock .image {
+  transition: 1s;
+}
 .preloader .background {
   position: fixed;
   top: 0;
@@ -198,6 +287,32 @@
   transform: translateX(0%);
   will-change: transform;
   transition: 0.5s;
+}
+.preloader .imagesBlock {
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(calc(-50% - 0px), -50%);
+  width: 0px;
+  height: 0px;
+  transition: 0.5s;
+  opacity: 0;
+  z-index: 1;
+}
+.preloader .imagesBlock .image {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(calc(-50% - 0px), -50%);
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: 0.5s;
+}
+.preloader .imagesBlock .image img {
+  opacity: 1;
 }
 .preloader .progressBar {
   position: absolute;
@@ -241,11 +356,8 @@
   width: var(--hubarchLogoWidth);
   transform: translate(calc(-50% - var(--hubarchLogoOffset) * 0.5 - 200px), -50%);
   opacity: 0;
-  --hubarchLogoLineWidth: 30px;
-  --hubarchLogoLineHeight: calc(var(--hubarchLogoLineWidth) * 7.7);
-  --hubarchLogoWidth: 300px;
-  --hubarchLogoOffset: calc(var(--hubarchLogoLineHeight) * 0.45);
   transition: 0.5s;
+  z-index: 1;
 }
 .preloader .hubarchLogo * {
   transition: 0.5s;
@@ -299,6 +411,12 @@
   transition: 0.5s;
   z-index: 1;
   overflow: hidden;
+}
+.preloader .image img {
+  opacity: 0;
+}
+.preloader .image img.active {
+  opacity: 1;
 }
 .preloader .overlay {
   position: absolute;

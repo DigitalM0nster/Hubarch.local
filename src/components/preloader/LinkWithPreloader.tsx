@@ -22,12 +22,14 @@ export default function LinkWithPreloader({ href, children, className, style, cu
 	}
 
 	const router = useRouter();
-	const { setActiveMenu } = useHudMenuStore();
+	const { setActiveMenu, setActiveOrderPopup, setActivePopup } = useHudMenuStore();
 	const { triggerResetPreloader } = usePreloaderStore();
 	const pathname = usePathname();
 
 	const handleClick = async (e: MouseEvent<HTMLAnchorElement>) => {
 		e.preventDefault();
+		setActiveOrderPopup(false);
+		setActivePopup(false);
 
 		if (pathname === href) {
 			if (customClick) customClick();

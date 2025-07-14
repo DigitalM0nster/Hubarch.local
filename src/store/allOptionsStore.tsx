@@ -50,6 +50,13 @@ export interface PopupData {
 		};
 	}[];
 }
+export interface OrderPopupData {
+	image: string;
+	text: {
+		ru: string;
+		en: string;
+	}[];
+}
 
 interface AllOptionsState {
 	isLoading: boolean;
@@ -82,6 +89,7 @@ interface AllOptionsState {
 	footerData: {
 		letters?: Letter[];
 	} | null;
+	orderPopupData: OrderPopupData | null;
 	fetchAllOptions: () => Promise<void>;
 }
 
@@ -92,6 +100,7 @@ export const useAllOptionsStore = create<AllOptionsState>((set, get) => ({
 	privacyPolicyData: null,
 	popupData: null,
 	footerData: null,
+	orderPopupData: null,
 
 	fetchAllOptions: async () => {
 		const API_URL = process.env.NEXT_PUBLIC_WP_API?.replace("/wp/v2", "") ?? "";
@@ -106,6 +115,7 @@ export const useAllOptionsStore = create<AllOptionsState>((set, get) => ({
 			set({ privacyPolicyData: response.data.privacy_policy });
 			set({ popupData: response.data.popup_settings });
 			set({ footerData: response.data.footer_screen });
+			set({ orderPopupData: response.data.order_settings });
 		} catch (error) {
 			console.error("Ошибка загрузки меню", error);
 		} finally {

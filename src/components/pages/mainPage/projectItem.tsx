@@ -16,16 +16,22 @@ interface ProjectItemProps {
 			project_preview: string | false;
 		};
 		slug: string;
+		link: string;
 	};
 	index: number;
+	currentProjectId?: string;
 }
 
-export default function ProjectItem({ language, project, index }: ProjectItemProps) {
+export default function ProjectItem({ language, project, index, currentProjectId }: ProjectItemProps) {
 	const { verticalLine, miniLine } = useInteractiveLinesStore();
 	const { isMobile } = useWindowStore();
 	const [activeIndex, setActiveIndex] = useState(10);
 	const { pageState, addCachedImage } = usePreloaderStore();
 	const { setIsProjectLoading, setProjectImage, setImageRect } = usePreloaderStore();
+
+	// useEffect(() => {
+	// 	console.log(currentProjectId, project);
+	// });
 
 	// Создаем реф для изображения
 	const imageRef = useRef<HTMLDivElement>(null);
@@ -77,7 +83,8 @@ export default function ProjectItem({ language, project, index }: ProjectItemPro
 		}
 	}, [project]);
 
-	if (!project) {
+	if (currentProjectId === project?.slug || !project) {
+		// if (!project) {
 		return (
 			<div
 				className={`${styles.projectItem} ${styles.noProject}`}
@@ -176,7 +183,7 @@ export default function ProjectItem({ language, project, index }: ProjectItemPro
 
 				// Устанавливаем состояние загрузки проекта и изображение для прелоадера
 				setIsProjectLoading(true);
-				setProjectImage(acf.project_preview !== false ? acf.project_preview : getFallbackImage(index));
+				setProjectImage(acf.project_preview);
 			}}
 		>
 			<div className={`${styles.image}`} ref={imageRef}>

@@ -11,8 +11,7 @@ import GalleryScreen from "./components/GalleryScreen";
 import ContentListsScreen from "./components/ContentListsScreen";
 import Screen1 from "./components/Screen1";
 import Screen2 from "./components/Screen2";
-import Screen3 from "@/components/pages/mainPage/screen3";
-import ProjectsClientScreen from "./components/ProjectsClientScreen";
+import ProjectsScreen from "./components/ProjectsScreen";
 import Screen7 from "@/components/pages/mainPage/screen7";
 
 interface ProjectIdPageProps {
@@ -48,7 +47,7 @@ export default function ProjectIdPage({ language, projectId, projectData }: Proj
 
 						return <BlockComponent key={index} blockData={projectBlock} language={language} projectId={projectId} projectData={projectData} />;
 					})}
-				<ProjectsClientScreen language={language} currentProjectId={projectId} />
+				<ProjectsScreen language={language} currentProjectId={projectId} />
 				<Screen7 language={language} />
 			</div>
 		</>

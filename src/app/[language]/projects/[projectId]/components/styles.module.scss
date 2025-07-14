@@ -170,6 +170,51 @@
 
 			.smiBlock {
 				gap: 75px;
+
+				.linkBlock,
+				a.linkBlock {
+					position: relative;
+					display: flex;
+					flex-direction: column;
+					align-items: flex-start;
+					gap: 5px;
+					color: var(--mainTextColor);
+					text-decoration: none;
+					cursor: pointer;
+
+					&:hover {
+						.link {
+							.text {
+								letter-spacing: var(--letterSpacingHover);
+								text-decoration: underline;
+							}
+							.arrow {
+								transform: rotate(0deg);
+							}
+						}
+					}
+
+					.link {
+						gap: 5px;
+						align-items: center;
+
+						.text {
+							letter-spacing: var(--letterSpacing);
+							transition: 0.25s;
+						}
+
+						.arrow {
+							width: 15px;
+							height: 15px;
+							background-image: url("/images/arrow_right.svg");
+							background-size: contain;
+							background-repeat: no-repeat;
+							background-position: center;
+							transform: rotate(-45deg);
+							transition: 0.25s;
+						}
+					}
+				}
 			}
 		}
 

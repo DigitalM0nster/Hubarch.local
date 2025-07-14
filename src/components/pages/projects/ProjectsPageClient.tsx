@@ -297,7 +297,7 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 
 	return (
 		<>
-			<div ref={containerRef} className={`screenScroll ${styles.screenScroll} ${scrollAllowed === true ? "" : "noScroll"}`}>
+			<div ref={containerRef} className={`screenScroll ${styles.screenScroll} ${scrollAllowed === true ? "" : "noScroll"} projectsPage`}>
 				<div
 					className={`screen active ${styles.screen}`}
 					data-screen-lightness="dark"

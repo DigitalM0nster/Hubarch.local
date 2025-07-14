@@ -27,7 +27,7 @@ export default function ArticleIdPage({ language, articleId, articleData }: Arti
 			<div className={`screenScroll ${styles.screenScroll} simpleScroll`} id="articleContainer">
 				<LinkWithPreloader href={`/${language}/media`} className={styles.backButton}>
 					<div className={styles.icon} />
-					<div className={styles.text}>{language === "ru" ? "Назад" : "Back"}</div>
+					<div className={styles.text}>{language === "ru" ? "Все статьи" : "All articles"}</div>
 				</LinkWithPreloader>
 				<Screen1 articleData={articleData} language={language} />
 				{articleData?.acf?.article_blocks != false &&

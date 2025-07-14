@@ -18,21 +18,24 @@ import Screen7 from "./screen7";
 import AwardsScreen from "@/components/awardsComponent/AwardsScreen";
 import NextPageScreen from "@/components/nextPageComponent/NextPageComponent";
 import { usePageReady } from "@/hooks/usePageReady";
+import { useAllProjectsStore } from "@/store/allProjectsStore";
 
 export default function MainPageClient({ language }: { language: string }) {
 	useScreenScroll(styles); // Хук для прокрутки экрана
 	useDetectMobile();
 	const { data, error, fetchData } = useMainPageStore();
+	const { projectsList, fetchAllProjects } = useAllProjectsStore();
 	const { scrollAllowed, setScrollAllowed } = useScrollStore();
 	const { setPageState, pageState } = usePreloaderStore();
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	// Используем новый хук для проверки готовности страницы
 	// Передаем массив зависимостей, которые должны быть загружены
-	const pageReady = usePageReady([data], containerRef);
+	const pageReady = usePageReady([data, projectsList], containerRef);
 
 	useEffect(() => {
 		fetchData(language);
+		fetchAllProjects(language);
 	}, []);
 
 	// Устанавливаем pageState = "ready" только когда страница полностью готова
@@ -51,10 +54,10 @@ export default function MainPageClient({ language }: { language: string }) {
 
 	return (
 		<>
-			<div ref={containerRef} className={`screenScroll ${scrollAllowed === true ? "" : "noScroll"}`}>
+			<div ref={containerRef} className={`screenScroll ${scrollAllowed === true ? "" : "noScroll"} mainPage`}>
 				<Screen1 />
 				<Screen2 />
-				<Screen3 language={language} />
+				<Screen3 language={language} projects={projectsList} />
 				<AwardsScreen data={data.main_page_screen4} language={language} />
 				<Screen5 language={language} />
 				<Screen6 language={language} />

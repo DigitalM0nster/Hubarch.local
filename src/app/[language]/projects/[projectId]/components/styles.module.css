@@ -146,6 +146,47 @@
 .screenScroll .screen2 .projectSmi .smiBlock {
   gap: 75px;
 }
+.screenScroll .screen2 .projectSmi .smiBlock .linkBlock,
+.screenScroll .screen2 .projectSmi .smiBlock a.linkBlock {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  color: var(--mainTextColor);
+  text-decoration: none;
+  cursor: pointer;
+}
+.screenScroll .screen2 .projectSmi .smiBlock .linkBlock:hover .link .text,
+.screenScroll .screen2 .projectSmi .smiBlock a.linkBlock:hover .link .text {
+  letter-spacing: var(--letterSpacingHover);
+  text-decoration: underline;
+}
+.screenScroll .screen2 .projectSmi .smiBlock .linkBlock:hover .link .arrow,
+.screenScroll .screen2 .projectSmi .smiBlock a.linkBlock:hover .link .arrow {
+  transform: rotate(0deg);
+}
+.screenScroll .screen2 .projectSmi .smiBlock .linkBlock .link,
+.screenScroll .screen2 .projectSmi .smiBlock a.linkBlock .link {
+  gap: 5px;
+  align-items: center;
+}
+.screenScroll .screen2 .projectSmi .smiBlock .linkBlock .link .text,
+.screenScroll .screen2 .projectSmi .smiBlock a.linkBlock .link .text {
+  letter-spacing: var(--letterSpacing);
+  transition: 0.25s;
+}
+.screenScroll .screen2 .projectSmi .smiBlock .linkBlock .link .arrow,
+.screenScroll .screen2 .projectSmi .smiBlock a.linkBlock .link .arrow {
+  width: 15px;
+  height: 15px;
+  background-image: url("/images/arrow_right.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(-45deg);
+  transition: 0.25s;
+}
 .screenScroll .screen2 .awardsBlock {
   flex-direction: column;
   align-items: center;
