@@ -245,10 +245,8 @@ export default function ApplicationComponent({ language, data, isPopup }: { lang
 							{parse(
 								isPopup
 									? language === "ru"
-										? data?.text?.ru ||
-										  `<p><span style='font-family: "Panama Regular", sans-serif;'>СВЯЖИТЕСЬ С&nbsp;НАМИ</span>, будем рады обсудить ваш проект и ответить на вопросы.</p>`
-										: data?.text?.en ||
-										  `<p><span style='font-family: "Panama Regular", sans-serif;'>CONTACT US</span>, we would be happy to discuss your project and answer any questions.</p>`
+										? data?.text?.ru
+										: data?.text?.en
 									: data?.additional_text ||
 											(language === "ru"
 												? `<p><span style='font-family: "Panama Regular", sans-serif;'>СВЯЖИТЕСЬ С&nbsp;НАМИ</span>, будем рады обсудить ваш проект и ответить на вопросы.</p>`

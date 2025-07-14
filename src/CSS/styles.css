@@ -93,31 +93,34 @@ p img {
   pointer-events: auto;
 }
 .screenScroll.simpleScroll .screen.projectsScreen {
-  pointer-events: none;
+  pointer-events: auto;
 }
 .screenScroll.simpleScroll .screen.projectsScreen.active {
   pointer-events: auto;
 }
 .screenScroll.simpleScroll .screen.projectsScreen.active .titleBackground {
+  transform: translate(0, calc(57% - 0px));
   bottom: 50%;
 }
 .screenScroll.simpleScroll .screen.projectsScreen.active .projectsContainer {
   opacity: 1;
 }
 .screenScroll.simpleScroll .screen.projectsScreen.prev {
-  pointer-events: none;
+  pointer-events: auto;
 }
 .screenScroll.simpleScroll .screen.projectsScreen.prev .titleBackground {
+  transform: translate(0, calc(57% - 0px));
   bottom: 50%;
-  opacity: 1;
+  opacity: 0.15;
 }
 .screenScroll.simpleScroll .screen.projectsScreen .titleBackground {
-  bottom: 70%;
+  transform: translate(0, calc(57% - 0px));
+  bottom: 50%;
+  opacity: 0.15;
 }
 .screenScroll.simpleScroll .screen.projectsScreen .projectsContainer {
-  opacity: 0;
+  opacity: 1;
 }
-
 .screen {
   height: 100%;
   width: 100%;

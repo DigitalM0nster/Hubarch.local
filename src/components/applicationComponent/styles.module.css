@@ -212,7 +212,7 @@
 }
 .applicationScreen .form .buttonBlock .button .text {
   text-transform: uppercase;
-  transform: translate(0px, 6%);
+  transform: translate(0px, 7%);
 }
 .applicationScreen .form .buttonBlock .acceptText {
   font-family: Inter;

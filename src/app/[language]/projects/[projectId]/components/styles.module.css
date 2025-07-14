@@ -299,6 +299,63 @@
 .screenScroll .screen2 .award .awardYear.active {
   display: flex;
 }
+.screenScroll .notFoundScreen {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+.screenScroll .notFoundScreen .screenContent {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.screenScroll .notFoundScreen .screenContent .textBlock {
+  justify-content: center;
+  text-align: center;
+  font-size: var(--menuFontSize);
+  font-family: "Inter";
+}
+.screenScroll .notFoundScreen .screenContent .button,
+.screenScroll .notFoundScreen .screenContent a.button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-family: Panama Regular;
+  font-weight: 400;
+  font-family: "Panama Regular";
+  font-size: var(--menuFontSize);
+  gap: 5px;
+  cursor: pointer;
+  color: var(--mainTextColor);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.screenScroll .notFoundScreen .screenContent .button:hover .text,
+.screenScroll .notFoundScreen .screenContent a.button:hover .text {
+  letter-spacing: var(--letterSpacingHover);
+}
+.screenScroll .notFoundScreen .screenContent .button:hover .icon,
+.screenScroll .notFoundScreen .screenContent a.button:hover .icon {
+  transform: rotate(0deg);
+}
+.screenScroll .notFoundScreen .screenContent .button .icon,
+.screenScroll .notFoundScreen .screenContent a.button .icon {
+  width: 20px;
+  height: 20px;
+  background-image: url(/images/arrow_right.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(-45deg);
+  transition: 0.15s;
+}
+.screenScroll .notFoundScreen .screenContent .button .text,
+.screenScroll .notFoundScreen .screenContent a.button .text {
+  transform: translate(0px, 7%);
+  letter-spacing: var(--letterSpacing);
+  transition: 0.15s;
+}
 .screenScroll .imageScreen {
   height: -moz-fit-content;
   height: fit-content;
@@ -458,6 +515,8 @@
 .screenScroll .contentListsScreen .screenContent {
   flex-wrap: wrap;
   gap: 50px;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 .screenScroll .contentListsScreen .block {
   flex-direction: column;

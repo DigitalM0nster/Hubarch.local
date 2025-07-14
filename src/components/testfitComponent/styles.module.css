@@ -57,7 +57,7 @@
   font-family: "Panama Regular";
   font-size: var(--mainTextSize);
   text-transform: uppercase;
-  transform: translate(0px, 6%);
+  transform: translate(0px, 7%);
 }
 .screen .rightPart .priceBlock {
   flex-direction: column;
@@ -94,7 +94,7 @@
   font-family: "Panama Regular";
   font-size: var(--mainTextSize);
   text-transform: uppercase;
-  transform: translate(0px, 6%);
+  transform: translate(0px, 7%);
 }
 .screen .rightPart .callbackButtonBlock .description {
   font-family: "Inter";
