@@ -58,7 +58,7 @@ export default function MainPageClient({ language }: { language: string }) {
 				<Screen1 />
 				<Screen2 />
 				<Screen3 language={language} projects={projectsList} />
-				<AwardsScreen data={data.main_page_screen4} language={language} />
+				<AwardsScreen data={data.main_page_screen4} language={language} isSimpleScroll={false} />
 				<Screen5 language={language} />
 				<Screen6 language={language} />
 				<Screen7 language={language} />
