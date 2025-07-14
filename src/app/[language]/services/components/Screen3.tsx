@@ -6,19 +6,7 @@ import ApplicationComponent from "@/components/applicationComponent/ApplicationC
 import { useServicesPageStore } from "@/store/servicesPageStore";
 
 export default function Screen3({ language }: { language: string }) {
-	const { markReady } = usePreloaderStore();
-
 	const data = useServicesPageStore((state) => state.data?.services_page_screen3);
-	const { servicesPageFetchingFinished } = useServicesPageStore();
-
-	/* eslint-disable react-hooks/exhaustive-deps */
-	useEffect(() => {
-		if (servicesPageFetchingFinished) {
-			markReady();
-		}
-	}, [servicesPageFetchingFinished, language]);
-
-	/* eslint-enable react-hooks/exhaustive-deps */
 
 	return (
 		<>

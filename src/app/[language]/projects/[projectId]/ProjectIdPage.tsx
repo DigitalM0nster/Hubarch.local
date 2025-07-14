@@ -11,9 +11,9 @@ import GalleryScreen from "./components/GalleryScreen";
 import ContentListsScreen from "./components/ContentListsScreen";
 import Screen1 from "./components/Screen1";
 import Screen2 from "./components/Screen2";
-import Screen3 from "@/components/pages/mainPage/screen3";
-import ProjectsClientScreen from "./components/ProjectsClientScreen";
+import ProjectsScreen from "./components/ProjectsScreen";
 import Screen7 from "@/components/pages/mainPage/screen7";
+import LinkWithPreloader from "@/components/preloader/LinkWithPreloader";
 
 interface ProjectIdPageProps {
 	language: string;
@@ -32,13 +32,47 @@ export default function ProjectIdPage({ language, projectId, projectData }: Proj
 	};
 
 	if (!projectData) {
-		return <div>Loading...</div>;
+		return (
+			<>
+				<ClientComponent projectData={""} />
+				<div className={`screenScroll ${styles.screenScroll}`} id="projectContainer">
+					<div
+						className={`screen active ${styles.screen} ${styles.notFoundScreen}`}
+						data-screen-lightness="light"
+						data-lines-index={-1}
+						data-mini-line-rotation={-45}
+						data-position-x={50}
+						data-position-y={50}
+						data-vertical-y={50}
+						data-horizontal-x={50}
+						data-horizontal-width={100}
+						data-vertical-height={100}
+						data-lines-color={"dark"}
+						data-left-line-x={0}
+						data-left-line-height={0}
+						data-right-line-x={100}
+						data-right-line-height={0}
+					>
+						<div className={`screenContent ${styles.screenContent}`}>
+							<div className={styles.textBlock}>
+								Извините, проект не найден. <br />
+								Перейти на главную страницу?
+							</div>
+							<LinkWithPreloader href={`/${language}`} className={styles.button}>
+								<div className={styles.icon} />
+								<div className={styles.text}>Перейти</div>
+							</LinkWithPreloader>
+						</div>
+					</div>
+				</div>
+			</>
+		);
 	}
 
 	return (
 		<>
-			<ClientComponent />
-			<div className={`screenScroll ${styles.screenScroll} simpleScroll`}>
+			<ClientComponent projectData={projectData} />
+			<div className={`screenScroll ${styles.screenScroll} simpleScroll`} id="projectContainer">
 				<Screen1 projectData={projectData} />
 				<Screen2 language={language} projectData={projectData} />
 				{projectData?.acf?.project_blocks != false &&
@@ -48,7 +82,7 @@ export default function ProjectIdPage({ language, projectId, projectData }: Proj
 
 						return <BlockComponent key={index} blockData={projectBlock} language={language} projectId={projectId} projectData={projectData} />;
 					})}
-				<ProjectsClientScreen language={language} currentProjectId={projectId} />
+				<ProjectsScreen language={language} currentProjectId={projectId} />
 				<Screen7 language={language} />
 			</div>
 		</>

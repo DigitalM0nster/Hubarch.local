@@ -28,6 +28,18 @@
   transition: 1s 0.5s;
   opacity: 0.15;
 }
+.applicationScreen.active .closeIcon {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.15s 0.25s;
+}
+.applicationScreen.active .closeIcon .line {
+  transform: rotate(225deg);
+  transition: 0.3s 0.35s;
+}
+.applicationScreen.active .closeIcon .line:nth-child(2) {
+  transform: rotate(135deg);
+}
 .applicationScreen.active .form {
   opacity: 1;
   transition: 1s 0.75s;
@@ -35,6 +47,12 @@
 .applicationScreen.active .image {
   opacity: 1;
   transition: 1s 0.75s;
+}
+.applicationScreen.orderPopup .form::before {
+  display: none;
+}
+.applicationScreen.orderPopup .form::after {
+  display: none;
 }
 .applicationScreen .titleBackgroundBlock {
   position: absolute;
@@ -65,9 +83,9 @@
   content: "";
   display: flex;
   position: absolute;
-  left: -1px;
+  left: -2px;
   top: 0;
-  width: 1px;
+  width: 4px;
   height: 10%;
   background-color: var(--backgroundColor);
 }
@@ -75,9 +93,9 @@
   content: "";
   display: flex;
   position: absolute;
-  left: -1px;
+  left: -2px;
   bottom: 0;
-  width: 1px;
+  width: 4px;
   height: 10%;
   background-color: var(--backgroundColor);
 }
@@ -212,11 +230,11 @@
 }
 .applicationScreen .form .buttonBlock .button .text {
   text-transform: uppercase;
-  transform: translate(0px, 6%);
+  transform: translate(0px, 7%);
 }
 .applicationScreen .form .buttonBlock .acceptText {
   font-family: Inter;
-  font-size: var(--miniTextSize);
+  font-size: 0.9vw;
   opacity: 0.5;
   max-width: 370px;
 }
@@ -230,10 +248,11 @@
   font-family: Inter;
   position: absolute;
   bottom: 0;
-  transform: translate(-1px, calc(var(--screenPadding) * 2));
+  transform: translate(calc(var(--formPadding)), calc(var(--screenPadding) * 2));
   font-size: var(--mainTextSize);
   background-color: var(--backgroundColor);
   width: calc(50% - var(--formPadding));
+  word-break: break-word;
 }
 .applicationScreen .form .textBlock p {
   margin: 0;
@@ -245,6 +264,32 @@
   left: 50%;
   z-index: 2;
   opacity: 0;
+}
+
+.closeIcon {
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: var(--screenPadding);
+  top: var(--screenPadding);
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s 0s;
+}
+.closeIcon .line {
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  background-color: var(--mainTextColor);
+  transform: rotate(0deg);
+  transition: 0.3s 0s;
+}
+.closeIcon .line:nth-child(2) {
+  transform: rotate(0deg);
 }
 
 @media (max-width: 1750px) {
@@ -262,12 +307,6 @@
     height: fit-content;
     min-height: unset;
     margin: 0px;
-  }
-  .applicationScreen .screenContent {
-    flex-direction: column;
-    align-items: center;
-    height: -moz-fit-content;
-    height: fit-content;
   }
   .applicationScreen.active {
     top: auto;
@@ -287,6 +326,12 @@
   .applicationScreen.active .form {
     opacity: 1;
     transition: 1s;
+  }
+  .applicationScreen .screenContent {
+    flex-direction: column;
+    align-items: center;
+    height: -moz-fit-content;
+    height: fit-content;
   }
   .applicationScreen .titleBackgroundBlock {
     position: relative;
@@ -316,6 +361,9 @@
     gap: 10px;
     width: calc(100% - var(--formPadding) * 2);
   }
+  .applicationScreen .form .buttonBlock .acceptText {
+    font-size: var(--miniTextSize);
+  }
   .applicationScreen .form .topPart {
     order: 2;
   }
@@ -327,12 +375,13 @@
     font-size: var(--additionalTextSize);
     top: auto;
     transform: translate(0, 0);
-    padding: auto;
-    width: 100%;
+    width: calc(100% - var(--formPadding) * 2);
+    padding: 0 var(--formPadding);
     justify-content: center;
     text-align: center;
     order: 1;
     margin: 0px 0px 30px 0px;
+    background-color: transparent;
   }
   .applicationScreen .image {
     position: relative;
@@ -342,6 +391,104 @@
     left: 0;
     margin: 30px 0px 0px 0px;
     opacity: 1;
+  }
+  .applicationScreen.orderPopup {
+    top: auto;
+    pointer-events: all;
+    opacity: 1;
+    transition: 1s;
+    height: 100%;
+    min-height: 100%;
+    margin: 0px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .applicationScreen.orderPopup.active {
+    top: auto;
+    opacity: 1;
+  }
+  .applicationScreen.orderPopup.active .titleBackgroundBlock {
+    position: relative;
+    top: 0;
+    transform: translate(0, 0%);
+    transition: 1s;
+  }
+  .applicationScreen.orderPopup.active .titleBackgroundBlock .titleBackground {
+    transform: translate(0, 0);
+    opacity: 1;
+    transition: 1s;
+  }
+  .applicationScreen.orderPopup.active .form {
+    opacity: 1;
+    transition: 1s;
+  }
+  .applicationScreen.orderPopup .screenContent {
+    flex-direction: column;
+    align-items: center;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  .applicationScreen.orderPopup .titleBackgroundBlock {
+    position: relative;
+    top: 0;
+    transform: translate(0, 0%);
+    margin: 0px 0px 30px 0px;
+  }
+  .applicationScreen.orderPopup .titleBackgroundBlock .titleBackground {
+    transform: translate(0, 0);
+    line-height: 1.2;
+  }
+  .applicationScreen.orderPopup .form {
+    width: 100%;
+    max-width: unset;
+    opacity: 1;
+  }
+  .applicationScreen.orderPopup .form::before, .applicationScreen.orderPopup .form::after {
+    display: none;
+  }
+  .applicationScreen.orderPopup .form input,
+  .applicationScreen.orderPopup .form textarea {
+    padding: var(--formPadding);
+    min-width: calc(100% - var(--formPadding) * 2);
+    max-width: calc(100% - var(--formPadding) * 2);
+  }
+  .applicationScreen.orderPopup .form .buttonBlock {
+    flex-direction: column;
+    gap: 10px;
+    width: calc(100% - var(--formPadding) * 2);
+  }
+  .applicationScreen.orderPopup .form .buttonBlock .acceptText {
+    font-size: var(--miniTextSize);
+  }
+  .applicationScreen.orderPopup .form .topPart {
+    order: 2;
+  }
+  .applicationScreen.orderPopup .form .bottomPart {
+    order: 3;
+  }
+  .applicationScreen.orderPopup .form .textBlock {
+    position: relative;
+    font-size: var(--additionalTextSize);
+    top: auto;
+    transform: translate(0, 0);
+    width: calc(100% - var(--formPadding) * 2);
+    padding: 0 var(--formPadding);
+    justify-content: center;
+    text-align: center;
+    order: 1;
+    margin: 0px 0px 30px 0px;
+  }
+  .applicationScreen.orderPopup .image {
+    position: relative;
+    width: 50%;
+    height: 50vw;
+    order: 4;
+    left: 0;
+    margin: 30px 0px 0px 0px;
+    opacity: 1;
+  }
+  .closeIcon {
+    position: fixed;
   }
 }
 @media (max-width: 768px) {

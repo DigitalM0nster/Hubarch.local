@@ -45,8 +45,10 @@
 			// opacity: 1;
 		}
 	}
-	&.active {
+	&.active,
+	&.orderPopup {
 		opacity: 1;
+		width: 100%;
 		top: 0dvh;
 		transition: 1s 0.5s;
 
@@ -75,6 +77,41 @@
 		.image {
 			opacity: 1;
 			transition: 1s 1.25s;
+		}
+	}
+
+	&.orderPopup {
+		height: 100%;
+		.titleBackgroundBlock {
+			display: none;
+			opacity: 0;
+			transform: translate(0, 0);
+
+			.titleBackground {
+				transform: translate(0, calc(0dvh - 5%));
+			}
+		}
+
+		.form {
+			.textBlock {
+				transform: translate(var(--formPadding), calc(var(--screenPadding) * 2 + 100px));
+				opacity: 0;
+				transition: 0.5s 0s;
+			}
+		}
+	}
+}
+
+.active {
+	.applicationScreen {
+		&.orderPopup {
+			.form {
+				.textBlock {
+					transform: translate(var(--formPadding), calc(var(--screenPadding) * 2));
+					opacity: 1;
+					transition: 0.5s 0.25s;
+				}
+			}
 		}
 	}
 }
@@ -140,6 +177,18 @@
 				.titleBackgroundBlock {
 					.titleBackground {
 						transform: translate(0, 0%);
+					}
+				}
+			}
+		}
+	}
+
+	.active {
+		.applicationScreen {
+			&.orderPopup {
+				.form {
+					.textBlock {
+						transform: translate(0);
 					}
 				}
 			}

@@ -149,6 +149,8 @@
   flex-wrap: wrap;
   align-items: flex-end;
   gap: 120px;
+  padding: 0px 0px calc(var(--cardWidth) / 1.5) 0px;
+  --cardWidth: 430px;
 }
 .articlesList .articleCard {
   display: flex;
@@ -158,7 +160,6 @@
   height: -moz-fit-content;
   height: fit-content;
   color: var(--backgroundColor);
-  --cardWidth: 430px;
 }
 .articlesList .articleCard:nth-child(even) {
   transform: translate(0px, calc(var(--cardWidth) / 1.5));
@@ -259,6 +260,8 @@
 }
 .articlesList .articleCard .articleButton .text {
   font-size: var(--miniTextSize);
+  white-space: nowrap;
+  text-wrap-mode: nowrap;
 }
 
 .screenTitle {
@@ -278,7 +281,7 @@
     left: var(--screenPadding);
     max-width: calc((100% - var(--contentWidth)) / 2 - var(--screenPadding));
   }
-  .articlesList .articleCard {
+  .articlesList {
     --cardWidth: 27vw;
   }
 }
@@ -292,10 +295,10 @@
   }
   .articlesList {
     gap: 5vw 0vw;
+    --cardWidth: 25vw;
   }
   .articlesList .articleCard {
     width: 50%;
-    --cardWidth: 25vw;
   }
   .articlesList .articleCard .articleTitle {
     max-height: 175px;
@@ -371,10 +374,10 @@
 @media (max-width: 640px) {
   .articlesList {
     gap: 120px;
+    --cardWidth: 80vw;
   }
   .articlesList .articleCard {
     width: 100%;
-    --cardWidth: 80vw;
   }
   .articlesList .articleCard:nth-child(even) {
     transform: translate(0px, 0px);

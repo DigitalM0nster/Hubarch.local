@@ -7,41 +7,177 @@ import { usePreloaderStore } from "@/store/preloaderStore";
 import styles from "./styles.module.scss";
 import { useScrollStore } from "@/store/scrollStore";
 import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
-import { useHudMenuStore } from "@/store/hudMenuStore";
-import LinkWithPreloader from "./LinkWithPreloader";
-
-declare global {
-	interface Window {
-		__initialProgress?: number;
-	}
-}
 
 export default function Preloader() {
-	const { zIndex, verticalLine, horizontalLine, linesOpacity } = useInteractiveLinesStore();
-	const { activeMenu } = useHudMenuStore();
-	const { setOnAllScreensReady, setResetPreloaderCallback, triggerResetPreloader, progress, setProgress } = usePreloaderStore();
+	const {
+		setResetPreloaderCallback,
+		triggerResetPreloader,
+		progress,
+		setProgress,
+		pageState,
+		setPageState,
+		isProjectLoading,
+		setIsProjectLoading,
+		projectImage,
+		setProjectImage,
+		imageRect,
+		setImageRect,
+		cachedImages,
+	} = usePreloaderStore();
 
-	const [linesClass, setLinesClass] = useState(styles.undefined);
-	const [allowAnimation, setAllowAnimation] = useState(true);
-	const [preloaderClass, setPreloaderClass] = useState(styles.undefined);
-
-	const [hasTimedOut, setHasTimedOut] = useState(false);
+	const { verticalLine, horizontalLine, linesOpacity, zIndex } = useInteractiveLinesStore();
 
 	const { setScrollAllowed } = useScrollStore();
 	const pathname = usePathname();
 	const prevPath = useRef<string | null>(null);
 
 	const animationFrameRef = useRef<number | null>(null);
+	const intervalRef = useRef<number | null>(null);
+	const styleIntervalRef = useRef<number | null>(null);
 
 	const preloaderRef = useRef<HTMLDivElement | null>(null);
-	const linesBlockRef = useRef<HTMLDivElement | null>(null);
+	const imageRef = useRef<HTMLDivElement | null>(null);
 
-	const initialValue = typeof window !== "undefined" ? window.__initialProgress ?? 0 : 0;
-	const currentProgress = useRef(initialValue);
-	const targetProgress = useRef(20);
+	const currentProgress = useRef(1);
+	const targetProgress = useRef(9);
 	const lastUpdateTime = useRef(performance.now());
 
-	/* eslint-disable react-hooks/exhaustive-deps */
+	// Состояние для типа прелоадера
+	const [preloaderStyle, setPreloaderStyle] = useState<string>("type1");
+
+	// Функция для запуска интервала увеличения targetProgress
+	const startProgressInterval = useCallback(() => {
+		// Очищаем предыдущий интервал, если он существует
+		if (intervalRef.current !== null) {
+			clearInterval(intervalRef.current);
+		}
+
+		// Создаем новый интервал
+		intervalRef.current = window.setInterval(() => {
+			// Увеличиваем targetProgress на 9, но не более 100
+			targetProgress.current = Math.min(targetProgress.current + 9, 100);
+
+			// Если достигли 100, очищаем интервал
+			if (targetProgress.current >= 100) {
+				if (intervalRef.current !== null) {
+					clearInterval(intervalRef.current);
+					intervalRef.current = null;
+				}
+			}
+		}, 1000); // 1000 мс = 1 секунда
+	}, []);
+
+	// Функция для циклического изменения стиля прелоадера
+	const startStyleChangeInterval = useCallback(() => {
+		// Очищаем предыдущий интервал, если он существует
+		if (styleIntervalRef.current !== null) {
+			setPreloaderStyle("type1");
+			clearInterval(styleIntervalRef.current);
+			styleIntervalRef.current = null;
+		}
+
+		// Создаем новый интервал для изменения стиля каждые 2 секунды
+		styleIntervalRef.current = window.setInterval(() => {
+			setPreloaderStyle((prevStyle) => {
+				switch (prevStyle) {
+					case "type1":
+						return "type2";
+					case "type2":
+						return "type3";
+					case "type3":
+						return "type4";
+					case "type4":
+						return "type1";
+					default:
+						return "type1";
+				}
+			});
+		}, 2000); // 2000 мс = 2 секунды
+	}, []);
+
+	// Функция, которая выполняется ПЕРЕД переходом по ссылке
+	const beforeNavigation = useCallback(async () => {
+		// Останавливаем текущую анимацию прогресса
+		if (animationFrameRef.current !== null) {
+			cancelAnimationFrame(animationFrameRef.current);
+			animationFrameRef.current = null;
+		}
+
+		// Останавливаем интервал, если он существует
+		if (intervalRef.current !== null) {
+			clearInterval(intervalRef.current);
+			intervalRef.current = null;
+		}
+
+		// Сбрасываем состояние прелоадера
+		setPageState("loading");
+		lastUpdateTime.current = performance.now();
+		currentProgress.current = 1;
+		targetProgress.current = 9;
+		setProgress(1);
+
+		return new Promise<void>((resolve) => {
+			requestAnimationFrame(() => {
+				requestAnimationFrame(() => {
+					// Получаем скорость анимации у прелоадера
+					const styles = window.getComputedStyle(preloaderRef.current!);
+					const durationStr = styles.getPropertyValue("transition-duration");
+					const delayStr = styles.getPropertyValue("transition-delay");
+					const duration = parseFloat(durationStr) * 1000;
+					const delay = parseFloat(delayStr) * 1000 || 0;
+					const totalDelay = duration + delay;
+
+					// Запускаем анимацию прогресса
+					animateProgress();
+
+					// Запускаем интервал увеличения targetProgress
+					startProgressInterval();
+
+					// Запускаем интервал изменения стиля
+					startStyleChangeInterval();
+
+					setTimeout(() => {
+						resolve();
+					}, totalDelay);
+				});
+			});
+		});
+	}, [startProgressInterval, startStyleChangeInterval, pageState]);
+
+	// Функция, которая выполняется ПОСЛЕ перехода по ссылке
+	const afterProgress100 = useCallback(() => {
+		setPageState("ready");
+		setScrollAllowed(true);
+
+		// Останавливаем интервал изменения стиля
+		if (styleIntervalRef.current !== null) {
+			clearInterval(styleIntervalRef.current);
+			styleIntervalRef.current = null;
+		}
+
+		new Promise<void>((resolve) => {
+			requestAnimationFrame(() => {
+				requestAnimationFrame(() => {
+					// Получаем скорость анимации у прелоадера
+					const styles = window.getComputedStyle(preloaderRef.current!);
+					const durationStr = styles.getPropertyValue("transition-duration");
+					const delayStr = styles.getPropertyValue("transition-delay");
+					const duration = parseFloat(durationStr) * 1000;
+					const delay = parseFloat(delayStr) * 1000 || 0;
+					const totalDelay = duration + delay;
+
+					setTimeout(() => {
+						setProjectImage("");
+						setImageRect(null);
+						setIsProjectLoading(false);
+						setScrollAllowed(true);
+						resolve();
+					}, totalDelay);
+				});
+			});
+		});
+	}, [progress, pageState]);
+
 	const animateProgress = useCallback(() => {
 		if (preloaderRef.current) {
 			preloaderRef.current.dataset.status = "activated";
@@ -75,249 +211,141 @@ export default function Preloader() {
 		animationFrameRef.current = requestAnimationFrame(loop);
 	}, []);
 
-	useLayoutEffect(() => {
+	useEffect(() => {
+		// Регистрируем функцию, которая будет вызвана перед переходом
+		setResetPreloaderCallback(beforeNavigation);
+
+		// Запускаем анимацию прогресса
 		animateProgress();
+
+		// Запускаем интервал увеличения targetProgress
+		startProgressInterval();
+
+		// Запускаем интервал изменения стиля
+		startStyleChangeInterval();
+
+		// Очищаем интервалы при размонтировании компонента
+		return () => {
+			if (intervalRef.current !== null) {
+				clearInterval(intervalRef.current);
+				intervalRef.current = null;
+			}
+
+			if (styleIntervalRef.current !== null) {
+				clearInterval(styleIntervalRef.current);
+				styleIntervalRef.current = null;
+			}
+		};
+	}, [beforeNavigation, startProgressInterval, startStyleChangeInterval]);
+
+	useEffect(() => {
+		if (progress >= 100) {
+			afterProgress100();
+		}
+	}, [progress]);
+
+	useEffect(() => {
+		// console.log(pageState, progress);
+		if (pageState === "ready" && progress >= 100) {
+			// Останавливаем интервал изменения стиля
+			if (styleIntervalRef.current !== null) {
+				clearInterval(styleIntervalRef.current);
+				styleIntervalRef.current = null;
+			}
+		}
+	}, [pageState, progress, pathname]);
+
+	useEffect(() => {
+		if (pageState === "ready") {
+			targetProgress.current = 100;
+		}
+	}, [pageState]);
+
+	useEffect(() => {
+		setPageState("loading");
 	}, []);
 
-	useEffect(() => {
-		const startLoader = () => {
-			const screenContainer = document.querySelector(".screenScroll");
-			if (!screenContainer) {
-				targetProgress.current = 100;
-				return;
-			}
-
-			let observer: MutationObserver | null = null;
-			let timeoutId: NodeJS.Timeout;
-
-			const waitForImages = () => {
-				const images = Array.from(screenContainer.querySelectorAll("img")).filter((img) => img.src && img.src.trim() !== "");
-
-				if (images.length === 0) {
-					targetProgress.current = 100;
-					return;
-				}
-
-				let loaded = 0;
-
-				const checkAllLoaded = () => {
-					loaded++;
-					targetProgress.current = Math.floor((loaded / images.length) * 100);
-
-					if (loaded === images.length) {
-						targetProgress.current = 100;
-						observer?.disconnect();
-						clearTimeout(timeoutId);
-					}
-				};
-
-				for (const img of images) {
-					if (img.complete) {
-						checkAllLoaded();
-					} else {
-						img.addEventListener("load", checkAllLoaded, { once: true });
-						img.addEventListener(
-							"error",
-							() => {
-								// alert(`❌ Ошибка загрузки изображения: ${img.src}`);
-								checkAllLoaded();
-							},
-							{ once: true }
+	return (
+		<div
+			ref={preloaderRef}
+			// className={`preloader ${styles.preloader} ${styles.loading} ${isProjectLoading ? styles.loadingProject : ""} ${styles.type1} ${projectImage ? styles.disabled : ""}`}
+			className={`preloader ${styles.preloader} ${pageState === "ready" && progress >= 100 && styles.hidden} ${pageState != "default" && progress < 100 && styles.loading} ${
+				isProjectLoading ? styles.loadingProject : ""
+			} ${styles[preloaderStyle]} ${projectImage ? styles.disabled : ""}`}
+			style={{
+				zIndex: pageState === "ready" && progress >= 100 ? zIndex : "",
+			}}
+		>
+			<div className={styles.background} />
+			<div className={`screenContent ${styles.screenContent}`}>
+				<div
+					className={styles.hubarchLogo}
+					style={{
+						top: pageState === "ready" && progress >= 100 ? `${horizontalLine.y}%` : "50%",
+						left: pageState === "ready" && progress >= 100 ? `${verticalLine.x}%` : "50%",
+						opacity: pageState === "ready" && progress >= 100 ? linesOpacity : "",
+						transition: pageState === "ready" && progress >= 100 ? "all 1s 0s" : "",
+					}}
+				>
+					<div className={styles.leftMiniLine}></div>
+					<div className={styles.leftLine}></div>
+					<div className={styles.centerLine}></div>
+					<div className={styles.rightLine}></div>
+				</div>
+				<div className={`${styles.imagesBlock}`}>
+					<div className={styles.image}>
+						<img src="/images/preloader/1.png" alt="hubarch preloader image1" />
+					</div>
+					<div className={styles.image}>
+						<img src="/images/preloader/2.png" alt="hubarch preloader image2" />
+					</div>
+					<div className={styles.image}>
+						<img src="/images/preloader/3.png" alt="hubarch preloader image3" />
+					</div>
+					<div className={styles.image}>
+						<img src="/images/preloader/4.png" alt="hubarch preloader image4" />
+					</div>
+					<div className={styles.image}>
+						<img src="/images/preloader/5.png" alt="hubarch preloader image4" />
+					</div>
+				</div>
+				<div className={styles.progressBar}>
+					<div className={styles.progressLine}>
+						<div className={styles.currentLine} style={{ width: `${progress}%` }} />
+					</div>
+					<div className={styles.progress}>{progress}%</div>
+				</div>
+			</div>
+			<div
+				ref={imageRef}
+				className={`${styles.image} ${projectImage ? styles.active : ""}`}
+				style={{
+					top: pageState === "ready" && progress >= 100 ? "0%" : imageRect?.top,
+					left: pageState === "ready" && progress >= 100 ? "0%" : imageRect?.left,
+					width: pageState === "ready" && progress >= 100 ? "100%" : imageRect?.width,
+					height: pageState === "ready" && progress >= 100 ? "100%" : imageRect?.height,
+					opacity: pageState === "ready" && progress >= 100 ? "0" : projectImage != false ? imageRect?.opacity : 0,
+					transition: pageState === "ready" && progress >= 100 ? "all 0.3s 0s, opacity 0.25s 0.3s" : imageRect?.transition,
+				}}
+			>
+				{cachedImages.map((image, index) => {
+					if (image.src != false) {
+						return (
+							<img
+								src={image.src}
+								alt="project"
+								key={`${image.src}-${index}`}
+								className={projectImage === image.src ? styles.active : ""}
+								style={{
+									width: imageRect?.innerImageWidth,
+									height: imageRect?.innerImageHeight,
+									transition: pageState === "ready" && progress >= 100 ? "all 0.55s 0s" : imageRect?.transition,
+								}}
+							/>
 						);
 					}
-				}
-
-				timeoutId = setTimeout(() => {
-					const notLoaded = images.filter((img) => !img.complete);
-					// alert("⏱️ Время ожидания загрузки изображений истекло.\nНе загружены:\n" + notLoaded.map((img) => img.src).join("\n"));
-					targetProgress.current = 100;
-					observer?.disconnect();
-				}, 8000);
-			};
-
-			observer = new MutationObserver(() => {
-				const hasImages = screenContainer.querySelectorAll("img").length > 0;
-				if (hasImages) {
-					observer?.disconnect();
-					waitForImages();
-				}
-			});
-
-			observer.observe(screenContainer, {
-				childList: true,
-				subtree: true,
-			});
-
-			// На случай, если всё уже есть
-			waitForImages();
-		};
-
-		setOnAllScreensReady(() => {
-			startLoader();
-		});
-
-		setResetPreloaderCallback(async () => {
-			if (animationFrameRef.current !== null) {
-				cancelAnimationFrame(animationFrameRef.current);
-				animationFrameRef.current = null;
-			}
-
-			targetProgress.current = 0;
-			currentProgress.current = 0;
-			lastUpdateTime.current = performance.now();
-
-			setLinesClass(styles.undefined);
-			setPreloaderClass(styles.active);
-			verticalLine.setNewX(50);
-
-			return new Promise((resolve) => {
-				requestAnimationFrame(() => {
-					requestAnimationFrame(() => {
-						setProgress(0);
-
-						// получаем скорость анимации у прелоадера!
-						const styles = window.getComputedStyle(preloaderRef.current!);
-						const durationStr = styles.getPropertyValue("transition-duration"); // например, "0.75s"
-						const delayStr = styles.getPropertyValue("transition-delay"); // если нужно
-						const duration = parseFloat(durationStr) * 1000;
-						const delay = parseFloat(delayStr) * 1000 || 0;
-						const totalDelay = duration + delay;
-
-						setTimeout(() => {
-							animateProgress();
-							resolve();
-						}, totalDelay);
-					});
-				});
-			});
-		});
-	}, [pathname]);
-
-	useEffect(() => {
-		if (prevPath.current !== null && prevPath.current !== pathname) {
-			triggerResetPreloader?.();
-		}
-		prevPath.current = pathname;
-	}, [pathname]);
-
-	useEffect(() => {
-		if (allowAnimation) {
-			if (progress >= 100) {
-				setLinesClass(styles.navCursor);
-				setPreloaderClass(styles.hidden);
-				setAllowAnimation(false);
-			} else if (progress >= 80) {
-				setLinesClass(styles.step4);
-				setPreloaderClass(styles.undefined);
-				setAllowAnimation(false);
-			} else if (progress >= 60) {
-				setLinesClass(styles.step3);
-				setPreloaderClass(styles.undefined);
-				setAllowAnimation(false);
-			} else if (progress >= 40) {
-				setLinesClass(styles.step2);
-				setPreloaderClass(styles.undefined);
-				setAllowAnimation(false);
-			} else if (progress >= 20) {
-				setLinesClass(styles.step1);
-				setPreloaderClass(styles.undefined);
-				setAllowAnimation(false);
-			}
-		}
-	}, [progress, allowAnimation]);
-
-	useEffect(() => {
-		if (allowAnimation === false && progress < 100) {
-			setTimeout(() => {
-				setAllowAnimation(true);
-			}, 1500);
-		}
-		if (progress >= 100) {
-			setTimeout(() => {
-				setScrollAllowed(true);
-			}, 750);
-		}
-	}, [allowAnimation, progress]);
-
-	useEffect(() => {
-		if (progress >= 100) {
-			preloaderRef.current?.style.setProperty("z-index", zIndex.toString());
-		}
-		if (preloaderClass != styles.hidden) {
-			preloaderRef.current?.style.setProperty("z-index", "10");
-		}
-	}, [zIndex, preloaderClass]);
-
-	useEffect(() => {
-		linesBlockRef.current?.style.setProperty("left", `${verticalLine.x}%`);
-		linesBlockRef.current?.style.setProperty("transition", "all 1s");
-	}, [verticalLine.x]);
-
-	useEffect(() => {
-		linesBlockRef.current?.style.setProperty("opacity", linesOpacity.toString());
-	}, [linesOpacity]);
-
-	useEffect(() => {
-		linesBlockRef.current?.style.setProperty("top", `${horizontalLine.y}%`);
-		linesBlockRef.current?.style.setProperty("transition", "all 1s");
-	}, [horizontalLine.y]);
-
-	useEffect(() => {
-		if (activeMenu || preloaderClass != styles.hidden) {
-			preloaderRef.current?.style.removeProperty("transition");
-			linesBlockRef.current?.style.removeProperty("transition");
-		} else {
-			preloaderRef.current?.style.setProperty("transition", "all 1s 0s, z-index 0s 0.5s");
-		}
-	}, [activeMenu, preloaderClass]);
-	/* eslint-enable react-hooks/exhaustive-deps */
-
-	return (
-		<div ref={preloaderRef} className={`preloader ${styles.preloader} ${preloaderClass} ${hasTimedOut ? styles.timeout : ""}`}>
-			<div className="screenContent">
-				<div className={styles.errorBlock}>
-					<h2>Не удалось загрузить данные на сайт</h2>
-					<p>Что-то пошло не так. Попробуйте вернуться на главную или перезагрузить страницу.</p>
-					<div className={styles.buttonsBlock}>
-						<LinkWithPreloader href="/" className={styles.mainButtton}>
-							Вернуться на главную
-						</LinkWithPreloader>
-						{/* <p>или</p> */}
-						<button className={styles.button} onClick={() => location.reload()}>
-							Перезагрузить
-						</button>
-					</div>
-				</div>
-				<div ref={linesBlockRef} className={`${styles.linesBlock} ${linesClass}`}>
-					<div className={styles.leftLines}>
-						<div className={styles.line} />
-						<div className={styles.line} />
-					</div>
-					<div className={styles.centerLines}>
-						<div className={styles.line} />
-					</div>
-					<div className={styles.rightLines}>
-						<div className={styles.line} />
-					</div>
-					<div className={`${styles.imagesBlock}`}>
-						<div className={styles.image}>
-							<img src="/images/preloader/1.png" alt="" width={1550} height={1100} />
-						</div>
-						<div className={styles.image}>
-							<img src="/images/preloader/2.png" alt="" width={1550} height={1100} />
-						</div>
-						<div className={styles.image}>
-							<img src="/images/preloader/3.png" alt="" width={1550} height={1100} />
-						</div>
-						<div className={styles.image}>
-							<img src="/images/preloader/4.png" alt="" width={1550} height={1100} />
-						</div>
-						<div className={styles.image}>
-							<img src="/images/preloader/5.png" alt="" width={1550} height={1100} />
-						</div>
-					</div>
-					<div className={`number ${styles.number}`}>{`${progress}%`}</div>
-				</div>
+				})}
+				<div className={styles.overlay} />
 			</div>
 		</div>
 	);

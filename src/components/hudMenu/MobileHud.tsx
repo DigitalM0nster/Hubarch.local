@@ -11,15 +11,16 @@ import Image from "next/image";
 import { useScrollStore } from "@/store/scrollStore";
 import { usePreloaderStore } from "@/store/preloaderStore";
 import PopupHud from "./PopupHud";
+import OrderPopup from "./OrderPopup";
 
-export default function MobileHud() {
+export default function MobileHud({ language }: { language: string }) {
 	const pathname = usePathname(); // Получаем текущий путь
-	const { menuSettingsData, popupData } = useAllOptionsStore();
-	const { activeMenu, setActiveMenu, screenLightness, activePopup, setActivePopup } = useHudMenuStore();
+	const { menuSettingsData, popupData, orderPopupData } = useAllOptionsStore();
+	const { activeMenu, setActiveMenu, screenLightness, activePopup, setActivePopup, activeOrderPopup, setActiveOrderPopup } = useHudMenuStore();
 	const { zIndex, setNewIndex } = useInteractiveLinesStore();
 	const { setScrollAllowed } = useScrollStore();
 	const { progress } = usePreloaderStore();
-	const [lang, setLang] = useState(pathname.startsWith("/en") ? "en" : "ru"); // Определяем язык
+	const lang = language;
 
 	const savedZIndex = useRef(zIndex);
 
@@ -81,23 +82,11 @@ export default function MobileHud() {
 			<div className={`${styles.mobileMenu} mobileMenu ${activeMenu ? `${styles.active} active` : ""}`}>
 				<div className={`screenContent ${styles.menuContent}`}>
 					<div className={styles.languageBlock}>
-						<LinkWithPreloader
-							href={pathname.replace(/^\/en/, "/ru")}
-							className={`${styles.lang} ${lang === "ru" ? styles.active : ""}`}
-							customClick={() => {
-								setLang("ru");
-							}}
-						>
+						<LinkWithPreloader href={pathname.replace(/^\/en/, "/ru")} className={`${styles.lang} ${lang === "ru" ? styles.active : ""}`}>
 							Ru
 						</LinkWithPreloader>
 						<div className={styles.separator}>/</div>
-						<LinkWithPreloader
-							href={pathname.replace(/^\/ru/, "/en")}
-							className={`${styles.lang} ${lang === "en" ? styles.active : ""}`}
-							customClick={() => {
-								setLang("en");
-							}}
-						>
+						<LinkWithPreloader href={pathname.replace(/^\/ru/, "/en")} className={`${styles.lang} ${lang === "en" ? styles.active : ""}`}>
 							Eng
 						</LinkWithPreloader>
 					</div>
@@ -151,20 +140,52 @@ export default function MobileHud() {
 						)}
 					</div>
 				</div>
-				<div className="bottom">
-					{menuSettingsData?.top_menu_connect_text && (
-						<div className={styles.contactUsBlock}>
+				<div className={styles.bottom}>
+					{/* ТЕКСТ СВЯЗАТЬСЯ С НАМИ */}
+					{lang === "ru" ? (
+						<div
+							className={styles.contactUsBlock}
+							onClick={() => {
+								setActiveOrderPopup(!activeOrderPopup);
+								setActivePopup(false);
+							}}
+						>
 							<div className={styles.icon}>
 								<img className={`${screenLightness === "light" ? styles.active : ""}`} src="/images/contactUsIcon.svg" alt="" width={22} height={22} />
 								<img className={`${screenLightness === "dark" ? styles.active : ""}`} src="/images/contactUsIcon_light.svg" alt="" width={22} height={22} />
+								<img className={`${styles.door} ${screenLightness === "light" ? styles.active : ""}`} src="/images/door.svg" alt="" width={22} height={22} />
+								<img className={`${styles.door} ${screenLightness === "dark" ? styles.active : ""}`} src="/images/door_light.svg" alt="" width={22} height={22} />
 							</div>
-							<div className={styles.text}>{lang === "ru" ? menuSettingsData?.top_menu_connect_text.text_ru : menuSettingsData?.top_menu_connect_text.text_en}</div>
+							<div className={styles.text}>
+								{menuSettingsData?.top_menu_connect_text.text_ru ? menuSettingsData?.top_menu_connect_text.text_ru : "Связаться с нами"}
+							</div>
+						</div>
+					) : (
+						<div
+							className={styles.contactUsBlock}
+							onClick={() => {
+								setActiveOrderPopup(!activeOrderPopup);
+								setActivePopup(false);
+							}}
+						>
+							<div className={styles.icon}>
+								<img className={`${screenLightness === "light" ? styles.active : ""}`} src="/images/contactUsIcon.svg" alt="" width={22} height={22} />
+								<img className={`${screenLightness === "dark" ? styles.active : ""}`} src="/images/contactUsIcon_light.svg" alt="" width={22} height={22} />
+								<img className={`${styles.door} ${screenLightness === "light" ? styles.active : ""}`} src="/images/door.svg" alt="" width={22} height={22} />
+								<img className={`${styles.door} ${screenLightness === "dark" ? styles.active : ""}`} src="/images/door_light.svg" alt="" width={22} height={22} />
+							</div>
+							<div className={styles.text}>{menuSettingsData?.top_menu_connect_text.text_en ? menuSettingsData?.top_menu_connect_text.text_en : "Contact us"}</div>
 						</div>
 					)}
-					<div className="popupIcon"></div>
 				</div>
 			</div>
-			<div className={`${styles.stoneIcon} ${activePopup ? styles.active : ""}`} onClick={() => setActivePopup(!activePopup)}>
+			<div
+				className={`${styles.stoneIcon} ${activePopup ? styles.active : ""}`}
+				onClick={() => {
+					setActiveOrderPopup(false);
+					setActivePopup(!activePopup);
+				}}
+			>
 				<img src={popupData?.popup_open_image?.image1 ? popupData?.popup_open_image?.image1 : "/images/stone.svg"} alt="" />
 				<img src={popupData?.popup_open_image?.image2 ? popupData?.popup_open_image?.image2 : "/images/stone_red.svg"} alt="" />
 				<div className={styles.linesBlock}>
@@ -174,6 +195,7 @@ export default function MobileHud() {
 				</div>
 			</div>
 			<PopupHud activePopup={activePopup} language={lang} popupData={popupData} />
+			<OrderPopup activeOrderPopup={activeOrderPopup} language={lang} orderPopupData={orderPopupData} />
 		</>
 	);
 }

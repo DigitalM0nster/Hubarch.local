@@ -38,7 +38,7 @@ export default async function Services({ params }: { params: Promise<{ language:
 
 	return (
 		<>
-			<div className="screenScroll simpleScroll">
+			<div className="screenScroll simpleScroll" id="servicesContainer">
 				<ClientComponent language={language} />
 				<Screen1 language={language} />
 				<Screen2 language={language} />

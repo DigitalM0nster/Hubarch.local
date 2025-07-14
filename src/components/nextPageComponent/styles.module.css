@@ -1,0 +1,122 @@
+.nextPageScreen .screenContent {
+  flex-direction: column;
+  gap: 30px;
+}
+.nextPageScreen .imageBlock,
+.nextPageScreen a.imageBlock {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--mainTextColor);
+  width: 100%;
+}
+.nextPageScreen .imageBlock:hover .image img,
+.nextPageScreen a.imageBlock:hover .image img {
+  width: 105%;
+  height: 105%;
+}
+.nextPageScreen .imageBlock .image,
+.nextPageScreen a.imageBlock .image {
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  height: 500px;
+  overflow: hidden;
+}
+.nextPageScreen .imageBlock .image img,
+.nextPageScreen a.imageBlock .image img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: 0.3s;
+}
+.nextPageScreen .imageBlock .buttonBlock,
+.nextPageScreen a.imageBlock .buttonBlock {
+  max-width: 500px;
+  width: 100%;
+  justify-content: space-between;
+}
+.nextPageScreen .imageBlock .buttonBlock .button,
+.nextPageScreen a.imageBlock .buttonBlock .button {
+  width: 50%;
+  gap: 5px;
+}
+.nextPageScreen .imageBlock .buttonBlock .button .icon,
+.nextPageScreen a.imageBlock .buttonBlock .button .icon {
+  width: var(--additionalTextSize);
+  min-width: var(--additionalTextSize);
+  height: var(--additionalTextSize);
+  background-image: url("/images/arrow_right.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.nextPageScreen .imageBlock .buttonBlock .button .text,
+.nextPageScreen a.imageBlock .buttonBlock .button .text {
+  font-family: "Panama Regular";
+  font-size: var(--additionalTextSize);
+  text-transform: uppercase;
+  transform: translate(0px, -5%);
+}
+.nextPageScreen .imageBlock .buttonBlock .pageName,
+.nextPageScreen a.imageBlock .buttonBlock .pageName {
+  text-align: left;
+  justify-content: flex-end;
+  width: 50%;
+  font-size: var(--additionalTextSize);
+}
+.nextPageScreen .textBlock {
+  font-size: var(--mainTextSize);
+  align-self: flex-start;
+  max-width: 50%;
+  width: 100%;
+}
+
+@media (max-width: 980px) {
+  .nextPageScreen {
+    height: -moz-fit-content;
+    height: fit-content;
+    max-height: unset;
+    min-height: unset;
+  }
+  .nextPageScreen .screenContent {
+    height: -moz-fit-content;
+    height: fit-content;
+    max-height: unset;
+    min-height: unset;
+  }
+}
+@media (max-width: 640px) {
+  .nextPageScreen .imageBlock .image,
+  .nextPageScreen a.imageBlock .image {
+    max-width: calc(100vw - var(--screenPadding) * 2);
+    max-height: calc(100vw - var(--screenPadding) * 2);
+  }
+  .nextPageScreen .imageBlock .buttonBlock,
+  .nextPageScreen a.imageBlock .buttonBlock {
+    max-width: calc(100vw - var(--screenPadding) * 2);
+  }
+}
+@media (max-width: 480px) {
+  .nextPageScreen .imageBlock .buttonBlock,
+  .nextPageScreen a.imageBlock .buttonBlock {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .nextPageScreen .imageBlock .buttonBlock .pageName,
+  .nextPageScreen a.imageBlock .buttonBlock .pageName {
+    order: 1;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .nextPageScreen .imageBlock .buttonBlock .button,
+  .nextPageScreen a.imageBlock .buttonBlock .button {
+    order: 2;
+  }
+}/*# sourceMappingURL=styles.module.css.map */

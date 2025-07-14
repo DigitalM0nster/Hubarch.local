@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import ProjectItem from "./projectItem";
 import LinkWithPreloader from "@/components/preloader/LinkWithPreloader";
 import { useWindowStore } from "@/store/windowStore";
-import type { Project } from "@/store/allProjectsStore";
+import { useAllProjectsStore, type Project } from "@/store/allProjectsStore";
 
 // Типы перед компонентом
 type Props = {
@@ -15,20 +15,12 @@ type Props = {
 };
 
 export default function Screen3({ language, projects, currentProjectId }: Props) {
-	const { markReady } = usePreloaderStore();
 	const { isMobile } = useWindowStore();
+	const { projectsList, fetchAllProjects } = useAllProjectsStore();
 
 	const storeData = useMainPageStore((state) => state.data?.main_page_screen3);
-	const projectsFromStore = storeData?.projects || [];
-	const { mainPageFetchingFinished } = useMainPageStore();
+	const projectsFromStore = projectsList || [];
 	const containerRef = useRef<HTMLDivElement>(null);
-
-	// для прелоадера
-	useEffect(() => {
-		if (mainPageFetchingFinished) {
-			markReady();
-		}
-	}, [mainPageFetchingFinished]);
 
 	const projectsSource = projects ?? projectsFromStore;
 
@@ -43,6 +35,10 @@ export default function Screen3({ language, projects, currentProjectId }: Props)
 
 	const nearest: (Project | null)[] = filtered.slice(0, 4);
 	while (nearest.length < 4) nearest.push(null);
+
+	useEffect(() => {
+		fetchAllProjects(language);
+	}, []);
 
 	return (
 		<div
@@ -69,7 +65,7 @@ export default function Screen3({ language, projects, currentProjectId }: Props)
 				)}
 				<div ref={containerRef} className={`${styles.projectsContainer} projectsContainer`}>
 					{nearest.map((item, index) => (
-						<ProjectItem key={index} project={item || undefined} index={index} language={language} />
+						<ProjectItem key={index} project={item || undefined} index={index} language={language} currentProjectId={currentProjectId} />
 					))}
 				</div>
 				{!projects && (

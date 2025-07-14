@@ -20,7 +20,7 @@ export default function Screen1({ projectData }: { projectData: any }) {
 			data-right-line-height={0}
 		>
 			<div className={styles.backgroundImage}>
-				<img src={projectData.acf.project_preview} alt={projectData.title.rendered} />
+				{projectData.acf.project_preview != false && <img src={projectData.acf.project_preview} alt={projectData.title.rendered} />}
 				<div className={styles.overlay} />
 			</div>
 			<div className={`screenContent ${styles.screenContent}`}>

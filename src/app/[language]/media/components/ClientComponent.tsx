@@ -6,12 +6,13 @@ import { useScreenScroll } from "@/hooks/useScreenScroll";
 import { usePreloaderStore } from "@/store/preloaderStore";
 import { useScrollStore } from "@/store/scrollStore";
 import { useWindowStore } from "@/store/windowStore";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import { Article, useAllArticlesStore } from "@/store/allArticlesStore";
 import Link from "next/link";
 import parse from "html-react-parser";
 import LinkWithPreloader from "@/components/preloader/LinkWithPreloader";
+import { usePageReady } from "@/hooks/usePageReady";
 
 // Компонент для отображения карточки статьи
 const ArticleCard = ({ article, language }: { article: Article; language: string }) => {
@@ -41,12 +42,13 @@ export default function ClientComponent({ language }: { language: string }) {
 	useScreenScroll(styles);
 	useScreenInit();
 	useDetectMobile();
-	const { setTotal, markReady } = usePreloaderStore();
-	const { scrollAllowed } = useScrollStore();
+	const { setPageState } = usePreloaderStore();
+	const { scrollAllowed, setScrollAllowed } = useScrollStore();
 	const { windowWidth } = useWindowStore();
 	const { isMobile } = useWindowStore();
 	const [visibleMobileFilters, setVisibleMobileFilters] = useState(false);
 	const [isResetButtonActive, setIsResetButtonActive] = useState(false);
+	const containerRef = useRef<HTMLDivElement>(null);
 
 	// Состояние для хранения выбранной категории
 	const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
@@ -59,18 +61,31 @@ export default function ClientComponent({ language }: { language: string }) {
 		? articlesList.filter((article) => article.article_category?.includes(selectedCategory) || article.categories?.includes(selectedCategory))
 		: articlesList;
 
+	// Используем хук для проверки готовности страницы
+	// Передаем массив зависимостей, которые должны быть загружены
+	const pageReady = usePageReady([articlesList, categories], containerRef);
+
 	useEffect(() => {
 		// Загружаем статьи и категории при монтировании компонента
 		fetchAllArticles(language);
 		fetchCategories(language);
-		setTotal(0);
-		markReady();
 		document.querySelector("body")?.classList.add("blue");
 
 		return () => {
 			document.querySelector("body")?.classList.remove("blue");
 		};
 	}, [language]);
+
+	// Устанавливаем pageState = "ready" только когда страница полностью готова
+	useEffect(() => {
+		if (pageReady) {
+			setPageState("ready");
+			setScrollAllowed(true);
+		} else {
+			setPageState("loading");
+			setScrollAllowed(false);
+		}
+	}, [pageReady]);
 
 	useEffect(() => {
 		const screenScroll = document.querySelector(".screenScroll");
@@ -88,7 +103,7 @@ export default function ClientComponent({ language }: { language: string }) {
 
 	return (
 		<>
-			<div className={`screenScroll simpleScroll articles ${styles.screenScroll} ${styles.articlesScroll}`}>
+			<div ref={containerRef} className={`screenScroll simpleScroll articles ${styles.screenScroll} ${styles.articlesScroll}`}>
 				<div
 					className={`screen active ${styles.screen}`}
 					data-screen-lightness="dark"

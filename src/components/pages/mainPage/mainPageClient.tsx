@@ -3,7 +3,7 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useMainPageStore } from "@/store/mainPageStore";
 import { useScreenScroll } from "@/hooks/useScreenScroll";
 import Screen1 from "./screen1";
@@ -17,44 +17,48 @@ import { useScrollStore } from "@/store/scrollStore";
 import Screen7 from "./screen7";
 import AwardsScreen from "@/components/awardsComponent/AwardsScreen";
 import NextPageScreen from "@/components/nextPageComponent/NextPageComponent";
+import { usePageReady } from "@/hooks/usePageReady";
+import { useAllProjectsStore } from "@/store/allProjectsStore";
 
 export default function MainPageClient({ language }: { language: string }) {
 	useScreenScroll(styles); // Хук для прокрутки экрана
 	useDetectMobile();
 	const { data, error, fetchData } = useMainPageStore();
-	const { setTotal } = usePreloaderStore();
-	const { scrollAllowed } = useScrollStore();
+	const { projectsList, fetchAllProjects } = useAllProjectsStore();
+	const { scrollAllowed, setScrollAllowed } = useScrollStore();
+	const { setPageState, pageState } = usePreloaderStore();
+	const containerRef = useRef<HTMLDivElement>(null);
 
-	console.log(data);
+	// Используем новый хук для проверки готовности страницы
+	// Передаем массив зависимостей, которые должны быть загружены
+	const pageReady = usePageReady([data, projectsList], containerRef);
 
-	// Вызываем фетч при смене языка
-
-	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		fetchData(language);
+		fetchAllProjects(language);
 	}, []);
 
-	/* eslint-enable react-hooks/exhaustive-deps */
-
-	// Указываем сколько компонентов должно отметиться
+	// Устанавливаем pageState = "ready" только когда страница полностью готова
 	useEffect(() => {
-		const timeout = setTimeout(() => {
-			setTotal(7);
-		}, 0);
-
-		return () => clearTimeout(timeout);
-	}, [setTotal]);
+		if (pageReady) {
+			setPageState("ready");
+			setScrollAllowed(true);
+		} else {
+			setPageState("loading");
+			setScrollAllowed(false);
+		}
+	}, [pageReady, error]);
 
 	if (error) return <div>Ошибка: {error}</div>;
-	if (!data) return <div>Нет данных</div>;
+	if (!data) return <div>Данные ещё грузятся</div>;
 
 	return (
 		<>
-			<div className={`screenScroll ${scrollAllowed === true ? "" : "noScroll"}`}>
+			<div ref={containerRef} className={`screenScroll ${scrollAllowed === true ? "" : "noScroll"} mainPage`}>
 				<Screen1 />
 				<Screen2 />
-				<Screen3 language={language} />
-				<AwardsScreen data={data.main_page_screen4} language={language} />
+				<Screen3 language={language} projects={projectsList} />
+				<AwardsScreen data={data.main_page_screen4} language={language} isSimpleScroll={false} />
 				<Screen5 language={language} />
 				<Screen6 language={language} />
 				<Screen7 language={language} />

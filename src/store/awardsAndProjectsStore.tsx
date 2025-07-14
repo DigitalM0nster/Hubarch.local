@@ -25,7 +25,7 @@ interface Project {
 	link: string;
 	lang: string;
 	acf: {
-		project_preview: string;
+		project_preview: string | false;
 		project_awards: {
 			award: {
 				year: string;

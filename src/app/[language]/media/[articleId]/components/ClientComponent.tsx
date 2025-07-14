@@ -5,19 +5,37 @@ import { useScreenInit } from "@/hooks/useScreenInit";
 import { useScreenScroll } from "@/hooks/useScreenScroll";
 import { usePreloaderStore } from "@/store/preloaderStore";
 import { useScrollStore } from "@/store/scrollStore";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import stylesForArticles from "./styles.module.scss";
+import { usePageReady } from "@/hooks/usePageReady";
 
-export default function ClientComponent() {
+export default function ClientComponent({ articleData }: { articleData: any }) {
 	useScreenScroll(stylesForArticles);
 	useScreenInit();
 	useDetectMobile();
-	const { setTotal, markReady } = usePreloaderStore();
-	const { scrollAllowed } = useScrollStore();
+	const { setPageState } = usePreloaderStore();
+	const { scrollAllowed, setScrollAllowed } = useScrollStore();
 
+	// Создаем ref в клиентском компоненте
+	const containerRef = useRef<HTMLDivElement | null>(null);
+
+	// Передаем массив зависимостей, которые должны быть загружены
+	const pageReady = usePageReady([articleData], containerRef);
+
+	// Устанавливаем pageState = "ready" только когда страница полностью готова
 	useEffect(() => {
-		setTotal(0);
-		markReady();
+		if (pageReady) {
+			setPageState("ready");
+			setScrollAllowed(true);
+		} else {
+			setPageState("loading");
+			setScrollAllowed(false);
+		}
+	}, [pageReady]);
+
+	// Находим контейнер по ID после монтирования компонента
+	useEffect(() => {
+		containerRef.current = document.getElementById("articleContainer") as HTMLDivElement;
 	}, []);
 
 	useEffect(() => {

@@ -13,20 +13,8 @@ interface Screen {
 }
 
 export default function Screen1({ language }: { language: string }) {
-	const { approachPageFetchingFinished, data } = useApproachPageStore();
+	const { data } = useApproachPageStore();
 	const { isMobile } = useWindowStore();
-	const { markReady } = usePreloaderStore();
-
-	// ОТМЕЧАЕМСЯ ДЛЯ ПРЕЛОАДЕРА
-
-	/* eslint-disable react-hooks/exhaustive-deps */
-	useEffect(() => {
-		if (approachPageFetchingFinished) {
-			markReady();
-		}
-		// console.log(data);
-	}, [approachPageFetchingFinished]);
-	/* eslint-enable react-hooks/exhaustive-deps */
 
 	if (!data) return <div>Данные не загружены</div>;
 

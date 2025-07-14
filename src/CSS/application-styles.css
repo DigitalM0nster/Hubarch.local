@@ -32,32 +32,55 @@
   transform: translate(0, -70%);
 }
 
-.applicationScreen.active {
+.applicationScreen.active, .applicationScreen.orderPopup {
   opacity: 1;
+  width: 100%;
   top: 0dvh;
   transition: 1s 0.5s;
 }
-.applicationScreen.active .titleBackgroundBlock {
+.applicationScreen.active .titleBackgroundBlock, .applicationScreen.orderPopup .titleBackgroundBlock {
   opacity: 1;
   transform: translate(0, -75dvh);
   transition: 1s 0s;
 }
-.applicationScreen.active .titleBackgroundBlock.transparent {
+.applicationScreen.active .titleBackgroundBlock.transparent, .applicationScreen.orderPopup .titleBackgroundBlock.transparent {
   opacity: 0;
   transition: all 1s 0s, opacity 1s 1s;
 }
-.applicationScreen.active .titleBackgroundBlock .titleBackground {
+.applicationScreen.active .titleBackgroundBlock .titleBackground, .applicationScreen.orderPopup .titleBackgroundBlock .titleBackground {
   transform: translate(0, calc(75dvh - 40%));
   opacity: 0.15;
   transition: 1s 0.5s;
 }
-.applicationScreen.active .form {
+.applicationScreen.active .form, .applicationScreen.orderPopup .form {
   opacity: 1;
   transition: 1s 1.25s;
 }
-.applicationScreen.active .image {
+.applicationScreen.active .image, .applicationScreen.orderPopup .image {
   opacity: 1;
   transition: 1s 1.25s;
+}
+.applicationScreen.orderPopup {
+  height: 100%;
+}
+.applicationScreen.orderPopup .titleBackgroundBlock {
+  display: none;
+  opacity: 0;
+  transform: translate(0, 0);
+}
+.applicationScreen.orderPopup .titleBackgroundBlock .titleBackground {
+  transform: translate(0, calc(0dvh - 5%));
+}
+.applicationScreen.orderPopup .form .textBlock {
+  transform: translate(var(--formPadding), calc(var(--screenPadding) * 2 + 100px));
+  opacity: 0;
+  transition: 0.5s 0s;
+}
+
+.active .applicationScreen.orderPopup .form .textBlock {
+  transform: translate(var(--formPadding), calc(var(--screenPadding) * 2));
+  opacity: 1;
+  transition: 0.5s 0.25s;
 }
 
 @media (max-width: 980px) {
@@ -95,6 +118,9 @@
   }
   .simpleScroll .applicationScreen.active .titleBackgroundBlock .titleBackground {
     transform: translate(0, 0%);
+  }
+  .active .applicationScreen.orderPopup .form .textBlock {
+    transform: translate(0);
   }
 }
 @media (max-width: 480px) {

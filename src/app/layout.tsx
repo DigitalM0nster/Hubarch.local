@@ -10,21 +10,26 @@ import InteractiveLines from "@/components/interactiveLines/InteractiveLines";
 import Preloader from "@/components/preloader/Preloader";
 import Script from "next/script";
 
-export const generateMetadata = async (props: { params: Promise<{ lang: string }> }): Promise<Metadata> => {
-	const params = await props.params;
-	const lang = params.lang === "en" ? "en" : "ru"; // Определяем язык из URL
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
+type Props = {
+	params: Promise<{
+		language: string;
+	}>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+	const { language } = await params;
 	return {
-		title: lang === "ru" ? "Hubarch – Инновационные проекты" : "Hubarch – Innovative Projects",
-		description: lang === "ru" ? "Создаём лучшие цифровые решения для бизнеса." : "We create the best digital solutions for business.",
+		title: "Hubarch — Главная",
+		description: "Описание главной страницы",
 		openGraph: {
-			title: lang === "ru" ? "Hubarch – Инновационные проекты" : "Hubarch – Innovative Projects",
-			description: lang === "ru" ? "Создаём лучшие цифровые решения для бизнеса." : "We create the best digital solutions for business.",
-			url: "https://hubarch.ru",
-			siteName: "Hubarch",
+			title: "Hubarch — Главная страница",
+			description: "Описание главной страницы",
+			url: `${siteUrl}/${language}`,
 			images: [
 				{
-					url: "/images/hubarch_logo.svg",
+					url: `${siteUrl}/images/og-default.jpg`,
 					width: 1200,
 					height: 630,
 				},
@@ -32,7 +37,11 @@ export const generateMetadata = async (props: { params: Promise<{ lang: string }
 			type: "website",
 		},
 	};
-};
+}
+
+export function generateStaticParams() {
+	return [{ language: "ru" }, { language: "en" }];
+}
 
 export default async function RootLayout(props: { children: React.ReactNode; params: { lang: string } }) {
 	const params = await props.params;

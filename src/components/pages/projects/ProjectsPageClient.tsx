@@ -15,17 +15,23 @@ import { useAllProjectsStore } from "@/store/allProjectsStore";
 import { useProjectTypesStore } from "@/store/projectTypesStore";
 import ProjectsFilters from "./ProjectsFilters";
 import { useWindowStore } from "@/store/windowStore";
+import { usePageReady } from "@/hooks/usePageReady";
 
 export default function ProjectsPageClient({ language }: { language: string }) {
 	useScreenInit();
 	useDetectMobile();
 	const { fetchAllProjects, projectsList, allProjectsFetchFinished } = useAllProjectsStore();
 	const { fetchProjectTypes, projectTypes, projectTypesFetchFinished } = useProjectTypesStore();
-	const { fetchData, projectsPageFetchFinished } = useProjectsPageStore();
+	const { fetchData, projectsPageFetchFinished, data } = useProjectsPageStore();
 	const { fetchRanges, ranges, areaRangesFetchFinished } = useAreaRangeStore();
-	const { setTotal, markReady } = usePreloaderStore();
-	const { scrollAllowed } = useScrollStore();
+	const { setPageState, setIsProjectLoading, setProjectImage, setImageRect, addCachedImage } = usePreloaderStore();
+	const { scrollAllowed, setScrollAllowed } = useScrollStore();
 	const { isMobile, windowWidth } = useWindowStore();
+
+	const containerRef = useRef<HTMLDivElement>(null);
+
+	// Используем один реф для хранения всех изображений
+	const projectImagesRef = useRef<Map<number, HTMLDivElement>>(new Map());
 
 	const [visibleMobileFilters, setVisibleMobileFilters] = useState(false);
 
@@ -40,7 +46,9 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 	const isVerticalDragging = useRef(false);
 	const [dragOffsetY, setDragOffsetY] = useState(0);
 
-	//
+	// Используем хук для проверки готовности страницы
+	// Передаем массив зависимостей, которые должны быть загружены
+	const pageReady = usePageReady([projectsList, data, projectTypes, ranges], containerRef);
 
 	// Состояния фильтров
 	const [selectedTypes, setSelectedTypes] = useState<number[]>([]);
@@ -88,7 +96,6 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 		return matchesType && matchesRange && matchesCategory;
 	});
 
-	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		fetchData(language);
 		fetchAllProjects(language);
@@ -96,28 +103,30 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 		fetchRanges();
 	}, []);
 
+	// Устанавливаем pageState = "ready" только когда страница полностью готова
 	useEffect(() => {
-		if (allProjectsFetchFinished && areaRangesFetchFinished && projectTypesFetchFinished && projectsPageFetchFinished) {
-			markReady();
+		if (pageReady) {
+			setPageState("ready");
+			setScrollAllowed(true);
+		} else {
+			setPageState("loading");
+			setScrollAllowed(false);
 		}
-	}, [allProjectsFetchFinished, areaRangesFetchFinished, projectTypesFetchFinished, projectsPageFetchFinished]);
+	}, [pageReady]);
 
-	// Включаем тот проект, который имеется
+	useEffect(() => {
+		projectsList.forEach((project, index) => {
+			if (project?.acf?.project_preview !== false) {
+				addCachedImage({ src: project?.acf?.project_preview ?? "" });
+			}
+		});
+	}, [projectsList]);
+
 	useEffect(() => {
 		if (activeProjectIndex > filteredProjects.length - 1) {
 			setActiveProjectIndex(Math.max(filteredProjects.length - 1, 0));
 		}
 	}, [filteredProjects.length]);
-	/* eslint-enable react-hooks/exhaustive-deps */
-
-	// Указываем сколько компонентов должно отметиться
-	useEffect(() => {
-		const timeout = setTimeout(() => {
-			setTotal(1);
-		}, 0);
-
-		return () => clearTimeout(timeout);
-	}, [setTotal]);
 
 	useEffect(() => {
 		let timeout: NodeJS.Timeout | null = null;
@@ -160,7 +169,6 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 		};
 	}, [filteredProjects.length, windowWidth]);
 
-	//
 	// ГОРИЗОНАТЛЬНЫЙ СКРОЛЛ ВНИЗУ
 	useEffect(() => {
 		if (!isMobile || !listRef.current) return;
@@ -271,7 +279,15 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 		};
 	}, [isMobile, filteredProjects.length]);
 
-	//
+	// Функция для получения информации о позиции и размере активной картинки
+	const getActiveImageRect = () => {
+		if (filteredProjects.length === 0 || !projectImagesRef.current.has(activeProjectIndex)) {
+			return null;
+		}
+
+		const imageElement = projectImagesRef.current.get(activeProjectIndex);
+		return imageElement?.getBoundingClientRect();
+	};
 
 	// Обновляем состояние активности кнопки 'Сбросить' при изменении фильтров
 	useEffect(() => {
@@ -281,7 +297,7 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 
 	return (
 		<>
-			<div className={`screenScroll ${styles.screenScroll} ${scrollAllowed === true ? "" : "noScroll"}`}>
+			<div ref={containerRef} className={`screenScroll ${styles.screenScroll} ${scrollAllowed === true ? "" : "noScroll"} projectsPage`}>
 				<div
 					className={`screen active ${styles.screen}`}
 					data-screen-lightness="dark"
@@ -328,7 +344,10 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 													setActiveProjectIndex(index);
 												}}
 											>
-												<img src={project.acf.project_preview} alt={project.title.rendered} />
+												<img
+													src={project.acf.project_preview != false ? project.acf.project_preview : "/images/projects/placeholder.png"}
+													alt={project.title.rendered}
+												/>
 											</div>
 										);
 									})
@@ -355,15 +374,85 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 										filteredProjects.map((project, index) => {
 											return (
 												<LinkWithPreloader
-													// href={project.link}
 													href={`/${language}/projects/${project.slug}`}
 													key={`project${index}`}
 													className={`${styles.projectItem} ${activeProjectIndex === index ? styles.active : ""} ${
 														activeProjectIndex > index ? styles.prev : ""
 													}`}
+													customClick={() => {
+														// Получаем размеры и позицию активного изображения
+														const localImageRect = getActiveImageRect();
+
+														// Сохраняем информацию о размерах в store
+														if (localImageRect) {
+															setImageRect({
+																x: localImageRect.x + "px",
+																y: localImageRect.y + "px",
+																width: localImageRect.width + "px",
+																height: localImageRect.height + "px",
+																top: localImageRect.top + "px",
+																right: localImageRect.right + "px",
+																bottom: localImageRect.bottom + "px",
+																left: localImageRect.left + "px",
+																opacity: 0,
+																transition: "all 0s 0s",
+																innerImageWidth: "105%",
+																innerImageHeight: "105%",
+																progressLineTransition: "all 0.25s 0.3s",
+																progressTransition: "all 0.25s 0.45s",
+															});
+
+															setTimeout(() => {
+																setImageRect({
+																	x: `calc((100% - var(--contentWidth)) * 0.5)`,
+																	y: `calc(var(--screenPadding) * 4)`,
+																	width: `var(--contentWidth)`,
+																	height:
+																		window.innerWidth <= 980
+																			? `calc(100% - var(--screenPadding) * 2 - var(--logoMaxHeight) - 50px - 30px)`
+																			: window.innerWidth > 1680
+																			? "calc(100% - var(--screenPadding) * 4 * 2 - 50px - 20px)"
+																			: `calc(100% - var(--screenPadding) * 3 * 2 - 50px - 20px)`,
+																	top:
+																		window.innerWidth <= 980
+																			? `var(--screenPadding)`
+																			: window.innerWidth > 1680
+																			? "calc(var(--screenPadding) * 4)"
+																			: `calc(var(--screenPadding) * 3)`,
+																	right: `calc((100% - var(--contentWidth)) * 0.5)`,
+																	bottom:
+																		window.innerWidth <= 980
+																			? `var(--screenPadding)`
+																			: window.innerWidth > 1680
+																			? "calc(var(--screenPadding) * 4)"
+																			: `calc(var(--screenPadding) * 3)`,
+																	left: `calc((100% - var(--contentWidth)) * 0.5)`,
+																	opacity: 1,
+																	transition: "all 0.25s 0.3s, opacity 0s 0s",
+																	innerImageWidth: "100%",
+																	innerImageHeight: "100%",
+																	progressLineTransition: "all 0.25s 0.3s",
+																	progressTransition: "all 0.25s 0.45s",
+																});
+															}, 0);
+														}
+
+														setIsProjectLoading(true);
+														setProjectImage(project.acf.project_preview);
+													}}
 												>
-													<div className={styles.image}>
-														<img src={project.acf.project_preview} alt={project.title.rendered} />
+													<div
+														className={styles.image}
+														ref={(el) => {
+															if (el) {
+																projectImagesRef.current.set(index, el);
+															}
+														}}
+													>
+														<img
+															src={project.acf.project_preview != false ? project.acf.project_preview : "/images/projects/placeholder_big.png"}
+															alt={project.title.rendered}
+														/>
 													</div>
 													<div className={styles.aboutProject}>
 														<div className={styles.buttonBlock}>

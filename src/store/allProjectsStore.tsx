@@ -12,7 +12,7 @@ export interface Project {
 			slug: string;
 		};
 		project_type: Array<{ term_id: number } | number | string>;
-		project_preview: string;
+		project_preview: string | false;
 		project_description: string;
 		project_awards: string[];
 		project_footage: string;

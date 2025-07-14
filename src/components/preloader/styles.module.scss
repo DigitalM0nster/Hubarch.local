@@ -4,525 +4,563 @@
 	top: 0;
 	width: 100%;
 	height: 100%;
-	background-color: var(--backgroundColor);
+	// background-color: var(--backgroundColor);
 	color: white;
 	justify-content: center;
 	align-items: center;
 	pointer-events: auto;
 	z-index: 10;
-	transition: 2s;
-	--preloaderLineWidth: 32px;
-	--preloaderLineHeight: 230px;
-
-	* {
-		transition: 1.5s ease-in-out;
-	}
+	transition: 0.5s;
+	--hubarchLogoLineWidth: 30px;
+	--hubarchLogoLineHeight: calc(var(--hubarchLogoLineWidth) * 7.7);
+	--hubarchLogoWidth: 300px;
+	--hubarchLogoOffset: calc(var(--hubarchLogoLineHeight) * 0.45);
 
 	&.hidden {
+		opacity: 1;
 		pointer-events: none;
-		background-color: transparent;
-		&.timeout {
+		z-index: 1;
+		transition: 0.3s 0.5s;
+
+		--hubarchLogoWidth: 2px;
+		--hubarchLogoLineWidth: 3px;
+		&.loadingProject {
+			.image {
+				justify-content: center;
+				align-items: center;
+				width: 100%;
+				height: 100%;
+				opacity: 0;
+
+				img {
+					width: 100%;
+					height: 100%;
+				}
+			}
+			.overlay {
+				opacity: 1;
+				transition: 0.25s 0s;
+			}
+			.background {
+				opacity: 0;
+				transform: translateX(-100%);
+				transition: 0s 0.3s;
+			}
+			.progressBar {
+				.progressLine {
+					width: 0%;
+					transition: 0.3s 0s;
+				}
+				.progress {
+					transform: translate(-100px, 0px);
+					opacity: 0;
+					transition: 0.3s 0.1s;
+				}
+			}
+		}
+
+		.imagesBlock {
+			opacity: 0;
+			width: 0px;
+			height: 0px;
+			transition: 0.5s 0s;
+		}
+
+		.background {
+			transform: translateX(-100%);
+			transition: 0.5s 0.3s;
+		}
+		.progressBar {
+			.progressLine {
+				width: 0%;
+				transition: 0.25s 0.35s;
+			}
+			.progress {
+				transform: translate(-100px, 0px);
+				opacity: 0;
+				transition: 0.25s 0.25s;
+			}
+		}
+		.hubarchLogo {
+			transform: translate(calc(-50%), -50%);
+			transition: all 0.35s 0s;
+
+			.leftLine {
+				left: 50%;
+				transform: translate(-50%, -50%);
+				background: rgba(224, 222, 220, 1);
+				transition: all 0.35s 0s, left 0.35s 0s, transform 0.35s 0s;
+			}
+
+			.leftMiniLine {
+				left: 50%;
+				transform: translate(-50%, -50%) rotate(45deg);
+				background: rgba(224, 222, 220, 1);
+				transition: all 0.35s 0s, left 0.35s 0s, transform 0.35s 0s;
+			}
+
+			.rightLine {
+				right: 50%;
+				transform: translate(50%, -50%);
+				width: 0px;
+				height: 0px;
+				background: rgba(224, 222, 220, 1);
+				transition: all 0.35s 0s, right 0.35s 0s, transform 0.35s 0s;
+			}
+
+			.centerLine {
+				width: var(--hubarchLogoLineHeight);
+				background: rgba(224, 222, 220, 1);
+				transition: all 0.35s 0s, left 0.35s 0s, transform 0.35s 0s;
+			}
+		}
+	}
+
+	&.loading {
+		--hubarchLogoWidth: 300px;
+		&.loadingProject {
 			opacity: 1;
-			pointer-events: auto;
-			background-color: var(--backgroundColor);
-			z-index: 5 !important;
+			z-index: 10;
+			transition: 0s 0s;
+
+			&.disabled {
+				--hubarchLogoWidth: 2px;
+				--hubarchLogoLineWidth: 3px;
+
+				&.type1,
+				&.type2,
+				&.type3,
+				&.type4 {
+					.imagesBlock {
+						width: 0px;
+						height: 0px;
+						opacity: 0;
+					}
+				}
+
+				.hubarchLogo {
+					transform: translate(calc(-50%), -50%);
+					transition: all 0.15s 0s;
+
+					.leftLine {
+						left: 50%;
+						transform: translate(-50%, -50%);
+						background: rgba(224, 222, 220, 1);
+						transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
+					}
+
+					.leftMiniLine {
+						left: 50%;
+						transform: translate(-50%, -50%) rotate(45deg);
+						background: rgba(224, 222, 220, 1);
+						transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
+					}
+
+					.rightLine {
+						right: 50%;
+						transform: translate(50%, -50%);
+						width: 0px;
+						height: 0px;
+						background: rgba(224, 222, 220, 1);
+						transition: all 0.35s 0s, right 0.15s 0s, transform 0.15s 0s;
+					}
+
+					.centerLine {
+						left: 50%;
+						transform: translate(-50%, -50%);
+						width: var(--hubarchLogoLineHeight);
+						background: rgba(224, 222, 220, 1);
+						transition: all 0.35s 0s, left 0.15s 0s, transform 0.15s 0s;
+					}
+				}
+			}
+			.image {
+				width: 100%;
+				height: 100%;
+				opacity: 1;
+				transition: 0s;
+
+				img {
+					width: 105%;
+					height: 105%;
+					transition: 0s 0s;
+				}
+			}
+			.overlay {
+				opacity: 0;
+				// transition: 0.25s 0.5s;
+			}
+			.background {
+				will-change: transform;
+				transform: translateX(0%);
+				transition: 0.3s 0s;
+			}
+			.progressBar {
+				.progressLine {
+					width: 100%;
+					transition: 0.3s 1s;
+				}
+				.progress {
+					transform: translate(0px, 0px);
+					opacity: 1;
+					transition: 0.3s 1s;
+				}
+			}
+		}
+		&.type1 {
+			.imagesBlock {
+				height: calc(var(--hubarchLogoLineHeight) * 1.25);
+				opacity: 0;
+				transition: 1s 0s;
+			}
+		}
+
+		&.type2 {
+			--hubarchLogoWidth: calc((100vw - (var(--screenPadding) * 2)) * 0.7);
+
+			.imagesBlock {
+				height: calc(var(--hubarchLogoLineHeight) * 1.4);
+				opacity: 1;
+				transition: 1s 0s;
+
+				.image {
+					&:nth-child(2) {
+						opacity: 1;
+					}
+				}
+			}
+		}
+
+		&.type3 {
+			--hubarchLogoWidth: calc((100vw - (var(--screenPadding) * 2)) * 0.35);
+			.imagesBlock {
+				height: calc(var(--hubarchLogoWidth) - var(--hubarchLogoOffset));
+				opacity: 1;
+				transition: 1s 0s;
+
+				.image {
+					&:nth-child(3) {
+						opacity: 1;
+					}
+				}
+			}
+		}
+
+		&.type4 {
+			--hubarchLogoWidth: var(--contentWidth);
+
+			.imagesBlock {
+				height: 100%;
+				opacity: 1;
+				transition: 1s 0s;
+
+				.image {
+					left: 100%;
+					top: 0%;
+					transform: translate(calc(-100%), calc(0));
+					height: calc(100% - 50px - 20px);
+					width: calc(var(--contentWidth) * 0.4);
+
+					&:nth-child(4) {
+						width: calc(var(--contentWidth) * 0.15);
+						height: calc(var(--contentWidth) * 0.15);
+						top: 50%;
+						transform: translate(0%, calc(var(--hubarchLogoLineWidth) * 0.5));
+						left: 0;
+						opacity: 1;
+					}
+
+					&:nth-child(5) {
+						top: 0%;
+						left: 100%;
+						transform: translate(calc(-100%), calc(0));
+						width: calc(var(--contentWidth) * 0.4);
+						height: calc(100% - 50px - 20px);
+						opacity: 1;
+					}
+				}
+			}
+		}
+
+		.progressBar {
+			.progressLine {
+				width: 100%;
+			}
+			.progress {
+				transform: translate(0px, 0px);
+				opacity: 1;
+			}
+			.background {
+				transform: translate(0%, 0px);
+			}
+		}
+
+		.hubarchLogo {
+			left: 50%;
+			transform: translate(-50%, -50%);
+			opacity: 1;
+			transition: 1s;
+
+			* {
+				transition: 1s;
+			}
+
+			.leftLine {
+				left: 0;
+				transform: translate(calc(0% + var(--hubarchLogoOffset) * 0.5), -50%);
+			}
+
+			.leftMiniLine {
+				left: 0;
+				transform: translate(calc(0% + var(--hubarchLogoOffset) * 0.5), -50%) rotate(45deg);
+			}
+
+			.rightLine {
+				right: 0;
+				transform: translate(calc(0% - var(--hubarchLogoOffset) * 0.5), -50%);
+				// transform: translate(calc(0%), -50%);
+			}
+
+			.centerLine {
+				left: 50%;
+				transform: translate(calc(-50% - var(--hubarchLogoOffset) * 0.5), -50%);
+				// transform: translate(calc(-50%), -50%);
+			}
+		}
+
+		.imagesBlock {
+			width: calc(var(--hubarchLogoWidth) - var(--hubarchLogoLineWidth) * 2 - var(--hubarchLogoOffset));
+
+			.image {
+				transition: 1s;
+			}
+		}
+	}
+
+	.background {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 200%;
+		height: 100%;
+		background: linear-gradient(to right, var(--backgroundColor), var(--backgroundColor) 50%, transparent 100%);
+		// background: linear-gradient(to right, red, red 50%, transparent 100%);
+		transform: translateX(0%);
+		will-change: transform;
+		transition: 0.5s;
+	}
+
+	.imagesBlock {
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(calc(-50% - 0px), -50%);
+		width: 0px;
+		height: 0px;
+		transition: 0.5s;
+		opacity: 0;
+		z-index: 1;
+
+		.image {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(calc(-50% - 0px), -50%);
+			width: 100%;
+			height: 100%;
+			opacity: 0;
+			transition: 0.5s;
+
+			img {
+				opacity: 1;
+			}
+		}
+	}
+
+	.progressBar {
+		position: absolute;
+		bottom: 50px;
+		left: 0px;
+		width: calc(100% - 0px);
+		height: fit-content;
+		z-index: 2;
+		transition: 0.25s;
+		.progressLine {
+			justify-content: flex-start;
+			align-items: center;
+			position: relative;
+			width: 0%;
+			height: 1px;
+			background: var(--mainTextColor);
+			transition: 0.25s 0.15s;
 
 			.linesBlock {
 				opacity: 0;
 			}
-
-			.errorBlock {
-				opacity: 1;
-				pointer-events: auto;
-			}
 		}
-		.number {
-			transform: scale(0);
+		.progress {
+			right: 0;
+			top: 10px;
+			position: absolute;
+			color: var(--mainTextColor);
+			transform: translate(-100px, 0px);
+			transition: 0.25s 0.3s;
 			opacity: 0;
-		}
-
-		.linesBlock {
-			left: 50%;
-			top: 50%;
-			transform: translate(-50%, -50%);
 		}
 	}
 
-	&.active {
+	.hubarchLogo {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: var(--hubarchLogoWidth);
+		transform: translate(calc(-50% - var(--hubarchLogoOffset) * 0.5 - 200px), -50%);
+		opacity: 0;
 		transition: 0.5s;
+		z-index: 1;
+
 		* {
 			transition: 0.5s;
 		}
-	}
-
-	.imagesBlock {
-		position: absolute;
-		justify-content: center;
-		align-items: center;
-		width: 100%;
-		height: fit-content;
-		z-index: -1;
-
-		.image {
+		.leftMiniLine {
 			position: absolute;
-			width: calc(100% - var(--preloaderLineWidth));
-			height: 100%;
-			opacity: 0;
-			max-width: var(--contentWidth);
+			left: var(--hubarchLogoOffset);
+			top: 50%;
+			transform: translate(0%, -50%) rotate(45deg);
+			width: var(--hubarchLogoLineWidth);
+			height: calc(var(--hubarchLogoLineHeight) * 0.8);
+			background: var(--mainTextColor);
+		}
+		.leftLine {
+			position: absolute;
+			left: var(--hubarchLogoOffset);
+			top: 50%;
+			transform: translate(0, -50%);
+			width: var(--hubarchLogoLineWidth);
+			height: var(--hubarchLogoLineHeight);
+			background: var(--mainTextColor);
+		}
 
-			&:nth-child(1) {
-				right: calc(50% - var(--preloaderLineWidth) * 0);
-				top: calc(50% - var(--preloaderLineWidth) * 0);
-				transform: translate(50%, -50%);
-				width: calc(170px - var(--preloaderLineWidth));
-				height: calc(315px * 1.5);
-			}
+		.centerLine {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			height: var(--hubarchLogoLineWidth);
+			width: var(--hubarchLogoWidth);
+			background: var(--mainTextColor);
+		}
 
-			&:nth-child(2) {
-				left: calc(50% - var(--preloaderLineWidth) * 0);
-				top: calc(50% - var(--preloaderLineWidth) * 0);
-				transform: translate(-50%, -50%);
-				width: calc(170px - var(--preloaderLineWidth));
-				height: calc(315px * 1.5);
-			}
-
-			&:nth-child(3) {
-				left: calc(50% - var(--preloaderLineWidth) * 0);
-				top: calc(50% - var(--preloaderLineWidth) * 0);
-				transform: translate(-50%, -50%);
-				width: calc(170px - var(--preloaderLineWidth));
-				height: calc(315px * 1.5);
-			}
-
-			&:nth-child(4) {
-				right: calc(50% - var(--preloaderLineWidth) * 0);
-				top: calc(50% - var(--preloaderLineWidth) * 0);
-				transform: translate(50%, -50%);
-				width: calc(170px - var(--preloaderLineWidth));
-				height: calc(315px * 1.5);
-			}
-			&:nth-child(5) {
-				left: calc(50% - var(--preloaderLineWidth) * 0);
-				top: calc(50% - var(--preloaderLineWidth) * 0);
-				transform: translate(-50%, -50%);
-				width: calc(170px - var(--preloaderLineWidth));
-				height: calc(315px * 1.5);
-			}
+		.rightLine {
+			position: absolute;
+			right: 0;
+			top: 50%;
+			transform: translate(0%, -50%);
+			width: var(--hubarchLogoLineWidth);
+			height: var(--hubarchLogoLineHeight);
+			background: var(--mainTextColor);
 		}
 	}
 
-	.linesBlock {
+	.image {
 		justify-content: center;
 		align-items: center;
 		position: absolute;
 		left: 50%;
 		top: 50%;
-		transform: translate(-50%, -50%);
-		width: calc(var(--preloaderLineHeight) * 1.35);
-		height: var(--preloaderLineHeight);
-		max-width: var(--contentWidth);
+		transform: translate(0, 0);
+		width: 0px;
+		height: 0px;
+		opacity: 0;
+		transition: 0.5s;
+		z-index: 1;
+		overflow: hidden;
 
-		&.step1 {
-			width: 830px;
+		img {
+			opacity: 0;
 
-			.imagesBlock {
-				.image {
-					width: calc(830px - var(--preloaderLineWidth));
-					height: calc(315px * 1);
-					&:nth-child(1) {
-						right: calc(50% - var(--preloaderLineWidth) * 0);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(50%, -50%);
-						width: calc(830px - var(--preloaderLineWidth));
-						height: calc(315px * 1);
-						opacity: 1;
-					}
-					&:nth-child(2) {
-						left: calc(var(--preloaderLineWidth) / 2);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(0px, -50%);
-						width: calc(830px - var(--preloaderLineWidth));
-						height: calc(315px * 1);
-					}
-					&:nth-child(3) {
-						left: calc(var(--preloaderLineWidth) / 2);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(0px, -50%);
-						width: calc((830px - var(--preloaderLineWidth)) * 0);
-						height: calc(315px * 0);
-					}
-					&:nth-child(4) {
-						right: calc(50% - var(--preloaderLineWidth) * 0);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(50%, -50%);
-						width: calc(830px - var(--preloaderLineWidth));
-						height: calc(315px * 1);
-					}
-					&:nth-child(5) {
-						left: calc(var(--preloaderLineWidth) / 2);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(0px, -50%);
-						width: calc(830px - var(--preloaderLineWidth));
-						height: calc(315px * 1);
-					}
-				}
+			&.active {
+				opacity: 1;
 			}
-		}
-
-		&.step2 {
-			width: 340px;
-
-			.imagesBlock {
-				.image {
-					&:nth-child(1) {
-						width: calc(340px - var(--preloaderLineWidth));
-						height: calc(480px * 1);
-					}
-					&:nth-child(2) {
-						left: calc(var(--preloaderLineWidth) / 2);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(0px, -50%);
-						width: calc(340px - var(--preloaderLineWidth));
-						height: calc(480px * 1);
-						opacity: 1;
-					}
-					&:nth-child(3) {
-						left: calc(var(--preloaderLineWidth) / 2);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(0px, -50%);
-						width: calc(340px - var(--preloaderLineWidth));
-						height: calc(480px * 1);
-					}
-					&:nth-child(4) {
-						right: calc(var(--preloaderLineWidth) / 2);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(0px, -50%);
-						width: calc(340px - var(--preloaderLineWidth));
-						height: calc(480px * 1);
-					}
-					&:nth-child(5) {
-						left: calc(var(--preloaderLineWidth) / 2);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(0px, -50%);
-						width: calc(340px - var(--preloaderLineWidth));
-						height: calc(480px * 1);
-					}
-				}
-			}
-		}
-
-		&.step3 {
-			width: calc(290px + 420px + 100px);
-			.imagesBlock {
-				.image {
-					&:nth-child(1) {
-						right: calc(var(--preloaderLineWidth) / 2);
-						top: calc(50% + var(--preloaderLineWidth) / 2);
-						transform: translate(0px, -50%);
-						width: calc(420px * 1);
-						height: calc(670px * 1);
-					}
-					&:nth-child(2) {
-						left: calc(var(--preloaderLineWidth) / 2);
-						top: calc(0% + var(--preloaderLineWidth) / 2);
-						transform: translate(0, 0);
-						width: calc(290px * 1);
-						height: calc(240px * 1);
-					}
-					&:nth-child(3) {
-						left: calc(var(--preloaderLineWidth) / 2);
-						top: calc(50% + var(--preloaderLineWidth) / 2);
-						transform: translate(0px, 0%);
-						width: calc(290px * 1);
-						height: calc(240px * 1);
-						opacity: 1;
-					}
-					&:nth-child(4) {
-						right: calc(var(--preloaderLineWidth) / 2);
-						top: calc(50% + var(--preloaderLineWidth) / 2);
-						transform: translate(0px, -50%);
-						width: calc(420px * 1);
-						height: calc(670px * 1);
-						opacity: 1;
-					}
-					&:nth-child(5) {
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(0px, 0%);
-						left: calc(var(--preloaderLineWidth) / 2);
-						width: calc(290px * 1);
-						height: calc(240px * 1);
-					}
-				}
-			}
-		}
-
-		&.step4 {
-			width: 550px;
-
-			.imagesBlock {
-				.image {
-					&:nth-child(1) {
-						right: calc(50% - var(--preloaderLineWidth) * 0);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(50%, -50%);
-						width: calc(550px - var(--preloaderLineWidth));
-						height: calc(590px * 1);
-					}
-					&:nth-child(2) {
-						left: calc(50% - var(--preloaderLineWidth) * 0);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(-50%, -50%);
-						width: calc(550px - var(--preloaderLineWidth));
-						height: calc(590px * 1);
-					}
-					&:nth-child(3) {
-						left: calc(50% - var(--preloaderLineWidth) * 0);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(-50%, -50%);
-						width: calc(550px - var(--preloaderLineWidth));
-						height: calc(590px * 1);
-					}
-					&:nth-child(4) {
-						right: calc(var(--preloaderLineWidth) / 2);
-						top: calc(50% + var(--preloaderLineWidth) / 2);
-						transform: translate(0px, -50%);
-						width: calc(420px * 0);
-						height: calc(670px * 1);
-					}
-					&:nth-child(5) {
-						left: calc(50% - var(--preloaderLineWidth) * 0);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(-50%, -50%);
-						width: calc(550px - var(--preloaderLineWidth));
-						height: calc(590px * 1);
-						opacity: 1;
-					}
-				}
-			}
-		}
-
-		&.navCursor {
-			width: 24px;
-			height: 24px;
-			--preloaderLineWidth: 3px;
-			--preloaderLineHeight: 24px;
-
-			.leftLines {
-				left: 50%;
-				transform: translate(-50%, 0%);
-				transition: 0.75s 0.75s;
-				.line {
-					&:nth-child(2) {
-						height: calc(var(--preloaderLineHeight) * 0.9);
-					}
-				}
-			}
-			.centerLines {
-				.line {
-					width: calc(100% + 0px);
-				}
-			}
-			.rightLines {
-				height: 0%;
-				opacity: 0;
-			}
-
-			.line {
-				background-color: #e0dedc;
-			}
-
-			.imagesBlock {
-				.image {
-					&:nth-child(1) {
-						width: 24px;
-						height: 24px;
-						opacity: 0;
-						pointer-events: none;
-						right: calc(50% - var(--preloaderLineWidth) * 0);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(50%, -50%);
-					}
-					&:nth-child(2) {
-						width: 24px;
-						height: 24px;
-						opacity: 0;
-						pointer-events: none;
-						left: calc(50% - var(--preloaderLineWidth) * 0);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(-50%, -50%);
-					}
-					&:nth-child(3) {
-						width: 24px;
-						height: 24px;
-						opacity: 0;
-						pointer-events: none;
-						left: calc(50% - var(--preloaderLineWidth) * 0);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(-50%, -50%);
-					}
-					&:nth-child(4) {
-						width: 24px;
-						height: 24px;
-						opacity: 0;
-						pointer-events: none;
-						right: calc(50% - var(--preloaderLineWidth) * 0);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(50%, -50%);
-					}
-					&:nth-child(5) {
-						width: 24px;
-						height: 24px;
-						opacity: 0;
-						pointer-events: none;
-						left: calc(50% - var(--preloaderLineWidth) * 0);
-						top: calc(50% - var(--preloaderLineWidth) * 0);
-						transform: translate(-50%, -50%);
-					}
-				}
-			}
-		}
-
-		.leftLines {
-			justify-content: center;
-			align-items: center;
-			position: absolute;
-			left: 0%;
-			transform: translate(0%, 0%);
-			height: 100%;
-
-			.line {
-				&:nth-child(2) {
-					transform: rotate(45deg);
-					height: calc(var(--preloaderLineHeight) * 0.75);
-				}
-			}
-		}
-
-		.centerLines {
-			justify-content: center;
-			align-items: center;
-			width: 100%;
-			.line {
-				right: 0;
-				width: calc(100% + 120px);
-				height: var(--preloaderLineWidth);
-			}
-		}
-
-		.rightLines {
-			justify-content: center;
-			align-items: center;
-			position: absolute;
-			height: 100%;
-			right: 0;
-		}
-
-		.line {
-			position: absolute;
-			width: var(--preloaderLineWidth);
-			height: var(--preloaderLineHeight);
-			background-color: black;
 		}
 	}
-
-	.number {
-		position: absolute;
-		right: 0;
-		bottom: 0;
-		transform: translate(100%, 100%);
-		font-size: 24px;
-		color: black;
-	}
-
-	.errorBlock {
+	.overlay {
 		position: absolute;
 		width: 100%;
 		height: 100%;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
-		color: var(--mainTextColor);
+		background-color: rgba(0, 0, 0, 0.6);
 		opacity: 0;
-		pointer-events: none;
-
-		.buttonsBlock {
-			flex-direction: column;
-			align-items: center;
-			gap: 15px;
-		}
-
-		.mainButtton {
-			// text-decoration: none;
-			color: var(--mainTextColor);
-		}
-
-		button,
-		.button {
-			display: flex;
-			position: relative;
-			justify-content: center;
-			align-items: center;
-			font-family: Inter;
-			text-transform: uppercase;
-			text-decoration: none;
-			padding: 5px 25px;
-			border: 1px solid var(--mainTextColor);
-			font-size: 14px;
-			letter-spacing: 0.25px;
-			width: fit-content;
-			background-color: transparent;
-			cursor: pointer;
-			transition: 0.25s;
-
-			&:hover {
-				color: white;
-
-				&::before {
-					width: 100%;
-				}
-			}
-
-			&::before {
-				content: "";
-				position: absolute;
-				left: 0;
-				width: 0%;
-				height: 100%;
-				background-color: var(--mainTextColor);
-				transition: 0.25s;
-				z-index: -1;
-			}
-		}
+		transition: 0.5s;
 	}
 }
 
 @media (max-width: 980px) {
 	.preloader {
-		.number {
-			right: unset;
-			bottom: unset;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			color: white;
-		}
-	}
-}
+		--hubarchLogoLineWidth: 3vw;
+		--hubarchLogoWidth: calc((var(--hubarchLogoLineWidth) * 7.7) * 1.25);
+		&.loading {
+			--hubarchLogoWidth: calc((var(--hubarchLogoLineWidth) * 7.7) * 1.25);
+			&.type1 {
+			}
+			&.type2 {
+				--hubarchLogoWidth: calc((100vw - (var(--screenPadding) * 2)) * 0.85);
 
-@media (max-width: 640px) {
-	.preloader {
-		--preloaderLineWidth: 7vw;
-		--preloaderLineHeight: 50vw;
+				.imagesBlock {
+					height: calc(var(--hubarchLogoLineHeight) * 3);
+					opacity: 1;
+					transition: 1s 0s;
 
-		.linesBlock {
-			--preloaderLineWidth: 7vw;
-			max-width: calc(var(--contentWidth) * 0.5);
-
-			.centerLines {
-				.line {
-					width: calc(100% + 22vw);
+					.image {
+						&:nth-child(2) {
+							opacity: 1;
+						}
+					}
 				}
 			}
+			&.type3 {
+				--hubarchLogoWidth: calc((100vw - (var(--screenPadding) * 2)) * 0.8);
+			}
+
+			&.type4 {
+				--hubarchLogoWidth: calc((100vw - (var(--screenPadding) * 2)) * 0.9);
+
+				.imagesBlock {
+					height: 100%;
+					opacity: 1;
+					transition: 1s 0s;
+
+					.image {
+						left: 100%;
+						top: 0%;
+						transform: translate(calc(-100%), calc(0));
+						height: calc(100% - 50px - 20px);
+						width: calc((100vw - (var(--screenPadding) * 2)) * 0.4);
+
+						&:nth-child(4) {
+							width: calc((100vw - (var(--screenPadding) * 2)) * 0.25);
+							height: calc((100vw - (var(--screenPadding) * 2)) * 0.25);
+							top: 50%;
+							transform: translate(0%, calc(var(--hubarchLogoLineWidth) * 0.5));
+							left: 0;
+							opacity: 1;
+						}
+
+						&:nth-child(5) {
+							top: 50%;
+							left: 100%;
+							transform: translate(calc(-100%), calc(-100% + (var(--hubarchLogoLineWidth) * 0.5) + (100vw - (var(--screenPadding) * 2)) * 0.25));
+							width: calc((100vw - (var(--screenPadding) * 2)) * 0.45);
+							height: calc(((100vw - (var(--screenPadding) * 2)) * 0.45) * 1.5);
+							opacity: 1;
+						}
+					}
+				}
+			}
+		}
+		&.disabled {
+			--hubarchLogoWidth: calc((var(--hubarchLogoLineWidth) * 7.7) * 1.25);
 		}
 	}
 }

@@ -1,3 +1,4 @@
+import LinkWithPreloader from "@/components/preloader/LinkWithPreloader";
 import styles from "./styles.module.scss";
 
 export default function Screen2({ language, projectData }: { language: string; projectData: any }) {
@@ -91,6 +92,7 @@ export default function Screen2({ language, projectData }: { language: string; p
 										: "Publication in the media"}
 								</div>
 								{projectData?.acf?.project_articles?.map((item: any, index: number) => {
+									console.log(item);
 									return (
 										<div key={`smiBlock${index}`} className={styles.smiBlock}>
 											<div className={styles.text}>
@@ -104,10 +106,13 @@ export default function Screen2({ language, projectData }: { language: string; p
 															.replace(/\//g, ".")
 													: ""}
 											</div>
-											<div className={styles.link}>
+											<LinkWithPreloader href={`/${language}/media/${item.article.post_name}`} className={styles.linkBlock}>
 												<div className={styles.linkText}>{item.article.post_title}</div>
-												<div className={styles.linkArrow} />
-											</div>
+												<div className={styles.link}>
+													<div className={styles.arrow} />
+													<div className={styles.text}>{language === "ru" ? "Подробнее" : "Read more"}</div>
+												</div>
+											</LinkWithPreloader>
 										</div>
 									);
 								})}

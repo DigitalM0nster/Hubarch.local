@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 import LinkWithPreloader from "../preloader/LinkWithPreloader";
 import PopupHud from "./PopupHud";
+import OrderPopup from "./OrderPopup";
 
 // Функция для форматирования телефонного номера
 function formatPhoneNumber(phoneNumber: string) {
@@ -20,12 +21,12 @@ function formatPhoneNumber(phoneNumber: string) {
 	return phoneNumber; // Возвращаем оригинал, если форматирование не удалось
 }
 
-export default function DesktopHud() {
+export default function DesktopHud({ language }: { language: string }) {
 	const pathname = usePathname(); // Получаем текущий путь
-	const { isLoading, menuSettingsData, popupData } = useAllOptionsStore();
-	const { screenLightness, activePage, setActivePage, activePopup, setActivePopup } = useHudMenuStore();
+	const { isLoading, menuSettingsData, popupData, orderPopupData } = useAllOptionsStore();
+	const { screenLightness, activePage, setActivePage, activePopup, setActivePopup, activeOrderPopup, setActiveOrderPopup } = useHudMenuStore();
 
-	const [lang, setLang] = useState(pathname.startsWith("/en") ? "en" : "ru"); // Определяем язык
+	const lang = language;
 	const [localLoading, setLocalLoading] = useState(true);
 
 	// для плавного появления
@@ -41,6 +42,7 @@ export default function DesktopHud() {
 
 	return (
 		<div className={`${styles.desktopHud} ${isLoading || localLoading ? styles.inactive : ""} ${screenLightness === "light" ? styles.dark : styles.light}`}>
+			<OrderPopup activeOrderPopup={activeOrderPopup} language={lang} orderPopupData={orderPopupData} />
 			<div className={styles.topHud}>
 				<div className={styles.leftPart}>
 					{/* ЛОГОТИП */}
@@ -84,23 +86,11 @@ export default function DesktopHud() {
 				<div className={styles.centerPart}>
 					{/* СМЕНА ЯЗЫКА */}
 					<div className={styles.languageBlock}>
-						<LinkWithPreloader
-							href={pathname.replace(/^\/en/, "/ru")}
-							className={`${styles.lang} ${lang === "ru" ? styles.active : ""}`}
-							customClick={() => {
-								setLang("ru");
-							}}
-						>
+						<LinkWithPreloader href={pathname.replace(/^\/en/, "/ru")} className={`${styles.lang} ${lang === "ru" ? styles.active : ""}`}>
 							Ru
 						</LinkWithPreloader>
 						<div className={styles.separator}>/</div>
-						<LinkWithPreloader
-							href={pathname.replace(/^\/ru/, "/en")}
-							className={`${styles.lang} ${lang === "en" ? styles.active : ""}`}
-							customClick={() => {
-								setLang("en");
-							}}
-						>
+						<LinkWithPreloader href={pathname.replace(/^\/ru/, "/en")} className={`${styles.lang} ${lang === "en" ? styles.active : ""}`}>
 							Eng
 						</LinkWithPreloader>
 					</div>
@@ -137,7 +127,13 @@ export default function DesktopHud() {
 				<div className={styles.rightPart}>
 					{/* ТЕКСТ СВЯЗАТЬСЯ С НАМИ */}
 					{lang === "ru" ? (
-						<div className={styles.contactUsBlock}>
+						<div
+							className={styles.contactUsBlock}
+							onClick={() => {
+								setActiveOrderPopup(!activeOrderPopup);
+								setActivePopup(false);
+							}}
+						>
 							<div className={styles.icon}>
 								<img className={`${screenLightness === "light" ? styles.active : ""}`} src="/images/contactUsIcon.svg" alt="" width={22} height={22} />
 								<img className={`${screenLightness === "dark" ? styles.active : ""}`} src="/images/contactUsIcon_light.svg" alt="" width={22} height={22} />
@@ -149,7 +145,7 @@ export default function DesktopHud() {
 							</div>
 						</div>
 					) : (
-						<div className={styles.contactUsBlock}>
+						<div className={styles.contactUsBlock} onClick={() => setActiveOrderPopup(!activeOrderPopup)}>
 							<div className={styles.icon}>
 								<img className={`${screenLightness === "light" ? styles.active : ""}`} src="/images/contactUsIcon.svg" alt="" width={22} height={22} />
 								<img className={`${screenLightness === "dark" ? styles.active : ""}`} src="/images/contactUsIcon_light.svg" alt="" width={22} height={22} />
@@ -185,7 +181,13 @@ export default function DesktopHud() {
 						})}
 				</div>
 				<div className={styles.rightPart}>
-					<div className={`${styles.stoneIcon} ${activePopup ? styles.active : ""}`} onClick={() => setActivePopup(!activePopup)}>
+					<div
+						className={`${styles.stoneIcon} ${activePopup ? styles.active : ""}`}
+						onClick={() => {
+							setActiveOrderPopup(false);
+							setActivePopup(!activePopup);
+						}}
+					>
 						<img src={popupData?.popup_open_image?.image1 ? popupData?.popup_open_image?.image1 : "/images/stone.svg"} alt="" />
 						<img src={popupData?.popup_open_image?.image2 ? popupData?.popup_open_image?.image2 : "/images/stone_red.svg"} alt="" />
 						<div className={styles.linesBlock}>

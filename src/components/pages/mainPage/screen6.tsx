@@ -5,20 +5,9 @@ import ApplicationComponent from "@/components/applicationComponent/ApplicationC
 import { useAreaRangeStore } from "@/store/areaRangeStore";
 
 export default function Screen6({ language }: { language: string }) {
-	const { markReady } = usePreloaderStore();
-
 	const data = useMainPageStore((state) => state.data?.main_page_screen6);
 	const { mainPageFetchingFinished } = useMainPageStore();
 	const { areaRangesFetchFinished } = useAreaRangeStore();
-
-	/* eslint-disable react-hooks/exhaustive-deps */
-	useEffect(() => {
-		if (mainPageFetchingFinished && areaRangesFetchFinished) {
-			markReady();
-		}
-	}, [mainPageFetchingFinished, areaRangesFetchFinished, language]);
-
-	/* eslint-enable react-hooks/exhaustive-deps */
 
 	return (
 		<>

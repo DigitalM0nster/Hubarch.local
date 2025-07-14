@@ -1,20 +1,42 @@
 // src/store/preloaderStore.ts
 import { create } from "zustand";
 
+// Интерфейс для хранения информации о размерах и позиции изображения
+interface ImageRect {
+	x: string;
+	y: string;
+	width: string;
+	height: string;
+	top: string;
+	right: string;
+	bottom: string;
+	left: string;
+	transition: string;
+	opacity: number;
+	innerImageWidth: string;
+	innerImageHeight: string;
+	progressLineTransition: string;
+	progressTransition: string;
+}
+
+interface Image {
+	src: string | false;
+}
+
 interface PreloaderStore {
 	progress: number;
 	setProgress: (newProgress: number) => void;
-
-	componentsToWait: number;
-	markedReady: number;
-
-	// логика
-	setTotal: (n: number) => void;
-	markReady: () => void;
-
-	// колбэки
-	onAllScreensReady: (() => void) | null;
-	setOnAllScreensReady: (cb: () => void) => void;
+	pageState: "default" | "loading" | "ready";
+	setPageState: (newState: "default" | "loading" | "ready") => void;
+	isProjectLoading: boolean;
+	setIsProjectLoading: (newState: boolean) => void;
+	projectImage: string | false;
+	setProjectImage: (newImage: string | false) => void;
+	imageRect: ImageRect | null;
+	setImageRect: (rect: ImageRect | null) => void;
+	cachedImages: Image[];
+	setCachedImages: (images: Image[]) => void;
+	addCachedImage: (image: Image) => void; // Новый метод для добавления одного изображения
 
 	resetPreloaderCallback: (() => Promise<void>) | null;
 	setResetPreloaderCallback: (cb: () => Promise<void>) => void;
@@ -22,42 +44,34 @@ interface PreloaderStore {
 }
 
 export const usePreloaderStore = create<PreloaderStore>((set, get) => ({
-	progress: typeof window !== "undefined" ? window.__initialProgress ?? 1 : 1,
+	progress: 1,
 	setProgress: (newProgress) => set({ progress: newProgress }),
+	pageState: "default",
+	setPageState: (newState) => set({ pageState: newState }),
+	isProjectLoading: false,
+	setIsProjectLoading: (newState) => set({ isProjectLoading: newState }),
+	projectImage: "",
+	setProjectImage: (newImage) => set({ projectImage: newImage }),
+	imageRect: null,
+	setImageRect: (rect) => set({ imageRect: rect }),
+	cachedImages: [],
+	setCachedImages: (images) => set({ cachedImages: images }),
+	addCachedImage: (image) =>
+		set((state) => {
+			// Проверяем, есть ли уже такое изображение в массиве
+			const exists = state.cachedImages.some((cachedImage) => cachedImage.src === image.src);
 
-	componentsToWait: 0,
-	markedReady: 0,
+			// Если изображения нет, добавляем его
+			if (!exists && image.src !== false) {
+				return { cachedImages: [...state.cachedImages, image] };
+			}
 
-	onAllScreensReady: null,
+			// Если изображение уже есть, возвращаем текущее состояние
+			return state;
+		}),
+
 	resetPreloaderCallback: null,
-
-	setTotal: (n) => {
-		const { markedReady, onAllScreensReady } = get();
-		const newMarkedReady = Math.min(markedReady, n); // на всякий случай
-
-		set({ componentsToWait: n, markedReady: newMarkedReady });
-
-		if (n === 0 || newMarkedReady === n) {
-			onAllScreensReady?.();
-		}
-	},
-
-	markReady: () => {
-		const { markedReady, componentsToWait, onAllScreensReady } = get();
-		if (markedReady >= componentsToWait) return;
-
-		const newCount = markedReady + 1;
-		set({ markedReady: newCount });
-
-		if (newCount === componentsToWait && onAllScreensReady) {
-			onAllScreensReady();
-		}
-	},
-
-	setOnAllScreensReady: (cb) => set({ onAllScreensReady: cb }),
-
 	setResetPreloaderCallback: (cb) => set({ resetPreloaderCallback: cb }),
-
 	triggerResetPreloader: async () => {
 		const { resetPreloaderCallback } = get();
 		if (resetPreloaderCallback) {

@@ -46,8 +46,8 @@
 	}
 
 	.screen1 {
-		height: 100%;
-		min-height: 100dvh;
+		height: calc(100vh - var(--screenPadding) * 4);
+		min-height: calc(100vh - var(--screenPadding) * 4);
 		.screenContent {
 			justify-content: center;
 		}
@@ -170,6 +170,51 @@
 
 			.smiBlock {
 				gap: 75px;
+
+				.linkBlock,
+				a.linkBlock {
+					position: relative;
+					display: flex;
+					flex-direction: column;
+					align-items: flex-start;
+					gap: 5px;
+					color: var(--mainTextColor);
+					text-decoration: none;
+					cursor: pointer;
+
+					&:hover {
+						.link {
+							.text {
+								letter-spacing: var(--letterSpacingHover);
+								text-decoration: underline;
+							}
+							.arrow {
+								transform: rotate(0deg);
+							}
+						}
+					}
+
+					.link {
+						gap: 5px;
+						align-items: center;
+
+						.text {
+							letter-spacing: var(--letterSpacing);
+							transition: 0.25s;
+						}
+
+						.arrow {
+							width: 15px;
+							height: 15px;
+							background-image: url("/images/arrow_right.svg");
+							background-size: contain;
+							background-repeat: no-repeat;
+							background-position: center;
+							transform: rotate(-45deg);
+							transition: 0.25s;
+						}
+					}
+				}
 			}
 		}
 
@@ -295,6 +340,67 @@
 				text-transform: uppercase;
 				&.active {
 					display: flex;
+				}
+			}
+		}
+	}
+
+	.notFoundScreen {
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		.screenContent {
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 20px;
+
+			.textBlock {
+				justify-content: center;
+				text-align: center;
+				font-size: var(--menuFontSize);
+				font-family: "Inter";
+			}
+
+			.button,
+			a.button {
+				position: relative;
+				display: flex;
+				align-items: center;
+				font-family: Panama Regular;
+				font-weight: 400;
+				font-family: "Panama Regular";
+				font-size: var(--menuFontSize);
+				gap: 5px;
+				cursor: pointer;
+				color: var(--mainTextColor);
+				text-transform: uppercase;
+				text-decoration: none;
+
+				&:hover {
+					.text {
+						letter-spacing: var(--letterSpacingHover);
+					}
+					.icon {
+						transform: rotate(0deg);
+					}
+				}
+
+				.icon {
+					width: 20px;
+					height: 20px;
+					background-image: url(/images/arrow_right.svg);
+					background-size: contain;
+					background-repeat: no-repeat;
+					background-position: center;
+					transform: rotate(-45deg);
+					transition: 0.15s;
+				}
+
+				.text {
+					transform: translate(0px, 7%);
+					letter-spacing: var(--letterSpacing);
+					transition: 0.15s;
 				}
 			}
 		}
@@ -475,6 +581,7 @@
 		.screenContent {
 			flex-wrap: wrap;
 			gap: 50px;
+			height: fit-content;
 		}
 
 		.block {

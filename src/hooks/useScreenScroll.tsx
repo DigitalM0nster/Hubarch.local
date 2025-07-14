@@ -197,15 +197,16 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 				requestAnimationFrame(tryObserve);
 				return;
 			}
+			// Присваиваем найденные экраны
 			screensRef.current = screens;
 
 			// Создаем наблюдатель пересечений для отслеживания видимых экранов
 			observer = new IntersectionObserver(
 				(entries) => {
 					for (const entry of entries) {
-						if (entry.isIntersecting) {
+						if (entry.isIntersecting && screensRef.current) {
 							// Находим индекс видимого экрана
-							const index = Array.from(screensRef.current!).findIndex((el) => el === entry.target);
+							const index = Array.from(screensRef.current).findIndex((el) => el === entry.target);
 							if (index !== -1) {
 								// Обновляем активный экран
 								setActiveScreenIndex(index);
@@ -219,7 +220,9 @@ export const useScreenScroll = (moduleStyles?: Record<string, string>) => {
 			);
 
 			// Начинаем наблюдение за всеми экранами
-			screensRef.current.forEach((screen) => observer.observe(screen));
+			if (screensRef.current) {
+				screensRef.current.forEach((screen) => observer.observe(screen));
+			}
 		};
 
 		// Запускаем настройку наблюдателя

@@ -2,21 +2,27 @@
 
 import styles from "./styles.module.scss";
 import { usePreloaderStore } from "@/store/preloaderStore";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import LinkWithPreloader from "@/components/preloader/LinkWithPreloader";
 import { useWindowStore } from "@/store/windowStore";
 import parse from "html-react-parser";
 
 export default function NextPageScreen({ language, data }: { language: string; data: any }) {
-	const { markReady } = usePreloaderStore();
 	const { isMobile } = useWindowStore();
+	const { addCachedImage, setIsProjectLoading, setProjectImage, setImageRect } = usePreloaderStore();
+	const imageRef = useRef<HTMLDivElement>(null);
 
-	/* eslint-disable react-hooks/exhaustive-deps */
+	// Функция для получения размеров изображения
+	const getImageRect = () => {
+		if (!imageRef.current) return null;
+		return imageRef.current?.getBoundingClientRect();
+	};
+
 	useEffect(() => {
-		markReady();
-	}, []);
-
-	/* eslint-enable react-hooks/exhaustive-deps */
+		if (data.image != false) {
+			addCachedImage({ src: data.image });
+		}
+	}, [data]);
 
 	return (
 		<>
@@ -37,8 +43,80 @@ export default function NextPageScreen({ language, data }: { language: string; d
 				data-right-line-height={0}
 			>
 				<div className={`screenContent ${styles.screenContent}`}>
-					<LinkWithPreloader href={data.link.url} className={styles.imageBlock}>
-						<div className={styles.image}>
+					<LinkWithPreloader
+						href={data.link.url}
+						className={styles.imageBlock}
+						customClick={() => {
+							if (data.link.url.includes("projects")) {
+								// Получаем размеры и позицию изображения
+								const localImageRect = getImageRect();
+
+								// Исправление ширины изображения если необходимо
+								if (imageRef.current) {
+									imageRef.current.style.width = "100%";
+								}
+
+								// Сохраняем информацию о размерах в store
+								if (localImageRect) {
+									setImageRect({
+										x: localImageRect.x + "px",
+										y: localImageRect.y + "px",
+										width: localImageRect.width + "px",
+										height: localImageRect.height + "px",
+										top: localImageRect.top + "px",
+										right: localImageRect.right + "px",
+										bottom: localImageRect.bottom + "px",
+										left: localImageRect.left + "px",
+										opacity: 0,
+										transition: "all 0s 0s",
+										innerImageWidth: "100%",
+										innerImageHeight: "100%",
+										progressLineTransition: "all 0.25s 1s",
+										progressTransition: "all 0.25s 1s",
+									});
+
+									setTimeout(() => {
+										setImageRect({
+											x: `calc((100% - var(--contentWidth)) * 0.5)`,
+											y: `calc(var(--screenPadding) * 4)`,
+											width: `var(--contentWidth)`,
+											height:
+												window.innerWidth <= 980
+													? `calc(100% - var(--screenPadding) * 2 - var(--logoMaxHeight) - 50px - 30px)`
+													: window.innerWidth > 1680
+													? "calc(100% - var(--screenPadding) * 4 * 2 - 50px - 20px)"
+													: `calc(100% - var(--screenPadding) * 3 * 2 - 50px - 20px)`,
+											top:
+												window.innerWidth <= 980
+													? `var(--screenPadding)`
+													: window.innerWidth > 1680
+													? "calc(var(--screenPadding) * 4)"
+													: `calc(var(--screenPadding) * 3)`,
+											right: `calc((100% - var(--contentWidth)) * 0.5)`,
+											bottom:
+												window.innerWidth <= 980
+													? `var(--screenPadding)`
+													: window.innerWidth > 1680
+													? "calc(var(--screenPadding) * 4)"
+													: `calc(var(--screenPadding) * 3)`,
+											left: `calc((100% - var(--contentWidth)) * 0.5)`,
+											opacity: 1,
+											transition: "all 0.25s 0.3s, opacity 0s 0s",
+											innerImageWidth: "100%",
+											innerImageHeight: "100%",
+											progressLineTransition: "all 0.5s 0.55s",
+											progressTransition: "all 0.3s 0.7s",
+										});
+									}, 0);
+								}
+
+								// Устанавливаем состояние загрузки проекта и изображение для прелоадера
+								setIsProjectLoading(true);
+								setProjectImage(data.image !== false ? data.image : "/images/next_page_template.png");
+							}
+						}}
+					>
+						<div className={styles.image} ref={imageRef}>
 							<img src={data.image != false ? data.image : "/images/next_page_template.png"} alt="" />
 						</div>
 						<div className={styles.buttonBlock}>

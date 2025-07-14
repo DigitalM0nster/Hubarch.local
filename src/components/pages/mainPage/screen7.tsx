@@ -9,22 +9,13 @@ import { useContactsPageStore } from "@/store/contactsPageStore";
 import parse from "html-react-parser";
 
 export default function Screen7({ language }: { language: string }) {
-	const { markReady } = usePreloaderStore();
 	const { isMobile } = useWindowStore();
 	const { footerData, isLoading } = useAllOptionsStore();
 	const { data, fetchData } = useContactsPageStore();
 
-	/* eslint-disable react-hooks/exhaustive-deps */
-	useEffect(() => {
-		if (isLoading === false) {
-			markReady();
-		}
-	}, [isLoading]);
-
 	useEffect(() => {
 		fetchData(language);
 	}, []);
-	/* eslint-enable react-hooks/exhaustive-deps */
 
 	interface Contact {
 		acf_fc_layout: string;
@@ -62,7 +53,7 @@ export default function Screen7({ language }: { language: string }) {
 	return (
 		<>
 			<div
-				className={`screen ${styles.screen7}`}
+				className={`screen ${styles.screen7} screen7`}
 				data-screen-lightness="light"
 				data-lines-index={isMobile ? 0 : 1}
 				data-mini-line-rotation={-45}

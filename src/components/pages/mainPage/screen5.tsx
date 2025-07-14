@@ -6,7 +6,6 @@ import LinkWithPreloader from "@/components/preloader/LinkWithPreloader";
 import { useWindowStore } from "@/store/windowStore";
 
 export default function Screen5({ language }: { language: string }) {
-	const { markReady } = usePreloaderStore();
 	const { windowWidth, windowHeight } = useWindowStore();
 
 	const data = useMainPageStore((state) => state.data?.main_page_screen5);
@@ -29,13 +28,6 @@ export default function Screen5({ language }: { language: string }) {
 	const [frameTop, setFrameTop] = useState(0);
 	const [frameLeft, setFrameLeft] = useState(0);
 	const personsListRef = useRef<HTMLDivElement | null>(null);
-
-	/* eslint-disable react-hooks/exhaustive-deps */
-	useEffect(() => {
-		if (mainPageFetchingFinished) {
-			markReady();
-		}
-	}, [mainPageFetchingFinished]);
 
 	// Движение рамки по фотографиям
 	useEffect(() => {
@@ -63,8 +55,6 @@ export default function Screen5({ language }: { language: string }) {
 			setFrameTop(gapRef.current * -0.5);
 		}
 	}, [hoveredIndex, windowWidth, windowHeight]);
-
-	/* eslint-enable react-hooks/exhaustive-deps */
 
 	const rawTeamList = data?.team_list || [];
 	type Person = {

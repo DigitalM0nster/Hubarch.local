@@ -158,6 +158,8 @@
 	flex-wrap: wrap;
 	align-items: flex-end;
 	gap: 120px;
+	padding: 0px 0px calc(var(--cardWidth) / 1.5) 0px;
+	--cardWidth: 430px;
 
 	.articleCard {
 		display: flex;
@@ -166,7 +168,6 @@
 		width: calc(50% - 60px);
 		height: fit-content;
 		color: var(--backgroundColor);
-		--cardWidth: 430px;
 
 		&:nth-child(even) {
 			transform: translate(0px, calc(var(--cardWidth) / 1.5));
@@ -286,6 +287,8 @@
 
 			.text {
 				font-size: var(--miniTextSize);
+				white-space: nowrap;
+				text-wrap-mode: nowrap;
 			}
 		}
 	}
@@ -310,9 +313,7 @@
 	}
 
 	.articlesList {
-		.articleCard {
-			--cardWidth: 27vw;
-		}
+		--cardWidth: 27vw;
 	}
 }
 
@@ -328,10 +329,10 @@
 
 	.articlesList {
 		gap: 5vw 0vw;
+		--cardWidth: 25vw;
 
 		.articleCard {
 			width: calc(50%);
-			--cardWidth: 25vw;
 
 			.articleTitle {
 				max-height: 175px;
@@ -421,10 +422,10 @@
 @media (max-width: 640px) {
 	.articlesList {
 		gap: 120px;
+		--cardWidth: 80vw;
 
 		.articleCard {
 			width: 100%;
-			--cardWidth: 80vw;
 			&:nth-child(even) {
 				transform: translate(0px, 0px);
 			}

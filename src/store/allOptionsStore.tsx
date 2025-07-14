@@ -50,6 +50,13 @@ export interface PopupData {
 		};
 	}[];
 }
+export interface OrderPopupData {
+	image: string;
+	text: {
+		ru: string;
+		en: string;
+	}[];
+}
 
 interface AllOptionsState {
 	isLoading: boolean;
@@ -82,6 +89,7 @@ interface AllOptionsState {
 	footerData: {
 		letters?: Letter[];
 	} | null;
+	orderPopupData: OrderPopupData | null;
 	fetchAllOptions: () => Promise<void>;
 }
 
@@ -92,22 +100,22 @@ export const useAllOptionsStore = create<AllOptionsState>((set, get) => ({
 	privacyPolicyData: null,
 	popupData: null,
 	footerData: null,
+	orderPopupData: null,
 
 	fetchAllOptions: async () => {
 		const API_URL = process.env.NEXT_PUBLIC_WP_API?.replace("/wp/v2", "") ?? "";
 		if (!API_URL) {
 			throw new Error("NEXT_PUBLIC_WP_API не задан или некорректен");
 		}
-		// if (get().menuSettingsData && get().privacyPolicyData && get().popupData && get().footerData) return; // Если данные уже есть, не запрашиваем заново
 
 		set({ isLoading: true });
 		try {
 			const response = await axios.get(`${API_URL}/acf/v3/options/ANYTHING`);
-			console.log(response.data);
 			set({ menuSettingsData: response.data.menu_settings });
 			set({ privacyPolicyData: response.data.privacy_policy });
 			set({ popupData: response.data.popup_settings });
 			set({ footerData: response.data.footer_screen });
+			set({ orderPopupData: response.data.order_settings });
 		} catch (error) {
 			console.error("Ошибка загрузки меню", error);
 		} finally {

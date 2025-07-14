@@ -41,8 +41,8 @@
   margin: 0px 0px calc(var(--screenPadding) * 4) 0px;
 }
 .screenScroll .screen1 {
-  height: 100%;
-  min-height: 100dvh;
+  height: calc(100vh - var(--screenPadding) * 4);
+  min-height: calc(100vh - var(--screenPadding) * 4);
 }
 .screenScroll .screen1 .screenContent {
   justify-content: center;
@@ -145,6 +145,47 @@
 }
 .screenScroll .screen2 .projectSmi .smiBlock {
   gap: 75px;
+}
+.screenScroll .screen2 .projectSmi .smiBlock .linkBlock,
+.screenScroll .screen2 .projectSmi .smiBlock a.linkBlock {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  color: var(--mainTextColor);
+  text-decoration: none;
+  cursor: pointer;
+}
+.screenScroll .screen2 .projectSmi .smiBlock .linkBlock:hover .link .text,
+.screenScroll .screen2 .projectSmi .smiBlock a.linkBlock:hover .link .text {
+  letter-spacing: var(--letterSpacingHover);
+  text-decoration: underline;
+}
+.screenScroll .screen2 .projectSmi .smiBlock .linkBlock:hover .link .arrow,
+.screenScroll .screen2 .projectSmi .smiBlock a.linkBlock:hover .link .arrow {
+  transform: rotate(0deg);
+}
+.screenScroll .screen2 .projectSmi .smiBlock .linkBlock .link,
+.screenScroll .screen2 .projectSmi .smiBlock a.linkBlock .link {
+  gap: 5px;
+  align-items: center;
+}
+.screenScroll .screen2 .projectSmi .smiBlock .linkBlock .link .text,
+.screenScroll .screen2 .projectSmi .smiBlock a.linkBlock .link .text {
+  letter-spacing: var(--letterSpacing);
+  transition: 0.25s;
+}
+.screenScroll .screen2 .projectSmi .smiBlock .linkBlock .link .arrow,
+.screenScroll .screen2 .projectSmi .smiBlock a.linkBlock .link .arrow {
+  width: 15px;
+  height: 15px;
+  background-image: url("/images/arrow_right.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(-45deg);
+  transition: 0.25s;
 }
 .screenScroll .screen2 .awardsBlock {
   flex-direction: column;
@@ -257,6 +298,63 @@
 }
 .screenScroll .screen2 .award .awardYear.active {
   display: flex;
+}
+.screenScroll .notFoundScreen {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+.screenScroll .notFoundScreen .screenContent {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.screenScroll .notFoundScreen .screenContent .textBlock {
+  justify-content: center;
+  text-align: center;
+  font-size: var(--menuFontSize);
+  font-family: "Inter";
+}
+.screenScroll .notFoundScreen .screenContent .button,
+.screenScroll .notFoundScreen .screenContent a.button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-family: Panama Regular;
+  font-weight: 400;
+  font-family: "Panama Regular";
+  font-size: var(--menuFontSize);
+  gap: 5px;
+  cursor: pointer;
+  color: var(--mainTextColor);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.screenScroll .notFoundScreen .screenContent .button:hover .text,
+.screenScroll .notFoundScreen .screenContent a.button:hover .text {
+  letter-spacing: var(--letterSpacingHover);
+}
+.screenScroll .notFoundScreen .screenContent .button:hover .icon,
+.screenScroll .notFoundScreen .screenContent a.button:hover .icon {
+  transform: rotate(0deg);
+}
+.screenScroll .notFoundScreen .screenContent .button .icon,
+.screenScroll .notFoundScreen .screenContent a.button .icon {
+  width: 20px;
+  height: 20px;
+  background-image: url(/images/arrow_right.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(-45deg);
+  transition: 0.15s;
+}
+.screenScroll .notFoundScreen .screenContent .button .text,
+.screenScroll .notFoundScreen .screenContent a.button .text {
+  transform: translate(0px, 7%);
+  letter-spacing: var(--letterSpacing);
+  transition: 0.15s;
 }
 .screenScroll .imageScreen {
   height: -moz-fit-content;
@@ -417,6 +515,8 @@
 .screenScroll .contentListsScreen .screenContent {
   flex-wrap: wrap;
   gap: 50px;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 .screenScroll .contentListsScreen .block {
   flex-direction: column;

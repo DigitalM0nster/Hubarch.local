@@ -12,6 +12,9 @@ export interface HudMenuStore {
 
 	activePopup: boolean;
 	setActivePopup: (state: boolean) => void;
+
+	activeOrderPopup: boolean;
+	setActiveOrderPopup: (state: boolean) => void;
 }
 
 export const useHudMenuStore = create<HudMenuStore>((set) => ({
@@ -26,4 +29,7 @@ export const useHudMenuStore = create<HudMenuStore>((set) => ({
 
 	activePopup: false,
 	setActivePopup: (state) => set({ activePopup: state }),
+
+	activeOrderPopup: false,
+	setActiveOrderPopup: (state) => set({ activeOrderPopup: state }),
 }));

@@ -4,7 +4,7 @@
   align-items: center;
 }
 .screen1 .leftPart .titleBackground {
-  transform: translate(0px, 6%);
+  transform: translate(0px, 7%);
 }
 .screen1 .leftPart .text {
   font-size: var(--mainTextSize);
@@ -77,7 +77,7 @@
   font-family: "Panama Regular";
   font-size: var(--mainTextSize);
   text-transform: uppercase;
-  transform: translate(0px, 6%);
+  transform: translate(0px, 7%);
 }
 .screen2 .rightPart .priceBlock {
   flex-direction: column;
@@ -114,7 +114,7 @@
   font-family: "Panama Regular";
   font-size: var(--mainTextSize);
   text-transform: uppercase;
-  transform: translate(0px, 6%);
+  transform: translate(0px, 7%);
 }
 .screen2 .rightPart .callbackButtonBlock .description {
   font-family: "Inter";

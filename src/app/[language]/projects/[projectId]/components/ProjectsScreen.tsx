@@ -4,7 +4,7 @@ import Screen3 from "@/components/pages/mainPage/screen3";
 import { useAllProjectsStore } from "@/store/allProjectsStore";
 import { useEffect } from "react";
 
-export default function ProjectsClientScreen({ language, currentProjectId }: { language: string; currentProjectId: string }) {
+export default function ProjectsScreen({ language, currentProjectId }: { language: string; currentProjectId: string }) {
 	const { fetchAllProjects, projectsList } = useAllProjectsStore();
 	useEffect(() => {
 		fetchAllProjects(language);

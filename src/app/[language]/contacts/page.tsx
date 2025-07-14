@@ -33,9 +33,7 @@ export default async function Contacts({ params }: { params: Promise<{ language:
 
 	return (
 		<>
-			<div className="screenScroll simpleScroll">
-				<ClientComponent language={language} />
-			</div>
+			<ClientComponent language={language} />
 		</>
 	);
 }
