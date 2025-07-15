@@ -8,6 +8,7 @@ import { useHudMenuStore } from "@/store/hudMenuStore";
 import LinkWithPreloader from "../preloader/LinkWithPreloader";
 import PopupHud from "./PopupHud";
 import OrderPopup from "./OrderPopup";
+import CookieConsent from "./CookieConsent";
 
 // Функция для форматирования телефонного номера
 function formatPhoneNumber(phoneNumber: string) {
@@ -42,6 +43,7 @@ export default function DesktopHud({ language }: { language: string }) {
 
 	return (
 		<div className={`${styles.desktopHud} ${isLoading || localLoading ? styles.inactive : ""} ${screenLightness === "light" ? styles.dark : styles.light}`}>
+			<div className={`${styles.topOverlay} ${screenLightness === "dark" ? styles.black : ""}`}></div>
 			<OrderPopup activeOrderPopup={activeOrderPopup} language={lang} orderPopupData={orderPopupData} />
 			<div className={styles.topHud}>
 				<div className={styles.leftPart}>
@@ -210,6 +212,7 @@ export default function DesktopHud({ language }: { language: string }) {
 					})}
 			</div>
 			<PopupHud activePopup={activePopup} language={lang} popupData={popupData} />
+			<CookieConsent language={lang} />
 		</div>
 	);
 }

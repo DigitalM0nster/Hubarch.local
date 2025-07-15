@@ -15,6 +15,9 @@ export interface HudMenuStore {
 
 	activeOrderPopup: boolean;
 	setActiveOrderPopup: (state: boolean) => void;
+
+	cookieHudActive: boolean;
+	setCookieHudActive: (state: boolean) => void;
 }
 
 export const useHudMenuStore = create<HudMenuStore>((set) => ({
@@ -32,4 +35,7 @@ export const useHudMenuStore = create<HudMenuStore>((set) => ({
 
 	activeOrderPopup: false,
 	setActiveOrderPopup: (state) => set({ activeOrderPopup: state }),
+
+	cookieHudActive: true,
+	setCookieHudActive: (state) => set({ cookieHudActive: state }),
 }));

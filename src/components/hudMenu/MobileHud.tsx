@@ -12,6 +12,7 @@ import { useScrollStore } from "@/store/scrollStore";
 import { usePreloaderStore } from "@/store/preloaderStore";
 import PopupHud from "./PopupHud";
 import OrderPopup from "./OrderPopup";
+import CookieConsent from "./CookieConsent";
 
 export default function MobileHud({ language }: { language: string }) {
 	const pathname = usePathname(); // Получаем текущий путь
@@ -196,6 +197,7 @@ export default function MobileHud({ language }: { language: string }) {
 			</div>
 			<PopupHud activePopup={activePopup} language={lang} popupData={popupData} />
 			<OrderPopup activeOrderPopup={activeOrderPopup} language={lang} orderPopupData={orderPopupData} />
+			<CookieConsent language={lang} />
 		</>
 	);
 }

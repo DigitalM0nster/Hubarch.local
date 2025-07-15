@@ -396,6 +396,13 @@
 			background: var(--mainTextColor);
 			transition: 0.25s 0.15s;
 
+			.currentLine {
+				position: absolute;
+				height: 3px;
+				background: var(--mainTextColor);
+				transition: 0.05s 0s;
+			}
+
 			.linesBlock {
 				opacity: 0;
 			}
