@@ -30,11 +30,11 @@ export default function LinkWithPreloader({ href, children, className, style, cu
 		e.preventDefault();
 		setActiveOrderPopup(false);
 		setActivePopup(false);
-		console.log("Произоёшл клик, попытка перехода на страницу:", href);
+		// console.log("Произоёшл клик, попытка перехода на страницу:", href);
 
 		// Проверяем, находимся ли мы на той же странице
 		if (pathname === href) {
-			console.log("Страница уже открыта, выполняем customClick", "Текущая страница:", pathname, "Целевая страница:", href);
+			// console.log("Страница уже открыта, выполняем customClick", "Текущая страница:", pathname, "Целевая страница:", href);
 			if (customClick) customClick();
 			setActiveMenu(false);
 			return;
@@ -43,16 +43,16 @@ export default function LinkWithPreloader({ href, children, className, style, cu
 		try {
 			// СНАЧАЛА: выполняем пользовательские действия (customClick)
 			if (customClick) {
-				console.log("Выполняем customClick");
+				// console.log("Выполняем customClick");
 				await Promise.resolve(customClick());
 			}
 
 			// ЗАТЕМ: запускаем анимацию прелоадера (beforeNavigation)
-			console.log("Запускаем анимацию прелоадера (beforeNavigation)");
+			// console.log("Запускаем анимацию прелоадера (beforeNavigation)");
 			await triggerResetPreloader();
 
 			// ПОСЛЕ ПОДГОТОВКИ: выполняем переход на новую страницу
-			console.log("Выполняем переход на новую страницу:", href);
+			// console.log("Выполняем переход на новую страницу:", href);
 
 			// Используем setTimeout для обеспечения завершения анимации прелоадера
 			// перед навигацией, что помогает избежать проблем с асинхронными API в Next.js 15

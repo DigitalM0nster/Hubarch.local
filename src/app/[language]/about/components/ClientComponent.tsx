@@ -31,7 +31,6 @@ export default function ClientComponent({ language }: { language: string }) {
 	// Используем хук для проверки готовности страницы
 	// Передаем массив зависимостей, которые должны быть загружены
 	const pageReady = usePageReady([data], containerRef);
-	console.log(data);
 
 	useEffect(() => {
 		fetchData(language);

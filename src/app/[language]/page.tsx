@@ -13,7 +13,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { language } = await params;
-	console.log(language);
+
 	return {
 		title: "Hubarch — Главная",
 		description: "Описание главной страницы",

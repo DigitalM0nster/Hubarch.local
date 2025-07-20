@@ -9,6 +9,7 @@ import LinkWithPreloader from "../preloader/LinkWithPreloader";
 import PopupHud from "./PopupHud";
 import OrderPopup from "./OrderPopup";
 import CookieConsent from "./CookieConsent";
+import TopBanner from "./TopBanner";
 
 // Функция для форматирования телефонного номера
 function formatPhoneNumber(phoneNumber: string) {
@@ -24,8 +25,8 @@ function formatPhoneNumber(phoneNumber: string) {
 
 export default function DesktopHud({ language }: { language: string }) {
 	const pathname = usePathname(); // Получаем текущий путь
-	const { isLoading, menuSettingsData, popupData, orderPopupData } = useAllOptionsStore();
-	const { screenLightness, activePage, setActivePage, activePopup, setActivePopup, activeOrderPopup, setActiveOrderPopup } = useHudMenuStore();
+	const { isLoading, menuSettingsData, popupData, orderPopupData, bannerData } = useAllOptionsStore();
+	const { screenLightness, activePage, setActivePage, activePopup, setActivePopup, activeOrderPopup, setActiveOrderPopup, isTopBannerActive } = useHudMenuStore();
 
 	const lang = language;
 	const [localLoading, setLocalLoading] = useState(true);
@@ -43,9 +44,9 @@ export default function DesktopHud({ language }: { language: string }) {
 
 	return (
 		<div className={`${styles.desktopHud} ${isLoading || localLoading ? styles.inactive : ""} ${screenLightness === "light" ? styles.dark : styles.light}`}>
-			<div className={`${styles.topOverlay} ${screenLightness === "dark" ? styles.black : ""}`}></div>
+			{/* <div className={`${styles.topOverlay} ${screenLightness === "dark" ? styles.black : ""}`}></div> */}
 			<OrderPopup activeOrderPopup={activeOrderPopup} language={lang} orderPopupData={orderPopupData} />
-			<div className={styles.topHud}>
+			<div className={`${styles.topHud} ${isTopBannerActive ? styles.topBannerActive : ""}`}>
 				<div className={styles.leftPart}>
 					{/* ЛОГОТИП */}
 					<LinkWithPreloader href={lang === "ru" ? "/ru" : "/en"} className={styles.logoBlock}>
@@ -213,6 +214,7 @@ export default function DesktopHud({ language }: { language: string }) {
 			</div>
 			<PopupHud activePopup={activePopup} language={lang} popupData={popupData} />
 			<CookieConsent language={lang} />
+			<TopBanner bannerData={bannerData} language={lang} />
 		</div>
 	);
 }

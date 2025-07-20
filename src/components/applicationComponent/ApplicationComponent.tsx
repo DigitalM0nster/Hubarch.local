@@ -122,7 +122,6 @@ export default function ApplicationComponent({ language, data, isPopup }: { lang
 								className={styles.closeIcon}
 								onClick={() => {
 									setActiveOrderPopup(false);
-									console.log("gdsfsd");
 								}}
 							>
 								<div className={styles.line} />

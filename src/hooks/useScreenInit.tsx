@@ -6,7 +6,7 @@ import { useWindowStore } from "@/store/windowStore";
 
 export const useScreenInit = () => {
 	const { setActiveLinesHud, setLinesColor, setLinesOpacity, setNewIndex, miniLine, verticalLine, horizontalLine, leftLine, rightLine } = useInteractiveLinesStore();
-	const { setScreenLightness } = useHudMenuStore();
+	const { screenLightness, setScreenLightness, isTopBannerActive } = useHudMenuStore();
 	const { windowWidth } = useWindowStore();
 
 	const pathname = usePathname();
@@ -53,11 +53,26 @@ export const useScreenInit = () => {
 		setLinesOpacity(linesOpacity);
 	};
 
+	// Функция для обновления классов screenContent в зависимости от isTopBannerActive
+	const updateScreenContentClasses = () => {
+		const screenContents = document.querySelectorAll(".screenContent");
+		if (screenContents.length > 0) {
+			screenContents.forEach((content) => {
+				if (isTopBannerActive) {
+					content.classList.add("withTopBanner");
+				} else {
+					content.classList.remove("withTopBanner");
+				}
+			});
+		}
+	};
+
 	const waitForScreensReady = (): Promise<NodeListOf<Element>> => {
 		return new Promise((resolve) => {
 			const tryFind = () => {
 				const screens = document.querySelectorAll(".screen");
-				if (screens.length > 0) {
+				const screenContents = document.querySelectorAll(".screenContent");
+				if (screens.length > 0 && screenContents.length > 0) {
 					requestAnimationFrame(() => resolve(screens));
 				} else {
 					requestAnimationFrame(tryFind);
@@ -83,6 +98,9 @@ export const useScreenInit = () => {
 				setActiveLinesHud(true);
 				changeScreenOptions(firstScreen);
 			}
+
+			// Обновляем классы screenContent при первой загрузке
+			updateScreenContentClasses();
 
 			mObserver = new MutationObserver(() => {
 				const updated = document.querySelectorAll(".screen");
@@ -118,6 +136,11 @@ export const useScreenInit = () => {
 			mObserver?.disconnect();
 		};
 	}, [pathname, windowWidth]);
+
+	// Эффект для обновления классов screenContent при изменении isTopBannerActive
+	useEffect(() => {
+		updateScreenContentClasses();
+	}, [isTopBannerActive]);
 
 	return { changeScreenOptions, screensRef, simpleScrollRef };
 };

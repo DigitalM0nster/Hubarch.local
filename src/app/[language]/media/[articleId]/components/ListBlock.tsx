@@ -9,7 +9,6 @@ interface BlockProps {
 }
 
 export default function ListBlock({ language, blockTypeData, blockIndex }: BlockProps) {
-	console.log(blockTypeData);
 	return (
 		<>
 			{blockTypeData.title || (blockTypeData.list != false && blockTypeData.list.length > 0) ? (

@@ -58,6 +58,15 @@ export interface OrderPopupData {
 	}[];
 }
 
+export interface BannerData {
+	background_color: string;
+	text: {
+		ru: string;
+		en: string;
+		color: string;
+	};
+}
+
 interface AllOptionsState {
 	isLoading: boolean;
 	menuSettingsData: {
@@ -90,6 +99,7 @@ interface AllOptionsState {
 		letters?: Letter[];
 	} | null;
 	orderPopupData: OrderPopupData | null;
+	bannerData: BannerData | null;
 	fetchAllOptions: () => Promise<void>;
 }
 
@@ -101,6 +111,7 @@ export const useAllOptionsStore = create<AllOptionsState>((set, get) => ({
 	popupData: null,
 	footerData: null,
 	orderPopupData: null,
+	bannerData: null,
 
 	fetchAllOptions: async () => {
 		const API_URL = process.env.NEXT_PUBLIC_WP_API?.replace("/wp/v2", "") ?? "";
@@ -116,6 +127,8 @@ export const useAllOptionsStore = create<AllOptionsState>((set, get) => ({
 			set({ popupData: response.data.popup_settings });
 			set({ footerData: response.data.footer_screen });
 			set({ orderPopupData: response.data.order_settings });
+			console.log(response.data);
+			set({ bannerData: response.data.banner_settings });
 		} catch (error) {
 			console.error("Ошибка загрузки меню", error);
 		} finally {

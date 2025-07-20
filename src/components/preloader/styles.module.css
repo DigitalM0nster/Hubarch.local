@@ -333,10 +333,12 @@
 }
 .preloader .progressBar .progressLine .currentLine {
   position: absolute;
-  width: 35%;
   height: 3px;
   background: var(--mainTextColor);
-  transition: 0.1s;
+  transition: 0.05s 0s;
+}
+.preloader .progressBar .progressLine .linesBlock {
+  opacity: 0;
 }
 .preloader .progressBar .progress {
   right: 0;

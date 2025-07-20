@@ -113,7 +113,7 @@ export default function AwardsScreen({ language, isSimpleScroll, data }: { langu
 																			// Получаем размеры и позицию изображения для конкретного проекта
 																			const projectId = project.id;
 																			const localImageRect = getImageRect(projectId);
-																			console.log("Image rect for project", projectId, localImageRect);
+																			// console.log("Image rect for project", projectId, localImageRect);
 
 																			// Исправление ошибки с опциональным оператором доступа
 																			if (imageRefs.current[projectId]) {

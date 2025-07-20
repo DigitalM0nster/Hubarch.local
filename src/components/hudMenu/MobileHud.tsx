@@ -13,11 +13,12 @@ import { usePreloaderStore } from "@/store/preloaderStore";
 import PopupHud from "./PopupHud";
 import OrderPopup from "./OrderPopup";
 import CookieConsent from "./CookieConsent";
+import TopBanner from "./TopBanner";
 
 export default function MobileHud({ language }: { language: string }) {
 	const pathname = usePathname(); // Получаем текущий путь
-	const { menuSettingsData, popupData, orderPopupData } = useAllOptionsStore();
-	const { activeMenu, setActiveMenu, screenLightness, activePopup, setActivePopup, activeOrderPopup, setActiveOrderPopup } = useHudMenuStore();
+	const { menuSettingsData, popupData, orderPopupData, bannerData } = useAllOptionsStore();
+	const { activeMenu, setActiveMenu, screenLightness, activePopup, setActivePopup, activeOrderPopup, setActiveOrderPopup, isTopBannerActive } = useHudMenuStore();
 	const { zIndex, setNewIndex } = useInteractiveLinesStore();
 	const { setScrollAllowed } = useScrollStore();
 	const { progress } = usePreloaderStore();
@@ -41,7 +42,7 @@ export default function MobileHud({ language }: { language: string }) {
 
 	return (
 		<>
-			<div className={`${styles.mobileHud} ${screenLightness === "light" ? styles.dark : styles.light}`}>
+			<div className={`${styles.mobileHud} ${screenLightness === "light" ? styles.dark : styles.light} ${isTopBannerActive ? styles.topBannerActive : ""}`}>
 				<LinkWithPreloader href={lang === "ru" ? "/ru" : "/en"} className={styles.logo}>
 					{menuSettingsData?.top_menu_logo.mobile_logo.logo_light ? (
 						<img
@@ -198,6 +199,7 @@ export default function MobileHud({ language }: { language: string }) {
 			<PopupHud activePopup={activePopup} language={lang} popupData={popupData} />
 			<OrderPopup activeOrderPopup={activeOrderPopup} language={lang} orderPopupData={orderPopupData} />
 			<CookieConsent language={lang} />
+			<TopBanner bannerData={bannerData} language={lang} />
 		</>
 	);
 }

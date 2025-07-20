@@ -15,6 +15,7 @@
 	--letterSpacing: calc(var(--mainTextSize) * 0);
 	--letterSpacingHover: calc(var(--mainTextSize) * 0.035);
 	--mediaMaxWidth: calc((var(--contentWidth) / 2) * 0.85);
+	--topBannerHeight: calc(var(--mainTextSize) * 2 + 8px);
 }
 
 body {
@@ -164,6 +165,11 @@ p {
 	max-width: var(--contentWidth);
 	height: calc(100% - ((var(--screenPadding) * 4) * 2));
 	margin: calc(var(--screenPadding) * 4) auto;
+
+	&.withTopBanner {
+		height: calc(100% - var(--screenPadding) * 4 - var(--topBannerHeight) - var(--menuFontSize) * 1.2 - 5px - 5px);
+		margin: calc(var(--topBannerHeight) + var(--menuFontSize) * 1.2 + 10px) auto calc(var(--screenPadding) * 4) auto;
+	}
 }
 
 .titleBackground {
