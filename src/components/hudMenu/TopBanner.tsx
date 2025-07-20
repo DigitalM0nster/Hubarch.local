@@ -66,6 +66,7 @@ export default function TopBanner({ bannerData, language }: { bannerData: Banner
 				const currentItems = itemsCount || 1;
 				const currentWidth = scrollingBlockRef.current.scrollWidth;
 				const singleItemEstimatedWidth = currentWidth / currentItems;
+				console.log("singleItemEstimatedWidth", singleItemEstimatedWidth);
 				setScrollWidth(singleItemEstimatedWidth);
 
 				// Сколько элементов нужно для заполнения 3х ширины textBlock
@@ -131,7 +132,7 @@ export default function TopBanner({ bannerData, language }: { bannerData: Banner
 			styleEl.innerHTML = `
 				@keyframes scrollText {
 					from { transform: translateX(0%); }
-					to { transform: translateX(-${scrollWidth * itemsCount}px); }
+					to { transform: translateX(-${scrollWidth}px); }
 				}
 			`;
 
