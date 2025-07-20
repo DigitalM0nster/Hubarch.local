@@ -30,8 +30,10 @@ export default function LinkWithPreloader({ href, children, className, style, cu
 		e.preventDefault();
 		setActiveOrderPopup(false);
 		setActivePopup(false);
+		console.log("Произоёшл клик, попытка перехода на страницу:", href);
 
 		if (pathname === href) {
+			console.log("Страница уже открыта, выполняем customClick", "Текущая страница:", pathname, "Целевая страница:", href);
 			if (customClick) customClick();
 			setActiveMenu(false);
 			return;
@@ -39,14 +41,17 @@ export default function LinkWithPreloader({ href, children, className, style, cu
 
 		// СНАЧАЛА: выполняем пользовательские действия (customClick)
 		if (customClick) {
+			console.log("Выполняем customClick");
 			await Promise.resolve(customClick());
 		}
 
 		// ЗАТЕМ: запускаем анимацию прелоадера (beforeNavigation)
+		console.log("Запускаем анимацию прелоадера (beforeNavigation)");
 		await triggerResetPreloader();
 
 		// ПОСЛЕ ПОДГОТОВКИ: выполняем переход на новую страницу
 		// Это автоматически запустит afterNavigation в новом компоненте Preloader
+		console.log("Выполняем переход на новую страницу:", href);
 		router.push(href);
 		setActiveMenu(false);
 	};
