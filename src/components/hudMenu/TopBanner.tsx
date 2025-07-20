@@ -163,16 +163,11 @@ export default function TopBanner({ bannerData, language }: { bannerData: Banner
 		return { backgroundColor: bannerData?.background_color ? bannerData?.background_color : "" };
 	}, [bannerData?.background_color]);
 
-	// Мемоизированный стиль для логотипа баннера
-	const logoStyle = useMemo(() => {
-		return { backgroundColor: textColor };
-	}, [textColor]);
-
 	return (
 		<>
 			{((language === "ru" && bannerData?.text.ru) || (language === "en" && bannerData?.text.en)) && (
 				<div className={`${styles.topBanner} ${isTopBannerActive ? styles.active + " active" : ""}`} style={bannerStyle}>
-					<div className={styles.bannerLogo} style={logoStyle}>
+					<div className={styles.bannerLogo}>
 						<div className={styles.shortLines}>
 							<div className={`${styles.line} ${styles.verticalLine}`} style={{ backgroundColor: textColor }} />
 							<div className={`${styles.line} ${styles.rotatedLine}`} style={{ backgroundColor: textColor }} />
