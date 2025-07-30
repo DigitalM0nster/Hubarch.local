@@ -57,7 +57,7 @@ export default function Screen5({ language }: { language: string }) {
 		}
 	}, [hoveredIndex, windowWidth, windowHeight]);
 
-	const rawTeamList = data?.team_list || [];
+	// Определяем тип для элементов команды
 	type Person = {
 		photo: string | false;
 		name: string;
@@ -67,17 +67,33 @@ export default function Screen5({ language }: { language: string }) {
 		icon: string | false;
 	};
 
-	const teamList: Person[] = Array.from({ length: 6 }).map((_, index) => {
-		const person = rawTeamList[index] as Partial<Person> | undefined;
-		return {
-			photo: person?.photo || false,
-			name: person?.name || "",
-			post: person?.post || "",
-			mail: person?.mail || "",
-			phrase: person?.phrase || "",
-			icon: person?.icon || false,
-		};
-	});
+	// Используем useRef для создания стабильной ссылки на массив, чтобы предотвратить ненужные перерисовки
+	const teamList = useRef<Person[]>([]).current;
+
+	// Обновляем teamList только когда меняется data?.team_list
+	useEffect(() => {
+		// Получаем актуальные данные
+		const sourceData = data?.team_list || [];
+
+		// Очищаем текущий массив
+		teamList.length = 0;
+
+		// Заполняем данными из источника
+		// Если данных меньше 6, дополняем пустыми объектами
+		const maxLength = Math.max(6, sourceData.length);
+
+		for (let i = 0; i < maxLength; i++) {
+			const person = sourceData[i] as Partial<Person> | undefined;
+			teamList.push({
+				photo: person?.photo || false,
+				name: person?.name || "",
+				post: person?.post || "",
+				mail: person?.mail || "",
+				phrase: person?.phrase || "",
+				icon: person?.icon || false,
+			});
+		}
+	}, [data?.team_list]);
 
 	// Определяем самые высокие блоки
 	useEffect(() => {
