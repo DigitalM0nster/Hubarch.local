@@ -30,8 +30,6 @@ export default function Screen5({ language }: { language: string }) {
 
 	// Движение рамки по фотографиям
 	useEffect(() => {
-		console.log("gg2");
-
 		if (frameRef.current && personRefs.current[0]) {
 			const frameRect = frameRef.current.getBoundingClientRect();
 			const personRect = personRefs.current[0].getBoundingClientRect();
@@ -97,31 +95,27 @@ export default function Screen5({ language }: { language: string }) {
 
 	// Определяем самые высокие блоки
 	useEffect(() => {
-		if (!aboutPersonRefs.current) return;
+		// Проверяем наличие ссылок и элементов в массиве
+		if (!aboutPersonRefs.current || aboutPersonRefs.current.length === 0) return;
+		if (!phrasesRefs.current || phrasesRefs.current.length === 0) return;
 
+		// Вычисляем высоты для блоков с информацией о персонах
 		const aboutPersonHeights = aboutPersonRefs.current.map((el) => el?.offsetHeight || 0);
+		if (aboutPersonHeights.length === 0 || Math.max(...aboutPersonHeights) === 0) return;
+
 		const aboutPersonMaxHeight = Math.max(...aboutPersonHeights);
 		const aboutPersonMaxIndex = aboutPersonHeights.findIndex((h) => h === aboutPersonMaxHeight);
 
+		// Вычисляем высоты для блоков с цитатами
 		const phrasesHeights = phrasesRefs.current.map((el) => el?.offsetHeight || 0);
+		if (phrasesHeights.length === 0 || Math.max(...phrasesHeights) === 0) return;
+
 		const phrasesMaxHeight = Math.max(...phrasesHeights);
 		const phrasesMaxIndex = phrasesHeights.findIndex((h) => h === phrasesMaxHeight);
 
 		setAboutPersonTallestIndex(aboutPersonMaxIndex);
 		setPhrasesTallestIndex(phrasesMaxIndex);
-	}, [teamList, windowWidth, windowHeight]);
-
-	useEffect(() => {
-		console.log("поменялось windowWidth", windowWidth);
-	}, [windowWidth]);
-
-	useEffect(() => {
-		console.log("поменялось windowHeight", windowHeight);
-	}, [windowHeight]);
-
-	useEffect(() => {
-		console.log("поменялось что-то из teamList", teamList);
-	}, [teamList]);
+	}, [data?.team_list, windowWidth, windowHeight]);
 
 	// Вычисляем положение линии
 	useEffect(() => {
