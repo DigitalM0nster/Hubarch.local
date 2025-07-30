@@ -9,7 +9,6 @@ export default function Screen5({ language }: { language: string }) {
 	const { windowWidth, windowHeight } = useWindowStore();
 
 	const data = useMainPageStore((state) => state.data?.main_page_screen5);
-	const { mainPageFetchingFinished } = useMainPageStore();
 
 	const screenContentRef = useRef<HTMLDivElement>(null);
 	const aboutPersonRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -31,6 +30,8 @@ export default function Screen5({ language }: { language: string }) {
 
 	// Движение рамки по фотографиям
 	useEffect(() => {
+		console.log("gg2");
+
 		if (frameRef.current && personRefs.current[0]) {
 			const frameRect = frameRef.current.getBoundingClientRect();
 			const personRect = personRefs.current[0].getBoundingClientRect();
