@@ -81,7 +81,6 @@ export default function Screen5({ language }: { language: string }) {
 
 	// Определяем самые высокие блоки
 	useEffect(() => {
-		console.log("поменялось что-то из teamList, windowWidth, windowHeight", teamList, windowWidth, windowHeight);
 		if (!aboutPersonRefs.current) return;
 
 		const aboutPersonHeights = aboutPersonRefs.current.map((el) => el?.offsetHeight || 0);
@@ -97,8 +96,16 @@ export default function Screen5({ language }: { language: string }) {
 	}, [teamList, windowWidth, windowHeight]);
 
 	useEffect(() => {
-		console.log("поменялся aboutPersonTallestIndex", aboutPersonTallestIndex);
-	}, [aboutPersonTallestIndex]);
+		console.log("поменялось windowWidth", windowWidth);
+	}, [windowWidth]);
+
+	useEffect(() => {
+		console.log("поменялось windowHeight", windowHeight);
+	}, [windowHeight]);
+
+	useEffect(() => {
+		console.log("поменялось что-то из teamList", teamList);
+	}, [teamList]);
 
 	// Вычисляем положение линии
 	useEffect(() => {
