@@ -117,6 +117,57 @@ export default function Screen5({ language }: { language: string }) {
 		setPhrasesTallestIndex(phrasesMaxIndex);
 	}, [data?.team_list, windowWidth, windowHeight]);
 
+	// Функция для расчета высот и установки индексов самых высоких блоков
+	const calculateHeightsAndSetTallest = () => {
+		if (aboutPersonRefs.current.length > 0 && phrasesRefs.current.length > 0) {
+			// Вычисляем высоты для блоков с информацией о персонах
+			const aboutPersonHeights = aboutPersonRefs.current.map((el, i) => {
+				const height = el?.offsetHeight || 0;
+				return height;
+			});
+
+			if (aboutPersonHeights.length > 0 && Math.max(...aboutPersonHeights) > 0) {
+				const aboutPersonMaxHeight = Math.max(...aboutPersonHeights);
+				const aboutPersonMaxIndex = aboutPersonHeights.findIndex((h) => h === aboutPersonMaxHeight);
+				setAboutPersonTallestIndex(aboutPersonMaxIndex);
+			}
+
+			// Вычисляем высоты для блоков с цитатами
+			const phrasesHeights = phrasesRefs.current.map((el, i) => {
+				const height = el?.offsetHeight || 0;
+				return height;
+			});
+
+			if (phrasesHeights.length > 0 && Math.max(...phrasesHeights) > 0) {
+				const phrasesMaxHeight = Math.max(...phrasesHeights);
+				const phrasesMaxIndex = phrasesHeights.findIndex((h) => h === phrasesMaxHeight);
+				setPhrasesTallestIndex(phrasesMaxIndex);
+			}
+		}
+	};
+
+	// Добавляем эффект, который будет срабатывать после монтирования DOM
+	useEffect(() => {
+		// Используем setTimeout для гарантии, что DOM полностью отрендерен
+		const timeoutId = setTimeout(() => {
+			calculateHeightsAndSetTallest();
+		}, 500); // Даем время на рендеринг
+
+		return () => clearTimeout(timeoutId);
+	}, []);
+
+	// Пересчитываем высоты при изменении размера окна
+	useEffect(() => {
+		if (aboutPersonRefs.current.length > 0 && phrasesRefs.current.length > 0) {
+			// Используем setTimeout, чтобы дать время на перерисовку DOM
+			const timeoutId = setTimeout(() => {
+				calculateHeightsAndSetTallest();
+			}, 100);
+
+			return () => clearTimeout(timeoutId);
+		}
+	}, [windowWidth, windowHeight]);
+
 	// Вычисляем положение линии
 	useEffect(() => {
 		if (screenContentRef.current) {
@@ -159,6 +210,7 @@ export default function Screen5({ language }: { language: string }) {
 											phrasesRefs.current[index] = el;
 										}}
 										className={`${styles.phraseItem} ${hoveredIndex === index ? styles.active : ""} ${phrasesTallestIndex === index ? styles.relative : ""}`}
+										data-is-tallest={phrasesTallestIndex === index ? "true" : "false"}
 									>
 										{person.phrase
 											? `«${person.phrase}»`
@@ -180,6 +232,7 @@ export default function Screen5({ language }: { language: string }) {
 										className={`${styles.aboutPersonItem} 
 										${hoveredIndex === index ? styles.active : hoveredIndex !== null && index < hoveredIndex ? styles.prev : ""}
 										${aboutPersonTallestIndex === index ? styles.relative : ""}`}
+										data-is-tallest={aboutPersonTallestIndex === index ? "true" : "false"}
 									>
 										<div className={styles.personName}>{person.name ? person.name : language === "ru" ? "Имя не указано" : "Name is not specified"}</div>
 										<ul className={styles.personDescription}>

@@ -167,7 +167,7 @@ p {
 	margin: calc(var(--screenPadding) * 4) auto;
 
 	&.withTopBanner {
-		height: calc(100% - var(--screenPadding) * 4 - var(--topBannerHeight) - var(--menuFontSize) * 1.2 - 5px - 5px);
+		height: calc(100% - var(--screenPadding) * 4 - var(--topBannerHeight) - var(--menuFontSize) * 1.2 - 5px - 5px - 40px);
 		margin: calc(var(--topBannerHeight) + var(--menuFontSize) * 1.2 + 10px) auto calc(var(--screenPadding) * 4) auto;
 	}
 }
