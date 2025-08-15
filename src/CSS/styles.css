@@ -226,6 +226,8 @@ p img {
     top: auto;
     pointer-events: all;
     opacity: 1;
+    height: -moz-fit-content;
+    height: fit-content;
   }
   .screen.active {
     opacity: 1;
@@ -241,6 +243,11 @@ p img {
     max-width: var(--contentWidth);
     height: calc(100dvh - var(--screenPadding) * 2 - var(--logoMaxHeight) * 2);
     margin: calc(var(--screenPadding) + var(--logoMaxHeight)) auto;
+  }
+  .screenContent.withTopBanner {
+    min-height: calc(100dvh - var(--screenPadding) * 2 - var(--logoMaxHeight) * 2 - (var(--mainTextSize) * 2 + 8px));
+    height: -moz-fit-content;
+    height: fit-content;
   }
 }
 @media (max-width: 768px) {

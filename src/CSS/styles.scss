@@ -255,6 +255,7 @@ p {
 		// min-height: unset;
 		pointer-events: all;
 		opacity: 1;
+		height: fit-content;
 
 		&.active {
 			opacity: 1;
@@ -273,6 +274,11 @@ p {
 		max-width: var(--contentWidth);
 		height: calc(100dvh - (var(--screenPadding) * 2) - (var(--logoMaxHeight) * 2));
 		margin: calc(var(--screenPadding) + var(--logoMaxHeight)) auto;
+
+		&.withTopBanner {
+			min-height: calc(100dvh - (var(--screenPadding) * 2) - (var(--logoMaxHeight) * 2) - (var(--mainTextSize) * 2 + 8px));
+			height: fit-content;
+		}
 	}
 }
 
