@@ -4,36 +4,137 @@ import { PopupData } from "@/store/allOptionsStore";
 
 export default function PopupHud({ activePopup, popupData, language }: { activePopup: boolean; popupData: PopupData | null; language: string }) {
 	const [activePopupItem, setActivePopupItem] = useState(0);
+	// Состояние для отслеживания активного инпута (фокус)
+	const [activeInputIndex, setActiveInputIndex] = useState<number | null>(null);
 
 	useEffect(() => {
 		// console.log(popupData);
 	}, [popupData]);
+
+	// Функция для создания цвета с прозрачностью
+	const getColorWithOpacity = (color: string | undefined, opacity: number) => {
+		// Если цвет не определен, возвращаем черный с прозрачностью
+		if (!color) {
+			return `rgba(0, 0, 0, ${opacity})`;
+		}
+
+		// Если цвет уже в формате hex, конвертируем его в rgba
+		if (color.startsWith("#")) {
+			// Убираем # и разбиваем на компоненты
+			const hex = color.slice(1);
+			const r = parseInt(hex.slice(0, 2), 16);
+			const g = parseInt(hex.slice(2, 4), 16);
+			const b = parseInt(hex.slice(4, 6), 16);
+			return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+		}
+		// Если цвет уже в формате rgba, просто меняем прозрачность
+		if (color.startsWith("rgba")) {
+			return color.replace(/[\d.]+\)$/, `${opacity})`);
+		}
+		// Если цвет в формате rgb, добавляем прозрачность
+		if (color.startsWith("rgb(")) {
+			return color.replace("rgb(", "rgba(").replace(")", `, ${opacity})`);
+		}
+		// По умолчанию возвращаем исходный цвет
+		return color;
+	};
+
+	// Обработчик фокуса на инпуте
+	const handleInputFocus = (inputIndex: number) => {
+		setActiveInputIndex(inputIndex);
+	};
+
+	// Обработчик потери фокуса инпута
+	const handleInputBlur = () => {
+		setActiveInputIndex(null);
+	};
+
 	return (
 		<>
 			<div className={`${styles.popupHud} ${activePopup ? styles.active : ""}`}>
 				<div className={styles.popupContent}>
 					{popupData?.popup_items?.map((item, index) => {
 						return (
-							<div className={`${styles.popupItem} ${activePopupItem === index ? styles.active : ""}`} key={`popupItem_${index}`}>
-								{item.title && <div className={styles.title}>{language === "ru" ? item.title.ru : item.title.en}</div>}
+							<div
+								className={`${styles.popupItem} ${activePopupItem === index ? styles.active : ""}`}
+								key={`popupItem_${index}`}
+								style={
+									{
+										backgroundColor: item.background_color,
+										color: item.text_color,
+										"--textColor": item.text_color,
+									} as React.CSSProperties
+								}
+							>
+								{item.title && (
+									<div className={styles.title} style={{ color: item.text_color }}>
+										{language === "ru" ? item.title.ru : item.title.en}
+									</div>
+								)}
 								{item.image != false && (
 									<div className={styles.image}>
 										<img src={item.image} alt={item.title.ru} />
 									</div>
 								)}
-								<form className={styles.form}>
+								<form
+									className={styles.form}
+									style={{
+										color: item.text_color,
+										borderLeft: `1px solid ${getColorWithOpacity(item.text_color, 0.2)}`,
+										borderRight: `1px solid ${getColorWithOpacity(item.text_color, 0.2)}`,
+									}}
+								>
 									<div className={styles.formInput}>
-										<input type="text" placeholder={language === "ru" ? "Имя" : "Name"} />
+										<input
+											type="text"
+											placeholder={language === "ru" ? "Имя" : "Name"}
+											style={{
+												color: item.text_color,
+												borderBottom: `1px solid ${getColorWithOpacity(item.text_color, activeInputIndex === 0 ? 1 : 0.2)}`,
+											}}
+											onFocus={() => handleInputFocus(0)}
+											onBlur={handleInputBlur}
+										/>
 									</div>
 									<div className={styles.formInput}>
-										<input type="text" placeholder={language === "ru" ? "Телефон" : "Phone"} />
+										<input
+											type="text"
+											placeholder={language === "ru" ? "Телефон" : "Phone"}
+											style={{
+												color: item.text_color,
+												borderBottom: `1px solid ${getColorWithOpacity(item.text_color, activeInputIndex === 1 ? 1 : 0.2)}`,
+											}}
+											onFocus={() => handleInputFocus(1)}
+											onBlur={handleInputBlur}
+										/>
 									</div>
 									<div className={styles.formInput}>
-										<input type="text" placeholder="Email" />
+										<input
+											type="text"
+											placeholder="Email"
+											style={{
+												color: item.text_color,
+												borderBottom: `1px solid ${getColorWithOpacity(item.text_color, activeInputIndex === 2 ? 1 : 0.2)}`,
+											}}
+											onFocus={() => handleInputFocus(2)}
+											onBlur={handleInputBlur}
+										/>
 									</div>
 									<button>
-										<div className={styles.icon} />
-										<div className={styles.text}>
+										<div className={styles.icon}>
+											<svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path
+													fillRule="evenodd"
+													clipRule="evenodd"
+													d="M4.74669 16.7533C8.2003 20.2069 13.7997 20.2069 17.2533 16.7533C20.7069 13.2997 20.7069 7.7003 17.2533 4.24669C13.7997 0.793087 8.2003 0.793087 4.74669 4.24669C1.29309 7.7003 1.29309 13.2997 4.74669 16.7533ZM3.57538 17.9246C7.67588 22.0251 14.3241 22.0251 18.4246 17.9246C22.5251 13.8241 22.5251 7.17588 18.4246 3.07538C14.3241 -1.02513 7.67588 -1.02513 3.57538 3.07538C-0.525126 7.17588 -0.525126 13.8241 3.57538 17.9246Z"
+													fill={item.text_color}
+												/>
+												<path d="M10.5097 4.9841L16.1774 10.6517L15.0061 11.8231L9.3384 6.15541L10.5097 4.9841Z" fill={item.text_color} />
+												<path d="M16.1772 10.6516L10.5096 16.3193L9.33828 15.148L15.0059 9.48031L16.1772 10.6516Z" fill={item.text_color} />
+												<path d="M14.9709 11.3277H1.42474V9.6712H14.9709V11.3277Z" fill={item.text_color} />
+											</svg>
+										</div>
+										<div className={styles.text} style={{ color: item.text_color }}>
 											{language === "ru"
 												? item.button_text.ru
 													? item.button_text.ru

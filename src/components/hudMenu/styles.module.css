@@ -494,6 +494,9 @@
   opacity: 1;
   pointer-events: auto;
 }
+.mobileMenu.active .bottom .contactUsBlock {
+  pointer-events: all;
+}
 .mobileMenu .menuContent {
   flex-direction: column;
   align-items: center;
@@ -571,7 +574,7 @@
   align-items: center;
   gap: 6px;
   cursor: pointer;
-  pointer-events: all;
+  pointer-events: none;
 }
 .mobileMenu .bottom .contactUsBlock:hover .text {
   text-decoration: underline;
@@ -634,15 +637,16 @@
 }
 .popupHud .popupContent {
   flex-direction: column;
-  padding: calc(var(--screenPadding) * 3 + var(--menuFontSize)) calc(var(--screenPadding) * 2) calc(var(--screenPadding) * 2) calc(var(--screenPadding) * 2);
+  padding: 0;
   max-width: 500px;
   width: 100%;
   opacity: 0;
   transition: 0.5s 0s;
 }
 .popupHud .popupContent .popupItem {
-  width: 100%;
-  height: calc(100% - 15px - 30px);
+  width: calc(100% - var(--screenPadding) * 4);
+  padding: calc(var(--screenPadding) * 3 + var(--menuFontSize)) calc(var(--screenPadding) * 2) calc(var(--screenPadding) * 2) calc(var(--screenPadding) * 2);
+  height: calc(100% - 15px - 30px - (var(--screenPadding) * 3 + var(--menuFontSize)) - var(--screenPadding) * 2);
   flex-direction: column;
   justify-content: flex-end;
   position: relative;
@@ -701,11 +705,11 @@
   opacity: 1;
 }
 .popupHud .popupContent form .formInput input::-moz-placeholder {
-  color: var(--backgroundColor);
+  color: var(--textColor);
   opacity: 1;
 }
 .popupHud .popupContent form .formInput input::placeholder {
-  color: var(--backgroundColor);
+  color: var(--textColor);
   opacity: 1;
 }
 .popupHud .popupContent form .formInput input:focus {
@@ -735,12 +739,18 @@
   letter-spacing: var(--letterSpacingHover);
 }
 .popupHud .popupContent form button .icon {
+  justify-content: center;
+  align-items: center;
   width: 20px;
   height: 20px;
-  background-image: url("/images/arrow_right_white.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+}
+.popupHud .popupContent form button .icon svg {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: center;
+     object-position: center;
 }
 .popupHud .popupContent form button .text {
   transform: translate(0px, 7%);

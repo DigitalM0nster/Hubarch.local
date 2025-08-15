@@ -14,24 +14,7 @@ export default function InteractiveLines() {
 	const miniLineRef = useRef<HTMLDivElement | null>(null);
 	const leftLineRef = useRef<HTMLDivElement | null>(null);
 	const rightLineRef = useRef<HTMLDivElement | null>(null);
-
-	// useEffect(() => {
-	// 	horizontalLineRef.current?.style.setProperty("left", `${verticalLine.x}%`);
-	// }, [horizontalLine.x]);
-
-	// useEffect(() => {
-	// 	miniLineRef.current?.style.setProperty("top", `${horizontalLine.y}%`);
-	// 	horizontalLineRef.current?.style.setProperty("top", `${horizontalLine.y}%`);
-	// }, [horizontalLine.y]);
-
-	// useEffect(() => {
-	// 	verticalLineRef.current?.style.setProperty("top", `${verticalLine.y}%`);
-	// }, [verticalLine.y]);
-
-	// useEffect(() => {
-	// 	verticalLineRef.current?.style.setProperty("left", `${verticalLine.x}%`);
-	// 	miniLineRef.current?.style.setProperty("left", `${verticalLine.x}%`);
-	// }, [verticalLine.x]);
+	const { isTopBannerActive } = useHudMenuStore();
 
 	useEffect(() => {
 		interactiveLinesRef.current?.style.setProperty("z-index", zIndex.toString());
@@ -48,7 +31,7 @@ export default function InteractiveLines() {
 
 	return (
 		<div ref={interactiveLinesRef} className={`${styles.interactiveLines} ${active ? styles.active : ""}`}>
-			<div className={`screenContent ${styles.linesBlock} ${linesColor === "light" ? styles.light : ""}`}>
+			<div className={`screenContent ${styles.linesBlock} ${linesColor === "light" ? styles.light : ""} ${isTopBannerActive ? "withTopBanner" : ""}`}>
 				<div
 					ref={verticalLineRef}
 					className={`${styles.line} ${styles.verticalLine}`}

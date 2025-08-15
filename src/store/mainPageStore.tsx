@@ -20,6 +20,9 @@ export interface ProjectEntry {
 }
 
 export interface MainPageData {
+	page_main_settings: {
+		background_color: string;
+	};
 	main_page_screen1: {
 		images?: GalleryImage[];
 		imagesSpeed?: number;
@@ -48,7 +51,7 @@ export interface MainPageData {
 	main_page_screen5: {
 		team_list?: [];
 		title_background?: string;
-		team_more_number?: number;
+		team_more_text?: string;
 	};
 
 	main_page_screen6: {
@@ -58,6 +61,7 @@ export interface MainPageData {
 			url: string;
 		};
 		additional_text?: string;
+		accept_text?: string;
 	};
 
 	main_page_screen7: {

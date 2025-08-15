@@ -106,6 +106,7 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 	// Устанавливаем pageState = "ready" только когда страница полностью готова
 	useEffect(() => {
 		if (pageReady) {
+			console.log(data);
 			setPageState("ready");
 			setScrollAllowed(true);
 		} else {
@@ -297,9 +298,14 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 
 	return (
 		<>
-			<div ref={containerRef} className={`screenScroll ${styles.screenScroll} ${scrollAllowed === true ? "" : "noScroll"} projectsPage`}>
+			<div
+				ref={containerRef}
+				className={`screenScroll ${styles.screenScroll} ${scrollAllowed === true ? "" : "noScroll"} projectsPage`}
+				style={{ backgroundColor: data?.page_main_settings?.background_color || "var(--additionalColor)" }}
+			>
 				<div
 					className={`screen active ${styles.screen}`}
+					style={{ backgroundColor: data?.page_main_settings?.background_color || "var(--additionalColor)" }}
 					data-screen-lightness="dark"
 					data-lines-index={1}
 					data-mini-line-rotation={-45}

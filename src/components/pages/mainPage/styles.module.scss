@@ -347,7 +347,7 @@
 	--screenSidePadding: calc((100vw - var(--contentWidth)) * 0.5);
 	--personsListGap: 8px;
 	--personItemWidth: 75px;
-	--personItemHeight: calc(100% / 6);
+	--personItemHeight: calc(100% / 5);
 
 	* {
 		transition: 1s;
@@ -357,37 +357,48 @@
 		flex-direction: column;
 		justify-content: space-between;
 		width: 22%;
-		height: 50%;
+		height: 100%;
 
 		.topPart {
-			transform: translate(calc(var(--screenSidePadding) * -1 + var(--screenPadding) * 2), 0);
-			width: calc(100% + var(--screenSidePadding) - var(--screenPadding) * 3);
+			transform: translate(0, 0);
+			width: calc(100% - var(--screenPadding));
+			padding: 0px var(--screenPadding) var(--screenPadding) 0px;
+			height: calc(50% - var(--screenPadding));
 
 			.phrasesList {
+				position: absolute;
+				top: 0;
 				flex-direction: column;
 				width: 100%;
-				height: fit-content;
+				height: 100%;
+				padding: 0px 0px 0px 0px;
 				font-size: var(--mainTextSize);
 
 				.phraseItem {
 					position: absolute;
-					transform: translate(-50%, 0%);
+					width: calc(100% - var(--screenPadding));
+					max-height: calc(100% - var(--screenPadding));
+					height: fit-content;
+					bottom: 0;
+					transform: translate(-50%, calc(-100% - var(--screenPadding)));
+					font-size: var(--menuFontSize);
 					opacity: 0;
 
 					&.active {
-						transform: translate(0%, 0%);
+						transform: translate(0%, calc(var(--screenPadding) * -1));
 						opacity: 1;
 					}
 
 					&.relative {
-						position: relative;
+						// position: relative;
 					}
 				}
 			}
 		}
 
 		.bottomPart {
-			top: 100%;
+			top: 50%;
+			height: 50%;
 			position: absolute;
 			flex-direction: column;
 			gap: 50px;
@@ -587,9 +598,9 @@
 
 			.more {
 				font-size: var(--menuFontSize);
-				width: max-content;
+				width: calc(var(--contentWidth) * 0.27 - var(--screenPadding));
 				justify-content: space-between;
-				text-align: center;
+				text-align: flex-start;
 				position: absolute;
 				bottom: 0;
 				transform: translate(0px, calc(100% + var(--screenPadding)));
@@ -847,8 +858,11 @@
 	.screen5 {
 		.leftBlock {
 			.topPart {
-				transform: translate(calc(var(--screenSidePadding) * -1 + var(--screenPadding) * 1), 0);
-				width: calc(100% + var(--screenSidePadding) - var(--screenPadding) * 2);
+				.phrasesList {
+					.phraseItem {
+						font-size: var(--additionalTextSize);
+					}
+				}
 			}
 		}
 		.rightBlock {
@@ -892,27 +906,48 @@
 			justify-content: space-between;
 		}
 		.leftBlock {
+			position: relative;
 			justify-content: flex-end;
-			gap: 10dvh;
+			gap: unset;
 			width: calc(50% - var(--screenPadding));
-			height: calc(100% - var(--personItemHeight) - var(--personsListGap) * 2 - var(--mainTextSize) - var(--screenPadding));
-			padding: 0px var(--screenPadding) 0px 0px;
+			height: calc(50% + var(--menuFontSize));
+			padding: 0px;
 
 			.topPart {
 				position: relative;
 				transform: translate(0);
 				left: 0;
 				width: 100%;
+				height: 50%;
+				max-height: 50%;
+				overflow-y: auto;
+				padding: 0px 0px 0px 0px;
 
 				.phrasesList {
+					position: relative;
+					height: 100%;
+					justify-content: flex-end;
 					.phraseItem {
+						font-size: var(--mainTextSize);
 						transform: translate(-100%, 0);
+
+						&.active {
+							transform: translate(0%, 0);
+						}
+
+						&.relative {
+							position: relative;
+						}
 					}
 				}
 			}
 
 			.bottomPart {
 				position: relative;
+				width: 100%;
+				padding: 0;
+				height: fit-content;
+				max-height: 50%;
 				top: auto;
 
 				.aboutUsButton,
@@ -960,6 +995,8 @@
 				}
 
 				.more {
+					flex-direction: column;
+					gap: 10px;
 					width: 100%;
 					bottom: unset;
 					top: 100%;
@@ -1027,6 +1064,7 @@
 
 	.screen3 {
 		min-height: unset;
+		height: fit-content;
 
 		.screenContent {
 			height: fit-content;
@@ -1518,6 +1556,21 @@
 	}
 }
 
+@media (max-height: 600px) {
+	@media (min-width: 980px) {
+		.screen5 {
+			.leftBlock {
+				.topPart {
+					display: none;
+				}
+				.bottomPart {
+					max-height: 100%;
+				}
+			}
+		}
+	}
+}
+
 @media (max-height: 450px) {
 	.screen1 {
 		.screenContent {
@@ -1587,11 +1640,6 @@
 		.leftBlock {
 			height: calc(100% + var(--screenPadding) * 2);
 			gap: 10dvh;
-			.topPart {
-				.phrasesList {
-					font-size: 6.5dvh;
-				}
-			}
 			.bottomPart {
 				gap: 10dvh;
 

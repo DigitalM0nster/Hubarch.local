@@ -315,7 +315,7 @@
   --screenSidePadding: calc((100vw - var(--contentWidth)) * 0.5);
   --personsListGap: 8px;
   --personItemWidth: 75px;
-  --personItemHeight: calc(100% / 6);
+  --personItemHeight: calc(100% / 5);
 }
 .screen5 * {
   transition: 1s;
@@ -324,33 +324,41 @@
   flex-direction: column;
   justify-content: space-between;
   width: 22%;
-  height: 50%;
+  height: 100%;
 }
 .screen5 .leftBlock .topPart {
-  transform: translate(calc(var(--screenSidePadding) * -1 + var(--screenPadding) * 2), 0);
-  width: calc(100% + var(--screenSidePadding) - var(--screenPadding) * 3);
+  transform: translate(0, 0);
+  width: calc(100% - var(--screenPadding));
+  padding: 0px var(--screenPadding) var(--screenPadding) 0px;
+  height: calc(50% - var(--screenPadding));
 }
 .screen5 .leftBlock .topPart .phrasesList {
+  position: absolute;
+  top: 0;
   flex-direction: column;
   width: 100%;
-  height: -moz-fit-content;
-  height: fit-content;
+  height: 100%;
+  padding: 0px 0px 0px 0px;
   font-size: var(--mainTextSize);
 }
 .screen5 .leftBlock .topPart .phrasesList .phraseItem {
   position: absolute;
-  transform: translate(-50%, 0%);
+  width: calc(100% - var(--screenPadding));
+  max-height: calc(100% - var(--screenPadding));
+  height: -moz-fit-content;
+  height: fit-content;
+  bottom: 0;
+  transform: translate(-50%, calc(-100% - var(--screenPadding)));
+  font-size: var(--menuFontSize);
   opacity: 0;
 }
 .screen5 .leftBlock .topPart .phrasesList .phraseItem.active {
-  transform: translate(0%, 0%);
+  transform: translate(0%, calc(var(--screenPadding) * -1));
   opacity: 1;
 }
-.screen5 .leftBlock .topPart .phrasesList .phraseItem.relative {
-  position: relative;
-}
 .screen5 .leftBlock .bottomPart {
-  top: 100%;
+  top: 50%;
+  height: 50%;
   position: absolute;
   flex-direction: column;
   gap: 50px;
@@ -526,10 +534,9 @@
 }
 .screen5 .rightBlock .personsList .more {
   font-size: var(--menuFontSize);
-  width: -moz-max-content;
-  width: max-content;
+  width: calc(var(--contentWidth) * 0.27 - var(--screenPadding));
   justify-content: space-between;
-  text-align: center;
+  text-align: flex-start;
   position: absolute;
   bottom: 0;
   transform: translate(0px, calc(100% + var(--screenPadding)));
@@ -726,9 +733,8 @@
   .screen2 .numbersBlock {
     gap: 2vw;
   }
-  .screen5 .leftBlock .topPart {
-    transform: translate(calc(var(--screenSidePadding) * -1 + var(--screenPadding) * 1), 0);
-    width: calc(100% + var(--screenSidePadding) - var(--screenPadding) * 2);
+  .screen5 .leftBlock .topPart .phrasesList .phraseItem {
+    font-size: var(--additionalTextSize);
   }
   .screen5 .rightBlock .numbersAndIcons {
     width: calc(var(--screenSidePadding) - var(--screenPadding) * 1);
@@ -755,23 +761,45 @@
     justify-content: space-between;
   }
   .screen5 .leftBlock {
+    position: relative;
     justify-content: flex-end;
-    gap: 10dvh;
+    gap: unset;
     width: calc(50% - var(--screenPadding));
-    height: calc(100% - var(--personItemHeight) - var(--personsListGap) * 2 - var(--mainTextSize) - var(--screenPadding));
-    padding: 0px var(--screenPadding) 0px 0px;
+    height: calc(50% + var(--menuFontSize));
+    padding: 0px;
   }
   .screen5 .leftBlock .topPart {
     position: relative;
     transform: translate(0);
     left: 0;
     width: 100%;
+    height: 50%;
+    max-height: 50%;
+    overflow-y: auto;
+    padding: 0px 0px 0px 0px;
+  }
+  .screen5 .leftBlock .topPart .phrasesList {
+    position: relative;
+    height: 100%;
+    justify-content: flex-end;
   }
   .screen5 .leftBlock .topPart .phrasesList .phraseItem {
+    font-size: var(--mainTextSize);
     transform: translate(-100%, 0);
+  }
+  .screen5 .leftBlock .topPart .phrasesList .phraseItem.active {
+    transform: translate(0%, 0);
+  }
+  .screen5 .leftBlock .topPart .phrasesList .phraseItem.relative {
+    position: relative;
   }
   .screen5 .leftBlock .bottomPart {
     position: relative;
+    width: 100%;
+    padding: 0;
+    height: -moz-fit-content;
+    height: fit-content;
+    max-height: 50%;
     top: auto;
   }
   .screen5 .leftBlock .bottomPart .aboutUsButton,
@@ -809,6 +837,8 @@
     z-index: 1;
   }
   .screen5 .rightBlock .personsList .more {
+    flex-direction: column;
+    gap: 10px;
     width: 100%;
     bottom: unset;
     top: 100%;
@@ -861,6 +891,8 @@
   }
   .screen3 {
     min-height: unset;
+    height: -moz-fit-content;
+    height: fit-content;
   }
   .screen3 .screenContent {
     height: -moz-fit-content;
@@ -1256,6 +1288,14 @@
     border-bottom: none;
   }
 }
+@media (max-height: 600px) and (min-width: 980px) {
+  .screen5 .leftBlock .topPart {
+    display: none;
+  }
+  .screen5 .leftBlock .bottomPart {
+    max-height: 100%;
+  }
+}
 @media (max-height: 450px) {
   .screen1 .screenContent {
     justify-content: space-between;
@@ -1310,9 +1350,6 @@
   .screen5 .leftBlock {
     height: calc(100% + var(--screenPadding) * 2);
     gap: 10dvh;
-  }
-  .screen5 .leftBlock .topPart .phrasesList {
-    font-size: 6.5dvh;
   }
   .screen5 .leftBlock .bottomPart {
     gap: 10dvh;

@@ -37,6 +37,10 @@ export interface ContactsPageData {
 				url: string;
 			};
 			additional_text?: string;
+			accept_text?: string;
+		};
+		page_main_settings: {
+			background_color: string;
 		};
 	};
 }

@@ -54,7 +54,11 @@ export default function MainPageClient({ language }: { language: string }) {
 
 	return (
 		<>
-			<div ref={containerRef} className={`screenScroll ${scrollAllowed === true ? "" : "noScroll"} mainPage`}>
+			<div
+				ref={containerRef}
+				className={`screenScroll ${scrollAllowed === true ? "" : "noScroll"} mainPage`}
+				style={{ backgroundColor: data.page_main_settings?.background_color || "transparent" }}
+			>
 				<Screen1 />
 				<Screen2 />
 				<Screen3 language={language} projects={projectsList} />

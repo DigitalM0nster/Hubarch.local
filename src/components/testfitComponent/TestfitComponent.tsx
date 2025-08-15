@@ -62,9 +62,13 @@ export default function TestfitComponent({ language, data }: { language: string;
 							<div className={styles.callbackButtonBlock}>
 								<div className={`${styles.button} button callbackButton`}>
 									<div className={`${styles.icon} icon`} />
-									<div className={`${styles.text} text`}>Оставить заявку</div>
+									<div className={`${styles.text} text`}>
+										{language === "ru"
+											? data?.right_block?.order_button?.button_text || "Оставить заявку"
+											: data?.right_block?.order_button?.button_text || "Send a request"}
+									</div>
 								</div>
-								<div className={styles.description}>Нажимая на кнопку Отправить, вы соглашаетесь с Политикой конфиденциальности</div>
+								{data?.right_block?.order_button?.accept_text && <div className={styles.description}>parse(data?.right_block?.order_button?.accept_text)</div>}
 							</div>
 						</div>
 					)}

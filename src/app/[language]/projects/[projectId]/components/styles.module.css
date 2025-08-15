@@ -15,6 +15,8 @@
 }
 .screenScroll .screen .screenContent {
   margin: 0;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 .screenScroll .screen .textBlock {
   flex-direction: column;
@@ -135,6 +137,11 @@
 }
 .screenScroll .screen2 .projectAbout {
   flex-direction: column;
+}
+.screenScroll .screen2 .projectAbout .cityYear {
+  margin: 25px 0px 0px 0px;
+  opacity: 0.5;
+  font-style: italic;
 }
 .screenScroll .screen2 .projectSpace {
   flex-direction: column;
@@ -616,8 +623,8 @@
   justify-content: center;
   align-items: center;
   flex: 0 0 auto;
-  width: 15.3846153846%;
-  height: 25vw;
+  width: 22.2222222222%;
+  height: 32vw;
   scroll-snap-align: center;
 }
 .screenScroll .galleryScreen .imageItem .imageBlock {
@@ -635,12 +642,12 @@
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  pointer-events: none;
 }
 .screenScroll .galleryScreen .imageItem .imageBlock img {
   position: relative;
-  max-width: 160px;
-  max-height: 230px;
+  max-width: 250px;
+  max-height: 300px;
+  cursor: pointer;
   transition: all 0s, max-width 0.25s linear, max-height 0.25s linear;
 }
 .screenScroll .galleryScreen .imageItem .description {
@@ -1028,6 +1035,9 @@
     width: 33.3333333333%;
     height: 55vw;
   }
+  .screenScroll .screen2 .projectSmi .smiBlock {
+    gap: 25px;
+  }
 }
 @media (max-width: 640px) {
   .screenScroll .screen2 .content {
@@ -1088,6 +1098,15 @@
   .screenScroll .screen2 .content.twoBlocks .teamServicesBlock .projectTeam {
     width: 100%;
     padding: 0px 0px 0px 0px;
+  }
+  .screenScroll .screen2 .projectSmi .smiBlock {
+    flex-direction: column;
+    gap: 5px;
+  }
+  .screenScroll .screen2 .projectSmi .smiBlock .date {
+    font-weight: 300;
+    font-size: 14px;
+    opacity: 0.5;
   }
   .screenScroll .contentCenterScreen {
     --imageWidth: calc(100vw - var(--screenPadding) * 2);

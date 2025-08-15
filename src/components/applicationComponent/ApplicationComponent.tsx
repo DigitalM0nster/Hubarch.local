@@ -232,21 +232,7 @@ export default function ApplicationComponent({ language, data, isPopup }: { lang
 									</div>
 
 									<div className={styles.acceptText}>
-										{language === "ru" ? (
-											<span>
-												Нажимая на кнопку "Отправить" вы соглашаетесь c{" "}
-												<a href={privacyPolicyData?.privacy_policy?.ru} className={styles.privacyPolicy}>
-													Политикой конфиденциальности
-												</a>
-											</span>
-										) : (
-											<span>
-												By clicking the "Submit" button, you agree to the{" "}
-												<a href={privacyPolicyData?.privacy_policy?.en} className={styles.privacyPolicy}>
-													Privacy Policy
-												</a>
-											</span>
-										)}
+										{parse(isPopup ? (language === "ru" ? data?.accept_text?.ru || `` : data?.accept_text?.en || ``) : data?.accept_text || ``)}
 									</div>
 								</div>
 							</div>

@@ -57,7 +57,7 @@ export default function ClientComponent({ language }: { language: string }) {
 	}, [scrollAllowed]);
 
 	return (
-		<div ref={containerRef} className="screenScroll simpleScroll">
+		<div ref={containerRef} className="screenScroll simpleScroll" style={{ backgroundColor: data?.about_page?.page_main_settings?.background_color || "transparent" }}>
 			{data?.about_page.team_screen && <TeamScreen data={data.about_page.team_screen} language={language} />}
 			{data?.about_page.history_screen && <HistoryScreen data={data.about_page.history_screen} language={language} />}
 			{data?.about_page.space_screen && <SpacesScreen data={data.about_page.space_screen} language={language} />}

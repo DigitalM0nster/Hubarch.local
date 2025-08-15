@@ -11,6 +11,12 @@ import styles from "./styles.module.scss";
 import stylesForProjects from "@/components/pages/mainPage/styles.module.scss";
 import { useServicesPageStore } from "@/store/servicesPageStore";
 import { usePageReady } from "@/hooks/usePageReady";
+import Screen1 from "./Screen1";
+import NextPageServicesScreen from "./NextPageServicesScreen";
+import Screen2 from "./Screen2";
+import Screen3 from "./Screen3";
+import Screen7 from "@/components/pages/mainPage/screen7";
+
 export default function ClientComponent({ language }: { language: string }) {
 	useScreenScroll(stylesForProjects);
 	useScreenInit();
@@ -38,6 +44,7 @@ export default function ClientComponent({ language }: { language: string }) {
 	// Устанавливаем pageState = "ready" только когда страница полностью готова
 	useEffect(() => {
 		if (pageReady) {
+			console.log(data);
 			setPageState("ready");
 			setScrollAllowed(true);
 		} else {
@@ -45,6 +52,24 @@ export default function ClientComponent({ language }: { language: string }) {
 			setScrollAllowed(false);
 		}
 	}, [pageReady]);
+
+	// Динамически изменяем CSS переменную --backgroundColor в :root
+	useEffect(() => {
+		if (data?.page_main_settings?.background_color) {
+			// Устанавливаем CSS переменную --backgroundColor в :root
+			// Это изменит цвет для всех элементов, использующих var(--backgroundColor)
+			document.documentElement.style.setProperty("--backgroundColor", data.page_main_settings.background_color);
+		} else {
+			// Если данные еще не загружены, устанавливаем fallback значение
+			document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
+		}
+
+		// Очищаем CSS переменную при размонтировании компонента
+		// Возвращаем исходное значение #fbf9f4
+		return () => {
+			document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
+		};
+	}, [data?.page_main_settings?.background_color]);
 
 	useEffect(() => {
 		const screenScroll = document.querySelector(".screenScroll");
@@ -57,5 +82,13 @@ export default function ClientComponent({ language }: { language: string }) {
 
 	useEffect(() => {}, [windowWidth]);
 
-	return null;
+	return (
+		<div className="screenScroll simpleScroll" id="servicesContainer">
+			<Screen1 language={language} />
+			<Screen2 language={language} />
+			<Screen3 language={language} />
+			<Screen7 language={language} />
+			<NextPageServicesScreen language={language} />
+		</div>
+	);
 }

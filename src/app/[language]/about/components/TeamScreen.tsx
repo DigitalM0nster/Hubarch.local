@@ -15,7 +15,7 @@ export default function TeamScreen({ data, language }: { data: Person[]; languag
 
 	return (
 		<div
-			className={`screen ${styles.screen} ${styles.teamScreen}`}
+			className={`screen active ${styles.screen} ${styles.teamScreen} ${styles.active} `}
 			data-screen-lightness="light"
 			data-lines-index={1}
 			data-mini-line-rotation={-45}

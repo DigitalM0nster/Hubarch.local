@@ -4,7 +4,7 @@
 	--historyItemsGap: 15px;
 	max-height: unset;
 	min-height: unset;
-	height: fit-content;
+	height: 100%;
 
 	.screenContent {
 		flex-direction: column;
@@ -18,17 +18,22 @@
 		position: absolute;
 		left: 50%;
 		top: 0;
-		transform: translate(-50%, -30%);
+		transform: translate(-50%, -20%);
 	}
 	.historyContainer {
 		flex-direction: column;
+		justify-content: center;
 		gap: 40px;
 		width: 100%;
+		height: fit-content;
 	}
 	.historyText {
+		position: relative;
+		top: 0%;
 		display: block;
-		align-self: flex-end;
+		align-self: flex-start;
 		max-width: calc(50% - var(--screenPadding));
+		margin: 0px 0px 100px 0px;
 	}
 	.historyItemsBlock {
 		border-left: 1px solid #e0dedc;
@@ -149,9 +154,13 @@
 		}
 	}
 	.historyNumberBlock {
+		position: absolute;
+		left: 50%;
+		top: 100%;
+		transform: translate(-50%, calc(var(--screenPadding) * 2));
 		flex-direction: column;
 		align-self: center;
-		width: 100%;
+		width: fit-content;
 		.text {
 			text-align: center;
 			justify-content: center;
@@ -169,7 +178,7 @@
 			pointer-events: none;
 			transition: 0.25s;
 			width: 100%;
-			&:nth-child(2) {
+			&:last-child {
 				position: relative;
 				top: 0;
 				transform: translate(0, 0);
@@ -521,6 +530,11 @@
 }
 
 @media (max-width: 1680px) {
+	.historyScreen {
+		.screenContent {
+			height: calc(100% - var(--screenPadding) * 3 * 2);
+		}
+	}
 	.spacesScreen {
 		.image {
 			width: 60vw;
@@ -547,19 +561,23 @@
 			&.active {
 				.cardBlock {
 					.card {
-						// width: 13vw;
+						width: 10vw;
 					}
 				}
 			}
 			.cardBlock {
 				max-width: 4vw;
 				.card {
-					height: 13vw;
+					height: 10vw;
 				}
 			}
 
 			.text {
 				font-size: 1.1vw;
+			}
+
+			.line {
+				height: 20px;
 			}
 		}
 	}

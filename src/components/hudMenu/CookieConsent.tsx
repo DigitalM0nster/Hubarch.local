@@ -1,17 +1,9 @@
-import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import { OrderPopupData } from "@/store/allOptionsStore";
-import ApplicationComponent from "../applicationComponent/ApplicationComponent";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 
 export default function OrderPopup({ language }: { language: string }) {
-	const [activePopupItem, setActivePopupItem] = useState(0);
-
 	const { cookieHudActive, setCookieHudActive } = useHudMenuStore();
 
-	useEffect(() => {
-		// console.log(popupData);
-	}, []);
 	return (
 		<>
 			<div className={`${styles.cookieHud} ${cookieHudActive ? styles.active + " active" : ""}`}>

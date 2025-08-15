@@ -77,8 +77,8 @@ export default function Screen5({ language }: { language: string }) {
 		teamList.length = 0;
 
 		// Заполняем данными из источника
-		// Если данных меньше 6, дополняем пустыми объектами
-		const maxLength = Math.max(6, sourceData.length);
+		// Если данных меньше 5, дополняем пустыми объектами
+		const maxLength = Math.max(5, sourceData.length);
 
 		for (let i = 0; i < maxLength; i++) {
 			const person = sourceData[i] as Partial<Person> | undefined;
@@ -134,7 +134,7 @@ export default function Screen5({ language }: { language: string }) {
 
 			// Вычисляем высоты для блоков с цитатами
 			const phrasesHeights = phrasesRefs.current.map((el, i) => {
-				const height = el?.offsetHeight || 0;
+				const height = el?.scrollHeight || 0;
 				return height;
 			});
 
@@ -296,11 +296,7 @@ export default function Screen5({ language }: { language: string }) {
 									<div className={styles.icon} />
 									<div className={styles.text}>{language === "ru" ? "Больше о нас" : "More about us"}</div>
 								</LinkWithPreloader>
-								<div className={styles.moreText}>
-									{language === "ru"
-										? `ЕЩЕ > ${data?.team_more_number ? data?.team_more_number : 20}`
-										: `MORE > ${data?.team_more_number ? data?.team_more_number : 20}`}
-								</div>
+								<div className={styles.moreText}>{data?.team_more_text}</div>
 							</div>
 						</div>
 

@@ -34,6 +34,10 @@ export interface ServicesPageData {
 						text2: string;
 				  }[]
 				| false;
+			order_button?: {
+				button_text?: string;
+				accept_text?: string;
+			};
 		};
 	};
 
@@ -44,6 +48,7 @@ export interface ServicesPageData {
 			url: string;
 		};
 		additional_text?: string;
+		accept_text?: string;
 	};
 
 	next_page: {
@@ -55,6 +60,10 @@ export interface ServicesPageData {
 		};
 		text: string;
 		visible: boolean;
+	};
+
+	page_main_settings: {
+		background_color: string;
 	};
 }
 

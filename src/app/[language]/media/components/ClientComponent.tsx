@@ -13,6 +13,7 @@ import Link from "next/link";
 import parse from "html-react-parser";
 import LinkWithPreloader from "@/components/preloader/LinkWithPreloader";
 import { usePageReady } from "@/hooks/usePageReady";
+import { useMediaPageStore } from "@/store/mediaPageStore";
 
 // Компонент для отображения карточки статьи
 const ArticleCard = ({ article, language }: { article: Article; language: string }) => {
@@ -55,6 +56,7 @@ export default function ClientComponent({ language }: { language: string }) {
 
 	// Получаем данные из хранилища статей
 	const { articlesList, allArticlesFetchFinished, fetchAllArticles, categories, categoriesFetchFinished, fetchCategories } = useAllArticlesStore();
+	const { data, mediaPageFetchingFinished, fetchData } = useMediaPageStore();
 
 	// Фильтруем статьи по выбранной категории
 	const filteredArticles = selectedCategory
@@ -67,6 +69,7 @@ export default function ClientComponent({ language }: { language: string }) {
 
 	useEffect(() => {
 		// Загружаем статьи и категории при монтировании компонента
+		fetchData(language);
 		fetchAllArticles(language);
 		fetchCategories(language);
 		document.querySelector("body")?.classList.add("blue");
@@ -79,6 +82,7 @@ export default function ClientComponent({ language }: { language: string }) {
 	// Устанавливаем pageState = "ready" только когда страница полностью готова
 	useEffect(() => {
 		if (pageReady) {
+			console.log(data);
 			setPageState("ready");
 			setScrollAllowed(true);
 		} else {
@@ -103,7 +107,11 @@ export default function ClientComponent({ language }: { language: string }) {
 
 	return (
 		<>
-			<div ref={containerRef} className={`screenScroll simpleScroll articles ${styles.screenScroll} ${styles.articlesScroll}`}>
+			<div
+				ref={containerRef}
+				className={`screenScroll simpleScroll articles ${styles.screenScroll} ${styles.articlesScroll}`}
+				style={{ backgroundColor: data?.page_main_settings?.background_color || "transparent" }}
+			>
 				<div
 					className={`screen active ${styles.screen}`}
 					data-screen-lightness="dark"

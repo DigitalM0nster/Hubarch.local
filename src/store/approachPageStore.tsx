@@ -10,6 +10,9 @@ export interface Screen {
 
 export interface ApproachPageData {
 	approach_page: {
+		page_main_settings: {
+			background_color: string;
+		};
 		screens_content: Screen[];
 		testfit_screen: {
 			left_block: {
@@ -28,6 +31,10 @@ export interface ApproachPageData {
 							text2: string;
 					  }[]
 					| false;
+				order_button?: {
+					button_text?: string;
+					accept_text?: string;
+				};
 			};
 			visible: boolean;
 		};
@@ -38,6 +45,7 @@ export interface ApproachPageData {
 				url: string;
 			};
 			additional_text?: string;
+			accept_text?: string;
 		};
 		next_page: {
 			image: string | false;

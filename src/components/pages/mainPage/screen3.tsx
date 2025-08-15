@@ -58,7 +58,7 @@ export default function Screen3({ language, projects, currentProjectId }: Props)
 			data-right-line-height={0}
 		>
 			<div className={`screenContent ${styles.screenContent}`}>
-				{!projects ? (
+				{projects ? (
 					storeData?.title_background && <div className={`titleBackground ${styles.titleBackground}`}>{storeData.title_background}</div>
 				) : (
 					<div className={`titleBackground ${styles.titleBackground}`}>Ещё проекты</div>

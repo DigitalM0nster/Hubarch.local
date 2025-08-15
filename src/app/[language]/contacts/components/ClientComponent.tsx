@@ -95,7 +95,7 @@ export default function ClientComponent({ language }: { language: string }) {
 
 	return (
 		<>
-			<div ref={containerRef} className="screenScroll simpleScroll">
+			<div ref={containerRef} className="screenScroll simpleScroll" style={{ backgroundColor: data?.contacts_page?.page_main_settings?.background_color || "transparent" }}>
 				<div
 					className={`screen active ${styles.screen} ${styles.screen1}`}
 					data-screen-lightness="light"

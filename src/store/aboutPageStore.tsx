@@ -33,6 +33,9 @@ export interface Position {
 
 export interface AboutPageData {
 	about_page: {
+		page_main_settings: {
+			background_color: string;
+		};
 		team_screen: Person[] | false;
 		history_screen: {
 			background_title: string;

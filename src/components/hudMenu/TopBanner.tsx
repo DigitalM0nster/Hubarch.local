@@ -66,16 +66,10 @@ export default function TopBanner({ bannerData, language }: { bannerData: Banner
 				const currentItems = itemsCount || 1;
 				const currentWidth = scrollingBlockRef.current.scrollWidth;
 				const singleItemEstimatedWidth = currentWidth / currentItems;
-				console.log("singleItemEstimatedWidth", singleItemEstimatedWidth);
 				setScrollWidth(singleItemEstimatedWidth);
 
 				// Сколько элементов нужно для заполнения 3х ширины textBlock
 				const requiredItems = Math.ceil((textBlockWidth * 3) / singleItemEstimatedWidth);
-
-				console.log("Current items:", currentItems);
-				console.log("Estimated single item width:", singleItemEstimatedWidth);
-				console.log("Required items:", requiredItems);
-
 				// Устанавливаем новое количество элементов
 				setItemsCount(requiredItems);
 				setInitialCalculation(false);

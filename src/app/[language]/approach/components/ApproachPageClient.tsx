@@ -48,6 +48,24 @@ export default function ApproachPageClient({ language }: { language: string }) {
 		}
 	}, [pageReady]);
 
+	// Динамически изменяем CSS переменную --backgroundColor в :root
+	useEffect(() => {
+		if (data?.approach_page?.page_main_settings?.background_color) {
+			// Устанавливаем CSS переменную --backgroundColor в :root
+			// Это изменит цвет для всех элементов, использующих var(--backgroundColor)
+			document.documentElement.style.setProperty("--backgroundColor", data.approach_page.page_main_settings.background_color);
+		} else {
+			// Если данные еще не загружены, устанавливаем fallback значение
+			document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
+		}
+
+		// Очищаем CSS переменную при размонтировании компонента
+		// Возвращаем исходное значение #fbf9f4
+		return () => {
+			document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
+		};
+	}, [data?.approach_page?.page_main_settings?.background_color]);
+
 	if (error) return <div>Ошибка: {error}</div>;
 	if (!data) return <div>Нет данных</div>;
 

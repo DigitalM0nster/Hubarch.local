@@ -60,11 +60,13 @@ export default function Screen2({ language, projectData }: { language: string; p
 							<div className={styles.projectAbout}>
 								<div className={styles.blockTitle}>{language === "ru" ? "О проекте" : "About the project"}</div>
 								<div className={styles.text}>{projectData.acf.project_description}</div>
+								{projectData?.acf?.project_city_year && <div className={styles.cityYear}>{projectData?.acf?.project_city_year}</div>}
 							</div>
 						) : (
 							<div className={styles.projectAbout}>
 								<div className={styles.blockTitle}></div>
 								<div className={styles.text}></div>
+								{projectData?.acf?.project_city_year && <div className={styles.cityYear}>{projectData?.acf?.project_city_year}</div>}
 							</div>
 						)}
 					</div>
@@ -92,10 +94,9 @@ export default function Screen2({ language, projectData }: { language: string; p
 										: "Publication in the media"}
 								</div>
 								{projectData?.acf?.project_articles?.map((item: any, index: number) => {
-									console.log(item);
 									return (
 										<div key={`smiBlock${index}`} className={styles.smiBlock}>
-											<div className={styles.text}>
+											<div className={`${styles.text} ${styles.date}`}>
 												{item.article.post_date
 													? new Date(item.article.post_date)
 															.toLocaleDateString("ru-RU", {
@@ -192,8 +193,6 @@ export default function Screen2({ language, projectData }: { language: string; p
 							})}
 						</div>
 					)}
-
-					{projectData?.acf?.project_city_year && <div className={styles.cityYear}>{projectData?.acf?.project_city_year}</div>}
 				</div>
 			</div>
 		</div>

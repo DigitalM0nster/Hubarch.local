@@ -39,6 +39,8 @@ export interface PopupData {
 		image2: string;
 	};
 	popup_items: {
+		background_color?: string;
+		text_color?: string;
 		title: {
 			ru: string;
 			en: string;
@@ -56,6 +58,10 @@ export interface OrderPopupData {
 		ru: string;
 		en: string;
 	}[];
+	accept_text?: {
+		ru?: string;
+		en?: string;
+	};
 }
 
 export interface BannerData {

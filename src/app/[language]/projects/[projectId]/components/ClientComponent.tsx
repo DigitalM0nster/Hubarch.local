@@ -103,5 +103,20 @@ export default function ClientComponent({ projectData }: { projectData: any }) {
 		return () => window.removeEventListener("resize", handleResizeAndCheckScroll);
 	}, [windowWidth]);
 
+	// Динамически изменяем CSS переменную --backgroundColor в :root
+	useEffect(() => {
+		if (projectData?.page_main_settings?.background_color) {
+			// Устанавливаем CSS переменную --backgroundColor в :root
+			document.documentElement.style.setProperty("--backgroundColor", projectData.page_main_settings.background_color);
+		} else {
+			// Если данные еще не загружены, устанавливаем fallback значение
+			document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
+		}
+		// Возвращаем исходное значение #fbf9f4
+		return () => {
+			document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
+		};
+	}, [projectData.page_main_settings?.background_color]);
+
 	return null;
 }
