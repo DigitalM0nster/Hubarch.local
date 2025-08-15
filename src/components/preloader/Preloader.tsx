@@ -39,7 +39,7 @@ export default function Preloader() {
 	const imageRef = useRef<HTMLDivElement | null>(null);
 
 	const currentProgress = useRef(1);
-	const targetProgress = useRef(9);
+	const targetProgress = useRef(18);
 	const lastUpdateTime = useRef(performance.now());
 
 	// Состояние для типа прелоадера
@@ -55,17 +55,17 @@ export default function Preloader() {
 		// Создаем новый интервал
 		intervalRef.current = window.setInterval(() => {
 			// Увеличиваем targetProgress на 9, но не более 100
-			targetProgress.current = Math.min(targetProgress.current + 9, 100);
+			targetProgress.current = Math.min(targetProgress.current + 18, 100);
 
 			// Если достигли 100, очищаем интервал
-			if (targetProgress.current >= 100) {
+			if (targetProgress.current >= 100 || pageState === "ready") {
 				if (intervalRef.current !== null) {
 					clearInterval(intervalRef.current);
 					intervalRef.current = null;
 				}
 			}
 		}, 1000); // 1000 мс = 1 секунда
-	}, []);
+	}, [pageState]);
 
 	// Функция для циклического изменения стиля прелоадера
 	const startStyleChangeInterval = useCallback(() => {

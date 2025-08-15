@@ -1238,8 +1238,26 @@
     gap: 5px;
     order: 2;
   }
+  .screen5 .leftBlock .topPart {
+    height: -moz-fit-content;
+    height: fit-content;
+    max-height: unset;
+  }
   .screen5 .leftBlock .topPart .phrasesList {
     margin: 20px 0px 0px 0px;
+    height: -moz-fit-content;
+    height: fit-content;
+    max-height: unset;
+  }
+  .screen5 .leftBlock .topPart .phrasesList .phraseItem {
+    height: -moz-fit-content;
+    height: fit-content;
+    max-height: unset;
+  }
+  .screen5 .leftBlock .bottomPart {
+    height: -moz-fit-content;
+    height: fit-content;
+    max-height: unset;
   }
   .screen5 .centerBlock {
     width: 100%;
@@ -1282,6 +1300,9 @@
     width: 100%;
     padding: 0px 0px 25px 0px;
     border-bottom: 1px solid #c7c7c7;
+  }
+  .screen7 .adressesBlock .adressItems .adressItem:first-child {
+    padding: 25px 0px 25px 0px;
   }
   .screen7 .adressesBlock .adressItems .adressItem:last-child {
     padding: 0;

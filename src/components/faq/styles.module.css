@@ -72,4 +72,12 @@
   max-height: 0px;
   overflow: hidden;
   transition: all 0.25s ease;
+}
+
+@media (max-width: 480px) {
+  .faqBlock {
+    max-height: unset;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
 }/*# sourceMappingURL=styles.module.css.map */

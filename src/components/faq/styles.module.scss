@@ -84,3 +84,10 @@
 		}
 	}
 }
+
+@media (max-width: 480px) {
+	.faqBlock {
+		max-height: unset;
+		height: fit-content;
+	}
+}

@@ -1484,9 +1484,23 @@
 			order: 2;
 
 			.topPart {
+				height: fit-content;
+				max-height: unset;
+
 				.phrasesList {
 					margin: 20px 0px 0px 0px;
+					height: fit-content;
+					max-height: unset;
+
+					.phraseItem {
+						height: fit-content;
+						max-height: unset;
+					}
 				}
+			}
+			.bottomPart {
+				height: fit-content;
+				max-height: unset;
 			}
 		}
 
@@ -1545,6 +1559,9 @@
 					width: 100%;
 					padding: 0px 0px 25px 0px;
 					border-bottom: 1px solid #c7c7c7;
+					&:first-child {
+						padding: 25px 0px 25px 0px;
+					}
 
 					&:last-child {
 						padding: 0;
