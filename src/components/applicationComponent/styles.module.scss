@@ -209,7 +209,7 @@
 				.dropdownItem {
 					padding: var(--formPadding);
 					width: calc(100% - var(--formPadding) * 2 - 2px);
-					height: 100%;
+					height: fit-content;
 					border: 1px solid black;
 					// border-top: none;
 					border-bottom: 1px solid transparent;

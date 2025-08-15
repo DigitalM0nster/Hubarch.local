@@ -189,7 +189,8 @@
 .applicationScreen .form .dropdown .dropdownList .dropdownItem {
   padding: var(--formPadding);
   width: calc(100% - var(--formPadding) * 2 - 2px);
-  height: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
   border: 1px solid black;
   border-bottom: 1px solid transparent;
   cursor: pointer;

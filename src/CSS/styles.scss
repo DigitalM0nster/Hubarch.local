@@ -268,11 +268,16 @@ p {
 			top: auto;
 			pointer-events: all;
 		}
+
+		&:last-child {
+			margin: 0px 0px 75px 0px;
+		}
 	}
 
 	.screenContent {
 		max-width: var(--contentWidth);
-		height: calc(100dvh - (var(--screenPadding) * 2) - (var(--logoMaxHeight) * 2));
+		min-height: calc(100dvh - (var(--screenPadding) * 2) - (var(--logoMaxHeight) * 2));
+		height: fit-content;
 		margin: calc(var(--screenPadding) + var(--logoMaxHeight)) auto;
 
 		&.withTopBanner {
