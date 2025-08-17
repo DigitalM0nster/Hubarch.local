@@ -654,6 +654,9 @@
 	}
 
 	.historyScreen {
+		.screenContent {
+			height: fit-content;
+		}
 		.historyItem {
 			max-width: 4.7vw;
 			width: 100%;
@@ -849,6 +852,11 @@
 		}
 
 		.historyNumberBlock {
+			position: relative;
+			left: auto;
+			top: auto;
+			transform: translate(0, 0);
+
 			.number {
 				display: none;
 				opacity: 0;

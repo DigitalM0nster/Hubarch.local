@@ -570,6 +570,10 @@
   .teamScreen .infoBlock .infoPerson.active {
     position: relative;
   }
+  .historyScreen .screenContent {
+    height: -moz-fit-content;
+    height: fit-content;
+  }
   .historyScreen .historyItem {
     max-width: 4.7vw;
     width: 100%;
@@ -730,6 +734,12 @@
     line-height: 1;
     font-size: var(--additionalTextSize);
     color: var(--mainTextColor);
+  }
+  .historyScreen .historyNumberBlock {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: translate(0, 0);
   }
   .historyScreen .historyNumberBlock .number {
     display: none;

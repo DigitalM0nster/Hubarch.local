@@ -873,6 +873,7 @@
     align-items: center;
     justify-content: center;
     gap: 15px;
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.085);
   }
   .screenScroll .screen2 .award .nominationsList,
   .screenScroll .screen2 .award .awardYear,
@@ -880,8 +881,18 @@
   .screenScroll .screen2 .award .linesBlock {
     display: flex;
   }
+  .screenScroll .screen2 .award .nominationsList .nomination,
+  .screenScroll .screen2 .award .awardYear .nomination,
+  .screenScroll .screen2 .award .awardName .nomination,
+  .screenScroll .screen2 .award .linesBlock .nomination {
+    padding: 0px 10px;
+    width: calc(100% - 20px);
+  }
   .screenScroll .contentCenterScreen {
     --imageWidth: 40vw;
+  }
+  .screenScroll .imageScreen .screenContent {
+    min-height: unset;
   }
   .screenScroll .imageScreen .imageBlock {
     height: 62vw;
@@ -935,6 +946,8 @@
   .screenScroll .contentListsScreen .screenContent {
     height: -moz-fit-content;
     height: fit-content;
+    min-height: -moz-fit-content;
+    min-height: fit-content;
     gap: 50px 30px;
   }
   .screenScroll .contentListsScreen .block {
@@ -1079,6 +1092,9 @@
   }
 }
 @media (max-width: 480px) {
+  .screenScroll .screen {
+    padding: 50px 0px 0px 0px;
+  }
   .screenScroll .screen1 .projectName {
     font-size: 21px;
     bottom: 50%;

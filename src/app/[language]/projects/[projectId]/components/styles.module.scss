@@ -1014,12 +1014,18 @@
 				align-items: center;
 				justify-content: center;
 				gap: 15px;
+				box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.085);
 
 				.nominationsList,
 				.awardYear,
 				.awardName,
 				.linesBlock {
 					display: flex;
+
+					.nomination {
+						padding: 0px 10px;
+						width: calc(100% - 20px);
+					}
 				}
 			}
 		}
@@ -1029,6 +1035,9 @@
 		}
 
 		.imageScreen {
+			.screenContent {
+				min-height: unset;
+			}
 			.imageBlock {
 				height: 62vw;
 			}
@@ -1095,6 +1104,7 @@
 		.contentListsScreen {
 			.screenContent {
 				height: fit-content;
+				min-height: fit-content;
 				gap: 50px 30px;
 			}
 
@@ -1276,6 +1286,9 @@
 }
 @media (max-width: 480px) {
 	.screenScroll {
+		.screen {
+			padding: 50px 0px 0px 0px;
+		}
 		.screen1 {
 			.projectName {
 				font-size: 21px;
