@@ -271,40 +271,88 @@
 }
 .partnersScreen .partnersBlock .partnerItem {
   position: absolute;
-  width: 300px;
-  height: 150px;
+  width: 12vw;
+  height: 6vw;
 }
 .partnersScreen .partnersBlock .partnerItem:nth-child(1) {
   left: 0%;
-  top: 17%;
+  top: 38%;
 }
 .partnersScreen .partnersBlock .partnerItem:nth-child(2) {
-  left: 30%;
-  top: 0%;
+  left: 5%;
+  top: 21%;
 }
 .partnersScreen .partnersBlock .partnerItem:nth-child(3) {
-  left: 58%;
-  top: 13%;
+  left: 20%;
+  top: 4%;
 }
 .partnersScreen .partnersBlock .partnerItem:nth-child(4) {
-  left: 74%;
-  top: 33%;
+  left: 40%;
+  top: 0%;
 }
 .partnersScreen .partnersBlock .partnerItem:nth-child(5) {
-  left: 78%;
-  top: 57%;
+  left: 58%;
+  top: 7%;
 }
 .partnersScreen .partnersBlock .partnerItem:nth-child(6) {
-  left: 47%;
-  top: 79%;
+  left: 76%;
+  top: 22%;
 }
 .partnersScreen .partnersBlock .partnerItem:nth-child(7) {
-  left: 13%;
-  top: 61%;
+  left: 82%;
+  top: 39%;
 }
 .partnersScreen .partnersBlock .partnerItem:nth-child(8) {
   left: 78%;
-  top: 3%;
+  top: 56%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(9) {
+  left: 61%;
+  top: 73%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(10) {
+  left: 43%;
+  top: 83%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(11) {
+  left: 25%;
+  top: 76%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(12) {
+  left: 7%;
+  top: 58%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(13) {
+  left: 20%;
+  top: 39%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(14) {
+  left: 27%;
+  top: 22%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(15) {
+  left: 43%;
+  top: 20%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(16) {
+  left: 59%;
+  top: 28%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(17) {
+  left: 60%;
+  top: 44%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(18) {
+  left: 45%;
+  top: 60%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(19) {
+  left: 28%;
+  top: 56%;
+}
+.partnersScreen .partnersBlock .partnerItem:nth-child(20) {
+  left: 40%;
+  top: 39%;
 }
 .partnersScreen .textBlock {
   max-width: 520px;

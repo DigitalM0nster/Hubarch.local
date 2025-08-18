@@ -7,6 +7,7 @@ import { usePreloaderStore } from "@/store/preloaderStore";
 import styles from "./styles.module.scss";
 import { useScrollStore } from "@/store/scrollStore";
 import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
+import { useAllOptionsStore } from "@/store/allOptionsStore";
 
 export default function Preloader() {
 	const {
@@ -24,6 +25,8 @@ export default function Preloader() {
 		setImageRect,
 		cachedImages,
 	} = usePreloaderStore();
+
+	const { preloaderData } = useAllOptionsStore();
 
 	const { verticalLine, horizontalLine, linesOpacity, zIndex } = useInteractiveLinesStore();
 
@@ -54,12 +57,13 @@ export default function Preloader() {
 
 		// Создаем новый интервал
 		intervalRef.current = window.setInterval(() => {
-			// Увеличиваем targetProgress на 9, но не более 100
+			// Увеличиваем targetProgress на 18, но не более 100
 			targetProgress.current = Math.min(targetProgress.current + 18, 100);
 
 			// Если достигли 100, очищаем интервал
 			if (targetProgress.current >= 100 || pageState === "ready") {
 				if (intervalRef.current !== null) {
+					targetProgress.current = 100;
 					clearInterval(intervalRef.current);
 					intervalRef.current = null;
 				}
@@ -268,7 +272,7 @@ export default function Preloader() {
 	return (
 		<div
 			ref={preloaderRef}
-			// className={`preloader ${styles.preloader} ${styles.loading} ${isProjectLoading ? styles.loadingProject : ""} ${styles.type1} ${projectImage ? styles.disabled : ""}`}
+			// className={`preloader ${styles.preloader} ${styles.loading} ${isProjectLoading ? styles.loadingProject : ""} ${styles.type4} ${projectImage ? styles.disabled : ""}`}
 			className={`preloader ${styles.preloader} ${pageState === "ready" && progress >= 100 && styles.hidden} ${pageState != "default" && progress < 100 && styles.loading} ${
 				isProjectLoading ? styles.loadingProject : ""
 			} ${styles[preloaderStyle]} ${projectImage ? styles.disabled : ""}`}
@@ -293,20 +297,18 @@ export default function Preloader() {
 					<div className={styles.rightLine}></div>
 				</div>
 				<div className={`${styles.imagesBlock}`}>
+					<div className={styles.image}>{/* <img src="/images/preloader/1.png" alt="hubarch preloader image1" /> */}</div>
 					<div className={styles.image}>
-						<img src="/images/preloader/1.png" alt="hubarch preloader image1" />
+						<img src={preloaderData?.image_1 || "/images/preloader/2.png"} alt="hubarch preloader image2" />
 					</div>
 					<div className={styles.image}>
-						<img src="/images/preloader/2.png" alt="hubarch preloader image2" />
+						<img src={preloaderData?.image_2 || "/images/preloader/3.png"} alt="hubarch preloader image3" />
 					</div>
 					<div className={styles.image}>
-						<img src="/images/preloader/3.png" alt="hubarch preloader image3" />
+						<img src={preloaderData?.image_3 || "/images/preloader/4.png"} alt="hubarch preloader image4" />
 					</div>
 					<div className={styles.image}>
-						<img src="/images/preloader/4.png" alt="hubarch preloader image4" />
-					</div>
-					<div className={styles.image}>
-						<img src="/images/preloader/5.png" alt="hubarch preloader image4" />
+						<img src={preloaderData?.image_4 || "/images/preloader/5.png"} alt="hubarch preloader image4" />
 					</div>
 				</div>
 				<div className={styles.progressBar}>
