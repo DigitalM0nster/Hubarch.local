@@ -26,14 +26,14 @@
 
 	&.light {
 		.line {
-			background-color: var(--backgroundColor);
+			background-color: var(--backgroundColorTransparent);
 		}
 	}
 
 	.line {
 		position: absolute;
-		background-color: #4f505f;
-		opacity: 0.16;
+		background-color: var(--mainTextColorTransparent);
+		opacity: 1;
 		transition: 1s 0s;
 
 		&.verticalLine {
@@ -88,7 +88,7 @@
 		.line {
 			width: 3px;
 			height: 25px;
-			background-color: #e0dedc;
+			background-color: var(--backgroundColorTransparent);
 			opacity: 1;
 
 			&:nth-child(1) {

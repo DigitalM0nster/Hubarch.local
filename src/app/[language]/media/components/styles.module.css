@@ -23,7 +23,7 @@
   height: -moz-fit-content;
   height: fit-content;
   font-family: Inter;
-  color: var(--backgroundColor);
+  color: var(--mainTextColor);
   flex-direction: column;
   overflow-y: auto;
   overflow: hidden;
@@ -36,9 +36,17 @@
   gap: 10px;
 }
 .categoriesFilter .filter .filterNameBlock .icon {
+  justify-content: center;
+  align-items: center;
   min-width: var(--additionalTextSize);
   width: var(--additionalTextSize);
   height: var(--additionalTextSize);
+}
+.categoriesFilter .filter .filterNameBlock .icon svg {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .categoriesFilter .filter .filterValues {
   flex-direction: column;
@@ -54,7 +62,7 @@
   height: fit-content;
   white-space: nowrap;
   padding: 3px 10px;
-  border: 1px solid var(--backgroundColor);
+  border: 1px solid var(--mainTextColor);
   cursor: pointer;
   opacity: 0.5;
 }
@@ -86,7 +94,7 @@
   display: none;
   width: calc(100% - var(--screenPadding) * 2);
   padding: var(--screenPadding);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  border-bottom: 1px solid var(--mainTextColorTransparent);
 }
 .mobileFilter .filterButton {
   gap: 7px;
@@ -94,16 +102,20 @@
   font-family: Panama Regular;
   font-size: var(--mainTextSize);
   text-transform: uppercase;
-  color: white;
+  color: var(--mainTextColor);
   cursor: pointer;
 }
 .mobileFilter .filterButton .icon {
+  justify-content: center;
+  align-items: center;
   width: var(--mainTextSize);
   height: var(--mainTextSize);
-  background-image: url("/images/filterIcon.svg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
+}
+.mobileFilter .filterButton .icon svg {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 .mobileButtonsBlock {
@@ -120,7 +132,8 @@
   height: 88px;
   font-size: 24px;
   text-transform: uppercase;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--mainTextColorTransparent);
+  cursor: pointer;
 }
 .mobileButtonsBlock .button:nth-child(1) {
   border-right: 1px solid transparent;
@@ -128,8 +141,8 @@
 .mobileButtonsBlock .button.resetButton {
   align-items: center;
   gap: 7px;
-  color: white;
-  background-color: #353c94;
+  color: var(--mainTextColor);
+  background-color: var(--backgroundColor);
 }
 .mobileButtonsBlock .button.resetButton .icon {
   width: 24px;
@@ -140,8 +153,8 @@
   background-repeat: no-repeat;
 }
 .mobileButtonsBlock .button.acceptButton {
-  color: #353c94;
-  background-color: var(--backgroundColor);
+  color: var(--backgroundColor);
+  background-color: var(--mainTextColor);
 }
 
 .articlesList {
@@ -159,7 +172,7 @@
   width: calc(50% - 60px);
   height: -moz-fit-content;
   height: fit-content;
-  color: var(--backgroundColor);
+  color: var(--mainTextColor);
 }
 .articlesList .articleCard:nth-child(even) {
   transform: translate(0px, calc(var(--cardWidth) / 1.5));
@@ -171,7 +184,7 @@
   align-items: center;
   width: -moz-fit-content;
   width: fit-content;
-  color: var(--backgroundColor);
+  color: var(--mainTextColor);
   text-decoration: none;
 }
 .articlesList .articleCard .articleContent:hover .articleImage img,
@@ -190,7 +203,7 @@
 .articlesList .articleCard .line {
   width: 2px;
   height: 21px;
-  background-color: var(--backgroundColor);
+  background-color: var(--mainTextColor);
   opacity: 0.16;
   margin: 15px 0px;
   pointer-events: none;
@@ -272,7 +285,7 @@
   font-family: "Panama Regular";
   font-size: 48px;
   text-transform: uppercase;
-  color: var(--backgroundColor);
+  color: var(--mainTextColor);
   text-align: center;
 }
 
@@ -306,16 +319,45 @@
 }
 @media (max-width: 980px) {
   .screenScroll.articlesScroll {
-    top: 184px;
+    top: 0px;
+    padding: 0px 0px 0px 0px;
+    height: -moz-fit-content;
+    height: fit-content;
+    overflow: visible;
   }
   .screenScroll.articlesScroll .screen {
+    height: -moz-fit-content;
+    height: fit-content;
+    justify-content: flex-start;
+    align-items: flex-start;
     padding: 0px;
+    margin: 0;
+    overflow: visible;
   }
   .screenContent {
+    align-self: flex-start;
     flex-direction: column;
     width: 100%;
+    height: -moz-fit-content;
+    height: fit-content;
+    min-height: 100vh;
+    margin: 0px 0px 75px 0px;
+    max-width: unset;
+    overflow: visible;
+  }
+  .screenContent.withTopBanner {
+    align-self: flex-start;
+    flex-direction: column;
+    width: 100%;
+    height: -moz-fit-content;
+    height: fit-content;
+    min-height: 100vh;
+    margin: 0px 0px 75px 0px;
+    max-width: unset;
+    overflow: visible;
   }
   .categoriesFilter {
+    position: fixed;
     left: 0;
     top: 0;
     transform: translate(0px, 0px);
@@ -323,38 +365,48 @@
     max-width: unset;
     padding: 75px 0px 0px 0px;
     height: calc(100vh - 75px);
-    max-height: 115px;
-    background-color: #353c94;
+    max-height: calc(48px + var(--mainTextSize) + var(--screenPadding) * 2);
+    background-color: var(--backgroundColor);
     z-index: 1;
     transition: 0.5s;
   }
   .categoriesFilter.active {
     max-height: calc(100vh - 75px);
   }
+  .categoriesFilter.active .filterBlock {
+    max-height: calc(100vh - 75px - 48px - 49px - 60px);
+    padding: 30px var(--screenPadding);
+  }
+  .categoriesFilter.active .mobileButtonsBlock {
+    height: 90px;
+  }
   .screenTitle {
     display: flex;
+    line-height: 1;
   }
   .mobileFilter {
     display: flex;
   }
   .filterBlock {
     height: 100%;
+    max-height: 0px;
+    justify-content: space-between;
     width: calc(100% - var(--screenPadding) * 2);
-    padding: 30px var(--screenPadding);
+    padding: 0px var(--screenPadding);
     transition: 0.25s;
   }
   .mobileButtonsBlock {
-    height: 90px;
     display: flex;
   }
   .resetFilterButton {
     display: none;
   }
   .articlesList {
-    padding: 0px 0px 100px 0px;
+    overflow: visible;
+    height: -moz-fit-content;
+    height: fit-content;
+    padding: calc(48px + var(--mainTextSize) + var(--screenPadding) * 2 + 75px + var(--screenPadding)) 0px calc(var(--cardWidth) / 1.5) 0px;
     gap: 100px 0px;
-  }
-  .articlesList .articleCard {
     --cardWidth: 40vw;
   }
   .articlesList .articleCard .articleButton {
@@ -368,7 +420,7 @@
 }
 @media (max-width: 768px) {
   .categoriesFilter {
-    max-height: 111px;
+    max-height: 97px;
   }
 }
 @media (max-width: 640px) {
@@ -390,5 +442,10 @@
   }
   .articlesList .articleCard .articleTextContent {
     margin: 0px 0px 10px 0px;
+  }
+}
+@media (max-width: 480px) {
+  .articlesList {
+    --cardWidth: 90vw;
   }
 }/*# sourceMappingURL=styles.module.css.map */

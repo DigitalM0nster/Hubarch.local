@@ -22,6 +22,7 @@ export interface ProjectEntry {
 export interface MainPageData {
 	page_main_settings: {
 		background_color: string;
+		text_is_light: boolean;
 	};
 	main_page_screen1: {
 		images?: GalleryImage[];

@@ -5,6 +5,7 @@ import { create } from "zustand";
 export interface MediaPageData {
 	page_main_settings: {
 		background_color: string;
+		text_is_light: boolean;
 	};
 }
 

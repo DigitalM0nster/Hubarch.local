@@ -441,23 +441,26 @@
 
 	&.light {
 		color: var(--backgroundColor);
+		.burgerButtonBlock {
+			.burger {
+				background-color: var(--backgroundColor);
 
-		.burger {
-			background-color: var(--backgroundColor);
-
-			.line {
-				color: var(--mainTextColor);
+				.line {
+					color: var(--mainTextColor);
+				}
 			}
 		}
 	}
 
 	&.dark {
 		color: var(--mainTextColor);
-		.burger {
-			background-color: var(--mainTextColor);
+		.burgerButtonBlock {
+			.burger {
+				background-color: var(--mainTextColor);
 
-			.line {
-				color: var(--backgroundColor);
+				.line {
+					color: var(--backgroundColor);
+				}
 			}
 		}
 	}
@@ -1251,6 +1254,17 @@
 		opacity: 1;
 		pointer-events: all;
 		transform: translate(0%, 0%);
+	}
+
+	&.mediaPageActive {
+		color: #101118;
+
+		.content {
+			.button {
+				border: 1px solid #101118;
+				color: #101118;
+			}
+		}
 	}
 
 	.title {

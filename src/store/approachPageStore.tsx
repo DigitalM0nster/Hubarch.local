@@ -12,6 +12,7 @@ export interface ApproachPageData {
 	approach_page: {
 		page_main_settings: {
 			background_color: string;
+			text_is_light: boolean;
 		};
 		screens_content: Screen[];
 		testfit_screen: {

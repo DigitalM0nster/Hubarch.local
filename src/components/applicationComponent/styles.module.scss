@@ -94,8 +94,8 @@
 		justify-content: center;
 		width: 100%;
 		height: 100%;
-		border-left: 1px solid #c7c7c7;
-		border-right: 1px solid #c7c7c7;
+		border-left: 1px solid var(--mainTextColorTransparent);
+		border-right: 1px solid var(--mainTextColorTransparent);
 
 		&::before {
 			content: "";
@@ -142,7 +142,7 @@
 			background-color: transparent;
 			padding: var(--formPadding) 50% var(--formPadding) var(--formPadding);
 			border: 1px solid transparent;
-			border-bottom: 1px solid #c7c7c7;
+			border-bottom: 1px solid var(--mainTextColorTransparent);
 			color: var(--mainTextColor);
 			opacity: 1;
 			min-width: calc(100% - var(--formPadding) - 50%);
@@ -168,7 +168,7 @@
 			font-weight: 300;
 			width: 100%;
 			border: 1px solid transparent;
-			border-bottom: 1px solid #c7c7c7;
+			border-bottom: 1px solid var(--mainTextColorTransparent);
 			cursor: pointer;
 
 			&:hover {
@@ -210,7 +210,7 @@
 					padding: var(--formPadding);
 					width: calc(100% - var(--formPadding) * 2 - 2px);
 					height: fit-content;
-					border: 1px solid black;
+					border: 1px solid var(--mainTextColor);
 					// border-top: none;
 					border-bottom: 1px solid transparent;
 					cursor: pointer;
@@ -228,7 +228,7 @@
 						border-top: none;
 					}
 					&:last-child {
-						border-bottom: 1px solid black;
+						border-bottom: 1px solid var(--mainTextColor);
 					}
 				}
 			}

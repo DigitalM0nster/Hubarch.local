@@ -14,6 +14,7 @@ import parse from "html-react-parser";
 import LinkWithPreloader from "@/components/preloader/LinkWithPreloader";
 import { usePageReady } from "@/hooks/usePageReady";
 import { useMediaPageStore } from "@/store/mediaPageStore";
+import { useHudMenuStore } from "@/store/hudMenuStore";
 
 // Компонент для отображения карточки статьи
 const ArticleCard = ({ article, language }: { article: Article; language: string }) => {
@@ -44,12 +45,14 @@ export default function ClientComponent({ language }: { language: string }) {
 	useScreenInit();
 	useDetectMobile();
 	const { setPageState } = usePreloaderStore();
+	const { isTopBannerActive } = useHudMenuStore();
 	const { scrollAllowed, setScrollAllowed } = useScrollStore();
 	const { windowWidth } = useWindowStore();
 	const { isMobile } = useWindowStore();
 	const [visibleMobileFilters, setVisibleMobileFilters] = useState(false);
 	const [isResetButtonActive, setIsResetButtonActive] = useState(false);
 	const containerRef = useRef<HTMLDivElement>(null);
+	const categoriesFilterRef = useRef<HTMLDivElement>(null);
 
 	// Состояние для хранения выбранной категории
 	const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
@@ -72,17 +75,16 @@ export default function ClientComponent({ language }: { language: string }) {
 		fetchData(language);
 		fetchAllArticles(language);
 		fetchCategories(language);
-		document.querySelector("body")?.classList.add("blue");
+		document.querySelector("body")?.classList.add("media");
 
 		return () => {
-			document.querySelector("body")?.classList.remove("blue");
+			document.querySelector("body")?.classList.remove("media");
 		};
 	}, [language]);
 
 	// Устанавливаем pageState = "ready" только когда страница полностью готова
 	useEffect(() => {
 		if (pageReady) {
-			console.log(data);
 			setPageState("ready");
 			setScrollAllowed(true);
 		} else {
@@ -105,16 +107,44 @@ export default function ClientComponent({ language }: { language: string }) {
 		setSelectedCategory(categoryId);
 	};
 
+	// useEffect(() => {
+	// 	console.log(data);
+	// 	if (data?.page_main_settings?.background_color) {
+	// 		// Устанавливаем CSS переменную --backgroundColor в :root
+	// 		document.documentElement.style.setProperty("--backgroundColor", data.page_main_settings.background_color);
+	// 		document.documentElement.style.setProperty("--backgroundColorTransparent", data.page_main_settings.background_color + "40");
+	// 	} else {
+	// 		// Если данные еще не загружены, устанавливаем fallback значение
+	// 		document.documentElement.style.setProperty("--backgroundColor", "#353c94");
+	// 		document.documentElement.style.setProperty("--backgroundColorTransparent", "#353c9440");
+	// 	}
+
+	// 	if (data?.page_main_settings?.text_is_light) {
+	// 		// Устанавливаем CSS переменную --backgroundColor в :root
+	// 		document.documentElement.style.setProperty("--mainTextColor", "#fbf9f4");
+	// 		document.documentElement.style.setProperty("--mainTextColorTransparent", "#fbf9f440");
+	// 	} else {
+	// 		// Если данные еще не загружены, устанавливаем fallback значение
+	// 		document.documentElement.style.setProperty("--mainTextColor", "#101118");
+	// 		document.documentElement.style.setProperty("--mainTextColorTransparent", "#10111840");
+	// 	}
+
+	// 	// Возвращаем исходное значение #fbf9f4
+	// 	return () => {
+	// 		document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
+	// 		document.documentElement.style.setProperty("--backgroundColorTransparent", "#fbf9f440");
+	// 		document.documentElement.style.setProperty("--mainTextColor", "#101118");
+	// 		document.documentElement.style.setProperty("--mainTextColorTransparent", "#10111840");
+	// 	};
+	// }, [data?.page_main_settings?.background_color, data?.page_main_settings?.text_is_light]);
+
 	return (
 		<>
-			<div
-				ref={containerRef}
-				className={`screenScroll simpleScroll articles ${styles.screenScroll} ${styles.articlesScroll}`}
-				style={{ backgroundColor: data?.page_main_settings?.background_color || "transparent" }}
-			>
+			<div ref={containerRef} className={`screenScroll simpleScroll articles ${styles.screenScroll} ${styles.articlesScroll}`}>
 				<div
 					className={`screen active ${styles.screen}`}
-					data-screen-lightness="dark"
+					data-screen-lightness={data?.page_main_settings?.text_is_light ? "dark" : "light"}
+					// data-screen-lightness={"dark"}
 					data-lines-index={0}
 					data-mini-line-rotation={-45}
 					data-position-x={50}
@@ -130,9 +160,9 @@ export default function ClientComponent({ language }: { language: string }) {
 					data-right-line-height={windowWidth > 980 ? 75 : 0}
 					data-lines-opacity={windowWidth > 640 ? 1 : 0}
 				>
-					<div className={`screenContent ${styles.screenContent}`}>
+					<div className={`screenContent ${styles.screenContent} ${isTopBannerActive ? styles.withTopBanner : ""}`}>
 						{/* Фильтр по категориям */}
-						<div className={`${styles.categoriesFilter} ${visibleMobileFilters ? styles.active : ""}`}>
+						<div className={`${styles.categoriesFilter} ${visibleMobileFilters ? styles.active : ""}`} ref={categoriesFilterRef}>
 							<div className={styles.screenTitle}>{language === "ru" ? "Медиа" : "Media"}</div>
 							<div className={styles.mobileFilter}>
 								<div
@@ -141,7 +171,19 @@ export default function ClientComponent({ language }: { language: string }) {
 										setVisibleMobileFilters(!visibleMobileFilters);
 									}}
 								>
-									<div className={styles.icon} />
+									<div className={styles.icon}>
+										<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M11.5 4H13.5" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+											<path d="M11.5 12H13.5" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+											<path d="M2.5 4H9.5" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+											<path d="M2.5 12H9.5" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+											<path d="M7.5 8H13.5" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+											<path d="M2.5 8H5.5" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+											<path d="M9.5 3V5" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+											<path d="M9.5 11V13" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+											<path d="M5.5 7V9" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+										</svg>
+									</div>
 									<div className={styles.text}>
 										{!visibleMobileFilters ? (language === "ru" ? "Фильтры" : "Filters") : language === "ru" ? "Фильтры" : "Filters"}
 									</div>
@@ -151,7 +193,21 @@ export default function ClientComponent({ language }: { language: string }) {
 								<div className={styles.filter}>
 									<div className={styles.filterNameBlock}>
 										<div className={styles.icon}>
-											<img src="/images/media/filter_icon.svg" alt="" />
+											<svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path
+													fillRule="evenodd"
+													clipRule="evenodd"
+													d="M7.99805 15.2379C11.7193 15.2379 14.736 12.2212 14.736 8.5C14.736 4.77875 11.7193 1.76209 7.99805 1.76209C4.2768 1.76209 1.26013 4.77875 1.26013 8.5C1.26013 12.2212 4.2768 15.2379 7.99805 15.2379ZM7.99805 16.5C12.4163 16.5 15.998 12.9183 15.998 8.5C15.998 4.08172 12.4163 0.5 7.99805 0.5C3.57977 0.5 -0.00195312 4.08172 -0.00195312 8.5C-0.00195313 12.9183 3.57977 16.5 7.99805 16.5Z"
+													fill="var(--mainTextColor)"
+												/>
+												<path
+													fillRule="evenodd"
+													clipRule="evenodd"
+													d="M6.87399 3.34939C6.3661 4.60947 6.02347 6.43699 6.02347 8.52003C6.02347 10.6031 6.3661 12.4306 6.87399 13.6907C7.12929 14.3241 7.4016 14.7524 7.63941 15.0019C7.75476 15.123 7.84458 15.1837 7.90081 15.2122C7.95099 15.2377 7.97341 15.2376 7.97744 15.2376C7.98148 15.2376 8.00434 15.2377 8.05453 15.2122C8.11075 15.1837 8.20057 15.123 8.31592 15.0019C8.55373 14.7524 8.82605 14.3241 9.08135 13.6907C9.58923 12.4306 9.93187 10.6031 9.93187 8.52003C9.93187 6.43699 9.58924 4.60947 9.08135 3.34939C8.82605 2.71599 8.55373 2.28769 8.31592 2.03814C8.20057 1.9171 8.11075 1.85641 8.05453 1.82787C8.00434 1.80239 7.98192 1.80246 7.97789 1.80248C7.97386 1.80246 7.95099 1.80239 7.90081 1.82787C7.84459 1.85641 7.75476 1.9171 7.63941 2.03814C7.4016 2.28769 7.12929 2.71599 6.87399 3.34939ZM7.97767 0.540391C6.20136 0.540391 4.76138 4.113 4.76138 8.52003C4.76138 12.9271 6.20136 16.4997 7.97767 16.4997C9.75397 16.4997 11.194 12.9271 11.194 8.52003C11.194 4.113 9.75397 0.540391 7.97767 0.540391Z"
+													fill="var(--mainTextColor)"
+												/>
+												<path d="M0.527118 7.86887H15.5093V9.13096H0.527118V7.86887Z" fill="var(--mainTextColor)" />
+											</svg>
 										</div>
 										<div className={styles.name}>{language === "ru" ? "Рубрикатор" : "Category"}</div>
 									</div>
@@ -170,22 +226,22 @@ export default function ClientComponent({ language }: { language: string }) {
 								<div className={`${styles.resetFilterButton} ${selectedCategory === null ? styles.disabled : ""}`} onClick={() => handleCategoryChange(null)}>
 									{language === "ru" ? "Сбросить" : "Reset"}
 								</div>
-							</div>
-							<div className={styles.mobileButtonsBlock}>
-								<div
-									className={`${styles.button} ${styles.resetButton} ${isResetButtonActive ? styles.active : styles.inactive}`}
-									onClick={() => handleCategoryChange(null)}
-								>
-									<div className={styles.text}>{language === "ru" ? "Сбросить" : "Reset"}</div>
-									<div className={styles.icon} />
-								</div>
-								<div
-									className={`${styles.button} ${styles.acceptButton}`}
-									onClick={() => {
-										setVisibleMobileFilters(false);
-									}}
-								>
-									<div className={styles.text}>{language === "ru" ? "Применить" : "Apply"}</div>
+								<div className={styles.mobileButtonsBlock}>
+									<div
+										className={`${styles.button} ${styles.resetButton} ${isResetButtonActive ? styles.active : styles.inactive}`}
+										onClick={() => handleCategoryChange(null)}
+									>
+										<div className={styles.text}>{language === "ru" ? "Сбросить" : "Reset"}</div>
+										<div className={styles.icon} />
+									</div>
+									<div
+										className={`${styles.button} ${styles.acceptButton}`}
+										onClick={() => {
+											setVisibleMobileFilters(false);
+										}}
+									>
+										<div className={styles.text}>{language === "ru" ? "Применить" : "Apply"}</div>
+									</div>
 								</div>
 							</div>
 						</div>

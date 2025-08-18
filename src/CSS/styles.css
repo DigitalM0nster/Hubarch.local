@@ -1,6 +1,8 @@
 :root {
   --mainTextColor: #101118;
+  --mainTextColorTransparent: #10111840;
   --backgroundColor: #fbf9f4;
+  --backgroundColorTransparent: #fbf9f440;
   --additionalColor: #c74535;
   --contentWidth: 70vw;
   --screenPadding: 25px;

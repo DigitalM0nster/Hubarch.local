@@ -371,19 +371,19 @@
 .mobileHud.light {
   color: var(--backgroundColor);
 }
-.mobileHud.light .burger {
+.mobileHud.light .burgerButtonBlock .burger {
   background-color: var(--backgroundColor);
 }
-.mobileHud.light .burger .line {
+.mobileHud.light .burgerButtonBlock .burger .line {
   color: var(--mainTextColor);
 }
 .mobileHud.dark {
   color: var(--mainTextColor);
 }
-.mobileHud.dark .burger {
+.mobileHud.dark .burgerButtonBlock .burger {
   background-color: var(--mainTextColor);
 }
-.mobileHud.dark .burger .line {
+.mobileHud.dark .burgerButtonBlock .burger .line {
   color: var(--backgroundColor);
 }
 .mobileHud .logo {
@@ -1070,6 +1070,13 @@
   opacity: 1;
   pointer-events: all;
   transform: translate(0%, 0%);
+}
+.cookieHud.mediaPageActive {
+  color: #101118;
+}
+.cookieHud.mediaPageActive .content .button {
+  border: 1px solid #101118;
+  color: #101118;
 }
 .cookieHud .title {
   display: none;

@@ -41,6 +41,7 @@ export interface ContactsPageData {
 		};
 		page_main_settings: {
 			background_color: string;
+			text_is_light: boolean;
 		};
 	};
 }

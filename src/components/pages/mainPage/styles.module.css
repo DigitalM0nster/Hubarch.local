@@ -675,7 +675,7 @@
   position: absolute;
   width: 0%;
   height: 1px;
-  background-color: #c7c7c7;
+  background-color: var(--mainTextColorTransparent);
   top: 0;
   left: 50%;
   transform: translate(-50%, 0);

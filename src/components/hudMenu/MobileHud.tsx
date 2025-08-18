@@ -7,7 +7,6 @@ import { useEffect, useRef, useState } from "react";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 import { useInteractiveLinesStore } from "@/store/interactiveLinesStore";
 import LinkWithPreloader from "../preloader/LinkWithPreloader";
-import Image from "next/image";
 import { useScrollStore } from "@/store/scrollStore";
 import { usePreloaderStore } from "@/store/preloaderStore";
 import PopupHud from "./PopupHud";
@@ -18,7 +17,7 @@ import TopBanner from "./TopBanner";
 export default function MobileHud({ language }: { language: string }) {
 	const pathname = usePathname(); // Получаем текущий путь
 	const { menuSettingsData, popupData, orderPopupData, bannerData } = useAllOptionsStore();
-	const { activeMenu, setActiveMenu, screenLightness, activePopup, setActivePopup, activeOrderPopup, setActiveOrderPopup, isTopBannerActive } = useHudMenuStore();
+	const { activeMenu, setActiveMenu, screenLightness, activePopup, setActivePopup, activeOrderPopup, setActiveOrderPopup, isTopBannerActive, activePage } = useHudMenuStore();
 	const { zIndex, setNewIndex } = useInteractiveLinesStore();
 	const { setScrollAllowed } = useScrollStore();
 	const { progress } = usePreloaderStore();
@@ -42,7 +41,11 @@ export default function MobileHud({ language }: { language: string }) {
 
 	return (
 		<>
-			<div className={`${styles.mobileHud} ${screenLightness === "light" ? styles.dark : styles.light} ${isTopBannerActive ? styles.topBannerActive : ""}`}>
+			<div
+				className={`${styles.mobileHud} ${screenLightness === "light" ? styles.dark : styles.light} ${isTopBannerActive ? styles.topBannerActive : ""} ${
+					activePage === "/ru/media" || activePage === "/en/media" ? styles.mediaPageActive : ""
+				}`}
+			>
 				<LinkWithPreloader href={lang === "ru" ? "/ru" : "/en"} className={styles.logo}>
 					{menuSettingsData?.top_menu_logo.mobile_logo.logo_light ? (
 						<img

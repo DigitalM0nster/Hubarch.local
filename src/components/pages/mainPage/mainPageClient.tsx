@@ -49,16 +49,27 @@ export default function MainPageClient({ language }: { language: string }) {
 		}
 	}, [pageReady, error]);
 
+	// Динамически изменяем CSS переменную --backgroundColor в :root
+	useEffect(() => {
+		if (data?.page_main_settings?.background_color) {
+			// Устанавливаем CSS переменную --backgroundColor в :root
+			document.documentElement.style.setProperty("--backgroundColor", data.page_main_settings.background_color);
+		} else {
+			// Если данные еще не загружены, устанавливаем fallback значение
+			document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
+		}
+		// Возвращаем исходное значение #fbf9f4
+		return () => {
+			document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
+		};
+	}, [data?.page_main_settings?.background_color]);
+
 	if (error) return <div>Ошибка: {error}</div>;
 	if (!data) return <div>Данные ещё грузятся</div>;
 
 	return (
 		<>
-			<div
-				ref={containerRef}
-				className={`screenScroll ${scrollAllowed === true ? "" : "noScroll"} mainPage`}
-				style={{ backgroundColor: data.page_main_settings?.background_color || "transparent" }}
-			>
+			<div ref={containerRef} className={`screenScroll ${scrollAllowed === true ? "" : "noScroll"} mainPage`}>
 				<Screen1 />
 				<Screen2 />
 				<Screen3 language={language} projects={projectsList} />

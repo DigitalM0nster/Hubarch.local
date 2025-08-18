@@ -35,6 +35,7 @@ export interface AboutPageData {
 	about_page: {
 		page_main_settings: {
 			background_color: string;
+			text_is_light: boolean;
 		};
 		team_screen: Person[] | false;
 		history_screen: {

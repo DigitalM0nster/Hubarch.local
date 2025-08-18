@@ -48,23 +48,35 @@ export default function ApproachPageClient({ language }: { language: string }) {
 		}
 	}, [pageReady]);
 
-	// Динамически изменяем CSS переменную --backgroundColor в :root
 	useEffect(() => {
 		if (data?.approach_page?.page_main_settings?.background_color) {
 			// Устанавливаем CSS переменную --backgroundColor в :root
-			// Это изменит цвет для всех элементов, использующих var(--backgroundColor)
 			document.documentElement.style.setProperty("--backgroundColor", data.approach_page.page_main_settings.background_color);
+			document.documentElement.style.setProperty("--backgroundColorTransparent", data.approach_page.page_main_settings.background_color + "40");
 		} else {
 			// Если данные еще не загружены, устанавливаем fallback значение
 			document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
+			document.documentElement.style.setProperty("--backgroundColorTransparent", "#fbf9f440");
 		}
 
-		// Очищаем CSS переменную при размонтировании компонента
+		if (data?.approach_page?.page_main_settings?.text_is_light) {
+			// Устанавливаем CSS переменную --backgroundColor в :root
+			document.documentElement.style.setProperty("--mainTextColor", "#fbf9f4");
+			document.documentElement.style.setProperty("--mainTextColorTransparent", "#fbf9f440");
+		} else {
+			// Если данные еще не загружены, устанавливаем fallback значение
+			document.documentElement.style.setProperty("--mainTextColor", "#101118");
+			document.documentElement.style.setProperty("--mainTextColorTransparent", "#10111840");
+		}
+
 		// Возвращаем исходное значение #fbf9f4
 		return () => {
 			document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
+			document.documentElement.style.setProperty("--backgroundColorTransparent", "#fbf9f440");
+			document.documentElement.style.setProperty("--mainTextColor", "#101118");
+			document.documentElement.style.setProperty("--mainTextColorTransparent", "#10111840");
 		};
-	}, [data?.approach_page?.page_main_settings?.background_color]);
+	}, [data?.approach_page?.page_main_settings?.background_color, data?.approach_page?.page_main_settings?.text_is_light]);
 
 	if (error) return <div>Ошибка: {error}</div>;
 	if (!data) return <div>Нет данных</div>;

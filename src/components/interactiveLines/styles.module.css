@@ -23,12 +23,12 @@
   background-color: transparent;
 }
 .linesBlock.light .line {
-  background-color: var(--backgroundColor);
+  background-color: var(--backgroundColorTransparent);
 }
 .linesBlock .line {
   position: absolute;
-  background-color: #4f505f;
-  opacity: 0.16;
+  background-color: var(--mainTextColorTransparent);
+  opacity: 1;
   transition: 1s 0s;
 }
 .linesBlock .line.verticalLine {
@@ -77,7 +77,7 @@
 .linesBlock .icon .line {
   width: 3px;
   height: 25px;
-  background-color: #e0dedc;
+  background-color: var(--backgroundColorTransparent);
   opacity: 1;
 }
 .linesBlock .icon .line:nth-child(1) {

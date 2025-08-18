@@ -2,11 +2,15 @@ import styles from "./styles.module.scss";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 
 export default function OrderPopup({ language }: { language: string }) {
-	const { cookieHudActive, setCookieHudActive } = useHudMenuStore();
+	const { cookieHudActive, setCookieHudActive, activePage } = useHudMenuStore();
 
 	return (
 		<>
-			<div className={`${styles.cookieHud} ${cookieHudActive ? styles.active + " active" : ""}`}>
+			<div
+				className={`${styles.cookieHud} ${cookieHudActive ? styles.active + " active" : ""} ${
+					activePage === "/ru/media" || activePage === "/en/media" ? styles.mediaPageActive : ""
+				}`}
+			>
 				<div className={styles.title}>Мы используем cookie-файлы</div>
 				<div className={styles.content}>
 					<div className={styles.text}>
