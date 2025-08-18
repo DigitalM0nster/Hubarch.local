@@ -17,7 +17,8 @@ import TopBanner from "./TopBanner";
 export default function MobileHud({ language }: { language: string }) {
 	const pathname = usePathname(); // Получаем текущий путь
 	const { menuSettingsData, popupData, orderPopupData, bannerData } = useAllOptionsStore();
-	const { activeMenu, setActiveMenu, screenLightness, activePopup, setActivePopup, activeOrderPopup, setActiveOrderPopup, isTopBannerActive, activePage } = useHudMenuStore();
+	const { activeMenu, setActiveMenu, screenLightness, activePopup, setActivePopup, activeOrderPopup, setActiveOrderPopup, isTopBannerActive, activePage, visibleMobileFilters } =
+		useHudMenuStore();
 	const { zIndex, setNewIndex } = useInteractiveLinesStore();
 	const { setScrollAllowed } = useScrollStore();
 	const { progress } = usePreloaderStore();
@@ -185,7 +186,7 @@ export default function MobileHud({ language }: { language: string }) {
 				</div>
 			</div>
 			<div
-				className={`${styles.stoneIcon} ${activePopup ? styles.active : ""}`}
+				className={`${styles.stoneIcon} ${activePopup ? styles.active : ""} ${visibleMobileFilters ? styles.hidden : ""}`}
 				onClick={() => {
 					setActiveOrderPopup(false);
 					setActivePopup(!activePopup);

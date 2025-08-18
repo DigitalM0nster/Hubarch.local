@@ -19,18 +19,18 @@
   opacity: 0;
 }
 .desktopHud.dark {
-  color: var(--mainTextColor);
+  color: #101118;
 }
 .desktopHud.dark a.li,
 .desktopHud.dark .li {
-  color: var(--mainTextColor);
+  color: #101118;
 }
 .desktopHud.light {
-  color: var(--backgroundColor);
+  color: #fbf9f4;
 }
 .desktopHud.light a.li,
 .desktopHud.light .li {
-  color: var(--backgroundColor);
+  color: #fbf9f4;
 }
 .desktopHud .topOverlay {
   position: fixed;
@@ -369,22 +369,22 @@
   top: var(--topBannerHeight);
 }
 .mobileHud.light {
-  color: var(--backgroundColor);
+  color: #fbf9f4;
 }
 .mobileHud.light .burgerButtonBlock .burger {
-  background-color: var(--backgroundColor);
+  background-color: #fbf9f4;
 }
 .mobileHud.light .burgerButtonBlock .burger .line {
-  color: var(--mainTextColor);
+  color: #101118;
 }
 .mobileHud.dark {
-  color: var(--mainTextColor);
+  color: #101118;
 }
 .mobileHud.dark .burgerButtonBlock .burger {
-  background-color: var(--mainTextColor);
+  background-color: #101118;
 }
 .mobileHud.dark .burgerButtonBlock .burger .line {
-  color: var(--backgroundColor);
+  color: #fbf9f4;
 }
 .mobileHud .logo {
   width: -moz-fit-content;
@@ -980,6 +980,7 @@
   height: 70px;
   cursor: pointer;
   z-index: 2;
+  transition: 0.25s;
 }
 .stoneIcon.active:hover img:nth-child(1) {
   opacity: 0;
@@ -1007,6 +1008,10 @@
 }
 .stoneIcon:hover img:nth-child(2) {
   opacity: 1;
+}
+.stoneIcon.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 .stoneIcon .linesBlock {
   justify-content: center;
@@ -1057,7 +1062,7 @@
   height: -moz-fit-content;
   height: fit-content;
   background-color: rgba(255, 255, 255, 0.9);
-  color: var(--mainTextColor);
+  color: #101118;
   gap: 5px;
   padding: 10px calc(var(--screenPadding) * 2);
   z-index: 10;
@@ -1070,13 +1075,6 @@
   opacity: 1;
   pointer-events: all;
   transform: translate(0%, 0%);
-}
-.cookieHud.mediaPageActive {
-  color: #101118;
-}
-.cookieHud.mediaPageActive .content .button {
-  border: 1px solid #101118;
-  color: #101118;
 }
 .cookieHud .title {
   display: none;
@@ -1095,7 +1093,8 @@
 }
 .cookieHud .content .button {
   border-radius: 5px;
-  border: 1px solid var(--mainTextColor);
+  border: 1px solid #101118;
+  color: #101118;
   padding: 5px 15px;
   cursor: pointer;
 }

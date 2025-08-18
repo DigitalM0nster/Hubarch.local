@@ -5,6 +5,9 @@ export interface WindowStore {
 	windowWidth: number;
 	setWindowWidth: (newNumber: number) => void;
 
+	readyCheck: boolean;
+	setReadyCheck: (state: boolean) => void;
+
 	windowHeight: number;
 	setWindowHeight: (newNumber: number) => void;
 
@@ -16,6 +19,9 @@ export interface WindowStore {
 export const useWindowStore = create<WindowStore>((set) => ({
 	windowWidth: 1920,
 	setWindowWidth: (newNumber) => set({ windowWidth: newNumber }),
+
+	readyCheck: false,
+	setReadyCheck: (state: boolean) => set({ readyCheck: state }),
 
 	windowHeight: 1080,
 	setWindowHeight: (newNumber) => set({ windowHeight: newNumber }),

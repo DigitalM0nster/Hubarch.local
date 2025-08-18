@@ -1,9 +1,4 @@
-.screenScroll {
-  background-color: var(--additionalColor);
-}
-
 .screen {
-  background-color: var(--additionalColor);
   --projectCardWidth: 70px;
   --projectCardHeight: 50px;
   --projectsGap: 15px;
@@ -46,7 +41,7 @@
 }
 .leftBlock .frame .line {
   position: absolute;
-  background-color: white;
+  background-color: var(--mainTextColor);
 }
 .leftBlock .frame .top {
   right: 0;
@@ -166,7 +161,7 @@
 .centerBlock .projectsItems .projectItem.placeholder .projectName .button,
 .centerBlock .projectsItems a.projectItem.placeholder .projectName .button {
   padding: 2px 15px;
-  border: 1px solid white;
+  border: 1px solid var(--mainTextColor);
   cursor: pointer;
   opacity: 0.5;
   transition: 0.25s;
@@ -212,7 +207,7 @@
   padding: 20px 0px 0px 0px;
   transform: translate(0px, calc(100% + 0px));
   width: 100%;
-  color: white;
+  color: var(--mainTextColor);
   justify-content: space-between;
 }
 .centerBlock .projectsItems .projectItem .aboutProject .buttonBlock,
@@ -233,12 +228,17 @@
 }
 .centerBlock .projectsItems .projectItem .aboutProject .buttonBlock .button .icon,
 .centerBlock .projectsItems a.projectItem .aboutProject .buttonBlock .button .icon {
+  justify-content: flex-start;
+  align-items: center;
   width: calc(var(--additionalTextSize) * 1.25);
   height: calc(var(--additionalTextSize) * 1.25);
-  background-image: url("/images/linkArrow_white.svg");
-  background-position: left;
-  background-size: contain;
-  background-repeat: no-repeat;
+}
+.centerBlock .projectsItems .projectItem .aboutProject .buttonBlock .button .icon svg,
+.centerBlock .projectsItems a.projectItem .aboutProject .buttonBlock .button .icon svg {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .centerBlock .projectsItems .projectItem .aboutProject .projectName,
 .centerBlock .projectsItems a.projectItem .aboutProject .projectName {
@@ -274,20 +274,24 @@
   font-family: Panama Regular;
   font-size: var(--mainTextSize);
   text-transform: uppercase;
-  color: white;
+  color: var(--mainTextColor);
   cursor: pointer;
 }
 .rightBlock .mobileFilter .filterButton .icon {
+  justify-content: center;
+  align-items: center;
   width: var(--mainTextSize);
   height: var(--mainTextSize);
-  background-image: url("/images/filterIcon.svg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
+}
+.rightBlock .mobileFilter .filterButton .icon svg {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .rightBlock .projectsFilters {
   font-family: Inter;
-  color: var(--backgroundColor);
+  color: var(--mainTextColor);
   flex-direction: column;
   gap: 30px;
   overflow-y: auto;
@@ -317,7 +321,7 @@
   height: fit-content;
   white-space: nowrap;
   padding: 3px 10px;
-  border: 1px solid var(--backgroundColor);
+  border: 1px solid var(--mainTextColor);
   cursor: pointer;
   opacity: 0.5;
 }
@@ -361,19 +365,23 @@
 .rightBlock .mobileButtonsBlock .button.resetButton {
   align-items: center;
   gap: 7px;
-  color: white;
-  background-color: var(--additionalColor);
+  color: var(--mainTextColor);
+  background-color: var(--backgroundColor);
 }
 .rightBlock .mobileButtonsBlock .button.resetButton .icon {
+  justify-content: center;
+  align-items: center;
   width: 24px;
   height: 24px;
-  background-image: url("/images/closeIcon.svg");
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
+}
+.rightBlock .mobileButtonsBlock .button.resetButton .icon svg {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .rightBlock .mobileButtonsBlock .button.acceptButton {
-  color: var(--additionalColor);
+  color: var(--mainTextColor);
   background-color: var(--backgroundColor);
 }
 
@@ -390,6 +398,9 @@
   }
 }
 @media (max-width: 980px) {
+  .screenScroll {
+    overflow: hidden;
+  }
   .screen {
     --centerBlockHeight: calc(100dvh - var(--leftBlockHeight) * 2);
     --projectCardWidth: 11vw;
@@ -408,7 +419,7 @@
     height: var(--leftBlockHeight);
     width: 100%;
     z-index: 1;
-    background-color: var(--additionalColor);
+    background-color: var(--backgroundColor);
     border-top: 1px solid rgba(255, 255, 255, 0.15);
   }
   .leftBlock .frame {
@@ -445,7 +456,7 @@
     height: calc(0dvh - var(--leftBlockHeight) * 0 + var(--mainTextSize) + var(--screenPadding) * 2);
     transform: translate(0, 0);
     border-top: 1px solid rgba(255, 255, 255, 0.15);
-    background-color: var(--additionalColor);
+    background-color: var(--backgroundColor);
     z-index: 1;
     overflow: hidden;
   }
@@ -456,9 +467,9 @@
     display: flex;
   }
   .rightBlock .projectsFilters {
-    height: calc(100dvh - var(--leftBlockHeight) - var(--screenPadding) * 2 - var(--mainTextSize) - 90px - 40px);
-    margin: 40px 0px 0px 0px;
-    padding: 0 var(--screenPadding);
+    height: calc(100dvh - var(--leftBlockHeight) - var(--screenPadding) * 2 - var(--mainTextSize) - 90px - 40px - 40px);
+    margin: 0px 0px 0px 0px;
+    padding: 40px var(--screenPadding);
   }
   .rightBlock .projectsFilters .resetFilterButton {
     display: none;

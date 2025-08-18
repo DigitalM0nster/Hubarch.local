@@ -1,0 +1,27 @@
+{
+	"name": "Hubarch - Архитектурная студия",
+	"short_name": "Hubarch",
+	"description": "Архитектурная студия с 2013 года. Создаем уникальные пространства: архитектурные проекты, дизайн интерьеров, коммерческие пространства.",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#fbf9f4",
+	"theme_color": "#fbf9f4",
+	"orientation": "portrait-primary",
+	"icons": [
+		{
+			"src": "/images/hubarch_logo_png.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "any maskable"
+		},
+		{
+			"src": "/images/hubarch_logo_png.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any maskable"
+		}
+	],
+	"categories": ["business", "design", "architecture"],
+	"lang": "ru",
+	"dir": "ltr"
+}

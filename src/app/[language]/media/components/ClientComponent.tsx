@@ -45,11 +45,10 @@ export default function ClientComponent({ language }: { language: string }) {
 	useScreenInit();
 	useDetectMobile();
 	const { setPageState } = usePreloaderStore();
-	const { isTopBannerActive } = useHudMenuStore();
+	const { isTopBannerActive, visibleMobileFilters, setVisibleMobileFilters } = useHudMenuStore();
 	const { scrollAllowed, setScrollAllowed } = useScrollStore();
-	const { windowWidth } = useWindowStore();
+	const { windowWidth, readyCheck, setReadyCheck } = useWindowStore();
 	const { isMobile } = useWindowStore();
-	const [visibleMobileFilters, setVisibleMobileFilters] = useState(false);
 	const [isResetButtonActive, setIsResetButtonActive] = useState(false);
 	const containerRef = useRef<HTMLDivElement>(null);
 	const categoriesFilterRef = useRef<HTMLDivElement>(null);
@@ -79,6 +78,7 @@ export default function ClientComponent({ language }: { language: string }) {
 
 		return () => {
 			document.querySelector("body")?.classList.remove("media");
+			setVisibleMobileFilters(false);
 		};
 	}, [language]);
 
@@ -107,36 +107,37 @@ export default function ClientComponent({ language }: { language: string }) {
 		setSelectedCategory(categoryId);
 	};
 
-	// useEffect(() => {
-	// 	console.log(data);
-	// 	if (data?.page_main_settings?.background_color) {
-	// 		// Устанавливаем CSS переменную --backgroundColor в :root
-	// 		document.documentElement.style.setProperty("--backgroundColor", data.page_main_settings.background_color);
-	// 		document.documentElement.style.setProperty("--backgroundColorTransparent", data.page_main_settings.background_color + "40");
-	// 	} else {
-	// 		// Если данные еще не загружены, устанавливаем fallback значение
-	// 		document.documentElement.style.setProperty("--backgroundColor", "#353c94");
-	// 		document.documentElement.style.setProperty("--backgroundColorTransparent", "#353c9440");
-	// 	}
+	useEffect(() => {
+		if (data?.page_main_settings?.background_color) {
+			// Устанавливаем CSS переменную --backgroundColor в :root
+			document.documentElement.style.setProperty("--backgroundColor", data.page_main_settings.background_color);
+			document.documentElement.style.setProperty("--backgroundColorTransparent", data.page_main_settings.background_color + "40");
+		} else {
+			// Если данные еще не загружены, устанавливаем fallback значение
+			document.documentElement.style.setProperty("--backgroundColor", "#353c94");
+			document.documentElement.style.setProperty("--backgroundColorTransparent", "#353c9440");
+		}
 
-	// 	if (data?.page_main_settings?.text_is_light) {
-	// 		// Устанавливаем CSS переменную --backgroundColor в :root
-	// 		document.documentElement.style.setProperty("--mainTextColor", "#fbf9f4");
-	// 		document.documentElement.style.setProperty("--mainTextColorTransparent", "#fbf9f440");
-	// 	} else {
-	// 		// Если данные еще не загружены, устанавливаем fallback значение
-	// 		document.documentElement.style.setProperty("--mainTextColor", "#101118");
-	// 		document.documentElement.style.setProperty("--mainTextColorTransparent", "#10111840");
-	// 	}
+		if (data?.page_main_settings?.text_is_light) {
+			// Устанавливаем CSS переменную --backgroundColor в :root
+			document.documentElement.style.setProperty("--mainTextColor", "#fbf9f4");
+			document.documentElement.style.setProperty("--mainTextColorTransparent", "#fbf9f440");
+		} else {
+			// Если данные еще не загружены, устанавливаем fallback значение
+			document.documentElement.style.setProperty("--mainTextColor", "#101118");
+			document.documentElement.style.setProperty("--mainTextColorTransparent", "#10111840");
+		}
 
-	// 	// Возвращаем исходное значение #fbf9f4
-	// 	return () => {
-	// 		document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
-	// 		document.documentElement.style.setProperty("--backgroundColorTransparent", "#fbf9f440");
-	// 		document.documentElement.style.setProperty("--mainTextColor", "#101118");
-	// 		document.documentElement.style.setProperty("--mainTextColorTransparent", "#10111840");
-	// 	};
-	// }, [data?.page_main_settings?.background_color, data?.page_main_settings?.text_is_light]);
+		setReadyCheck(!readyCheck);
+
+		// Возвращаем исходное значение #fbf9f4
+		return () => {
+			document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
+			document.documentElement.style.setProperty("--backgroundColorTransparent", "#fbf9f440");
+			document.documentElement.style.setProperty("--mainTextColor", "#101118");
+			document.documentElement.style.setProperty("--mainTextColorTransparent", "#10111840");
+		};
+	}, [data?.page_main_settings?.background_color, data?.page_main_settings?.text_is_light]);
 
 	return (
 		<>
@@ -232,7 +233,13 @@ export default function ClientComponent({ language }: { language: string }) {
 										onClick={() => handleCategoryChange(null)}
 									>
 										<div className={styles.text}>{language === "ru" ? "Сбросить" : "Reset"}</div>
-										<div className={styles.icon} />
+										<div className={styles.icon}>
+											<svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path d="M12.0019 1H1V12H1.00194H12.0019V1Z" stroke="var(--mainTextColor)" strokeLinecap="square" />
+												<path d="M8.5 4.5L4.5 8.5" stroke="var(--mainTextColor)" strokeLinecap="square" />
+												<path d="M4.5 4.5L8.5 8.5" stroke="var(--mainTextColor)" strokeLinecap="square" />
+											</svg>
+										</div>
 									</div>
 									<div
 										className={`${styles.button} ${styles.acceptButton}`}

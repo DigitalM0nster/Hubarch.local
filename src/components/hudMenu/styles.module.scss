@@ -24,20 +24,20 @@
 	}
 
 	&.dark {
-		color: var(--mainTextColor);
+		color: #101118;
 
 		a.li,
 		.li {
-			color: var(--mainTextColor);
+			color: #101118;
 		}
 	}
 
 	&.light {
-		color: var(--backgroundColor);
+		color: #fbf9f4;
 
 		a.li,
 		.li {
-			color: var(--backgroundColor);
+			color: #fbf9f4;
 		}
 	}
 
@@ -440,26 +440,26 @@
 	}
 
 	&.light {
-		color: var(--backgroundColor);
+		color: #fbf9f4;
 		.burgerButtonBlock {
 			.burger {
-				background-color: var(--backgroundColor);
+				background-color: #fbf9f4;
 
 				.line {
-					color: var(--mainTextColor);
+					color: #101118;
 				}
 			}
 		}
 	}
 
 	&.dark {
-		color: var(--mainTextColor);
+		color: #101118;
 		.burgerButtonBlock {
 			.burger {
-				background-color: var(--mainTextColor);
+				background-color: #101118;
 
 				.line {
-					color: var(--backgroundColor);
+					color: #fbf9f4;
 				}
 			}
 		}
@@ -1139,6 +1139,7 @@
 	height: 70px;
 	cursor: pointer;
 	z-index: 2;
+	transition: 0.25s;
 
 	&.active {
 		&:hover {
@@ -1187,6 +1188,11 @@
 				opacity: 1;
 			}
 		}
+	}
+
+	&.hidden {
+		opacity: 0;
+		pointer-events: none;
 	}
 
 	.linesBlock {
@@ -1241,7 +1247,7 @@
 	width: calc(100% - var(--screenPadding) * 4);
 	height: fit-content;
 	background-color: rgba(255, 255, 255, 0.9);
-	color: var(--mainTextColor);
+	color: #101118;
 	gap: 5px;
 	padding: 10px calc(var(--screenPadding) * 2);
 	z-index: 10;
@@ -1254,17 +1260,6 @@
 		opacity: 1;
 		pointer-events: all;
 		transform: translate(0%, 0%);
-	}
-
-	&.mediaPageActive {
-		color: #101118;
-
-		.content {
-			.button {
-				border: 1px solid #101118;
-				color: #101118;
-			}
-		}
 	}
 
 	.title {
@@ -1285,7 +1280,8 @@
 
 		.button {
 			border-radius: 5px;
-			border: 1px solid var(--mainTextColor);
+			border: 1px solid #101118;
+			color: #101118;
 			padding: 5px 15px;
 			cursor: pointer;
 		}

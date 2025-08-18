@@ -15,15 +15,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { language } = await params;
 
 	return {
-		title: "Hubarch — Главная",
-		description: "Описание главной страницы",
+		title: "Hubarch — Архитектурная студия | Дизайн интерьеров и проектирование",
+		description:
+			"Hubarch - архитектурная студия с 2013 года. Создаем уникальные пространства: архитектурные проекты, дизайн интерьеров, коммерческие пространства. Более 238 000 м² реализованных проектов.",
 		openGraph: {
-			title: "Hubarch — Главная страница",
-			description: "Описание главной страницы",
+			title: "Hubarch — Архитектурная студия | Дизайн интерьеров и проектирование",
+			description:
+				"Hubarch - архитектурная студия с 2013 года. Создаем уникальные пространства: архитектурные проекты, дизайн интерьеров, коммерческие пространства. Более 238 000 м² реализованных проектов.",
 			url: `${siteUrl}/${language}`,
 			images: [
 				{
-					url: `${siteUrl}/images/og-default.jpg`,
+					url: `${siteUrl}/images/hubarch_logo.svg`,
 					width: 1200,
 					height: 630,
 				},

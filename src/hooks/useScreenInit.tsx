@@ -7,7 +7,7 @@ import { useWindowStore } from "@/store/windowStore";
 export const useScreenInit = () => {
 	const { setActiveLinesHud, setLinesColor, setLinesOpacity, setNewIndex, miniLine, verticalLine, horizontalLine, leftLine, rightLine } = useInteractiveLinesStore();
 	const { screenLightness, setScreenLightness, isTopBannerActive } = useHudMenuStore();
-	const { windowWidth } = useWindowStore();
+	const { windowWidth, readyCheck } = useWindowStore();
 
 	const pathname = usePathname();
 	const screensRef = useRef<NodeListOf<Element> | null>(null);
@@ -135,7 +135,7 @@ export const useScreenInit = () => {
 			destroyed = true;
 			mObserver?.disconnect();
 		};
-	}, [pathname, windowWidth]);
+	}, [pathname, windowWidth, readyCheck]);
 
 	// Эффект для обновления классов screenContent при изменении isTopBannerActive
 	useEffect(() => {

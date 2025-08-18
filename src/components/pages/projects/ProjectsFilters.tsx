@@ -38,7 +38,9 @@ export default function ProjectsFilters({
 			<div className={`${styles.filter} ${styles.categoryFilter}`}>
 				<div className={styles.filterNameBlock}>
 					<div className={styles.icon}>
-						<img src="/images/projects/categoryFilterIcon.svg" alt="" />
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
+							<path d="M0 10.0959V16.5H16V0.5H9.09323L0 10.0959Z" fill="var(--mainTextColor)" />
+						</svg>
 					</div>
 					<div className={styles.name}>{language === "ru" ? "Категория" : "Category"}</div>
 				</div>
@@ -68,7 +70,9 @@ export default function ProjectsFilters({
 						</div>
 					) : (
 						<div className={styles.icon}>
-							<img src="/images/projects/typeFilterIcon.svg" alt="" />
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+								<path fillRule="evenodd" clipRule="evenodd" d="M16 0H0V16H16V0ZM13.1911 9.20098H7.00282V16H13.1911V9.20098Z" fill="var(--mainTextColor)" />
+							</svg>
 						</div>
 					)}
 					{data?.projects_page.filter_types.title ? (
@@ -100,7 +104,15 @@ export default function ProjectsFilters({
 						</div>
 					) : (
 						<div className={styles.icon}>
-							<img src="/images/projects/footageFilterIcon.svg" alt="" />
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+								<path fillRule="evenodd" clipRule="evenodd" d="M14.7379 1.26209H1.26209V14.7379H14.7379V1.26209ZM16 0V16H0V0H16Z" fill="var(--mainTextColor)" />
+								<path
+									fillRule="evenodd"
+									clipRule="evenodd"
+									d="M10.4016 5.06262L12.8212 2.64297L13.397 3.21874L10.9773 5.63838L10.4016 5.06262ZM5.06276 5.63838L2.64311 3.21874L3.21887 2.64297L5.63852 5.06262L5.06276 5.63838ZM5.63852 10.9772L3.21887 13.3969L2.64311 12.8211L5.06276 10.4014L5.63852 10.9772ZM12.8212 13.3969L10.4016 10.9772L10.9773 10.4014L13.397 12.8211L12.8212 13.3969Z"
+									fill="var(--mainTextColor)"
+								/>
+							</svg>
 						</div>
 					)}
 					{data?.projects_page.filter_footage.title ? (

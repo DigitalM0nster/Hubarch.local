@@ -16,6 +16,7 @@ import { useProjectTypesStore } from "@/store/projectTypesStore";
 import ProjectsFilters from "./ProjectsFilters";
 import { useWindowStore } from "@/store/windowStore";
 import { usePageReady } from "@/hooks/usePageReady";
+import { useHudMenuStore } from "@/store/hudMenuStore";
 
 export default function ProjectsPageClient({ language }: { language: string }) {
 	useScreenInit();
@@ -26,14 +27,13 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 	const { fetchRanges, ranges, areaRangesFetchFinished } = useAreaRangeStore();
 	const { setPageState, setIsProjectLoading, setProjectImage, setImageRect, addCachedImage } = usePreloaderStore();
 	const { scrollAllowed, setScrollAllowed } = useScrollStore();
-	const { isMobile, windowWidth } = useWindowStore();
+	const { isMobile, windowWidth, readyCheck, setReadyCheck } = useWindowStore();
+	const { visibleMobileFilters, setVisibleMobileFilters } = useHudMenuStore();
 
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	// Используем один реф для хранения всех изображений
 	const projectImagesRef = useRef<Map<number, HTMLDivElement>>(new Map());
-
-	const [visibleMobileFilters, setVisibleMobileFilters] = useState(false);
 
 	// DRAGGING
 	const listRef = useRef<HTMLDivElement>(null);
@@ -101,12 +101,15 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 		fetchAllProjects(language);
 		fetchProjectTypes(language);
 		fetchRanges();
+
+		return () => {
+			setVisibleMobileFilters(false);
+		};
 	}, []);
 
 	// Устанавливаем pageState = "ready" только когда страница полностью готова
 	useEffect(() => {
 		if (pageReady) {
-			console.log(data);
 			setPageState("ready");
 			setScrollAllowed(true);
 		} else {
@@ -296,17 +299,44 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 		setIsResetButtonActive(hasActiveFilters);
 	}, [selectedTypes, selectedRanges, selectedCategory]);
 
+	useEffect(() => {
+		if (data?.page_main_settings?.background_color) {
+			// Устанавливаем CSS переменную --backgroundColor в :root
+			document.documentElement.style.setProperty("--backgroundColor", data.page_main_settings.background_color);
+			document.documentElement.style.setProperty("--backgroundColorTransparent", data.page_main_settings.background_color + "40");
+		} else {
+			// Если данные еще не загружены, устанавливаем fallback значение
+			document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
+			document.documentElement.style.setProperty("--backgroundColorTransparent", "#fbf9f440");
+		}
+
+		if (data?.page_main_settings?.text_is_light) {
+			// Устанавливаем CSS переменную --backgroundColor в :root
+			document.documentElement.style.setProperty("--mainTextColor", "#fbf9f4");
+			document.documentElement.style.setProperty("--mainTextColorTransparent", "#fbf9f440");
+		} else {
+			// Если данные еще не загружены, устанавливаем fallback значение
+			document.documentElement.style.setProperty("--mainTextColor", "#101118");
+			document.documentElement.style.setProperty("--mainTextColorTransparent", "#10111840");
+		}
+
+		setReadyCheck(!readyCheck);
+
+		// Возвращаем исходное значение #fbf9f4
+		return () => {
+			document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
+			document.documentElement.style.setProperty("--backgroundColorTransparent", "#fbf9f440");
+			document.documentElement.style.setProperty("--mainTextColor", "#101118");
+			document.documentElement.style.setProperty("--mainTextColorTransparent", "#10111840");
+		};
+	}, [data?.page_main_settings?.background_color, data?.page_main_settings?.text_is_light]);
+
 	return (
 		<>
-			<div
-				ref={containerRef}
-				className={`screenScroll ${styles.screenScroll} ${scrollAllowed === true ? "" : "noScroll"} projectsPage`}
-				style={{ backgroundColor: data?.page_main_settings?.background_color || "var(--additionalColor)" }}
-			>
+			<div ref={containerRef} className={`screenScroll ${styles.screenScroll} ${scrollAllowed === true ? "" : "noScroll"} projectsPage`}>
 				<div
 					className={`screen active ${styles.screen}`}
-					style={{ backgroundColor: data?.page_main_settings?.background_color || "var(--additionalColor)" }}
-					data-screen-lightness="dark"
+					data-screen-lightness={data?.page_main_settings?.text_is_light ? "dark" : "light"}
 					data-lines-index={1}
 					data-mini-line-rotation={-45}
 					data-position-x={50}
@@ -464,7 +494,25 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 														<div className={styles.buttonBlock}>
 															<div className={styles.button}>
 																<div className={styles.text}>{language === "ru" ? "Подробнее" : "More"}</div>
-																<div className={styles.icon} />
+																<div className={styles.icon}>
+																	<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+																		<path
+																			fillRule="evenodd"
+																			clipRule="evenodd"
+																			d="M4.24669 16.7533C7.7003 20.2069 13.2997 20.2069 16.7533 16.7533C20.2069 13.2997 20.2069 7.7003 16.7533 4.24669C13.2997 0.793087 7.7003 0.793087 4.24669 4.24669C0.793087 7.7003 0.793087 13.2997 4.24669 16.7533ZM3.07538 17.9246C7.17588 22.0251 13.8241 22.0251 17.9246 17.9246C22.0251 13.8241 22.0251 7.17588 17.9246 3.07538C13.8241 -1.02513 7.17588 -1.02513 3.07538 3.07538C-1.02513 7.17588 -1.02513 13.8241 3.07538 17.9246Z"
+																			fill="var(--mainTextColor)"
+																		/>
+																		<path
+																			d="M10.0097 4.9841L15.6774 10.6517L14.5061 11.8231L8.8384 6.15541L10.0097 4.9841Z"
+																			fill="var(--mainTextColor)"
+																		/>
+																		<path
+																			d="M15.6772 10.6516L10.0096 16.3193L8.83828 15.148L14.5059 9.48031L15.6772 10.6516Z"
+																			fill="var(--mainTextColor)"
+																		/>
+																		<path d="M14.4709 11.3277H0.924743V9.6712H14.4709V11.3277Z" fill="var(--mainTextColor)" />
+																	</svg>
+																</div>
 															</div>
 														</div>
 														<div className={styles.projectName}>{project.title.rendered}</div>
@@ -536,7 +584,19 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 										setVisibleMobileFilters(!visibleMobileFilters);
 									}}
 								>
-									<div className={styles.icon} />
+									<div className={styles.icon}>
+										<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M11.5 4H13.5" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+											<path d="M11.5 12H13.5" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+											<path d="M2.5 4H9.5" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+											<path d="M2.5 12H9.5" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+											<path d="M7.5 8H13.5" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+											<path d="M2.5 8H5.5" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+											<path d="M9.5 3V5" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+											<path d="M9.5 11V13" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+											<path d="M5.5 7V9" stroke="var(--mainTextColor)" strokeLinecap="square" strokeLinejoin="round" />
+										</svg>
+									</div>
 									<div className={styles.text}>
 										{!visibleMobileFilters ? (language === "ru" ? "Фильтры" : "Filters") : language === "ru" ? "Фильтры" : "Filters"}
 									</div>
@@ -572,7 +632,13 @@ export default function ProjectsPageClient({ language }: { language: string }) {
 									}}
 								>
 									<div className={styles.text}>{language === "ru" ? "Сбросить" : "Reset"}</div>
-									<div className={styles.icon} />
+									<div className={styles.icon}>
+										<svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M12.0019 1H1V12H1.00194H12.0019V1Z" stroke="var(--mainTextColor)" strokeLinecap="square" />
+											<path d="M8.5 4.5L4.5 8.5" stroke="var(--mainTextColor)" strokeLinecap="square" />
+											<path d="M4.5 4.5L8.5 8.5" stroke="var(--mainTextColor)" strokeLinecap="square" />
+										</svg>
+									</div>
 								</div>
 								<div
 									className={`${styles.button} ${styles.acceptButton}`}

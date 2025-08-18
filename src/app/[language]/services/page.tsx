@@ -15,20 +15,22 @@ export function generateStaticParams() {
 }
 
 export const metadata: Metadata = {
-	title: "Hubarch - услуги",
-	description: "Описание страницы услуги",
+	title: "Hubarch - Услуги | FAQ и тест-фит проектирования",
+	description:
+		"Ответы на частые вопросы о наших услугах. Тест-фит планировочных решений от 20 000 ₽. Архитектурные и интерьерные проекты для коммерческих и общественных пространств.",
 	openGraph: {
-		title: "Hubarch - услуги",
-		description: "Описание страницы услуги",
+		title: "Hubarch - Услуги | FAQ и тест-фит проектирования",
+		description:
+			"Ответы на частые вопросы о наших услугах. Тест-фит планировочных решений от 20 000 ₽. Архитектурные и интерьерные проекты для коммерческих и общественных пространств.",
 		url: `${siteUrl}/services`, // Динамически подставляем домен
 		images: [
 			{
-				url: `${siteUrl}/images/about-us.jpg`, // Динамический URL для картинки
+				url: `${siteUrl}/images/services/iconA.png`, // Динамический URL для картинки услуг
 				width: 1200,
 				height: 630,
 			},
 		],
-		type: "article",
+		type: "website",
 	},
 };
 

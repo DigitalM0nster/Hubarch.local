@@ -1,4 +1,4 @@
-// src\app\[language]\services\page.tsx
+// src\app\[language]\contacts\page.tsx
 
 import type { Metadata } from "next";
 import ClientComponent from "./components/ClientComponent";
@@ -10,20 +10,20 @@ export function generateStaticParams() {
 }
 
 export const metadata: Metadata = {
-	title: "Hubarch - контакты",
-	description: "Описание страницы контакты",
+	title: "Hubarch - Контакты | Связаться с нами",
+	description: "Свяжитесь с Hubarch для обсуждения вашего проекта. Контактная информация, адреса офисов на карте и форма заявки для архитектурных и интерьерных проектов.",
 	openGraph: {
-		title: "Hubarch - контакты",
-		description: "Описание страницы контакты",
+		title: "Hubarch - Контакты | Связаться с нами",
+		description: "Свяжитесь с Hubarch для обсуждения вашего проекта. Контактная информация, адреса офисов на карте и форма заявки для архитектурных и интерьерных проектов.",
 		url: `${siteUrl}/contacts`, // Динамически подставляем домен
 		images: [
 			{
-				url: `${siteUrl}/images/about-us.jpg`, // Динамический URL для картинки
+				url: `${siteUrl}/images/contactUsIcon.svg`, // Динамический URL для картинки контактов
 				width: 1200,
 				height: 630,
 			},
 		],
-		type: "article",
+		type: "website",
 	},
 };
 

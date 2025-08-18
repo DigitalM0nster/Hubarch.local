@@ -10,20 +10,21 @@ export function generateStaticParams() {
 }
 
 export const metadata: Metadata = {
-	title: "Hubarch - Медиа",
-	description: "Описание страницы медиа",
+	title: "Hubarch - Новости и статьи | Архитектура и дизайн интерьеров",
+	description: "Читайте последние новости и статьи о проектах Hubarch. Интересные материалы об архитектуре, дизайне интерьеров и современных решениях в области проектирования.",
 	openGraph: {
-		title: "Hubarch - медиа",
-		description: "Описание страницы медиа",
+		title: "Hubarch - Новости и статьи | Архитектура и дизайн интерьеров",
+		description:
+			"Читайте последние новости и статьи о проектах Hubarch. Интересные материалы об архитектуре, дизайне интерьеров и современных решениях в области проектирования.",
 		url: `${siteUrl}/media`, // Динамически подставляем домен
 		images: [
 			{
-				url: `${siteUrl}/images/about-us.jpg`, // Динамический URL для картинки
+				url: `${siteUrl}/images/media/article_placeholder.png`, // Динамический URL для картинки статей
 				width: 1200,
 				height: 630,
 			},
 		],
-		type: "article",
+		type: "website",
 	},
 };
 

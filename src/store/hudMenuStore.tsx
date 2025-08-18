@@ -21,6 +21,9 @@ export interface HudMenuStore {
 
 	cookieHudActive: boolean;
 	setCookieHudActive: (state: boolean) => void;
+
+	visibleMobileFilters: boolean;
+	setVisibleMobileFilters: (state: boolean) => void;
 }
 
 export const useHudMenuStore = create<HudMenuStore>((set) => ({
@@ -44,4 +47,7 @@ export const useHudMenuStore = create<HudMenuStore>((set) => ({
 
 	cookieHudActive: true,
 	setCookieHudActive: (state) => set({ cookieHudActive: state }),
+
+	visibleMobileFilters: false,
+	setVisibleMobileFilters: (state) => set({ visibleMobileFilters: state }),
 }));

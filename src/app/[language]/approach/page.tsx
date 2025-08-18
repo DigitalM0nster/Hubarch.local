@@ -14,15 +14,17 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { language } = await params;
 	return {
-		title: "Hubarch — Подход",
-		description: "Описание страницы подхода",
+		title: "Hubarch — Наш подход к проектированию | 8 этапов работы",
+		description:
+			"Узнайте о нашем профессиональном подходе к архитектурным и интерьерным проектам. От первой встречи до авторского надзора - 8 четких этапов реализации вашего проекта.",
 		openGraph: {
-			title: "Hubarch — Подход",
-			description: "Описание страницы подхода",
+			title: "Hubarch — Наш подход к проектированию | 8 этапов работы",
+			description:
+				"Узнайте о нашем профессиональном подходе к архитектурным и интерьерным проектам. От первой встречи до авторского надзора - 8 четких этапов реализации вашего проекта.",
 			url: `${siteUrl}/${language}/approach`,
 			images: [
 				{
-					url: `${siteUrl}/images/og-default.jpg`,
+					url: `${siteUrl}/images/approach/background.svg`,
 					width: 1200,
 					height: 630,
 				},

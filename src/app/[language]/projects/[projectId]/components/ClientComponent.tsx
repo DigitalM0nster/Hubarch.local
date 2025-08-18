@@ -108,15 +108,31 @@ export default function ClientComponent({ projectData }: { projectData: any }) {
 		if (projectData?.page_main_settings?.background_color) {
 			// Устанавливаем CSS переменную --backgroundColor в :root
 			document.documentElement.style.setProperty("--backgroundColor", projectData.page_main_settings.background_color);
+			document.documentElement.style.setProperty("--backgroundColorTransparent", projectData.page_main_settings.background_color + "40");
 		} else {
 			// Если данные еще не загружены, устанавливаем fallback значение
 			document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
+			document.documentElement.style.setProperty("--backgroundColorTransparent", "#fbf9f440");
 		}
+
+		if (projectData?.page_main_settings?.text_is_light) {
+			// Устанавливаем CSS переменную --backgroundColor в :root
+			document.documentElement.style.setProperty("--mainTextColor", "#fbf9f4");
+			document.documentElement.style.setProperty("--mainTextColorTransparent", "#fbf9f440");
+		} else {
+			// Если данные еще не загружены, устанавливаем fallback значение
+			document.documentElement.style.setProperty("--mainTextColor", "#101118");
+			document.documentElement.style.setProperty("--mainTextColorTransparent", "#10111840");
+		}
+
 		// Возвращаем исходное значение #fbf9f4
 		return () => {
 			document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
+			document.documentElement.style.setProperty("--backgroundColorTransparent", "#fbf9f440");
+			document.documentElement.style.setProperty("--mainTextColor", "#101118");
+			document.documentElement.style.setProperty("--mainTextColorTransparent", "#10111840");
 		};
-	}, [projectData.page_main_settings?.background_color]);
+	}, [projectData?.page_main_settings?.background_color, projectData?.page_main_settings?.text_is_light]);
 
 	return null;
 }

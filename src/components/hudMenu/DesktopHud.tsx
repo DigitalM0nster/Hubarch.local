@@ -26,7 +26,8 @@ function formatPhoneNumber(phoneNumber: string) {
 export default function DesktopHud({ language }: { language: string }) {
 	const pathname = usePathname(); // Получаем текущий путь
 	const { isLoading, menuSettingsData, popupData, orderPopupData, bannerData } = useAllOptionsStore();
-	const { screenLightness, activePage, setActivePage, activePopup, setActivePopup, activeOrderPopup, setActiveOrderPopup, isTopBannerActive } = useHudMenuStore();
+	const { screenLightness, activePage, setActivePage, activePopup, setActivePopup, activeOrderPopup, setActiveOrderPopup, isTopBannerActive, visibleMobileFilters } =
+		useHudMenuStore();
 
 	const lang = language;
 	const [localLoading, setLocalLoading] = useState(true);
@@ -185,7 +186,7 @@ export default function DesktopHud({ language }: { language: string }) {
 				</div>
 				<div className={styles.rightPart}>
 					<div
-						className={`${styles.stoneIcon} ${activePopup ? styles.active : ""}`}
+						className={`${styles.stoneIcon} ${activePopup ? styles.active : ""} ${visibleMobileFilters ? styles.hidden : ""}`}
 						onClick={() => {
 							setActiveOrderPopup(false);
 							setActivePopup(!activePopup);

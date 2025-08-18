@@ -10,20 +10,20 @@ export function generateStaticParams() {
 }
 
 export const metadata: Metadata = {
-	title: "Hubarch - О нас",
-	description: "Описание страницы О нас",
+	title: "Hubarch - О нас | Архитектурная студия с 2013 года",
+	description: "Узнайте о команде Hubarch - архитектурной студии с 11-летним опытом. История развития, команда профессионалов, награды и проекты площадью более 238 000 м².",
 	openGraph: {
-		title: "Hubarch - О нас",
-		description: "Описание страницы О нас",
+		title: "Hubarch - О нас | Архитектурная студия с 2013 года",
+		description: "Узнайте о команде Hubarch - архитектурной студии с 11-летним опытом. История развития, команда профессионалов, награды и проекты площадью более 238 000 м².",
 		url: `${siteUrl}/about`, // Динамически подставляем домен
 		images: [
 			{
-				url: `${siteUrl}/images/about-us.jpg`, // Динамический URL для картинки
+				url: `${siteUrl}/images/about/DashaGubarevich.png`, // Динамический URL для картинки команды
 				width: 1200,
 				height: 630,
 			},
 		],
-		type: "article",
+		type: "website",
 	},
 };
 

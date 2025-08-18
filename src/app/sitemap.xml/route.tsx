@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic"; // 🚨 запретить пререн�
 const siteUrl = process.env.SITE_URL;
 
 export async function GET() {
-	const staticPages = ["", "about", "projects", "services", "contacts"];
+	const staticPages = ["", "about", "approach", "projects", "services", "contacts", "media"];
 	const locales = ["ru", "en"];
 
 	type Project = {
