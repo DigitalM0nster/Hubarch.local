@@ -144,7 +144,6 @@ export const useAllOptionsStore = create<AllOptionsState>((set, get) => ({
 			set({ orderPopupData: response.data.order_settings });
 			set({ bannerData: response.data.banner_settings });
 			set({ preloaderData: response.data.preloader_settings });
-			console.log(response.data);
 		} catch (error) {
 			console.error("Ошибка загрузки меню", error);
 		} finally {

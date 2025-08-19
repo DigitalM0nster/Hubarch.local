@@ -35,7 +35,7 @@ export default function Preloader() {
 	const prevPath = useRef<string | null>(null);
 
 	const animationFrameRef = useRef<number | null>(null);
-	const intervalRef = useRef<number | null>(null);
+	const targetIntervalRef = useRef<number | null>(null);
 	const styleIntervalRef = useRef<number | null>(null);
 
 	const preloaderRef = useRef<HTMLDivElement | null>(null);
@@ -47,29 +47,6 @@ export default function Preloader() {
 
 	// Состояние для типа прелоадера
 	const [preloaderStyle, setPreloaderStyle] = useState<string>("type1");
-
-	// Функция для запуска интервала увеличения targetProgress
-	const startProgressInterval = useCallback(() => {
-		// Очищаем предыдущий интервал, если он существует
-		if (intervalRef.current !== null) {
-			clearInterval(intervalRef.current);
-		}
-
-		// Создаем новый интервал
-		intervalRef.current = window.setInterval(() => {
-			// Увеличиваем targetProgress на 18, но не более 100
-			targetProgress.current = Math.min(targetProgress.current + 18, 100);
-
-			// Если достигли 100, очищаем интервал
-			if (targetProgress.current >= 100 || pageState === "ready") {
-				if (intervalRef.current !== null) {
-					targetProgress.current = 100;
-					clearInterval(intervalRef.current);
-					intervalRef.current = null;
-				}
-			}
-		}, 1000); // 1000 мс = 1 секунда
-	}, [pageState]);
 
 	// Функция для циклического изменения стиля прелоадера
 	const startStyleChangeInterval = useCallback(() => {
@@ -99,6 +76,20 @@ export default function Preloader() {
 		}, 2000); // 2000 мс = 2 секунды
 	}, []);
 
+	// Функция для циклического изменения стиля прелоадера
+	const startTargetInterval = useCallback(() => {
+		// Очищаем предыдущий интервал, если он существует
+		if (targetIntervalRef.current !== null) {
+			clearInterval(targetIntervalRef.current);
+			targetIntervalRef.current = null;
+		}
+
+		// Создаем новый интервал для изменения стиля каждые 2 секунды
+		targetIntervalRef.current = window.setInterval(() => {
+			targetProgress.current = Math.min(targetProgress.current + 9, 100);
+		}, 1000); // 2000 мс = 2 секунды
+	}, []);
+
 	// Функция, которая выполняется ПЕРЕД переходом по ссылке
 	const beforeNavigation = useCallback(async () => {
 		// Останавливаем текущую анимацию прогресса
@@ -108,16 +99,16 @@ export default function Preloader() {
 		}
 
 		// Останавливаем интервал, если он существует
-		if (intervalRef.current !== null) {
-			clearInterval(intervalRef.current);
-			intervalRef.current = null;
+		if (targetIntervalRef.current !== null) {
+			clearInterval(targetIntervalRef.current);
+			targetIntervalRef.current = null;
 		}
 
 		// Сбрасываем состояние прелоадера
 		setPageState("loading");
 		lastUpdateTime.current = performance.now();
 		currentProgress.current = 1;
-		targetProgress.current = 18;
+		targetProgress.current = 9;
 		setProgress(1);
 
 		return new Promise<void>((resolve) => {
@@ -134,9 +125,6 @@ export default function Preloader() {
 					// Запускаем анимацию прогресса
 					animateProgress();
 
-					// Запускаем интервал увеличения targetProgress
-					startProgressInterval();
-
 					// Запускаем интервал изменения стиля
 					startStyleChangeInterval();
 
@@ -146,7 +134,7 @@ export default function Preloader() {
 				});
 			});
 		});
-	}, [startProgressInterval, startStyleChangeInterval, pageState]);
+	}, [startStyleChangeInterval, pageState]);
 
 	// Функция, которая выполняется ПОСЛЕ перехода по ссылке
 	const afterProgress100 = useCallback(() => {
@@ -186,6 +174,7 @@ export default function Preloader() {
 		if (preloaderRef.current) {
 			preloaderRef.current.dataset.status = "activated";
 		}
+		startTargetInterval();
 
 		const loop = () => {
 			const now = performance.now();
@@ -222,17 +211,14 @@ export default function Preloader() {
 		// Запускаем анимацию прогресса
 		animateProgress();
 
-		// Запускаем интервал увеличения targetProgress
-		startProgressInterval();
-
 		// Запускаем интервал изменения стиля
 		startStyleChangeInterval();
 
 		// Очищаем интервалы при размонтировании компонента
 		return () => {
-			if (intervalRef.current !== null) {
-				clearInterval(intervalRef.current);
-				intervalRef.current = null;
+			if (targetIntervalRef.current !== null) {
+				clearInterval(targetIntervalRef.current);
+				targetIntervalRef.current = null;
 			}
 
 			if (styleIntervalRef.current !== null) {
@@ -240,7 +226,7 @@ export default function Preloader() {
 				styleIntervalRef.current = null;
 			}
 		};
-	}, [beforeNavigation, startProgressInterval, startStyleChangeInterval]);
+	}, [beforeNavigation, startStyleChangeInterval]);
 
 	useEffect(() => {
 		if (progress >= 100) {
