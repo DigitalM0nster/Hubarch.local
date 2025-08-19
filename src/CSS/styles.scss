@@ -243,6 +243,13 @@ p {
 		&.simpleScroll {
 			.screen {
 				padding: 100px 0px 0px 0px;
+				min-height: unset;
+				height: fit-content;
+
+				.screenContent {
+					min-height: unset;
+					height: fit-content;
+				}
 
 				&.projectsScreen {
 					padding: 150px 0px 0px 0px;

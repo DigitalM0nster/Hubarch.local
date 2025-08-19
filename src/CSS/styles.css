@@ -219,6 +219,14 @@ p img {
   }
   .screenScroll.simpleScroll .screen {
     padding: 100px 0px 0px 0px;
+    min-height: unset;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  .screenScroll.simpleScroll .screen .screenContent {
+    min-height: unset;
+    height: -moz-fit-content;
+    height: fit-content;
   }
   .screenScroll.simpleScroll .screen.projectsScreen {
     padding: 150px 0px 0px 0px;
