@@ -376,6 +376,7 @@
 }
 .mobileHud.light .burgerButtonBlock .burger .line {
   color: #101118;
+  background-color: #101118;
 }
 .mobileHud.dark {
   color: #101118;
@@ -384,6 +385,7 @@
   background-color: #101118;
 }
 .mobileHud.dark .burgerButtonBlock .burger .line {
+  background-color: #fbf9f4;
   color: #fbf9f4;
 }
 .mobileHud .logo {
