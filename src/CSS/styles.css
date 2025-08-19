@@ -217,6 +217,12 @@ p img {
   .screenScroll.noScroll {
     overflow-y: hidden;
   }
+  .screenScroll.simpleScroll {
+    height: -moz-fit-content;
+    height: fit-content;
+    min-height: unset;
+    overflow: visible;
+  }
   .screenScroll.simpleScroll .screen {
     padding: 100px 0px 0px 0px;
     min-height: unset;

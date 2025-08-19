@@ -241,6 +241,9 @@ p {
 		}
 
 		&.simpleScroll {
+			height: fit-content;
+			min-height: unset;
+			overflow: visible;
 			.screen {
 				padding: 100px 0px 0px 0px;
 				min-height: unset;
