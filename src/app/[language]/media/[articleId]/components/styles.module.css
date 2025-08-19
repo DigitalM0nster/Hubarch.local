@@ -344,6 +344,12 @@ a.backButton .text {
   .screenScroll .screen1 {
     padding: 0;
   }
+  .screen1 .screenContent {
+    margin: 0px auto;
+  }
+  .contentTwoBlocks .screenContent {
+    margin: 0px auto;
+  }
   .contentTwoBlocks .rightBlock {
     gap: 15px;
   }
@@ -357,6 +363,9 @@ a.backButton .text {
   .contentTwoBlocks .leftBlock .textBlock {
     width: calc(100% - var(--screenPadding) * 2);
     padding: 0px calc(var(--screenPadding) * 1);
+  }
+  .contentOneBlock .screenContent {
+    margin: 0px auto;
   }
   .textBlock.listBlock .listItems .listItem .number {
     width: 55px;
