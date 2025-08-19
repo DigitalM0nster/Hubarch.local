@@ -7,6 +7,14 @@ export default function PopupHud({ activePopup, popupData, language }: { activeP
 	// Состояние для отслеживания активного инпута (фокус)
 	const [activeInputIndex, setActiveInputIndex] = useState<number | null>(null);
 
+	// Состояние для формы
+	const [formData, setFormData] = useState({
+		name: "",
+		phone: "",
+		email: "",
+	});
+	const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
 	useEffect(() => {
 		// console.log(popupData);
 	}, [popupData]);
@@ -49,6 +57,53 @@ export default function PopupHud({ activePopup, popupData, language }: { activeP
 		setActiveInputIndex(null);
 	};
 
+	// Функция отправки формы
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+
+		if (!formData.name || !formData.phone || !formData.email) {
+			setFormStatus("error");
+			return;
+		}
+
+		setFormStatus("sending");
+
+		try {
+			// Получаем данные текущего попапа
+			const currentPopup = popupData?.popup_items?.[activePopupItem];
+			const popupTitle = currentPopup?.title ? (language === "ru" ? currentPopup.title.ru : currentPopup.title.en) : "";
+			const popupButtonText = currentPopup?.button_text ? (language === "ru" ? currentPopup.button_text.ru : currentPopup.button_text.en) : "";
+
+			await fetch("/api/submit-form", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					name: formData.name,
+					phone: formData.phone,
+					email: formData.email,
+					formType: "popup", // Указываем что это попап форма
+					popupTitle: popupTitle, // Заголовок попапа
+					popupButtonText: popupButtonText, // Текст кнопки
+				}),
+			});
+
+			setFormStatus("success");
+			// Сбрасываем форму
+			setFormData({
+				name: "",
+				phone: "",
+				email: "",
+			});
+
+			// Через 2 секунды сбрасываем статус
+			setTimeout(() => {
+				setFormStatus("idle");
+			}, 2000);
+		} catch (e) {
+			setFormStatus("error");
+		}
+	};
+
 	return (
 		<>
 			<div className={`${styles.popupHud} ${activePopup ? styles.active : ""}`}>
@@ -78,6 +133,7 @@ export default function PopupHud({ activePopup, popupData, language }: { activeP
 								)}
 								<form
 									className={styles.form}
+									onSubmit={handleSubmit}
 									style={{
 										color: item.text_color,
 										borderLeft: `1px solid ${getColorWithOpacity(item.text_color, 0.2)}`,
@@ -88,6 +144,8 @@ export default function PopupHud({ activePopup, popupData, language }: { activeP
 										<input
 											type="text"
 											placeholder={language === "ru" ? "Имя" : "Name"}
+											value={formData.name}
+											onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
 											style={{
 												color: item.text_color,
 												borderBottom: `1px solid ${getColorWithOpacity(item.text_color, activeInputIndex === 0 ? 1 : 0.2)}`,
@@ -100,6 +158,8 @@ export default function PopupHud({ activePopup, popupData, language }: { activeP
 										<input
 											type="text"
 											placeholder={language === "ru" ? "Телефон" : "Phone"}
+											value={formData.phone}
+											onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
 											style={{
 												color: item.text_color,
 												borderBottom: `1px solid ${getColorWithOpacity(item.text_color, activeInputIndex === 1 ? 1 : 0.2)}`,
@@ -112,6 +172,8 @@ export default function PopupHud({ activePopup, popupData, language }: { activeP
 										<input
 											type="text"
 											placeholder="Email"
+											value={formData.email}
+											onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
 											style={{
 												color: item.text_color,
 												borderBottom: `1px solid ${getColorWithOpacity(item.text_color, activeInputIndex === 2 ? 1 : 0.2)}`,
@@ -120,7 +182,7 @@ export default function PopupHud({ activePopup, popupData, language }: { activeP
 											onBlur={handleInputBlur}
 										/>
 									</div>
-									<button>
+									<button type="submit" disabled={formStatus === "sending"}>
 										<div className={styles.icon}>
 											<svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
 												<path
@@ -135,7 +197,15 @@ export default function PopupHud({ activePopup, popupData, language }: { activeP
 											</svg>
 										</div>
 										<div className={styles.text} style={{ color: item.text_color }}>
-											{language === "ru"
+											{formStatus === "sending"
+												? language === "ru"
+													? "Отправка..."
+													: "Sending..."
+												: formStatus === "success"
+												? language === "ru"
+													? "Отправлено!"
+													: "Sent!"
+												: language === "ru"
 												? item.button_text.ru
 													? item.button_text.ru
 													: "Отправить заявку"

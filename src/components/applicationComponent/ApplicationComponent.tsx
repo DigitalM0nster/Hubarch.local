@@ -60,6 +60,7 @@ export default function ApplicationComponent({ language, data, isPopup }: { lang
 					email,
 					footage: selectedRange,
 					message,
+					formType: "application", // Указываем тип формы
 				}),
 			});
 

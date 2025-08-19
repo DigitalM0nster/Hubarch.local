@@ -12,8 +12,10 @@ interface FormData {
 	email?: string;
 	message?: string;
 	footage?: string;
-	formType?: "contact" | "application" | "testfit";
+	formType?: "application" | "popup";
 	pageUrl?: string;
+	popupTitle?: string; // Заголовок попапа
+	popupButtonText?: string; // Текст кнопки в попапе
 }
 
 // Функция для отправки сообщения в Telegram
@@ -33,20 +35,21 @@ async function sendTelegramMessage(data: FormData) {
 
 	// Определяем тип формы по контексту
 	let formType = data.formType || "application";
-	if (data.footage) {
-		formType = "testfit";
-	}
 
 	// Добавляем тип формы
 	switch (formType) {
-		case "contact":
-			message += `📞 *Тип:* Контактная форма\n`;
-			break;
 		case "application":
 			message += `📋 *Тип:* Заявка на проект\n`;
 			break;
-		case "testfit":
-			message += `📐 *Тип:* Тест-фит\n`;
+		case "popup":
+			message += `🪟 *Тип:* Попап форма\n`;
+			// Добавляем информацию о попапе
+			if (data.popupTitle) {
+				message += `📝 *Заголовок:* ${data.popupTitle}\n`;
+			}
+			if (data.popupButtonText) {
+				message += `🔘 *Кнопка:* ${data.popupButtonText}\n`;
+			}
 			break;
 	}
 

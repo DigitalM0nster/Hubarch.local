@@ -117,7 +117,7 @@ export default function Preloader() {
 		setPageState("loading");
 		lastUpdateTime.current = performance.now();
 		currentProgress.current = 1;
-		targetProgress.current = 9;
+		targetProgress.current = 18;
 		setProgress(1);
 
 		return new Promise<void>((resolve) => {

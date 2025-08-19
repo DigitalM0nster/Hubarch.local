@@ -3,6 +3,7 @@
 import { useWindowStore } from "@/store/windowStore";
 import styles from "./styles.module.scss";
 import parse from "html-react-parser";
+import { useHudMenuStore } from "@/store/hudMenuStore";
 
 interface PriceItem {
 	text1: string;
@@ -11,7 +12,7 @@ interface PriceItem {
 
 export default function TestfitComponent({ language, data }: { language: string; data: any }) {
 	const { isMobile } = useWindowStore();
-
+	const { activeOrderPopup, setActiveOrderPopup } = useHudMenuStore();
 	return (
 		<div
 			className={`screen ${styles.screen}`}
@@ -60,7 +61,12 @@ export default function TestfitComponent({ language, data }: { language: string;
 								))}
 							</div>
 							<div className={styles.callbackButtonBlock}>
-								<div className={`${styles.button} button callbackButton`}>
+								<div
+									className={`${styles.button} button callbackButton`}
+									onClick={() => {
+										setActiveOrderPopup(true);
+									}}
+								>
 									<div className={`${styles.icon} icon`} />
 									<div className={`${styles.text} text`}>
 										{language === "ru"
