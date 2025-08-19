@@ -1,46 +1,49 @@
-// src\app\[language]\policy\page.tsx
-import type { Metadata } from "next";
-import PolicyPageClient from "./components/PolicyPageClient";
+import { redirect } from "next/navigation";
+import { useAllOptionsStore } from "@/store/allOptionsStore";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
-type Props = {
-	params: Promise<{
-		language: string;
-	}>;
-};
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-	const { language } = await params;
-
-	return {
-		title: "Hubarch — Архитектурная студия | Дизайн интерьеров и проектирование",
-		description:
-			"Hubarch - архитектурная студия с 2013 года. Создаем уникальные пространства: архитектурные проекты, дизайн интерьеров, коммерческие пространства. Более 238 000 м² реализованных проектов.",
-		openGraph: {
-			title: "Hubarch — Архитектурная студия | Дизайн интерьеров и проектирование",
-			description:
-				"Hubarch - архитектурная студия с 2013 года. Создаем уникальные пространства: архитектурные проекты, дизайн интерьеров, коммерческие пространства. Более 238 000 м² реализованных проектов.",
-			url: `${siteUrl}/${language}`,
-			images: [
-				{
-					url: `${siteUrl}/images/hubarch_logo.svg`,
-					width: 1200,
-					height: 630,
-				},
-			],
-			type: "website",
-		},
-	};
-}
-
-export function generateStaticParams() {
-	return [{ language: "ru" }, { language: "en" }];
-}
-
-// Страница политики конфиденциальности
-// Показывает содержимое файла, загруженного в админке
+// Простая страница политики с редиректом на файл из админки
+// URL: /ru/policy -> редирект на русский файл из allOptionsStore
+// URL: /en/policy -> редирект на английский файл из allOptionsStore
 export default async function PolicyPage({ params }: { params: Promise<{ language: string }> }) {
+	// Получаем язык из параметров
 	const { language } = await params;
-	return <PolicyPageClient key={language} language={language} />;
+
+	// Получаем данные из store
+	const store = useAllOptionsStore.getState();
+
+	// Если данные еще не загружены, загружаем их
+	if (!store.privacyPolicyData) {
+		await store.fetchAllOptions();
+	}
+
+	// Получаем URL файла политики для нужного языка
+	const privacyPolicyData = store.privacyPolicyData;
+
+	if (!privacyPolicyData) {
+		// Если данные не загрузились, редиректим на главную
+		redirect(`/${language}`);
+	}
+
+	// Определяем URL файла в зависимости от языка
+	let fileUrl: string;
+
+	if (language === "ru") {
+		// Редирект на русский файл политики из админки
+		fileUrl = privacyPolicyData.privacy_policy.ru;
+	} else if (language === "en") {
+		// Редирект на английский файл политики из админки
+		fileUrl = privacyPolicyData.privacy_policy.en;
+	} else {
+		// Если язык не поддерживается, редиректим на русский
+		fileUrl = privacyPolicyData.privacy_policy.ru;
+	}
+
+	// Проверяем, что URL файла существует
+	if (!fileUrl) {
+		// Если URL файла не найден, редиректим на главную
+		redirect(`/${language}`);
+	}
+
+	// Делаем редирект на файл из админки
+	redirect(fileUrl);
 }
