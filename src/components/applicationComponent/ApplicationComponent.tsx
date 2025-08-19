@@ -51,7 +51,7 @@ export default function ApplicationComponent({ language, data, isPopup }: { lang
 
 		try {
 			// Тут ты можешь отправить данные куда нужно, например:
-			await fetch("/api/send-form", {
+			await fetch("/api/submit-form", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
@@ -117,17 +117,6 @@ export default function ApplicationComponent({ language, data, isPopup }: { lang
 						<div className={`titleBackground ${styles.titleBackground}`}>{data?.title_background || (language === "ru" ? "СВЯЖИТЕСЬ С НАМИ" : "CONTACT US")}</div>
 					</div>
 					<div ref={formRef} className={`${styles.form} form`}>
-						{isPopup && (
-							<div
-								className={styles.closeIcon}
-								onClick={() => {
-									setActiveOrderPopup(false);
-								}}
-							>
-								<div className={styles.line} />
-								<div className={styles.line} />
-							</div>
-						)}
 						<div className={styles.topPart}>
 							<input
 								type="text"
@@ -253,6 +242,17 @@ export default function ApplicationComponent({ language, data, isPopup }: { lang
 					{data?.image && (
 						<div className={`${styles.image} image`}>
 							<img src={data.image.url} alt={data.image.name} />
+						</div>
+					)}
+					{isPopup && (
+						<div
+							className={styles.closeIcon}
+							onClick={() => {
+								setActiveOrderPopup(false);
+							}}
+						>
+							<div className={styles.line} />
+							<div className={styles.line} />
 						</div>
 					)}
 				</div>
