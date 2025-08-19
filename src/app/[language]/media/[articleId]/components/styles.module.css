@@ -333,9 +333,15 @@ a.backButton .text {
   }
 }
 @media (max-width: 980px) {
+  .contentTwoBlocks .rightBlock {
+    gap: 15px;
+  }
   .contentTwoBlocks .rightBlock .textBlock {
     width: calc(100% - var(--screenPadding) * 2);
     padding: 0px calc(var(--screenPadding) * 1);
+  }
+  .contentTwoBlocks .leftBlock {
+    gap: 15px;
   }
   .contentTwoBlocks .leftBlock .textBlock {
     width: calc(100% - var(--screenPadding) * 2);
@@ -362,6 +368,7 @@ a.backButton .text {
   }
   .screen1 .rightBlock {
     width: 100%;
+    gap: 15px;
   }
   .screen1 .rightBlock .text {
     align-self: flex-start;
@@ -376,17 +383,25 @@ a.backButton .text {
   }
   .contentOneBlock .screenContent {
     gap: 30px;
+    margin: 0px auto;
   }
   .contentTwoBlocks .screenContent {
     flex-direction: column;
     width: var(--contentWidth);
     gap: 30px;
+    margin: 0px auto;
   }
   .contentTwoBlocks .leftBlock {
     width: 100%;
   }
+  .contentTwoBlocks .leftBlock .textBlock {
+    gap: 10px;
+  }
   .contentTwoBlocks .rightBlock {
     width: 100%;
+  }
+  .contentTwoBlocks .rightBlock .textBlock {
+    gap: 10px;
   }
   .textBlock.listBlock .listItems .listItem .number {
     width: 40px;

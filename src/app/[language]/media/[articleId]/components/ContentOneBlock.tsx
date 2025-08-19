@@ -27,7 +27,7 @@ export default function ContentOneBlock({ language, articleId, articleData, arti
 		<div
 			className={`screen ${styles.screen} ${styles.contentOneBlock} contentOneBlock`}
 			data-screen-lightness="light"
-			data-lines-index={1}
+			data-lines-index={0}
 			data-mini-line-rotation={45}
 			data-position-x={50}
 			data-position-y={50}

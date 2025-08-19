@@ -19,7 +19,7 @@ export default function Screen1({ articleData, language = "ru" }: { articleData:
 		<div
 			className={`screen active ${styles.screen} ${styles.screen1}`}
 			data-screen-lightness="light"
-			data-lines-index={1}
+			data-lines-index={0}
 			data-mini-line-rotation={-45}
 			data-position-x={50}
 			data-position-y={50}
