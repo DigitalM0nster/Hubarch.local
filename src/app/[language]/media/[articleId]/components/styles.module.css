@@ -312,6 +312,7 @@ a.backButton .text {
 @media (max-width: 1280px) {
   .backButton,
   a.backButton {
+    display: none;
     gap: 5px;
   }
   .backButton .text,
@@ -333,6 +334,11 @@ a.backButton .text {
   }
 }
 @media (max-width: 980px) {
+  .backButton,
+  a.backButton {
+    display: flex;
+    top: calc(var(--screenPadding) * 5);
+  }
   .contentTwoBlocks .rightBlock {
     gap: 15px;
   }
