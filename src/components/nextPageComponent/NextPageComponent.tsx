@@ -122,7 +122,7 @@ export default function NextPageScreen({ language, data }: { language: string; d
 						<div className={styles.buttonBlock}>
 							<div className={styles.button}>
 								<div className={styles.icon} />
-								<div className={styles.text}>Перейти</div>
+								<div className={styles.text}>{language === "ru" ? "Перейти" : "Go to"}</div>
 							</div>
 							<div className={styles.pageName}>{data.link.title}</div>
 						</div>

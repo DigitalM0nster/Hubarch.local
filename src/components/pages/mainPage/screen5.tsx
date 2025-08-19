@@ -253,7 +253,7 @@ export default function Screen5({ language }: { language: string }) {
 								))}
 							</div>
 
-							<LinkWithPreloader href="/about" className={styles.aboutUsButton}>
+							<LinkWithPreloader href={`/${language}/about`} className={styles.aboutUsButton}>
 								<div className={styles.icon} />
 								<div className={styles.text}>{language === "ru" ? "Больше о нас" : "More about us"}</div>
 							</LinkWithPreloader>

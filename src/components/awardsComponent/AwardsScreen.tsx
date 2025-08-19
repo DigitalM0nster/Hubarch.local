@@ -69,7 +69,14 @@ export default function AwardsScreen({ language, isSimpleScroll, data }: { langu
 				<div className={`screenContent ${styles.screenContent}`}>
 					<div className={`topBlock ${styles.topBlock}`}>
 						<div className={styles.number}>({totalNominationsCount})</div>
-						<div className={styles.text}>{getPlural(totalNominationsCount, "Премия", "Премии", "Премий")}</div>
+						<div className={styles.text}>
+							{getPlural(
+								totalNominationsCount,
+								language === "ru" ? "Премия" : "Award",
+								language === "ru" ? "Премии" : "Awards",
+								language === "ru" ? "Премий" : "Awards"
+							)}
+						</div>
 					</div>
 					<div className={`leftBlock ${styles.leftBlock}`}>
 						<div className={`titleBackground titleBackgroundColor ${styles.titleBackgroundColor}`}>{totalNominationsCount}</div>

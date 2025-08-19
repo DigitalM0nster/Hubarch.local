@@ -93,7 +93,7 @@ export default function HistoryScreen({ data, language }: { data: HistoryScreenD
 								})}
 							</div>
 							<div className={styles.historyNumberBlock}>
-								<div className={styles.text}>Построено более:</div>
+								<div className={styles.text}>{language === "ru" ? "Построено более:" : "Built more than:"}</div>
 								{data.years.map((year, index) => {
 									// Форматирование числа с разделением тысяч пробелами
 									const formattedNumber = year.number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");

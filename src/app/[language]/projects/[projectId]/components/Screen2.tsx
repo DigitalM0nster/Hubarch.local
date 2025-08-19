@@ -126,7 +126,6 @@ export default function Screen2({ language, projectData }: { language: string; p
 					{projectData?.acf?.project_awards?.length > 0 && (
 						<div className={styles.awardsList}>
 							{projectData.acf.project_awards.map((item: any, index: number) => {
-								// Проверяем, есть ли ещё премии с тем же term_id (то есть, в других годах)
 								const isMultipleYears = projectData.acf.project_awards.filter((e: any) => e.term_id === item.term_id).length > 1;
 
 								return (
