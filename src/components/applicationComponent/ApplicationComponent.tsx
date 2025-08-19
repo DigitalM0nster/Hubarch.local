@@ -12,7 +12,6 @@ export default function ApplicationComponent({ language, data, isPopup }: { lang
 	const { ranges, fetchRanges } = useAreaRangeStore();
 	// console.log(ranges);
 	const { setActiveOrderPopup, activeOrderPopup } = useHudMenuStore();
-	const { privacyPolicyData } = useAllOptionsStore();
 	const formRef = useRef<HTMLDivElement>(null);
 	const dropdownRef = useRef<HTMLDivElement>(null);
 
