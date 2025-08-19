@@ -382,8 +382,15 @@ a.backButton {
 @media (max-width: 980px) {
 	.backButton,
 	a.backButton {
+		position: relative;
 		display: flex;
-		top: calc(var(--screenPadding) * 5);
+		padding: calc(var(--topBannerHeight) + 70px + var(--screenPadding) * 2) 0px 0px 0px;
+		top: auto;
+	}
+	.screenScroll {
+		.screen1 {
+			padding: 0;
+		}
 	}
 	.contentTwoBlocks {
 		.rightBlock {
@@ -436,6 +443,7 @@ a.backButton {
 		.screenContent {
 			flex-direction: column;
 			gap: 30px;
+			margin: 0px auto;
 		}
 		.leftBlock {
 			width: 100%;

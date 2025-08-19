@@ -36,6 +36,7 @@ export default function ContentOneBlock({ language, articleId, articleData, arti
 			data-horizontal-width={100}
 			data-vertical-height={100}
 			data-lines-color={"dark"}
+			data-lines-opacity={0.25}
 			data-left-line-x={0}
 			data-left-line-height={0}
 			data-right-line-x={100}
