@@ -338,9 +338,11 @@ a.backButton .text {
   a.backButton {
     position: relative;
     display: flex;
-    padding: calc(var(--topBannerHeight) + 70px + var(--screenPadding) * 2) 0px 0px 0px;
+    padding: 0;
+    margin: calc(var(--topBannerHeight) + 70px + var(--screenPadding) * 2) 0px 15px 0px;
     top: auto;
-    margin: 0px 0px 15px 0px;
+    width: -moz-fit-content;
+    width: fit-content;
   }
   .screenScroll.simpleScroll .screen1 {
     padding: 0;

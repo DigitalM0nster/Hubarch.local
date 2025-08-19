@@ -401,6 +401,9 @@
   .screenScroll {
     overflow: hidden;
   }
+  .screenScroll.simpleScroll .screen.screen1 {
+    height: 100dvh;
+  }
   .screen {
     --centerBlockHeight: calc(100dvh - var(--leftBlockHeight) * 2);
     --projectCardWidth: 11vw;

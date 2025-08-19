@@ -35,7 +35,7 @@ export default function ProjectIdPage({ language, projectId, projectData }: Proj
 		return (
 			<>
 				<ClientComponent projectData={""} />
-				<div className={`screenScroll ${styles.screenScroll}`} id="projectContainer">
+				<div className={`screenScroll ${styles.screenScroll} ${styles.simpleScroll} simpleScroll`} id="projectContainer">
 					<div
 						className={`screen active ${styles.screen} ${styles.notFoundScreen}`}
 						data-screen-lightness="light"
@@ -72,7 +72,7 @@ export default function ProjectIdPage({ language, projectId, projectData }: Proj
 	return (
 		<>
 			<ClientComponent projectData={projectData} />
-			<div className={`screenScroll ${styles.screenScroll} simpleScroll`} id="projectContainer">
+			<div className={`screenScroll ${styles.screenScroll} ${styles.simpleScroll} simpleScroll`} id="projectContainer">
 				<Screen1 projectData={projectData} />
 				<Screen2 language={language} projectData={projectData} />
 				{projectData?.acf?.project_blocks != false &&

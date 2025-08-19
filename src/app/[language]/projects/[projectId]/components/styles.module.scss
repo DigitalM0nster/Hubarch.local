@@ -983,6 +983,17 @@
 }
 @media (max-width: 980px) {
 	.screenScroll {
+		&.simpleScroll {
+			.screen {
+				&.screen1 {
+					height: 100dvh;
+
+					.screenContent {
+						height: 100%;
+					}
+				}
+			}
+		}
 		.screen {
 			padding: 100px 0px 0px 0px;
 			.screenTitle {
