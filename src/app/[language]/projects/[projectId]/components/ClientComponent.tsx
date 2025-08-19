@@ -17,7 +17,7 @@ export default function ClientComponent({ projectData }: { projectData: any }) {
 	useDetectMobile();
 	const { setPageState } = usePreloaderStore();
 	const { scrollAllowed, setScrollAllowed } = useScrollStore();
-	const { windowWidth } = useWindowStore();
+	const { windowWidth, readyCheck, setReadyCheck } = useWindowStore();
 
 	// Создаем ref в клиентском компоненте
 	const containerRef = useRef<HTMLDivElement | null>(null);
@@ -124,6 +124,8 @@ export default function ClientComponent({ projectData }: { projectData: any }) {
 			document.documentElement.style.setProperty("--mainTextColor", "#101118");
 			document.documentElement.style.setProperty("--mainTextColorTransparent", "#10111840");
 		}
+
+		setReadyCheck(!readyCheck);
 
 		// Возвращаем исходное значение #fbf9f4
 		return () => {

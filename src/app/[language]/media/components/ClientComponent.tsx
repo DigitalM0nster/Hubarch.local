@@ -33,7 +33,19 @@ const ArticleCard = ({ article, language }: { article: Article; language: string
 				</div>
 				<div className={styles.articleButton}>
 					<div className={styles.text}>{language === "ru" ? "Подробнее" : "Read more"}</div>
-					<div className={styles.icon} />
+					<div className={styles.icon}>
+						<svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21" fill="none">
+							<path
+								fillRule="evenodd"
+								clipRule="evenodd"
+								d="M4.74669 16.7533C8.2003 20.2069 13.7997 20.2069 17.2533 16.7533C20.7069 13.2997 20.7069 7.7003 17.2533 4.24669C13.7997 0.793087 8.2003 0.793087 4.74669 4.24669C1.29309 7.7003 1.29309 13.2997 4.74669 16.7533ZM3.57538 17.9246C7.67588 22.0251 14.3241 22.0251 18.4246 17.9246C22.5251 13.8241 22.5251 7.17588 18.4246 3.07538C14.3241 -1.02513 7.67588 -1.02513 3.57538 3.07538C-0.525126 7.17588 -0.525126 13.8241 3.57538 17.9246Z"
+								fill="var(--mainTextColor)"
+							/>
+							<path d="M10.5097 4.9841L16.1774 10.6517L15.0061 11.8231L9.3384 6.15541L10.5097 4.9841Z" fill="var(--mainTextColor)" />
+							<path d="M16.1772 10.6516L10.5096 16.3193L9.33828 15.148L15.0059 9.48031L16.1772 10.6516Z" fill="var(--mainTextColor)" />
+							<path d="M14.9709 11.3277H1.42474V9.6712H14.9709V11.3277Z" fill="var(--mainTextColor)" />
+						</svg>
+					</div>
 				</div>
 			</LinkWithPreloader>
 		</div>
