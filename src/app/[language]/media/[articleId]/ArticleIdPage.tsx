@@ -24,7 +24,7 @@ export default function ArticleIdPage({ language, articleId, articleData }: Arti
 	return (
 		<>
 			<ClientComponent articleData={articleData} />
-			<div className={`screenScroll ${styles.screenScroll} simpleScroll`} id="articleContainer">
+			<div className={`screenScroll ${styles.screenScroll} ${styles.simpleScroll} simpleScroll`} id="articleContainer">
 				<LinkWithPreloader href={`/${language}/media`} className={styles.backButton}>
 					<div className={styles.icon} />
 					<div className={styles.text}>{language === "ru" ? "Все статьи" : "All articles"}</div>

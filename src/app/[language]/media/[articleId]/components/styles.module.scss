@@ -386,10 +386,13 @@ a.backButton {
 		display: flex;
 		padding: calc(var(--topBannerHeight) + 70px + var(--screenPadding) * 2) 0px 0px 0px;
 		top: auto;
+		margin: 0px 0px 15px 0px;
 	}
 	.screenScroll {
-		.screen1 {
-			padding: 0;
+		&.simpleScroll {
+			.screen1 {
+				padding: 0;
+			}
 		}
 	}
 	.screen1 {
