@@ -60,6 +60,7 @@
 
 	&.orderPopup {
 		.form {
+			color: var(--mainTextColor);
 			&::before {
 				display: none;
 			}

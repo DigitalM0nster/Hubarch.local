@@ -48,6 +48,9 @@
   opacity: 1;
   transition: 1s 0.75s;
 }
+.applicationScreen.orderPopup .form {
+  color: var(--mainTextColor);
+}
 .applicationScreen.orderPopup .form::before {
   display: none;
 }
