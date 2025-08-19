@@ -9,15 +9,15 @@
 	"orientation": "portrait-primary",
 	"icons": [
 		{
-			"src": "/images/hubarch_logo_png.png",
+			"src": "/images/hubarch_logo_mobile.svg",
 			"sizes": "192x192",
-			"type": "image/png",
+			"type": "image/svg+xml",
 			"purpose": "any maskable"
 		},
 		{
-			"src": "/images/hubarch_logo_png.png",
+			"src": "/images/hubarch_logo_mobile.svg",
 			"sizes": "512x512",
-			"type": "image/png",
+			"type": "image/svg+xml",
 			"purpose": "any maskable"
 		}
 	],

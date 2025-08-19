@@ -8,7 +8,6 @@ import "@/CSS/awards-styles.scss";
 import HudMenu from "@/components/hudMenu/HudMenu";
 import InteractiveLines from "@/components/interactiveLines/InteractiveLines";
 import Preloader from "@/components/preloader/Preloader";
-import Script from "next/script";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -111,10 +110,10 @@ export default async function RootLayout(props: { children: React.ReactNode; par
 				<meta name="color-scheme" content="light" />
 
 				{/* Favicon и иконки */}
-				<link rel="icon" type="image/svg+xml" href="/images/hubarch_logo.svg" />
-				<link rel="icon" type="image/png" sizes="32x32" href="/images/hubarch_logo_png.png" />
-				<link rel="icon" type="image/png" sizes="16x16" href="/images/hubarch_logo_png.png" />
-				<link rel="apple-touch-icon" sizes="180x180" href="/images/hubarch_logo_png.png" />
+				<link rel="icon" type="image/svg+xml" href="/images/hubarch_logo_mobile.svg" />
+				<link rel="icon" type="image/svg+xml" sizes="32x32" href="/images/hubarch_logo_mobile.svg" />
+				<link rel="icon" type="image/svg+xml" sizes="16x16" href="/images/hubarch_logo_mobile.svg" />
+				<link rel="apple-touch-icon" sizes="180x180" href="/images/hubarch_logo_mobile.svg" />
 				<link rel="manifest" href="/manifest.json" />
 
 				{/* Предзагрузка важных ресурсов */}
@@ -131,7 +130,7 @@ export default async function RootLayout(props: { children: React.ReactNode; par
 							name: "Hubarch",
 							description: "Архитектурная студия с 2013 года. Создаем уникальные пространства: архитектурные проекты, дизайн интерьеров, коммерческие пространства.",
 							url: siteUrl,
-							logo: `${siteUrl}/images/hubarch_logo_png.png`,
+							logo: `${siteUrl}/images/hubarch_logo_mobile.svg`,
 							foundingDate: "2013",
 							address: {
 								"@type": "PostalAddress",
@@ -184,7 +183,6 @@ export default async function RootLayout(props: { children: React.ReactNode; par
 				<InteractiveLines />
 				<Preloader />
 				{children}
-				<Script src="/customJs/initial-preloader.js" strategy="afterInteractive" />
 			</body>
 		</html>
 	);

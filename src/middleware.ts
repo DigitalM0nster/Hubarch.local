@@ -13,7 +13,8 @@ export function middleware(request: NextRequest) {
 		pathname.startsWith("/customJs") ||
 		pathname.startsWith("/favicon.ico") ||
 		pathname.startsWith("/robots.txt") ||
-		pathname.startsWith("/sitemap.xml")
+		pathname.startsWith("/sitemap.xml") ||
+		pathname.startsWith("/manifest.json")
 	) {
 		return NextResponse.next();
 	}
@@ -40,5 +41,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-	matcher: ["/((?!_next|api|favicon.ico|robots.txt|sitemap.xml).*)"],
+	matcher: ["/((?!_next|api|favicon.ico|robots.txt|sitemap.xml|manifest.json).*)"],
 };

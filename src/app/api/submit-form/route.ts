@@ -18,7 +18,13 @@ interface FormData {
 
 // Функция для отправки сообщения в Telegram
 async function sendTelegramMessage(data: FormData) {
+	console.log("🔍 Debug: Starting sendTelegramMessage");
+	console.log("🔍 Debug: TELEGRAM_BOT_TOKEN exists:", !!TELEGRAM_BOT_TOKEN);
+	console.log("🔍 Debug: TELEGRAM_CHAT_ID exists:", !!TELEGRAM_CHAT_ID);
+	console.log("🔍 Debug: TELEGRAM_CHAT_ID value:", TELEGRAM_CHAT_ID);
+
 	if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+		console.error("❌ Error: Telegram bot configuration is missing");
 		throw new Error("Telegram bot configuration is missing");
 	}
 
@@ -45,8 +51,8 @@ async function sendTelegramMessage(data: FormData) {
 	}
 
 	// Основная информация
-	message += `�� *Имя:* ${data.name}\n`;
-	message += `�� *Телефон:* ${data.phone}\n`;
+	message += `👤 *Имя:* ${data.name}\n`;
+	message += `📱 *Телефон:* ${data.phone}\n`;
 
 	if (data.email) {
 		message += `📧 *Email:* ${data.email}\n`;
@@ -62,7 +68,7 @@ async function sendTelegramMessage(data: FormData) {
 
 	// Добавляем URL страницы
 	if (data.pageUrl) {
-		message += `�� *Страница:* ${data.pageUrl}\n`;
+		message += `🌐 *Страница:* ${data.pageUrl}\n`;
 	}
 
 	// Добавляем время
@@ -73,6 +79,9 @@ async function sendTelegramMessage(data: FormData) {
 	// Отправляем сообщение в Telegram
 	const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
+	console.log("🔍 Debug: Sending to Telegram URL:", telegramUrl);
+
+	// Используем более стабильный способ отправки запроса
 	const response = await fetch(telegramUrl, {
 		method: "POST",
 		headers: {
@@ -83,33 +92,54 @@ async function sendTelegramMessage(data: FormData) {
 			text: message,
 			parse_mode: "Markdown",
 		}),
+		// Убираем проблемные настройки
 	});
 
+	console.log("🔍 Debug: Telegram response status:", response.status);
+
 	if (!response.ok) {
-		const errorData = await response.json();
-		throw new Error(`Telegram API error: ${errorData.description}`);
+		const errorText = await response.text();
+		console.error("❌ Telegram API error:", errorText);
+		throw new Error(`Telegram API error: ${response.status} ${errorText}`);
 	}
 
-	return response.json();
+	const result = await response.json();
+	console.log("✅ Debug: Telegram response success:", result);
+	return result;
 }
 
 // POST обработчик для отправки формы
 export async function POST(request: NextRequest) {
+	console.log("🔍 Debug: API route called");
+
 	try {
-		// Получаем данные из запроса
-		const body = await request.json();
+		// Получаем данные из запроса - используем более безопасный способ
+		let body;
+		try {
+			body = await request.json();
+		} catch (parseError) {
+			console.error("❌ Error parsing request body:", parseError);
+			return NextResponse.json({ error: "Неверный формат данных" }, { status: 400 });
+		}
+
 		const formData: FormData = body;
+
+		console.log("🔍 Debug: Received form data:", formData);
 
 		// Валидация обязательных полей
 		if (!formData.name || !formData.phone) {
 			return NextResponse.json({ error: "Имя и телефон обязательны" }, { status: 400 });
 		}
 
-		// Добавляем URL страницы
-		formData.pageUrl = request.headers.get("referer") || "Неизвестно";
+		// Добавляем URL страницы - используем более безопасный способ
+		const referer = request.headers.get("referer");
+		formData.pageUrl = referer || "Неизвестно";
+		console.log("🔍 Debug: Page URL:", formData.pageUrl);
 
 		// Отправляем в Telegram
 		await sendTelegramMessage(formData);
+
+		console.log("✅ Debug: Form submitted successfully");
 
 		// Возвращаем успешный ответ
 		return NextResponse.json(
@@ -120,11 +150,22 @@ export async function POST(request: NextRequest) {
 			{ status: 200 }
 		);
 	} catch (error) {
-		console.error("Error submitting form:", error);
+		console.error("❌ Error submitting form:", error);
+
+		// Более детальная обработка ошибок
+		let errorMessage = "Произошла ошибка при отправке заявки. Попробуйте позже.";
+
+		if (error instanceof Error) {
+			if (error.message.includes("Telegram bot configuration is missing")) {
+				errorMessage = "Ошибка конфигурации бота. Обратитесь к администратору.";
+			} else if (error.message.includes("Telegram API error")) {
+				errorMessage = "Ошибка отправки в Telegram. Попробуйте позже.";
+			}
+		}
 
 		return NextResponse.json(
 			{
-				error: "Произошла ошибка при отправке заявки. Попробуйте позже.",
+				error: errorMessage,
 			},
 			{ status: 500 }
 		);
