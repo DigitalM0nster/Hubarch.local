@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
 
 export default function NotFoundPage() {
-	notFound(); // ⬅️ Триггерит твою not-found.tsx
+	notFound(); // ⬅️ Триггерит not-found.tsx
 }

@@ -767,9 +767,9 @@
 
 	.popupContent {
 		flex-direction: column;
-		padding: 0;
+		padding: calc(var(--screenPadding) * 2 + var(--menuFontSize)) calc(var(--screenPadding) * 1) calc(var(--screenPadding) * 1) calc(var(--screenPadding) * 1);
 		max-width: calc(500px);
-		width: 100%;
+		width: calc(100% - var(--screenPadding) * 2);
 		opacity: 0;
 		transition: 0.5s 0s;
 

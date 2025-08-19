@@ -16,12 +16,9 @@ export default function HudMenu() {
 	const pathname = usePathname();
 	const language = pathname.startsWith("/en") ? "en" : "ru";
 
-	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
 		fetchAllOptions();
-		// console.log(language);
 	}, []);
-	/* eslint-enable react-hooks/exhaustive-deps */
 
 	return <>{isMobile ? <MobileHud language={language} /> : <DesktopHud language={language} />}</>;
 }

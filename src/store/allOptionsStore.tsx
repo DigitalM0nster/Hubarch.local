@@ -101,12 +101,6 @@ interface AllOptionsState {
 		bottom_menu_links: MenuLink[];
 		bottom_right_image: string;
 	} | null;
-	privacyPolicyData: {
-		privacy_policy: {
-			ru: string;
-			en: string;
-		};
-	} | null;
 	popupData: PopupData | null;
 	footerData: {
 		letters?: Letter[];
@@ -121,7 +115,6 @@ export const useAllOptionsStore = create<AllOptionsState>((set, get) => ({
 	isLoading: true,
 
 	menuSettingsData: null,
-	privacyPolicyData: null,
 	popupData: null,
 	footerData: null,
 	orderPopupData: null,
@@ -136,9 +129,8 @@ export const useAllOptionsStore = create<AllOptionsState>((set, get) => ({
 
 		set({ isLoading: true });
 		try {
-			const response = await axios.get(`${API_URL}/acf/v3/options/ANYTHING`);
+			const response = await axios.get(`${API_URL}/acf/v3/options/anything`);
 			set({ menuSettingsData: response.data.menu_settings });
-			set({ privacyPolicyData: response.data.privacy_policy });
 			set({ popupData: response.data.popup_settings });
 			set({ footerData: response.data.footer_screen });
 			set({ orderPopupData: response.data.order_settings });
