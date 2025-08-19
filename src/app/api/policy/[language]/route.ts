@@ -47,9 +47,10 @@ const fallbackPolicies = {
 };
 
 // API endpoint для получения политики конфиденциальности
-export async function GET(request: NextRequest, { params }: { params: { language: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ language: string }> }) {
 	try {
-		const { language } = params;
+		// Получаем параметры из Promise (Next.js 15)
+		const { language } = await params;
 
 		// Проверяем, что язык поддерживается
 		if (!["ru", "en"].includes(language)) {
@@ -108,16 +109,21 @@ export async function GET(request: NextRequest, { params }: { params: { language
 		console.error("Ошибка при получении политики:", error);
 
 		// Возвращаем fallback данные при ошибке
-		const fallbackData = fallbackPolicies[params.language as keyof typeof fallbackPolicies];
+		try {
+			const { language } = await params;
+			const fallbackData = fallbackPolicies[language as keyof typeof fallbackPolicies];
 
-		if (fallbackData) {
-			return NextResponse.json(fallbackData, {
-				status: 200,
-				headers: {
-					"X-Cache": "FALLBACK",
-					"Cache-Control": "public, max-age=60", // 1 минута для fallback
-				},
-			});
+			if (fallbackData) {
+				return NextResponse.json(fallbackData, {
+					status: 200,
+					headers: {
+						"X-Cache": "FALLBACK",
+						"Cache-Control": "public, max-age=60", // 1 минута для fallback
+					},
+				});
+			}
+		} catch (fallbackError) {
+			console.error("Ошибка при получении fallback данных:", fallbackError);
 		}
 
 		return NextResponse.json(

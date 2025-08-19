@@ -1,7 +1,6 @@
-// src\app\[language]\page.tsx
-
-import PolicyPageClient from "./components/PolicyPageClient";
+// src\app\[language]\policy\page.tsx
 import type { Metadata } from "next";
+import PolicyPageClient from "./components/PolicyPageClient";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -39,7 +38,9 @@ export function generateStaticParams() {
 	return [{ language: "ru" }, { language: "en" }];
 }
 
-export default async function PolicyPage({ params }: Props) {
+// Страница политики конфиденциальности
+// Показывает содержимое файла, загруженного в админке
+export default async function PolicyPage({ params }: { params: Promise<{ language: string }> }) {
 	const { language } = await params;
 	return <PolicyPageClient key={language} language={language} />;
 }
