@@ -13,7 +13,8 @@ export default function Screen1({ language }: { language: string }) {
 		<div
 			className={`screen active ${styles.screen} ${styles.screen1}`}
 			data-screen-lightness="light"
-			data-lines-index={1}
+			data-lines-index={isMobile ? 0 : 1}
+			data-lines-opacity={isMobile ? 0.25 : 1}
 			data-mini-line-rotation={-45}
 			data-position-x={isMobile ? 50 : 25}
 			data-position-y={50}

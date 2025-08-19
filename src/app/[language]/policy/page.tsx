@@ -41,7 +41,7 @@ export default async function PolicyPage({ params }: { params: Promise<{ languag
 	// Проверяем, что URL файла существует
 	if (!fileUrl) {
 		// Если URL файла не найден, редиректим на главную
-		redirect(`/${language}`);
+		redirect(`/${language}/404`);
 	}
 
 	// Делаем редирект на файл из админки
