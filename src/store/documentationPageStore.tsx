@@ -3,11 +3,11 @@
 import { create } from "zustand";
 
 export interface Document {
-	name: string;
-	file: string;
+	document_name: string;
+	file_url: string;
 }
 
-export interface DocumentsPageData {
+export interface DocumentationPageData {
 	page_main_settings: {
 		background_color: string;
 		text_is_light: boolean;
@@ -15,22 +15,22 @@ export interface DocumentsPageData {
 	documents_list: Document[];
 }
 
-export interface DocumentsPageStore {
-	data: DocumentsPageData | null;
-	documentsPageFetchingFinished: boolean;
+export interface DocumentationPageStore {
+	data: DocumentationPageData | null;
+	documentationPageFetchingFinished: boolean;
 	error: string | null;
 	fetchData: (language: string) => Promise<void>;
 }
 
-export const useDocumentsPageStore = create<DocumentsPageStore>((set) => ({
+export const useDocumentationPageStore = create<DocumentationPageStore>((set) => ({
 	data: null,
-	documentsPageFetchingFinished: false,
+	documentationPageFetchingFinished: false,
 	error: null,
 	fetchData: async (language) => {
-		set({ documentsPageFetchingFinished: false, error: null });
+		set({ documentationPageFetchingFinished: false, error: null });
 
 		const API_URL = process.env.NEXT_PUBLIC_WP_API;
-		const slug = "documents";
+		const slug = "documentation";
 
 		try {
 			const res = await fetch(`${API_URL}/pages?slug=${slug}&lang=${language}&_fields=acf`, {
@@ -47,14 +47,14 @@ export const useDocumentsPageStore = create<DocumentsPageStore>((set) => ({
 			}
 
 			const acf = pages[0].acf;
-			set({ data: acf, documentsPageFetchingFinished: true });
+			set({ data: acf, documentationPageFetchingFinished: true });
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				console.error("Ошибка при загрузке страницы:", error.message);
-				set({ error: error.message, documentsPageFetchingFinished: true });
+				set({ error: error.message, documentationPageFetchingFinished: true });
 			} else {
 				console.error("Неизвестная ошибка при загрузке страницы");
-				set({ error: "Unknown error", documentsPageFetchingFinished: true });
+				set({ error: "Unknown error", documentationPageFetchingFinished: true });
 			}
 		}
 	},

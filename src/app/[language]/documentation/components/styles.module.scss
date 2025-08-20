@@ -1,0 +1,45 @@
+.screenContent {
+	flex-direction: column;
+
+	.screenContentTitle {
+		text-transform: uppercase;
+		font-size: var(--bigTextSize);
+		font-family: "Panama Regular";
+		margin-bottom: 20px;
+	}
+	.documentsBlock {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+
+		.documentItem,
+		a.documentItem {
+			display: flex;
+			position: relative;
+			gap: 10px;
+			font-size: var(--menuFontSize);
+			color: var(--mainTextColor);
+
+			.documentIcon {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				min-width: 30px;
+				min-height: 30px;
+				width: var(--menuFontSize);
+				height: var(--menuFontSize);
+
+				svg {
+					width: 100%;
+					height: 100%;
+					object-fit: contain;
+				}
+			}
+
+			span {
+				height: fit-content;
+				margin: 9px 0px 0px 0px;
+			}
+		}
+	}
+}
