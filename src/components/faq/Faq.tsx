@@ -135,7 +135,19 @@ export default function Faq({ faqData }: { faqData: IFaqItem[] | false | undefin
 								)}
 								<div className={styles.title}>{item.text}</div>
 							</div>
-							<div className={styles.arrow} />
+							<div className={styles.arrow}>
+								<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+									<path
+										fillRule="evenodd"
+										clipRule="evenodd"
+										d="M4.24669 4.24669C0.793089 7.7003 0.793088 13.2997 4.24669 16.7533C7.7003 20.2069 13.2997 20.2069 16.7533 16.7533C20.2069 13.2997 20.2069 7.7003 16.7533 4.24669C13.2997 0.793087 7.7003 0.793087 4.24669 4.24669ZM3.07538 3.07538C-1.02513 7.17588 -1.02513 13.8241 3.07538 17.9246C7.17588 22.0251 13.8241 22.0251 17.9246 17.9246C22.0251 13.8241 22.0251 7.17588 17.9246 3.07538C13.8241 -1.02513 7.17588 -1.02513 3.07538 3.07538Z"
+										fill="var(--mainTextColor)"
+									/>
+									<path d="M16.0159 10.0097L10.3483 15.6774L9.17694 14.5061L14.8446 8.8384L16.0159 10.0097Z" fill="var(--mainTextColor)" />
+									<path d="M10.3484 15.6772L4.68072 10.0096L5.85204 8.83828L11.5197 14.5059L10.3484 15.6772Z" fill="var(--mainTextColor)" />
+									<path d="M9.67231 14.4709L9.67231 0.924742L11.3288 0.924742L11.3288 14.4709L9.67231 14.4709Z" fill="var(--mainTextColor)" />
+								</svg>
+							</div>
 						</div>
 						<div
 							className={styles.contentBlock}

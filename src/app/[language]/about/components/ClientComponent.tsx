@@ -89,12 +89,22 @@ export default function ClientComponent({ language }: { language: string }) {
 
 	return (
 		<div ref={containerRef} className="screenScroll simpleScroll">
-			{data?.about_page.team_screen && <TeamScreen data={data.about_page.team_screen} language={language} />}
-			{data?.about_page.history_screen && <HistoryScreen data={data.about_page.history_screen} language={language} />}
-			{data?.about_page.space_screen && <SpacesScreen data={data.about_page.space_screen} language={language} />}
-			{data?.about_page.partners_screen && <PartnersScreen data={data.about_page.partners_screen} language={language} />}
-			{data?.about_page.awards_screen && <AwardsScreen data={data.about_page.awards_screen} language={language} isSimpleScroll={true} />}
-			{data?.about_page.next_page?.visible && <NextPageScreen data={data.about_page.next_page} language={language} />}
+			{data?.about_page.team_screen && <TeamScreen data={data.about_page.team_screen} language={language} text_is_light={data.about_page.page_main_settings.text_is_light} />}
+			{data?.about_page.history_screen && (
+				<HistoryScreen data={data.about_page.history_screen} language={language} text_is_light={data.about_page.page_main_settings.text_is_light} />
+			)}
+			{data?.about_page.space_screen && (
+				<SpacesScreen data={data.about_page.space_screen} language={language} text_is_light={data.about_page.page_main_settings.text_is_light} />
+			)}
+			{data?.about_page.partners_screen && (
+				<PartnersScreen data={data.about_page.partners_screen} language={language} text_is_light={data.about_page.page_main_settings.text_is_light} />
+			)}
+			{data?.about_page.awards_screen && (
+				<AwardsScreen data={data.about_page.awards_screen} language={language} isSimpleScroll={true} text_is_light={data.about_page.page_main_settings.text_is_light} />
+			)}
+			{data?.about_page.next_page?.visible && (
+				<NextPageScreen data={data.about_page.next_page} language={language} text_is_light={data.about_page.page_main_settings.text_is_light} />
+			)}
 		</div>
 	);
 }

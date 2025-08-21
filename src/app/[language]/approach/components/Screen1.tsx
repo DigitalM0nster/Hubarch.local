@@ -50,7 +50,14 @@ export default function Screen1({ language }: { language: string }) {
 								{screen.text != "" && (
 									<div className={styles.textBlock}>
 										<div className={styles.icon}>
-											<img src="/images/approach/icon_1.svg" alt="icon_1" />
+											<svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path
+													fillRule="evenodd"
+													clipRule="evenodd"
+													d="M0 0H27V27H20.6433L14.6163 21.0069L16.1296 19.5005L21.5296 24.8702H24.8593V2.12977H2.14066V24.8702H10.227V27H0V0Z"
+													fill="var(--mainTextColor)"
+												/>
+											</svg>
 										</div>
 										<div className={styles.text}>{parse(screen.text)}</div>
 									</div>

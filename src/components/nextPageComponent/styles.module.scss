@@ -48,13 +48,17 @@
 				width: 50%;
 				gap: 5px;
 				.icon {
+					justify-content: center;
+					align-items: center;
 					width: var(--additionalTextSize);
 					min-width: var(--additionalTextSize);
 					height: var(--additionalTextSize);
-					background-image: url("/images/arrow_right.svg");
-					background-size: contain;
-					background-repeat: no-repeat;
-					background-position: center;
+
+					svg {
+						width: 100%;
+						height: 100%;
+						object-fit: contain;
+					}
 				}
 
 				.text {

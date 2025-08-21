@@ -6,13 +6,13 @@ import { useServicesPageStore } from "@/store/servicesPageStore";
 import parse from "html-react-parser";
 import { useWindowStore } from "@/store/windowStore";
 
-export default function Screen1({ language }: { language: string }) {
+export default function Screen1({ language, text_is_light = false }: { language: string; text_is_light?: boolean }) {
 	const { data } = useServicesPageStore();
 	const { isMobile } = useWindowStore();
 	return (
 		<div
 			className={`screen active ${styles.screen} ${styles.screen1}`}
-			data-screen-lightness="light"
+			data-screen-lightness={text_is_light ? "dark" : "light"}
 			data-lines-index={isMobile ? 0 : 1}
 			data-lines-opacity={isMobile ? 0.25 : 1}
 			data-mini-line-rotation={-45}
@@ -22,7 +22,7 @@ export default function Screen1({ language }: { language: string }) {
 			data-horizontal-x={isMobile ? 50 : 25}
 			data-horizontal-width={isMobile ? 100 : 50}
 			data-vertical-height={isMobile ? 100 : 60}
-			data-lines-color={"dark"}
+			data-lines-color={text_is_light ? "light" : "dark"}
 			data-left-line-x={0}
 			data-left-line-height={0}
 			data-right-line-x={100}

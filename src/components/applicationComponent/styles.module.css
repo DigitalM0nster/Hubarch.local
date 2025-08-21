@@ -225,12 +225,16 @@
   cursor: pointer;
 }
 .applicationScreen .form .buttonBlock .button .icon {
+  justify-content: center;
+  align-items: center;
   width: var(--menuFontSize);
   height: var(--menuFontSize);
-  background-image: url("/images/linkArrow.svg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
+}
+.applicationScreen .form .buttonBlock .button .icon svg {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .applicationScreen .form .buttonBlock .button .text {
   text-transform: uppercase;

@@ -23,11 +23,11 @@
   background-color: transparent;
 }
 .linesBlock.light .line {
-  background-color: var(--backgroundColorTransparent);
+  background-color: rgba(251, 249, 244, 0.2509803922);
 }
 .linesBlock .line {
   position: absolute;
-  background-color: var(--mainTextColorTransparent);
+  background-color: rgba(16, 17, 24, 0.2509803922);
   opacity: 1;
   transition: 1s 0s;
 }
@@ -77,7 +77,7 @@
 .linesBlock .icon .line {
   width: 3px;
   height: 25px;
-  background-color: var(--backgroundColorTransparent);
+  background-color: rgba(251, 249, 244, 0.2509803922);
   opacity: 1;
 }
 .linesBlock .icon .line:nth-child(1) {

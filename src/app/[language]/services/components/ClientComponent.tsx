@@ -23,7 +23,7 @@ export default function ClientComponent({ language }: { language: string }) {
 	useDetectMobile();
 	const { setPageState } = usePreloaderStore();
 	const { scrollAllowed, setScrollAllowed } = useScrollStore();
-	const { windowWidth } = useWindowStore();
+	const { windowWidth, readyCheck, setReadyCheck } = useWindowStore();
 	const { fetchData, data } = useServicesPageStore();
 
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -44,7 +44,6 @@ export default function ClientComponent({ language }: { language: string }) {
 	// Устанавливаем pageState = "ready" только когда страница полностью готова
 	useEffect(() => {
 		if (pageReady) {
-			console.log(data);
 			setPageState("ready");
 			setScrollAllowed(true);
 		} else {
@@ -75,6 +74,8 @@ export default function ClientComponent({ language }: { language: string }) {
 			document.documentElement.style.setProperty("--mainTextColorTransparent", "#10111840");
 		}
 
+		setReadyCheck(!readyCheck);
+
 		// Возвращаем исходное значение #fbf9f4
 		return () => {
 			document.documentElement.style.setProperty("--backgroundColor", "#fbf9f4");
@@ -97,10 +98,10 @@ export default function ClientComponent({ language }: { language: string }) {
 
 	return (
 		<div className="screenScroll simpleScroll" id="servicesContainer">
-			<Screen1 language={language} />
-			<Screen2 language={language} />
-			<Screen3 language={language} />
-			<Screen7 language={language} />
+			<Screen1 language={language} text_is_light={data?.page_main_settings?.text_is_light} />
+			<Screen2 language={language} text_is_light={data?.page_main_settings?.text_is_light} />
+			<Screen3 language={language} text_is_light={data?.page_main_settings?.text_is_light} />
+			<Screen7 language={language} text_is_light={data?.page_main_settings?.text_is_light} />
 			<NextPageServicesScreen language={language} />
 		</div>
 	);

@@ -6,7 +6,7 @@ import parse from "html-react-parser";
 import { Person } from "@/store/aboutPageStore";
 import { useWindowStore } from "@/store/windowStore";
 
-export default function TeamScreen({ data, language }: { data: Person[]; language: string }) {
+export default function TeamScreen({ data, language, text_is_light }: { data: Person[]; language: string; text_is_light: boolean }) {
 	const [activePersonIndex, setActivePersonIndex] = useState(0);
 	const { isMobile } = useWindowStore();
 
@@ -16,7 +16,7 @@ export default function TeamScreen({ data, language }: { data: Person[]; languag
 	return (
 		<div
 			className={`screen active ${styles.screen} ${styles.teamScreen} ${styles.active} `}
-			data-screen-lightness="light"
+			data-screen-lightness={text_is_light ? "dark" : "light"}
 			data-lines-index={1}
 			data-mini-line-rotation={-45}
 			data-position-x={50}
@@ -25,7 +25,7 @@ export default function TeamScreen({ data, language }: { data: Person[]; languag
 			data-horizontal-x={50}
 			data-horizontal-width={100}
 			data-vertical-height={100}
-			data-lines-color={"dark"}
+			data-lines-color={text_is_light ? "light" : "dark"}
 			data-left-line-x={0}
 			data-left-line-height={0}
 			data-right-line-x={0}

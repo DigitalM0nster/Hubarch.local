@@ -26,13 +26,13 @@
 
 	&.light {
 		.line {
-			background-color: var(--backgroundColorTransparent);
+			background-color: #fbf9f440;
 		}
 	}
 
 	.line {
 		position: absolute;
-		background-color: var(--mainTextColorTransparent);
+		background-color: #10111840;
 		opacity: 1;
 		transition: 1s 0s;
 
@@ -88,7 +88,7 @@
 		.line {
 			width: 3px;
 			height: 25px;
-			background-color: var(--backgroundColorTransparent);
+			background-color: #fbf9f440;
 			opacity: 1;
 
 			&:nth-child(1) {

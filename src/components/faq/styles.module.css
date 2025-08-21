@@ -10,11 +10,11 @@
   flex-direction: column;
 }
 .faqBlock .faqItem:hover .faqTitle {
-  border-bottom: 1px solid rgb(79, 80, 95);
+  border-bottom: 1px solid var(--mainTextColor);
   opacity: 1;
 }
 .faqBlock .faqItem.active .faqTitle {
-  border-bottom: 1px solid rgb(79, 80, 95);
+  border-bottom: 1px solid var(--mainTextColor);
   opacity: 1;
 }
 .faqBlock .faqItem.active .faqTitle .arrow {
@@ -28,7 +28,7 @@
   width: 100%;
   gap: 20px;
   padding: 20px 0px 20px 0px;
-  border-bottom: 1px solid rgba(79, 80, 95, 0.16);
+  border-bottom: 1px solid var(--mainTextColorTransparent);
   opacity: 0.5;
   transition: 0.25s;
   cursor: pointer;
@@ -57,11 +57,18 @@
   text-transform: uppercase;
 }
 .faqBlock .faqItem .faqTitle .arrow {
+  justify-content: center;
+  align-items: center;
   width: 21px;
   min-width: 21px;
   height: 21px;
-  background-image: url("/images/faq_arrow.svg");
   transition: transform 0.3s ease;
+}
+.faqBlock .faqItem .faqTitle .arrow svg {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .faqBlock .faqItem .contentBlock {
   flex-direction: column;

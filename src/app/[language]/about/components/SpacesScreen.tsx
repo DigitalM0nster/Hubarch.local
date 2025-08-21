@@ -14,14 +14,14 @@ interface SpaceScreenData {
 	};
 }
 
-export default function SpacesScreen({ data, language }: { data: SpaceScreenData; language: string }) {
+export default function SpacesScreen({ data, language, text_is_light }: { data: SpaceScreenData; language: string; text_is_light: boolean }) {
 	const { isMobile } = useWindowStore();
 	// if (!data) return <div>Данные не загружены</div>;
 
 	return (
 		<div
 			className={`screen ${styles.screen} ${styles.spacesScreen}`}
-			data-screen-lightness="light"
+			data-screen-lightness={text_is_light ? "dark" : "light"}
 			data-lines-index={isMobile ? 0 : 0}
 			data-mini-line-rotation={-45}
 			data-position-x={50}
@@ -30,7 +30,7 @@ export default function SpacesScreen({ data, language }: { data: SpaceScreenData
 			data-horizontal-x={50}
 			data-horizontal-width={100}
 			data-vertical-height={100}
-			data-lines-color={"dark"}
+			data-lines-color={text_is_light ? "light" : "dark"}
 			data-left-line-x={0}
 			data-left-line-height={0}
 			data-right-line-x={0}

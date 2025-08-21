@@ -9,7 +9,7 @@ interface HistoryScreenData {
 	years: Year[] | false;
 }
 
-export default function HistoryScreen({ data, language }: { data: HistoryScreenData; language: string }) {
+export default function HistoryScreen({ data, language, text_is_light }: { data: HistoryScreenData; language: string; text_is_light: boolean }) {
 	// Состояние для хранения индекса активного элемента
 	const [activeItemIndex, setActiveItemIndex] = useState<number | null>(0);
 
@@ -18,7 +18,7 @@ export default function HistoryScreen({ data, language }: { data: HistoryScreenD
 	return (
 		<div
 			className={`screen ${styles.screen} ${styles.historyScreen}`}
-			data-screen-lightness="light"
+			data-screen-lightness={text_is_light ? "dark" : "light"}
 			data-lines-index={0}
 			data-mini-line-rotation={-45}
 			data-position-x={50}
@@ -27,7 +27,7 @@ export default function HistoryScreen({ data, language }: { data: HistoryScreenD
 			data-horizontal-x={50}
 			data-horizontal-width={100}
 			data-vertical-height={100}
-			data-lines-color={"dark"}
+			data-lines-color={text_is_light ? "light" : "dark"}
 			data-left-line-x={0}
 			data-left-line-height={0}
 			data-right-line-x={0}

@@ -95,7 +95,9 @@ export default function ApproachPageClient({ language }: { language: string }) {
 				<Screen2 language={language} />
 				<ApplicationComponent language={language} data={data?.approach_page?.application_screen} />
 				<Screen7 language={language} />
-				{data?.approach_page?.next_page?.visible && <NextPageScreen data={data.approach_page.next_page} language={language} />}
+				{data?.approach_page?.next_page?.visible && (
+					<NextPageScreen data={data.approach_page.next_page} language={language} text_is_light={data.approach_page.page_main_settings.text_is_light} />
+				)}
 			</div>
 		</>
 	);

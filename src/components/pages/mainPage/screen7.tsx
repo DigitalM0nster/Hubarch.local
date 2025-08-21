@@ -8,7 +8,7 @@ import { useAllOptionsStore } from "@/store/allOptionsStore";
 import { useContactsPageStore } from "@/store/contactsPageStore";
 import parse from "html-react-parser";
 
-export default function Screen7({ language }: { language: string }) {
+export default function Screen7({ language, text_is_light = false }: { language: string; text_is_light?: boolean }) {
 	const { isMobile } = useWindowStore();
 	const { footerData, isLoading } = useAllOptionsStore();
 	const { data, fetchData } = useContactsPageStore();
@@ -54,7 +54,7 @@ export default function Screen7({ language }: { language: string }) {
 		<>
 			<div
 				className={`screen ${styles.screen7} screen7`}
-				data-screen-lightness="light"
+				data-screen-lightness={text_is_light ? "dark" : "light"}
 				data-lines-index={isMobile ? 0 : 1}
 				data-mini-line-rotation={-45}
 				data-position-x={isMobile ? 50 : 50}
@@ -62,7 +62,7 @@ export default function Screen7({ language }: { language: string }) {
 				data-horizontal-x={isMobile ? 50 : 50}
 				data-horizontal-width={isMobile ? 100 : 100}
 				data-vertical-height={isMobile ? 100 : 100}
-				data-lines-color={"dark"}
+				data-lines-color={text_is_light ? "light" : "dark"}
 				data-left-line-x={0}
 				data-left-line-height={isMobile ? 0 : 100}
 				data-right-line-x={100}

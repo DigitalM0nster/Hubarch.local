@@ -1079,7 +1079,7 @@
   transform: translate(0%, 0%);
 }
 .cookieHud .title {
-  display: none;
+  display: flex;
   font-size: var(--additionalTextSize);
   font-family: "Panama Regular";
 }
@@ -1092,6 +1092,9 @@
   gap: 10px;
   display: flex;
   width: 100%;
+}
+.cookieHud .content .buttonsBlock {
+  gap: 5px;
 }
 .cookieHud .content .button {
   border-radius: 5px;
@@ -1176,6 +1179,11 @@
   }
   .orderPopupHud {
     z-index: 4;
+  }
+}
+@media (max-width: 480px) {
+  .cookieHud .title {
+    display: none;
   }
 }
 @media (max-height: 500px) {
