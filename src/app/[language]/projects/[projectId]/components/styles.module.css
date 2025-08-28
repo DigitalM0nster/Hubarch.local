@@ -48,6 +48,7 @@
 }
 .screenScroll .screen1 .screenContent {
   justify-content: center;
+  height: calc(100% - var(--screenPadding) * 4 * 2);
 }
 .screenScroll .screen1 .backgroundImage {
   position: absolute;
@@ -594,11 +595,16 @@
   width: 25vw;
   height: 35vw;
 }
-.screenScroll .galleryScreen .galleryWrapper.soloImage .imageItem .imageBlock img {
+.screenScroll .galleryScreen .galleryWrapper.soloImage .imageItem .imageBlock img,
+.screenScroll .galleryScreen .galleryWrapper.soloImage .imageItem .imageBlock video {
   max-width: unset;
   max-height: unset;
   width: 100%;
   height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: center;
+     object-position: center;
 }
 .screenScroll .galleryScreen .galleryWrapper * {
   transition: 0s;
@@ -643,7 +649,8 @@
      -moz-user-select: none;
           user-select: none;
 }
-.screenScroll .galleryScreen .imageItem .imageBlock img {
+.screenScroll .galleryScreen .imageItem .imageBlock img,
+.screenScroll .galleryScreen .imageItem .imageBlock video {
   position: relative;
   max-width: 250px;
   max-height: 300px;
@@ -682,6 +689,9 @@
   .screenScroll .screen .screenTitle {
     margin: 0px 0px calc(var(--screenPadding) * 3) 0px;
   }
+  .screenScroll .screen1 .screenContent {
+    height: calc(100% - var(--screenPadding) * 3 * 2);
+  }
   .screenScroll .screen1 .projectName {
     font-size: 4.6vw;
     bottom: 80px;
@@ -714,6 +724,20 @@
   .screenScroll .contentLeftRightScreen .littleImageBlock {
     width: calc(var(--contentWidth) * 0.5 - var(--screenPadding) * 3 - var(--screenPadding) * 2);
     padding: 0px calc(var(--screenPadding) * 3) 0px calc(var(--screenPadding) * 2);
+  }
+  .screenScroll .galleryScreen .imageItem {
+    width: 28.5714285714vw;
+    height: 40vw;
+  }
+  .screenScroll .galleryScreen .imageItem.active .imageBlock img,
+  .screenScroll .galleryScreen .imageItem.active .imageBlock video {
+    max-width: 28.5714285714vw;
+    max-height: 40vw;
+  }
+  .screenScroll .galleryScreen .imageItem .imageBlock img,
+  .screenScroll .galleryScreen .imageItem .imageBlock video {
+    max-width: 21.4285714286vw;
+    max-height: 30vw;
   }
 }
 @media (max-width: 1440px) {
@@ -784,8 +808,18 @@
     font-size: 1.1vw;
   }
   .screenScroll .galleryScreen .imageItem {
-    width: 20vw;
-    height: 35vw;
+    width: 40vw;
+    height: 50vw;
+  }
+  .screenScroll .galleryScreen .imageItem.active .imageBlock img,
+  .screenScroll .galleryScreen .imageItem.active .imageBlock video {
+    max-width: 40vw;
+    max-height: 50vw;
+  }
+  .screenScroll .galleryScreen .imageItem .imageBlock img,
+  .screenScroll .galleryScreen .imageItem .imageBlock video {
+    max-width: 30vw;
+    max-height: 37.5vw;
   }
 }
 @media (max-width: 1280px) {
@@ -844,7 +878,7 @@
 }
 @media (max-width: 980px) {
   .screenScroll.simpleScroll .screen.screen1 {
-    height: 100dvh;
+    height: calc(100vh - 100px);
   }
   .screenScroll.simpleScroll .screen.screen1 .screenContent {
     height: 100%;

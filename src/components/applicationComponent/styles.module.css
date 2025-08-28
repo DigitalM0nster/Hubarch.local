@@ -9,6 +9,13 @@
 .applicationScreen * {
   transition: 1s;
 }
+.applicationScreen .error {
+  color: rgb(240, 73, 73);
+  font-family: Inter;
+  font-weight: 300;
+  font-size: 12px;
+  padding: 10px 10px 10px 30px;
+}
 .applicationScreen.active {
   opacity: 1;
   top: 0dvh;
@@ -47,6 +54,9 @@
 .applicationScreen.active .image {
   opacity: 1;
   transition: 1s 0.75s;
+}
+.applicationScreen.orderPopup.withTopBanner .screenContent {
+  min-height: calc(100dvh - var(--screenPadding) * 2 - var(--logoMaxHeight) * 2 - var(--topBannerHeight));
 }
 .applicationScreen.orderPopup .form {
   color: var(--mainTextColor);
@@ -147,6 +157,26 @@
 .applicationScreen .form textarea:focus-visible {
   outline: none;
   border: 1px solid var(--mainTextColor);
+}
+.applicationScreen .form input.error,
+.applicationScreen .form textarea.error {
+  background-color: rgba(255, 0, 0, 0.15);
+  color: rgb(240, 73, 73);
+}
+.applicationScreen .form input.error:hover,
+.applicationScreen .form textarea.error:hover {
+  border-bottom: 1px solid rgb(240, 73, 73);
+}
+.applicationScreen .form input.error:focus-visible,
+.applicationScreen .form textarea.error:focus-visible {
+  border: 1px solid rgb(240, 73, 73);
+}
+.applicationScreen .form input.error::-moz-placeholder, .applicationScreen .form textarea.error::-moz-placeholder {
+  color: rgb(240, 73, 73);
+}
+.applicationScreen .form input.error::placeholder,
+.applicationScreen .form textarea.error::placeholder {
+  color: rgb(240, 73, 73);
 }
 .applicationScreen .form .dropdown {
   font-family: Inter;
@@ -288,6 +318,9 @@
   pointer-events: none;
   transition: 0.3s 0s;
 }
+.closeIcon.withTopBanner {
+  top: calc(var(--screenPadding) + var(--topBannerHeight));
+}
 .closeIcon .line {
   position: absolute;
   width: 1px;
@@ -319,6 +352,12 @@
   .applicationScreen.active {
     top: auto;
     opacity: 1;
+  }
+  .applicationScreen.active.orderPopup {
+    height: 100%;
+  }
+  .applicationScreen.active.orderPopup .screenContent {
+    align-self: flex-start;
   }
   .applicationScreen.active .titleBackgroundBlock {
     position: relative;

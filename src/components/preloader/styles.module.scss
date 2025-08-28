@@ -337,6 +337,10 @@
 		}
 	}
 
+	&.scrolling {
+		width: calc(100% - 4px);
+	}
+
 	.background {
 		position: fixed;
 		top: 0;

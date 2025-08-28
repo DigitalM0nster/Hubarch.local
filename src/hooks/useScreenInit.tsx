@@ -5,15 +5,18 @@ import { usePathname } from "next/navigation";
 import { useWindowStore } from "@/store/windowStore";
 
 export const useScreenInit = () => {
-	const { setActiveLinesHud, setLinesColor, setLinesOpacity, setNewIndex, miniLine, verticalLine, horizontalLine, leftLine, rightLine } = useInteractiveLinesStore();
+	const { setActiveLinesHud, setLinesColor, setLinesOpacity, setNewIndex, miniLine, verticalLine, horizontalLine, leftLine, rightLine, setIsScreenScrolling, isScreenScrolling } =
+		useInteractiveLinesStore();
 	const { screenLightness, setScreenLightness, isTopBannerActive } = useHudMenuStore();
 	const { windowWidth, readyCheck } = useWindowStore();
 
 	const pathname = usePathname();
 	const screensRef = useRef<NodeListOf<Element> | null>(null);
 	const simpleScrollRef = useRef<boolean>(false);
+	const rafScrollCheckPendingRef = useRef<boolean>(false);
 
 	const changeScreenOptions = (screen: HTMLElement) => {
+		console.log(screen);
 		const screenLightness = screen.dataset.screenLightness || "light";
 		const linesIndex = parseInt(screen.dataset.linesIndex || "0", 10);
 		const miniLineRotation = parseFloat(screen.dataset.miniLineRotation || "0");
@@ -44,6 +47,7 @@ export const useScreenInit = () => {
 		horizontalLine.setNewX(horizontalLineX);
 		horizontalLine.setWidth(horizontalLineWidth);
 
+		console.log(leftLineHeight);
 		leftLine.setHeight(leftLineHeight);
 		leftLine.setNewX(leftLineX);
 		rightLine.setHeight(rightLineHeight);
@@ -55,15 +59,28 @@ export const useScreenInit = () => {
 
 	// Функция для обновления классов screenContent в зависимости от isTopBannerActive
 	const updateScreenContentClasses = () => {
-		const screenContents = document.querySelectorAll(".screenContent");
-		if (screenContents.length > 0) {
-			screenContents.forEach((content) => {
-				if (isTopBannerActive) {
-					content.classList.add("withTopBanner");
-				} else {
-					content.classList.remove("withTopBanner");
-				}
-			});
+		const screenScroll = document.querySelector(".screenScroll");
+		if (screenScroll?.classList.contains("fullScroll")) {
+			const screenContents = document.querySelectorAll(".screenContent");
+			if (screenContents.length > 0) {
+				screenContents.forEach((content) => {
+					if (isTopBannerActive) {
+						content.classList.add("withTopBanner");
+					} else {
+						content.classList.remove("withTopBanner");
+					}
+				});
+			}
+		} else {
+			// const screenContent = document.querySelectorAll(".screenScroll .screenContent");
+			// console.log(screenContent);
+			// if (screenContent.length > 0) {
+			// 	if (isTopBannerActive) {
+			// 		screenContent[0].classList.add("withTopBanner");
+			// 	} else {
+			// 		screenContent[0].classList.remove("withTopBanner");
+			// 	}
+			// }
 		}
 	};
 
@@ -82,8 +99,28 @@ export const useScreenInit = () => {
 		});
 	};
 
+	// Функция для определения наличия вертикального скролла у контейнера .screenScroll (с троттлингом через RAF)
+	const updateIsScreenScrolling = () => {
+		if (rafScrollCheckPendingRef.current) return;
+		rafScrollCheckPendingRef.current = true;
+		requestAnimationFrame(() => {
+			rafScrollCheckPendingRef.current = false;
+			const scrollContainer = document.querySelector(".screenScroll") as HTMLElement | null;
+			if (!scrollContainer) {
+				if (isScreenScrolling !== false) setIsScreenScrolling(false);
+				return;
+			}
+			// Если видимая высота меньше полной прокручиваемой высоты, значит есть вертикальный скролл
+			const hasVerticalScroll = scrollContainer.clientHeight < scrollContainer.scrollHeight;
+			if (hasVerticalScroll !== isScreenScrolling) {
+				setIsScreenScrolling(hasVerticalScroll);
+			}
+		});
+	};
+
 	useLayoutEffect(() => {
 		let mObserver: MutationObserver | null = null;
+		let ro: ResizeObserver | null = null;
 		let destroyed = false;
 
 		screensRef.current = null;
@@ -102,6 +139,9 @@ export const useScreenInit = () => {
 			// Обновляем классы screenContent при первой загрузке
 			updateScreenContentClasses();
 
+			// Проверяем наличие вертикального скролла у контейнера .screenScroll
+			updateIsScreenScrolling();
+
 			mObserver = new MutationObserver(() => {
 				const updated = document.querySelectorAll(".screen");
 				screensRef.current = updated;
@@ -110,8 +150,22 @@ export const useScreenInit = () => {
 				if (updated[0].parentElement?.classList.contains("simpleScroll")) {
 					simpleScrollRef.current = true;
 				}
+
+				// На изменения в пределах контейнера безопасно проверяем наличие вертикального скролла
+				updateIsScreenScrolling();
 			});
-			mObserver.observe(document.body, { childList: true, subtree: true });
+
+			const scrollContainer = document.querySelector(".screenScroll") as HTMLElement | null;
+			if (scrollContainer) {
+				mObserver.observe(scrollContainer, { childList: true, subtree: true });
+				ro = new ResizeObserver(() => {
+					updateIsScreenScrolling();
+				});
+				ro.observe(scrollContainer);
+			} else {
+				// Фолбэк: если контейнер не найден, наблюдаем за телом без глубокой подписки
+				mObserver.observe(document.body, { childList: true, subtree: false });
+			}
 		});
 
 		// Проверяем наличие активного экрана
@@ -134,12 +188,17 @@ export const useScreenInit = () => {
 		return () => {
 			destroyed = true;
 			mObserver?.disconnect();
+			ro?.disconnect();
+			// При размонтировании сбрасываем флаг скролла
+			setIsScreenScrolling(false);
 		};
 	}, [pathname, windowWidth, readyCheck]);
 
 	// Эффект для обновления классов screenContent при изменении isTopBannerActive
 	useEffect(() => {
 		updateScreenContentClasses();
+		// Изменение верхнего баннера может влиять на высоту контейнера
+		updateIsScreenScrolling();
 	}, [isTopBannerActive]);
 
 	return { changeScreenOptions, screensRef, simpleScrollRef };

@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
 import { useHudMenuStore } from "@/store/hudMenuStore";
 
 export default function InteractiveLines() {
-	const { zIndex, active, miniLine, verticalLine, horizontalLine, rightLine, leftLine, linesColor, linesOpacity } = useInteractiveLinesStore();
+	const { zIndex, active, miniLine, verticalLine, horizontalLine, rightLine, leftLine, linesColor, linesOpacity, isScreenScrolling } = useInteractiveLinesStore();
 	const { activeMenu } = useHudMenuStore();
 	const interactiveLinesRef = useRef<HTMLDivElement | null>(null);
 	const verticalLineRef = useRef<HTMLDivElement | null>(null);
@@ -30,7 +30,7 @@ export default function InteractiveLines() {
 	}, [activeMenu]);
 
 	return (
-		<div ref={interactiveLinesRef} className={`${styles.interactiveLines} ${active ? styles.active : ""}`}>
+		<div ref={interactiveLinesRef} className={`${styles.interactiveLines} ${active ? styles.active : ""} ${isScreenScrolling ? styles.scrolling : ""}`}>
 			<div className={`screenContent ${styles.linesBlock} ${linesColor === "light" ? styles.light : ""} ${isTopBannerActive ? "withTopBanner" : ""}`}>
 				<div
 					ref={verticalLineRef}

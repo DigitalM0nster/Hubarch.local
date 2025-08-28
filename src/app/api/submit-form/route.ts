@@ -7,7 +7,7 @@ const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
 // Интерфейс для данных формы
 interface FormData {
-	name: string;
+	name?: string;
 	phone: string;
 	email?: string;
 	message?: string;
@@ -54,7 +54,7 @@ async function sendTelegramMessage(data: FormData) {
 	}
 
 	// Основная информация
-	message += `👤 *Имя:* ${data.name}\n`;
+	message += `👤 *Имя:* ${data.name || "Не указано"}\n`;
 	message += `📱 *Телефон:* ${data.phone}\n`;
 
 	if (data.email) {
@@ -130,8 +130,9 @@ export async function POST(request: NextRequest) {
 		console.log("🔍 Debug: Received form data:", formData);
 
 		// Валидация обязательных полей
-		if (!formData.name || !formData.phone) {
-			return NextResponse.json({ error: "Имя и телефон обязательны" }, { status: 400 });
+		// Требуем только один из контактов: телефон ИЛИ email
+		if (!formData.phone && !formData.email) {
+			return NextResponse.json({ error: "Необходимо указать телефон или email" }, { status: 400 });
 		}
 
 		// Добавляем URL страницы - используем более безопасный способ

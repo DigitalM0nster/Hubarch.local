@@ -385,9 +385,13 @@
 	--listBlockGap: 6px;
 	--littlePhotoHeight: 115px;
 	--littlePhotoWidth: 75px;
-	--listBlockPadding: 10px;
+	--listBlockPadding: 25px;
 	--teamScreenLeftBlockWidth: calc(50% + var(--littlePhotoWidth) * 0.5);
 	--teamScreenGap: 50px;
+
+	&.withTopBanner {
+		padding: var(--topBannerHeight) 0px 0px 0px;
+	}
 	.screenContent {
 		justify-content: space-between;
 		gap: 0;
@@ -757,39 +761,8 @@
 				position: relative;
 				width: 20vw;
 				height: 10vw;
-
-				&:nth-child(1) {
-					top: auto;
-					left: auto;
-				}
-				&:nth-child(2) {
-					top: auto;
-					left: auto;
-				}
-				&:nth-child(3) {
-					top: auto;
-					left: auto;
-				}
-				&:nth-child(4) {
-					top: auto;
-					left: auto;
-				}
-				&:nth-child(5) {
-					top: auto;
-					left: auto;
-				}
-				&:nth-child(6) {
-					top: auto;
-					left: auto;
-				}
-				&:nth-child(7) {
-					top: auto;
-					left: auto;
-				}
-				&:nth-child(8) {
-					top: auto;
-					left: auto;
-				}
+				top: auto !important;
+				left: auto !important;
 			}
 		}
 

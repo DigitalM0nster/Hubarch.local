@@ -8,6 +8,8 @@ import { useScrollStore } from "@/store/scrollStore";
 import { useEffect, useRef } from "react";
 import stylesForArticles from "./styles.module.scss";
 import { usePageReady } from "@/hooks/usePageReady";
+import styles from "./styles.module.scss";
+import { useHudMenuStore } from "@/store/hudMenuStore";
 
 export default function ClientComponent({ articleData }: { articleData: any }) {
 	useScreenScroll(stylesForArticles);
@@ -15,6 +17,7 @@ export default function ClientComponent({ articleData }: { articleData: any }) {
 	useDetectMobile();
 	const { setPageState } = usePreloaderStore();
 	const { scrollAllowed, setScrollAllowed } = useScrollStore();
+	const { isTopBannerActive } = useHudMenuStore();
 
 	// Создаем ref в клиентском компоненте
 	const containerRef = useRef<HTMLDivElement | null>(null);
@@ -47,5 +50,5 @@ export default function ClientComponent({ articleData }: { articleData: any }) {
 		}
 	}, [scrollAllowed]);
 
-	return null;
+	return <div className={`${styles.marginScreen} ${isTopBannerActive ? styles.withTopBanner : ""}`}></div>;
 }

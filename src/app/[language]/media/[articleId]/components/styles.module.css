@@ -35,6 +35,15 @@ a.backButton .text {
   transition: 0.25s;
 }
 
+.marginScreen {
+  width: 100%;
+  height: 0px;
+}
+.marginScreen.withTopBanner {
+  height: var(--topBannerHeight);
+  margin: 0px 0px 50px 0px;
+}
+
 .screen1 {
   height: -moz-fit-content;
   height: fit-content;
@@ -96,7 +105,7 @@ a.backButton .text {
   font-family: Inter;
 }
 .screen1 .rightBlock .authorBlock .authorName {
-  padding: 0px 0px 0px 15px;
+  padding: 0px 0px 0px 0px;
 }
 
 .contentOneBlock {

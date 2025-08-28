@@ -23,12 +23,8 @@ export default function ArticleIdPage({ language, articleId, articleData }: Arti
 
 	return (
 		<>
-			<ClientComponent articleData={articleData} />
 			<div className={`screenScroll ${styles.screenScroll} ${styles.simpleScroll} simpleScroll`} id="articleContainer">
-				<LinkWithPreloader href={`/${language}/media`} className={styles.backButton}>
-					<div className={styles.icon} />
-					<div className={styles.text}>{language === "ru" ? "Все статьи" : "All articles"}</div>
-				</LinkWithPreloader>
+				<ClientComponent articleData={articleData} />
 				<Screen1 articleData={articleData} language={language} />
 				{articleData?.acf?.article_blocks != false &&
 					articleData?.acf?.article_blocks?.map((articleBlock: any, index: number) => {

@@ -1,3 +1,4 @@
+import LinkWithPreloader from "@/components/preloader/LinkWithPreloader";
 import styles from "./styles.module.scss";
 import parse from "html-react-parser";
 
@@ -33,6 +34,10 @@ export default function Screen1({ articleData, language = "ru" }: { articleData:
 			data-right-line-x={100}
 			data-right-line-height={0}
 		>
+			<LinkWithPreloader href={`/${language}/media`} className={styles.backButton}>
+				<div className={styles.icon} />
+				<div className={styles.text}>{language === "ru" ? "Все статьи" : "All articles"}</div>
+			</LinkWithPreloader>
 			{articleData ? (
 				<div className={`screenContent ${styles.screenContent}`}>
 					<div className={styles.leftBlock}>

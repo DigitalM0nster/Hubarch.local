@@ -28,7 +28,7 @@ export default function Preloader() {
 
 	const { preloaderData } = useAllOptionsStore();
 
-	const { verticalLine, horizontalLine, linesOpacity, zIndex } = useInteractiveLinesStore();
+	const { verticalLine, horizontalLine, linesOpacity, zIndex, isScreenScrolling } = useInteractiveLinesStore();
 
 	const { setScrollAllowed } = useScrollStore();
 	const pathname = usePathname();
@@ -86,7 +86,7 @@ export default function Preloader() {
 
 		// Создаем новый интервал для изменения стиля каждые 2 секунды
 		targetIntervalRef.current = window.setInterval(() => {
-			targetProgress.current = Math.min(targetProgress.current + 9, 100);
+			targetProgress.current = Math.min(targetProgress.current + 18, 100);
 		}, 1000); // 2000 мс = 2 секунды
 	}, []);
 
@@ -108,7 +108,7 @@ export default function Preloader() {
 		setPageState("loading");
 		lastUpdateTime.current = performance.now();
 		currentProgress.current = 1;
-		targetProgress.current = 9;
+		targetProgress.current = 18;
 		setProgress(1);
 
 		return new Promise<void>((resolve) => {
@@ -261,7 +261,7 @@ export default function Preloader() {
 			// className={`preloader ${styles.preloader} ${styles.loading} ${isProjectLoading ? styles.loadingProject : ""} ${styles.type4} ${projectImage ? styles.disabled : ""}`}
 			className={`preloader ${styles.preloader} ${pageState === "ready" && progress >= 100 && styles.hidden} ${pageState != "default" && progress < 100 && styles.loading} ${
 				isProjectLoading ? styles.loadingProject : ""
-			} ${styles[preloaderStyle]} ${projectImage ? styles.disabled : ""}`}
+			} ${styles[preloaderStyle]} ${projectImage ? styles.disabled : ""} ${isScreenScrolling ? styles.scrolling : ""}`}
 			style={{
 				zIndex: pageState === "ready" && progress >= 100 ? zIndex : "",
 			}}

@@ -51,6 +51,7 @@
 		min-height: calc(100vh - var(--screenPadding) * 4);
 		.screenContent {
 			justify-content: center;
+			height: calc(100% - var(--screenPadding) * 4 * 2);
 		}
 
 		.backgroundImage {
@@ -672,11 +673,14 @@
 					height: 35vw;
 
 					.imageBlock {
-						img {
+						img,
+						video {
 							max-width: unset;
 							max-height: unset;
 							width: 100%;
 							height: 100%;
+							object-fit: contain;
+							object-position: center;
 						}
 					}
 				}
@@ -724,7 +728,8 @@
 				// pointer-events: none;
 				// transition: all 0.2s ease; // Добавляем плавный переход для hover эффектов
 
-				img {
+				img,
+				video {
 					position: relative;
 					max-width: 250px;
 					max-height: 300px;
@@ -776,6 +781,9 @@
 			}
 		}
 		.screen1 {
+			.screenContent {
+				height: calc(100% - var(--screenPadding) * 3 * 2);
+			}
 			.projectName {
 				font-size: 4.6vw;
 				bottom: 80px;
@@ -818,6 +826,30 @@
 			.littleImageBlock {
 				width: calc(var(--contentWidth) * 0.5 - var(--screenPadding) * 3 - var(--screenPadding) * 2);
 				padding: 0px calc(var(--screenPadding) * 3) 0px calc(var(--screenPadding) * 2);
+			}
+		}
+		.galleryScreen {
+			.imageItem {
+				width: calc(100vw / 3.5);
+				height: 40vw;
+
+				&.active {
+					.imageBlock {
+						img,
+						video {
+							max-width: calc((100vw / 3.5) * 1);
+							max-height: calc(40vw * 1);
+						}
+					}
+				}
+
+				.imageBlock {
+					img,
+					video {
+						max-width: calc((100vw / 3.5) * 0.75);
+						max-height: calc(40vw * 0.75);
+					}
+				}
 			}
 		}
 	}
@@ -914,8 +946,26 @@
 		}
 		.galleryScreen {
 			.imageItem {
-				width: calc(100vw / 5);
-				height: 35vw;
+				width: calc(100vw / 2.5);
+				height: 50vw;
+
+				&.active {
+					.imageBlock {
+						img,
+						video {
+							max-width: calc((100vw / 2.5) * 1);
+							max-height: calc(50vw * 1);
+						}
+					}
+				}
+
+				.imageBlock {
+					img,
+					video {
+						max-width: calc((100vw / 2.5) * 0.75);
+						max-height: calc(50vw * 0.75);
+					}
+				}
 			}
 		}
 	}
@@ -986,7 +1036,7 @@
 		&.simpleScroll {
 			.screen {
 				&.screen1 {
-					height: 100dvh;
+					height: calc(100vh - 100px);
 
 					.screenContent {
 						height: 100%;

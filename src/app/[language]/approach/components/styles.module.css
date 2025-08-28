@@ -201,15 +201,20 @@
     width: 100%;
   }
 }
+@media (max-width: 640px) {
+  .approachScreen.withTopBanner .screenContent {
+    margin: calc(var(--screenPadding) * 2 + var(--logoMaxHeight) + var(--topBannerHeight)) auto calc(var(--screenPadding) * 2 + var(--logoMaxHeight) + var(--topBannerHeight)) auto;
+  }
+}
 @media (max-width: 480px) {
   .approachScreen:nth-child(odd) .textPart {
     order: 1;
-    padding: 0px 0px 0px calc(var(--screenPadding) * 2);
-    width: calc(100% - var(--screenPadding) * 2);
+    padding: 0px 0px 0px 40px;
+    width: calc(100% - 40px);
   }
   .approachScreen .textPart {
-    padding: 0px 0px 0px calc(var(--screenPadding) * 2);
-    width: calc(100% - var(--screenPadding) * 2);
+    padding: 0px 0px 0px 40px;
+    width: calc(100% - 40px);
   }
   .approachScreen .icon,
   .approachScreen .number {

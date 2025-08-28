@@ -54,6 +54,9 @@ export interface InteractiveLinesStore {
 		width: number;
 		setWidth: (newWidth: number) => void;
 	};
+
+	isScreenScrolling: boolean;
+	setIsScreenScrolling: (state: boolean) => void;
 }
 
 export const useInteractiveLinesStore = create<InteractiveLinesStore>((set) => ({
@@ -122,7 +125,7 @@ export const useInteractiveLinesStore = create<InteractiveLinesStore>((set) => (
 				leftLine: { ...state.leftLine, x: newX },
 			})),
 
-		height: 100,
+		height: 0,
 		setHeight: (newHeight) =>
 			set((state) => ({
 				leftLine: { ...state.leftLine, height: newHeight },
@@ -135,10 +138,13 @@ export const useInteractiveLinesStore = create<InteractiveLinesStore>((set) => (
 				rightLine: { ...state.rightLine, x: newX },
 			})),
 
-		height: 100,
+		height: 0,
 		setHeight: (newHeight) =>
 			set((state) => ({
 				rightLine: { ...state.rightLine, height: newHeight },
 			})),
 	},
+
+	isScreenScrolling: false,
+	setIsScreenScrolling: (state) => set({ isScreenScrolling: state }),
 }));

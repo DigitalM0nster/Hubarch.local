@@ -83,7 +83,7 @@ export default function ApproachPageClient({ language }: { language: string }) {
 
 	return (
 		<>
-			<div ref={containerRef} className={`screenScroll ${scrollAllowed === true ? "" : "noScroll"}`}>
+			<div ref={containerRef} className={`screenScroll ${scrollAllowed === true ? "" : "noScroll"} fullScroll`}>
 				<div className={styles.backgroundScreen}>
 					<div className={`screenContent ${styles.screenContent}`}>
 						<div className={styles.image}>

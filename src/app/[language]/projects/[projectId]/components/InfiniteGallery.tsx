@@ -13,6 +13,18 @@ interface Props {
 }
 
 export default function InfiniteGallery({ images }: Props) {
+	// Определяем по расширению, является ли URL видео
+	const isVideoUrl = (url: string): boolean => {
+		try {
+			const parsed = new URL(url);
+			const path = parsed.pathname.toLowerCase();
+			return /\.(mp4|webm|ogg|ogv|mov|m4v|avi|mkv)$/.test(path);
+		} catch {
+			const lowered = url.toLowerCase();
+			return /\.(mp4|webm|ogg|ogv|mov|m4v|avi|mkv)$/.test(lowered);
+		}
+	};
+
 	const containerRef = useRef<HTMLDivElement>(null);
 	const itemWidthRef = useRef<number>(0);
 	const [galleryImages, setGalleryImages] = useState<Image[]>([]);
@@ -303,7 +315,24 @@ export default function InfiniteGallery({ images }: Props) {
 				{galleryImages.map((image, index) => (
 					<div key={`${image.url}-${index}`} className={styles.imageItem}>
 						<div className={styles.imageBlock}>
-							<img src={image.url} alt={`image-${index}`} draggable={false} onClick={() => handleImageClick(index)} />
+							{isVideoUrl(image.url) ? (
+								// Видео: рендерим <video> вместо изображения
+								<video
+									src={image.url}
+									controls={false}
+									playsInline
+									autoPlay
+									muted
+									loop
+									preload="metadata"
+									draggable={false}
+									onClick={() => handleImageClick(index)}
+									style={{ width: "100%", height: "100%", objectFit: "cover" }}
+								/>
+							) : (
+								// Изображение по умолчанию
+								<img src={image.url} alt={`image-${index}`} draggable={false} onClick={() => handleImageClick(index)} />
+							)}
 							{image.caption && <div className={styles.description}>{image.caption}</div>}
 						</div>
 					</div>

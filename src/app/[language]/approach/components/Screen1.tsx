@@ -1,10 +1,10 @@
-// src\components\pages\mainPage\screen1.tsx
-import { useEffect, useMemo, useRef, useState } from "react";
+// src\app\[language]\approach\components\Screen1.tsx
+
 import styles from "./styles.module.scss";
 import parse from "html-react-parser";
-import { usePreloaderStore } from "@/store/preloaderStore";
 import { useApproachPageStore } from "@/store/approachPageStore";
 import { useWindowStore } from "@/store/windowStore";
+import { useHudMenuStore } from "@/store/hudMenuStore";
 
 interface Screen {
 	title: string;
@@ -15,7 +15,7 @@ interface Screen {
 export default function Screen1({ language }: { language: string }) {
 	const { data } = useApproachPageStore();
 	const { isMobile } = useWindowStore();
-
+	const { isTopBannerActive } = useHudMenuStore();
 	if (!data) return <div>Данные не загружены</div>;
 
 	return (
@@ -24,7 +24,9 @@ export default function Screen1({ language }: { language: string }) {
 				return (
 					<div
 						key={`screen_${index}`}
-						className={`screen approachScreen ${styles.approachScreen} ${index === 0 ? "active" : ""}`}
+						className={`screen approachScreen ${styles.approachScreen} ${index === 0 ? "active" : ""} ${
+							isTopBannerActive ? styles.withTopBanner + " withTopBanner" : ""
+						}`}
 						data-screen-lightness="light"
 						data-lines-index={isMobile ? 0 : 0}
 						data-mini-line-rotation={-45}

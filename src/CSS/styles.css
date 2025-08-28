@@ -144,6 +144,18 @@ p img {
   opacity: 1;
   pointer-events: auto;
 }
+.screen.notFound .notFoundTitle {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, calc(-100% - var(--screenPadding)));
+}
+.screen.notFound .notFoundText {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, calc(0% + var(--screenPadding)));
+}
 
 .screenContent {
   align-self: center;
@@ -257,6 +269,19 @@ p img {
   }
   .screen:last-child {
     margin: 0px 0px 75px 0px;
+  }
+  .screen.notFound .screenContent {
+    justify-content: center;
+  }
+  .screen.notFound .notFoundTitle {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+  .screen.notFound .notFoundText {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
   }
   .screenContent {
     max-width: var(--contentWidth);

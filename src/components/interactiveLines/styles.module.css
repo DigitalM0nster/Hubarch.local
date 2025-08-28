@@ -9,6 +9,9 @@
   transition: all 1s 0s, z-index 0s 0.5s;
   pointer-events: none;
 }
+.interactiveLines.scrolling {
+  width: calc(100% - 4px);
+}
 .interactiveLines.over {
   z-index: 1;
 }

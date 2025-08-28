@@ -365,9 +365,12 @@
   --listBlockGap: 6px;
   --littlePhotoHeight: 115px;
   --littlePhotoWidth: 75px;
-  --listBlockPadding: 10px;
+  --listBlockPadding: 25px;
   --teamScreenLeftBlockWidth: calc(50% + var(--littlePhotoWidth) * 0.5);
   --teamScreenGap: 50px;
+}
+.teamScreen.withTopBanner {
+  padding: var(--topBannerHeight) 0px 0px 0px;
 }
 .teamScreen .screenContent {
   justify-content: space-between;
@@ -662,38 +665,8 @@
     position: relative;
     width: 20vw;
     height: 10vw;
-  }
-  .partnersScreen .partnersBlock .partnerItem:nth-child(1) {
-    top: auto;
-    left: auto;
-  }
-  .partnersScreen .partnersBlock .partnerItem:nth-child(2) {
-    top: auto;
-    left: auto;
-  }
-  .partnersScreen .partnersBlock .partnerItem:nth-child(3) {
-    top: auto;
-    left: auto;
-  }
-  .partnersScreen .partnersBlock .partnerItem:nth-child(4) {
-    top: auto;
-    left: auto;
-  }
-  .partnersScreen .partnersBlock .partnerItem:nth-child(5) {
-    top: auto;
-    left: auto;
-  }
-  .partnersScreen .partnersBlock .partnerItem:nth-child(6) {
-    top: auto;
-    left: auto;
-  }
-  .partnersScreen .partnersBlock .partnerItem:nth-child(7) {
-    top: auto;
-    left: auto;
-  }
-  .partnersScreen .partnersBlock .partnerItem:nth-child(8) {
-    top: auto;
-    left: auto;
+    top: auto !important;
+    left: auto !important;
   }
   .partnersScreen .textBlock {
     justify-content: center;

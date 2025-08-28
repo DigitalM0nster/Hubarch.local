@@ -275,6 +275,9 @@
 .preloader.loading .imagesBlock .image {
   transition: 1s;
 }
+.preloader.scrolling {
+  width: calc(100% - 4px);
+}
 .preloader .background {
   position: fixed;
   top: 0;

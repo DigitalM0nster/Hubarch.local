@@ -159,6 +159,21 @@ p {
 		opacity: 1;
 		pointer-events: auto;
 	}
+
+	&.notFound {
+		.notFoundTitle {
+			margin: 0;
+			position: absolute;
+			top: 50%;
+			transform: translate(0, calc(-100% - var(--screenPadding)));
+		}
+		.notFoundText {
+			margin: 0;
+			position: absolute;
+			top: 50%;
+			transform: translate(0, calc(0% + var(--screenPadding)));
+		}
+	}
 }
 
 .screenContent {
@@ -283,6 +298,22 @@ p {
 
 		&:last-child {
 			margin: 0px 0px 75px 0px;
+		}
+
+		&.notFound {
+			.screenContent {
+				justify-content: center;
+			}
+			.notFoundTitle {
+				text-align: center;
+				justify-content: center;
+				align-items: center;
+			}
+			.notFoundText {
+				text-align: center;
+				justify-content: center;
+				align-items: center;
+			}
 		}
 	}
 

@@ -84,11 +84,11 @@ export default function MainPageClient({ language }: { language: string }) {
 
 	return (
 		<>
-			<div ref={containerRef} className={`screenScroll ${scrollAllowed === true ? "" : "noScroll"} mainPage`}>
+			<div ref={containerRef} className={`screenScroll ${scrollAllowed === true ? "" : "noScroll"} mainPage fullScroll`}>
 				<Screen1 />
 				<Screen2 />
 				<Screen3 language={language} projects={projectsList} />
-				<AwardsScreen data={data.main_page_screen4} language={language} isSimpleScroll={false} />
+				<AwardsScreen data={data.main_page_screen4} language={language} isSimpleScroll={false} text_is_light={data.page_main_settings?.text_is_light} />
 				<Screen5 language={language} />
 				<Screen6 language={language} />
 				<Screen7 language={language} />

@@ -11,7 +11,7 @@ export default function ApplicationComponent({ language, data, isPopup, text_is_
 	const { isMobile } = useWindowStore();
 	const { ranges, fetchRanges } = useAreaRangeStore();
 	// console.log(ranges);
-	const { setActiveOrderPopup, activeOrderPopup } = useHudMenuStore();
+	const { setActiveOrderPopup, activeOrderPopup, isTopBannerActive } = useHudMenuStore();
 	const formRef = useRef<HTMLDivElement>(null);
 	const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -24,6 +24,27 @@ export default function ApplicationComponent({ language, data, isPopup, text_is_
 	const [selectedRange, setSelectedRange] = useState<string | null>(null);
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const [status, setStatus] = useState<"idle" | "success" | "error" | "sending">("idle");
+
+	// Ошибки валидации для полей формы
+	const [errors, setErrors] = useState<{
+		name?: string;
+		phone?: string;
+		email?: string;
+		selectedRange?: string;
+		message?: string;
+	}>({});
+
+	// Разрешаем только цифры, пробел, + - ( )
+	const sanitizePhoneInput = (value: string) => value.replace(/[^0-9+\-() ]/g, "");
+
+	// Телефон валиден, если набрано минимум 7 цифр
+	const isValidPhone = (value: string) => {
+		const digitsOnly = value.replace(/\D/g, "");
+		return digitsOnly.length >= 7;
+	};
+
+	// Простой валидатор email
+	const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
 	const calculateInteractiveLines = (e: React.MouseEvent<HTMLElement>, degrees: number) => {
 		const form = formRef.current;
@@ -41,11 +62,54 @@ export default function ApplicationComponent({ language, data, isPopup, text_is_
 	};
 
 	const handleSubmit = async () => {
-		if (!name || !phone || !email || !selectedRange || !message) {
+		console.log("handleSubmit вызван");
+		console.log("Текущие значения:", { name, phone, email, selectedRange, message });
+
+		const newErrors: {
+			name?: string;
+			phone?: string;
+			email?: string;
+			selectedRange?: string;
+			message?: string;
+		} = {};
+
+		// Требуем минимум одно из полей: телефон или email
+		if (!phone && !email) {
+			console.log("Ошибка: не заполнен ни телефон, ни email");
+			const msg = language === "ru" ? "Укажите телефон или email" : "Provide phone or email";
+			newErrors.phone = msg;
+			newErrors.email = msg;
+		}
+
+		// Разрешаем только одно поле контакта: телефон ИЛИ email
+		if (phone && email) {
+			console.log("Ошибка: заполнены оба поля контакта");
+			const msg = language === "ru" ? "Заполните только один контакт: телефон или email" : "Fill only one: phone or email";
+			newErrors.phone = msg;
+			newErrors.email = msg;
+		}
+
+		// Если телефон заполнен — проверяем формат
+		if (phone && !isValidPhone(phone)) {
+			console.log("Ошибка: неправильный формат телефона");
+			newErrors.phone = language === "ru" ? "Некорректный номер телефона" : "Invalid phone number";
+		}
+
+		// Если email заполнен — проверяем формат
+		if (email && !isValidEmail(email)) {
+			console.log("Ошибка: неправильный формат email");
+			newErrors.email = language === "ru" ? "Некорректный email" : "Invalid email";
+		}
+
+		// Если есть ошибки по контактам — показываем и выходим
+		if (Object.keys(newErrors).length > 0) {
+			console.log("Есть ошибки контактов:", newErrors);
+			setErrors(newErrors);
 			setStatus("error");
 			return;
 		}
 
+		// Базовые обязательные поля
 		setStatus("sending");
 
 		try {
@@ -70,6 +134,7 @@ export default function ApplicationComponent({ language, data, isPopup, text_is_
 			setEmail("");
 			setSelectedRange(null);
 			setMessage("");
+			setErrors({});
 		} catch (e) {
 			setStatus("error");
 		}
@@ -97,7 +162,7 @@ export default function ApplicationComponent({ language, data, isPopup, text_is_
 			<div
 				className={`${isPopup ? `orderPopup ${styles.orderPopup}` : "screen"} ${styles.applicationScreen} applicationScreen ${
 					isPopup && activeOrderPopup ? styles.active : ""
-				}`}
+				} ${isTopBannerActive ? styles.withTopBanner + " withTopBanner" : ""}`}
 				data-screen-lightness={text_is_light ? "dark" : "light"}
 				data-lines-index={isMobile ? 0 : 1}
 				data-mini-line-rotation={-45}
@@ -125,27 +190,45 @@ export default function ApplicationComponent({ language, data, isPopup, text_is_
 								}}
 								placeholder={language === "ru" ? "Имя" : "Name"}
 								value={name}
-								onChange={(e) => setName(e.target.value)}
+								onChange={(e) => {
+									setName(e.target.value);
+									setErrors((prev) => ({ ...prev, name: undefined }));
+								}}
 							/>
 
 							<input
-								type="phone"
+								type="tel"
 								onMouseEnter={(e) => {
 									calculateInteractiveLines(e, 45);
 								}}
-								placeholder={language === "ru" ? "Телефон" : "Phone"}
+								placeholder={errors.phone ? errors.phone : language === "ru" ? "Телефон" : "Phone"}
 								value={phone}
-								onChange={(e) => setPhone(e.target.value)}
+								onChange={(e) => {
+									const sanitized = sanitizePhoneInput(e.target.value);
+									setPhone(sanitized);
+									setErrors((prev) => ({ ...prev, phone: undefined }));
+								}}
+								className={errors.phone ? styles.error : ""}
 							/>
 							<input
 								type="email"
 								onMouseEnter={(e) => {
 									calculateInteractiveLines(e, 45);
 								}}
-								placeholder={language === "ru" ? "Email" : "Email"}
+								placeholder={errors.email ? errors.email : language === "ru" ? "Email" : "Email"}
 								value={email}
-								onChange={(e) => setEmail(e.target.value)}
+								onChange={(e) => {
+									setEmail(e.target.value);
+									setErrors((prev) => ({ ...prev, email: undefined }));
+								}}
+								className={errors.email ? styles.error : ""}
 							/>
+							{errors.email ? (
+								<div className={styles.error} aria-live="polite">
+									{/* Показываем ошибку email только если это ошибка формата, а не общая ошибка контактов */}
+									{email && !isValidEmail(email) ? errors.email : null}
+								</div>
+							) : null}
 						</div>
 						<div className={`${styles.bottomPart}`}>
 							<div className={styles.formInputs}>
@@ -167,6 +250,7 @@ export default function ApplicationComponent({ language, data, isPopup, text_is_
 													onClick={() => {
 														language === "ru" ? setSelectedRange("Метраж") : setSelectedRange("Footage");
 														setDropdownOpen(false);
+														setErrors((prev) => ({ ...prev, selectedRange: undefined }));
 													}}
 												>
 													{language === "ru" ? "Выберите метраж" : "Select footage"}
@@ -178,6 +262,7 @@ export default function ApplicationComponent({ language, data, isPopup, text_is_
 														onClick={() => {
 															setSelectedRange(range.label);
 															setDropdownOpen(false);
+															setErrors((prev) => ({ ...prev, selectedRange: undefined }));
 														}}
 													>
 														{range.label}
@@ -199,7 +284,10 @@ export default function ApplicationComponent({ language, data, isPopup, text_is_
 										className="scrollable"
 										placeholder={language === "ru" ? "Сообщение" : "Message"}
 										value={message}
-										onChange={(e) => setMessage(e.target.value)}
+										onChange={(e) => {
+											setMessage(e.target.value);
+											setErrors((prev) => ({ ...prev, message: undefined }));
+										}}
 									/>
 								</div>
 								<div className={styles.buttonBlock}>
@@ -258,7 +346,7 @@ export default function ApplicationComponent({ language, data, isPopup, text_is_
 					)}
 					{isPopup && (
 						<div
-							className={styles.closeIcon}
+							className={`${styles.closeIcon} ${isTopBannerActive ? styles.withTopBanner + " withTopBanner" : ""}`}
 							onClick={() => {
 								setActiveOrderPopup(false);
 							}}

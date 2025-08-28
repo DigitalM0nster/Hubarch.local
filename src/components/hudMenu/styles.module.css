@@ -633,6 +633,9 @@
 .popupHud.active {
   max-height: 100%;
 }
+.popupHud.active.withTopBanner {
+  max-height: calc(100% - var(--topBannerHeight));
+}
 .popupHud.active .popupContent {
   opacity: 1;
   transition: 0.5s 0.25s;
@@ -757,6 +760,10 @@
 .popupHud .popupContent form button .text {
   transform: translate(0px, 7%);
 }
+.popupHud .popupContent form .acceptText {
+  padding: 10px 20px;
+  font-size: var(--miniTextSize);
+}
 .popupHud .popupContent .navigation {
   justify-content: center;
   align-items: center;
@@ -838,6 +845,9 @@
 .orderPopupHud.active {
   max-height: 100%;
   pointer-events: auto;
+}
+.orderPopupHud.active.withTopBanner {
+  max-height: calc(100% - var(--topBannerHeight));
 }
 
 .topBanner {

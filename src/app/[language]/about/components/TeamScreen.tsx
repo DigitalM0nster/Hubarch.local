@@ -5,17 +5,18 @@ import styles from "./styles.module.scss";
 import parse from "html-react-parser";
 import { Person } from "@/store/aboutPageStore";
 import { useWindowStore } from "@/store/windowStore";
+import { useHudMenuStore } from "@/store/hudMenuStore";
 
 export default function TeamScreen({ data, language, text_is_light }: { data: Person[]; language: string; text_is_light: boolean }) {
 	const [activePersonIndex, setActivePersonIndex] = useState(0);
 	const { isMobile } = useWindowStore();
-
+	const { isTopBannerActive } = useHudMenuStore();
 	useEffect(() => {}, [activePersonIndex]);
 	if (!data) return <div>Данные не загружены</div>;
 
 	return (
 		<div
-			className={`screen active ${styles.screen} ${styles.teamScreen} ${styles.active} `}
+			className={`screen active ${styles.screen} ${styles.teamScreen} ${styles.active} ${isTopBannerActive ? styles.withTopBanner + " withTopBanner" : ""}`}
 			data-screen-lightness={text_is_light ? "dark" : "light"}
 			data-lines-index={1}
 			data-mini-line-rotation={-45}

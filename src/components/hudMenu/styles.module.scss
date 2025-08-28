@@ -759,6 +759,10 @@
 	&.active {
 		max-height: 100%;
 
+		&.withTopBanner {
+			max-height: calc(100% - var(--topBannerHeight));
+		}
+
 		.popupContent {
 			opacity: 1;
 			transition: 0.5s 0.25s;
@@ -893,6 +897,11 @@
 					transform: translate(0px, 7%);
 				}
 			}
+
+			.acceptText {
+				padding: 10px 20px;
+				font-size: var(--miniTextSize);
+			}
 		}
 
 		.navigation {
@@ -983,6 +992,10 @@
 	&.active {
 		max-height: 100%;
 		pointer-events: auto;
+
+		&.withTopBanner {
+			max-height: calc(100% - var(--topBannerHeight));
+		}
 	}
 }
 

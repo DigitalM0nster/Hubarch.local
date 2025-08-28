@@ -9,6 +9,10 @@
 	transition: all 1s 0s, z-index 0s 0.5s;
 	pointer-events: none;
 
+	&.scrolling {
+		width: calc(100% - 4px);
+	}
+
 	&.over {
 		z-index: 1;
 	}

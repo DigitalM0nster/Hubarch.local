@@ -39,16 +39,20 @@ export interface PopupData {
 		image2: string;
 	};
 	popup_items: {
-		background_color?: string;
-		text_color?: string;
-		title: {
-			ru: string;
-			en: string;
+		settings: {
+			background_color?: string;
+			text_color?: string;
+			image: string | false;
 		};
-		image: string | false;
-		button_text: {
-			ru: string;
-			en: string;
+		ru: {
+			title?: string;
+			button_text?: string;
+			accept_text?: string;
+		};
+		en: {
+			title?: string;
+			button_text?: string;
+			accept_text?: string;
 		};
 	}[];
 }
