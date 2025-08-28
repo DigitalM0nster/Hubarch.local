@@ -953,8 +953,9 @@
   overflow: hidden;
 }
 .topBanner .textBlock .text {
-  min-width: -moz-max-content;
-  min-width: max-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  white-space: nowrap;
 }
 .topBanner .textBlock .textItem {
   width: -moz-fit-content;

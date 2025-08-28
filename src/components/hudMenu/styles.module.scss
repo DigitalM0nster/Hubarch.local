@@ -1106,7 +1106,8 @@
 		overflow: hidden;
 
 		.text {
-			min-width: max-content;
+			min-width: fit-content;
+			white-space: nowrap;
 		}
 
 		.textItem {
