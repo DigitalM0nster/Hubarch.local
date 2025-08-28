@@ -1110,6 +1110,7 @@
 		}
 
 		.textItem {
+			width: fit-content;
 		}
 
 		.shortLines {
@@ -1122,6 +1123,7 @@
 	}
 
 	.scrollingBlock {
+		width: fit-content;
 	}
 	.closeIcon {
 		width: var(--closeIconWidth);

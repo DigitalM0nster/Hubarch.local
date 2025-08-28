@@ -390,12 +390,39 @@ a.backButton {
 }
 
 @media (max-width: 980px) {
+	.screen1 {
+		flex-direction: column;
+		.screenContent {
+			flex-wrap: wrap;
+			gap: 30px;
+
+			.leftBlock {
+				width: 100%;
+
+				.text {
+					max-width: 50vw;
+				}
+			}
+
+			.rightBlock {
+				width: 100%;
+
+				.text {
+					align-self: flex-start;
+				}
+
+				.authorBlock {
+					align-self: flex-start;
+				}
+			}
+		}
+	}
 	.backButton,
 	a.backButton {
 		position: relative;
 		display: flex;
 		padding: 0;
-		margin: calc(var(--topBannerHeight) + 70px + var(--screenPadding) * 2) 0px 15px 0px;
+		margin: 30px 0px 15px 0px;
 		top: auto;
 		width: fit-content;
 	}
@@ -460,6 +487,15 @@ a.backButton {
 }
 
 @media (max-width: 768px) {
+	.screen1 {
+		.screenContent {
+			.leftBlock {
+				.text {
+					max-width: 420px;
+				}
+			}
+		}
+	}
 	.textBlock {
 		&.listBlock {
 			.listItems {
@@ -480,6 +516,11 @@ a.backButton {
 			flex-direction: column;
 			gap: 30px;
 			margin: 0px auto;
+			.leftBlock {
+				.text {
+					// max-width: unset;
+				}
+			}
 		}
 		.leftBlock {
 			width: 100%;
@@ -542,6 +583,18 @@ a.backButton {
 						width: 40px;
 						min-width: 40px;
 					}
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: 480px) {
+	.screen1 {
+		.screenContent {
+			.leftBlock {
+				.text {
+					max-width: 100%;
 				}
 			}
 		}

@@ -956,12 +956,20 @@
   min-width: -moz-max-content;
   min-width: max-content;
 }
+.topBanner .textBlock .textItem {
+  width: -moz-fit-content;
+  width: fit-content;
+}
 .topBanner .textBlock .shortLines {
   position: relative;
   width: var(--shortLinesWidth);
   min-width: var(--shortLinesWidth);
   height: var(--shortLinesWidth);
   margin: 0px calc(var(--shortLinesWidth) * 0.5);
+}
+.topBanner .scrollingBlock {
+  width: -moz-fit-content;
+  width: fit-content;
 }
 .topBanner .closeIcon {
   width: var(--closeIconWidth);
