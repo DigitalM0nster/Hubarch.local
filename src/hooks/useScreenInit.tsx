@@ -16,7 +16,6 @@ export const useScreenInit = () => {
 	const rafScrollCheckPendingRef = useRef<boolean>(false);
 
 	const changeScreenOptions = (screen: HTMLElement) => {
-		console.log(screen);
 		const screenLightness = screen.dataset.screenLightness || "light";
 		const linesIndex = parseInt(screen.dataset.linesIndex || "0", 10);
 		const miniLineRotation = parseFloat(screen.dataset.miniLineRotation || "0");
@@ -47,7 +46,6 @@ export const useScreenInit = () => {
 		horizontalLine.setNewX(horizontalLineX);
 		horizontalLine.setWidth(horizontalLineWidth);
 
-		console.log(leftLineHeight);
 		leftLine.setHeight(leftLineHeight);
 		leftLine.setNewX(leftLineX);
 		rightLine.setHeight(rightLineHeight);
@@ -150,22 +148,7 @@ export const useScreenInit = () => {
 				if (updated[0].parentElement?.classList.contains("simpleScroll")) {
 					simpleScrollRef.current = true;
 				}
-
-				// На изменения в пределах контейнера безопасно проверяем наличие вертикального скролла
-				updateIsScreenScrolling();
 			});
-
-			const scrollContainer = document.querySelector(".screenScroll") as HTMLElement | null;
-			if (scrollContainer) {
-				mObserver.observe(scrollContainer, { childList: true, subtree: true });
-				ro = new ResizeObserver(() => {
-					updateIsScreenScrolling();
-				});
-				ro.observe(scrollContainer);
-			} else {
-				// Фолбэк: если контейнер не найден, наблюдаем за телом без глубокой подписки
-				mObserver.observe(document.body, { childList: true, subtree: false });
-			}
 		});
 
 		// Проверяем наличие активного экрана
@@ -188,7 +171,6 @@ export const useScreenInit = () => {
 		return () => {
 			destroyed = true;
 			mObserver?.disconnect();
-			ro?.disconnect();
 			// При размонтировании сбрасываем флаг скролла
 			setIsScreenScrolling(false);
 		};
