@@ -82,6 +82,13 @@ export const useScreenInit = () => {
 		}
 	};
 
+	const checkSimpleScroll = () => {
+		const screenScroll = document.querySelector(".screenScroll");
+		if (screenScroll?.classList.contains("simpleScroll")) {
+			simpleScrollRef.current = true;
+		}
+	};
+
 	const waitForScreensReady = (): Promise<NodeListOf<Element>> => {
 		return new Promise((resolve) => {
 			const tryFind = () => {
@@ -140,14 +147,18 @@ export const useScreenInit = () => {
 			// Проверяем наличие вертикального скролла у контейнера .screenScroll
 			updateIsScreenScrolling();
 
+			checkSimpleScroll();
+
 			mObserver = new MutationObserver(() => {
-				const updated = document.querySelectorAll(".screen");
+				const updated = document.querySelectorAll(".screenScroll");
 				screensRef.current = updated;
 
 				// Определяем тип скролла
-				if (updated[0].parentElement?.classList.contains("simpleScroll")) {
-					simpleScrollRef.current = true;
-				}
+				updated.forEach((item) => {
+					if (item.classList.contains("simpleScroll")) {
+						simpleScrollRef.current = true;
+					}
+				});
 			});
 		});
 

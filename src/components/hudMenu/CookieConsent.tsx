@@ -7,9 +7,6 @@ import { useCallback, useEffect } from "react";
 export default function OrderPopup({ language }: { language: string }) {
 	const { cookieHudActive, setCookieHudActive, activePage } = useHudMenuStore();
 	const { cookieHudData } = useAllOptionsStore();
-
-	console.log("cookieHudData", cookieHudData);
-
 	// Дефолтный текст про куки
 	const defaultCookieText =
 		language === "ru"
