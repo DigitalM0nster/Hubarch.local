@@ -88,7 +88,11 @@ export interface Cookie {
 	text: string;
 	button: {
 		button_text: string;
-		button_link: string;
+		button_link: {
+			target: string;
+			title: string;
+			url: string;
+		};
 	};
 }
 

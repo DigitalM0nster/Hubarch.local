@@ -8,6 +8,8 @@ export default function OrderPopup({ language }: { language: string }) {
 	const { cookieHudActive, setCookieHudActive, activePage } = useHudMenuStore();
 	const { cookieHudData } = useAllOptionsStore();
 
+	console.log("cookieHudData", cookieHudData);
+
 	// Дефолтный текст про куки
 	const defaultCookieText =
 		language === "ru"
@@ -66,8 +68,8 @@ export default function OrderPopup({ language }: { language: string }) {
 					</div>
 					<div className={styles.buttonsBlock}>
 						{language === "ru" ? (
-							cookieHudData?.ru.button.button_link ? (
-								<a href={cookieHudData?.ru.button.button_link} target="_blank" className={styles.button}>
+							cookieHudData?.ru.button.button_link.url ? (
+								<a href={cookieHudData?.ru.button.button_link.url} target={cookieHudData?.ru.button.button_link.target} className={styles.button}>
 									{cookieHudData?.ru.button.button_text || "ОК"}
 								</a>
 							) : (
@@ -75,8 +77,8 @@ export default function OrderPopup({ language }: { language: string }) {
 									{cookieHudData?.ru.button.button_text || "ОК"}
 								</div>
 							)
-						) : cookieHudData?.en.button.button_link ? (
-							<a href={cookieHudData?.en.button.button_link} target="_blank" className={styles.button}>
+						) : cookieHudData?.en.button.button_link.url ? (
+							<a href={cookieHudData?.en.button.button_link.url} target={cookieHudData?.en.button.button_link.target} className={styles.button}>
 								{cookieHudData?.en.button.button_text || "OK"}
 							</a>
 						) : (
